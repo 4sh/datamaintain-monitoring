@@ -1,12 +1,5 @@
 <script lang="ts">
-	import {UserService} from "../../services/UserService";
-
-	export let userId
-	let user
-
-	$: if (userId) {
-		user = UserService.byId(userId)
-	}
+	export let user = {}
 </script>
 
 <form>
