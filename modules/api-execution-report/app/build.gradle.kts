@@ -5,5 +5,5 @@ plugins {
 appProject()
 
 dependencies {
-    implementation(project(":modules:app-server:rest"))
+    implementation(project(":modules:api-execution-report:rest"))
 }
