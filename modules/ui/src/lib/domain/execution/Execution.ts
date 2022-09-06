@@ -5,7 +5,10 @@ export interface Execution {
     date: Date,
     origin: ExecutionOrigin,
     type: ExecutionType,
-    status: ExecutionStatus,
+    status: ExecutionStatus
+}
+
+export interface ExecutionWithReport extends Execution {
     report: ExecutionReport
 }
 

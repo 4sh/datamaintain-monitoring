@@ -10,7 +10,7 @@
     <p>{execution.report.scannedScripts.length} script(s) scanné(s)</p>
     <ul>
         {#each execution.report.scannedScripts as scannedScript}
-            <li>{scannedScript}</li>
+            <li>{scannedScript.name}</li>
         {/each}
     </ul>
 
@@ -18,7 +18,7 @@
     <p>{execution.report.filteredScripts.length} script(s) filtré(s)</p>
     <ul>
         {#each execution.report.filteredScripts as filteredScript}
-            <li>{filteredScript}</li>
+            <li>{filteredScript.name}</li>
         {/each}
     </ul>
 
@@ -26,15 +26,15 @@
     <p>{execution.report.prunedScripts.length} script(s) pruned</p>
     <ul>
         {#each execution.report.prunedScripts as prunedScript}
-            <li>{prunedScript}</li>
+            <li>{prunedScript.name}</li>
         {/each}
     </ul>
 
     <h2>Exécuté:</h2>
     <p>{execution.report.executedScripts.length} script(s) exécuté(s)</p>
     <ul>
-        {#each execution.report.prunedScripts as prunedScript}
-            <li>{prunedScript}</li>
+        {#each execution.report.executedScripts as executedScripts}
+            <li>{executedScripts.name}</li>
         {/each}
     </ul>
 </body>

@@ -1,17 +1,11 @@
 import type {User} from "../domain/User";
+import {UserMock} from "../mocks/UserMock";
 
 export type UserSearchRequest= { q: string };
 
 export class UserService {
-    public static readonly users: User[] = [
-        { id: '1', firstName: "Nicolas", lastName: "ROULON"},
-        { id: '2', firstName: "Elise", lastName: "ROUBIO"},
-        { id: '3', firstName: "Alexandre", lastName: "SOLOVIEFF"},
-        { id: '4', firstName: "Damien", lastName: "RICCIO"},
-    ];
-
     public static search(request: UserSearchRequest, skip?: number, limit?: number): User[]  {
-        let users = UserService.users;
+        let users = UserMock.users;
 
         if (request.q) {
             users = users
@@ -33,7 +27,7 @@ export class UserService {
     }
 
     public static count(request: UserSearchRequest): number  {
-        let users = UserService.users;
+        let users = UserMock.users;
 
         if (request.q) {
             users = users
@@ -46,8 +40,8 @@ export class UserService {
         return users.length;
     }
 
-    public static byId(id: String): User | undefined {
-        return UserService.users
+    public static byId(id: string): User | undefined {
+        return UserMock.users
             .find(user => user.id === id);
     }
 }
