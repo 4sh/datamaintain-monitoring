@@ -1,7 +1,5 @@
 import type {Execution} from "../domain/execution/Execution";
-import {Origin} from "../domain/execution/Origin";
-import {ExecutionType} from "../domain/execution/ExecutionType";
-import {ExecutionStatus} from "../domain/execution/ExecutionStatus";
+import {ExecutionOrigin, ExecutionStatus, ExecutionType} from "../domain/execution/Execution";
 
 export type ExecutionSearchRequest= {};
 
@@ -10,7 +8,7 @@ export class ExecutionService {
         {
             id: '1',
             date: new Date(),
-            origin: Origin.SERVER,
+            origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
             status: ExecutionStatus.COMPLETED,
             report:
@@ -25,7 +23,7 @@ export class ExecutionService {
         {
             id: '2',
             date: new Date(),
-            origin: Origin.SERVER,
+            origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
             status: ExecutionStatus.COMPLETED,
             report:
@@ -40,7 +38,7 @@ export class ExecutionService {
         {
             id: '3',
             date: new Date(),
-            origin: Origin.SERVER,
+            origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
             status: ExecutionStatus.COMPLETED,
             report:
