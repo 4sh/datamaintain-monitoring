@@ -1,7 +1,7 @@
 <script lang="ts">
 
-	import type {Renderer} from "../../services/Renderer";
-	import type {Searcher} from "../../services/Searcher";
+	import type {Renderer} from "./api/Renderer";
+	import type {Searcher} from "./api/Searcher";
 	import {onDestroy} from "svelte";
 	import type {User} from "../../domain/User";
 

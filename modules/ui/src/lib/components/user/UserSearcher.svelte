@@ -4,7 +4,7 @@
 	import {UserService} from "../../services/UserService";
     import {createEventDispatcher} from "svelte";
     import type {User} from "../../domain/User";
-    import type {Searcher} from "../../services/Searcher";
+    import type {Searcher} from "../utils/api/Searcher";
 
     export let limit: number;
 
