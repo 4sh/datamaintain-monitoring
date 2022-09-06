@@ -2,6 +2,7 @@
 	import { enhance } from '$lib/form';
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import {_} from "svelte-i18n";
 
 	type Todo = {
 		uid: string;
@@ -20,7 +21,7 @@
 </svelte:head>
 
 <div class="todos">
-	<h1>Todos</h1>
+	<h1>{$_('app.todos')}</h1>
 
 	<form
 		class="new"

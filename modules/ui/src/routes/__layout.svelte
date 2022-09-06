@@ -1,17 +1,31 @@
 <script lang="ts">
 	import Header from '$lib/header/Header.svelte';
 	import '../app.css';
+	import {getLocaleFromNavigator, init, isLoading, register} from "svelte-i18n";
+
+	register("en", () => import("../public/lang/en.json"));
+	register("fr", () => import("../public/lang/fr.json"));
+
+	init({
+		fallbackLocale: "en",
+		initialLocale: getLocaleFromNavigator()
+	});
 </script>
 
-<Header />
+{#if $isLoading}
+	<p>Loading ...</p>
+{:else}
+	<Header />
 
-<main>
-	<slot />
-</main>
+	<main>
+		<slot />
+	</main>
 
-<footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-</footer>
+	<footer>
+		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+	</footer>
+
+{/if}
 
 <style>
 	main {
