@@ -4,6 +4,7 @@
 
 <script lang="ts">
 
+import Hierarchy from "../lib/components/Hierarchy.svelte";
 </script>
 
 <svelte:head>
@@ -16,6 +17,8 @@
 		Home
 	</h1>
 </section>
+
+<Hierarchy></Hierarchy>
 
 <style>
 
