@@ -12,8 +12,16 @@
         if (search !== "") {
             projectHierarchies = projectHierarchies
                 .map(project => {
+                    if (project.name.startsWith(search)) {
+                        return project;
+                    }
+
                     project.envs = project.envs
                         .map(env => {
+                            if (env.name.startsWith(search)) {
+                                return env;
+                            }
+
                             env.modules = env.modules.filter(module => {
                                 return module.name.startsWith(search)
                             });
