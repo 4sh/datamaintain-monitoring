@@ -5,11 +5,13 @@
 </script>
 
 <div class="project">
-    <div class="project-name">{project.name}</div>
+    <div class="project-name">
+        <a href="/projects/{project.id}">{project.name}</a>
+    </div>
 
     <div class="project-envs">
         {#each project.envs as env}
-           <EnvHierarchy {env}/>
+           <EnvHierarchy {env} projectRef="{project.id}"/>
         {/each}
     </div>
 </div>

@@ -1,13 +1,18 @@
 <script lang="ts">
+    export let projectRef;
     export let env;
 </script>
 
 <div class="env">
-    <div class="env-name">{env.name}</div>
+    <div class="env-name">
+        <a href="/projects/{projectRef}/envs/{env.id}">{env.name}</a>
+    </div>
 
     <div class="env-modules">
         {#each env.modules as module}
-            <div>{module.name}</div>
+            <div>
+                <a href="/projects/{projectRef}/modules/{module.id}">{module.name}</a>
+            </div>
         {/each}
     </div>
 </div>
