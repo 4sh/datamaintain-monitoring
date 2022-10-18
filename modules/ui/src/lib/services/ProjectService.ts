@@ -1,7 +1,8 @@
 import type {User} from "../domain/User";
 import {UserMock} from "../mocks/UserMock";
-import type {Project, ProjectHierarchy} from "../domain/Project";
+import type {ProjectHierarchy} from "../domain/ProjectHierarchy";
 import {ProjectMock} from "../mocks/ProjectMock";
+import type {Project} from "../domain/Project";
 
 export type ProjectSearchRequest = { q: string };
 

@@ -9,9 +9,9 @@ export class EnvMock {
     ];
 
     public static readonly ghEnvs = [
-        {id: 'dm-qa', name: "QA"},
-        {id: 'dm-pp', name: "Preprod"},
-        {id: 'dm-p', name: "Prod"}
+        {id: 'gh-qa', name: "QA"},
+        {id: 'gh-pp', name: "Preprod"},
+        {id: 'gh-p', name: "Prod"}
     ];
 
     public static readonly fbEnvs = [
