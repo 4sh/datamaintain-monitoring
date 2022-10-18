@@ -15,7 +15,9 @@ export class ProjectService {
         })
     }
 
-    public static projectHierarchies(): ProjectHierarchy[] {
-        return ProjectMock.getProjectHierarchies();
+    public static projectHierarchies(): Promise<ProjectHierarchy[]> {
+        return new Promise<ProjectHierarchy[]>((resolve) => {
+            resolve(ProjectMock.getProjectHierarchies())
+        })
     }
 }
