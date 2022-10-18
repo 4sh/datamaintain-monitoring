@@ -11,7 +11,7 @@
     <div class="env-modules">
         {#each env.modules as module}
             <div>
-                <a href="/projects/{projectRef}/modules/{module.id}">{module.name}</a>
+                <a href="/projects/{projectRef}/modules/{module.id}?env={env.id}">{module.name}</a>
             </div>
         {/each}
     </div>
