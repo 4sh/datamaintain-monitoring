@@ -4,7 +4,7 @@
 
 <script lang="ts">
 
-import Hierarchy from "../lib/components/Hierarchy.svelte";
+import ProjectHierarchy from "../lib/components/menu/Hierarchy.svelte";
 </script>
 
 <svelte:head>
@@ -18,7 +18,7 @@ import Hierarchy from "../lib/components/Hierarchy.svelte";
 	</h1>
 </section>
 
-<Hierarchy></Hierarchy>
+<ProjectHierarchy></ProjectHierarchy>
 
 <style>
 
