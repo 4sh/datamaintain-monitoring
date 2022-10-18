@@ -4,12 +4,17 @@
     import {UserService} from "../../../../lib/services/UserService";
     import UserEdition from "../../../../lib/components/user/UserEdition.svelte";
 
-    let user
+    let userPromise
 
     $: if($page.params?.id) {
-        user = UserService.byId($page.params.id);
+        userPromise = UserService.byId($page.params.id);
     }
 </script>
 
-
-<UserEdition {user}/>
+{#await userPromise}
+    <p>...waiting</p>
+{:then user}
+    <UserEdition {user}/>
+{:catch error}
+    <p style="color: red">User not found !</p>
+{/await}

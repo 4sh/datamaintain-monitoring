@@ -44,8 +44,15 @@ export class UserService {
         });
     }
 
-    public static byId(id: string): User | undefined {
-        return UserMock.users
-            .find(user => user.id === id);
+    public static byId(id: string): Promise<User> {
+        return new Promise<User>((resolve, reject) => {
+            const user = UserMock.users.find(user => user.id === id);
+
+            if (user) {
+                resolve(user)
+            } else {
+                reject()
+            }
+        })
     }
 }
