@@ -1,5 +1,3 @@
-import type {User} from "../domain/User";
-import {UserMock} from "../mocks/UserMock";
 import type {ProjectHierarchy} from "../domain/ProjectHierarchy";
 import {ProjectMock} from "../mocks/ProjectMock";
 import type {Project} from "../domain/Project";
@@ -41,9 +39,9 @@ export class ProjectService {
         return projects.length;
     }
 
-    public static byId(id: string): User | undefined {
-        return UserMock.users
-            .find(user => user.id === id);
+    public static byId(id: string): Project | undefined {
+        return ProjectMock.projects
+            .find(project => project.id === id);
     }
 
     public static projectHierarchies(): ProjectHierarchy[] {
