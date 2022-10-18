@@ -39,9 +39,16 @@ export class ProjectService {
         return projects.length;
     }
 
-    public static byId(id: string): Project | undefined {
-        return ProjectMock.projects
-            .find(project => project.id === id);
+    public static byId(id: string): Promise<Project> {
+        return new Promise<Project>((resolve, reject) => {
+            const project = ProjectMock.projects.find(project => project.id === id);
+
+            if (project) {
+                resolve(project)
+            } else {
+                reject()
+            }
+        })
     }
 
     public static projectHierarchies(): ProjectHierarchy[] {

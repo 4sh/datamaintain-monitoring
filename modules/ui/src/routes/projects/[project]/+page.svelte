@@ -2,11 +2,17 @@
    import {ProjectService} from "../../../lib/services/ProjectService";
    import {page} from "$app/stores";
 
-   let project
+   let projectPromise
 
    $: if($page.params?.project) {
-       project = ProjectService.byId($page.params.project);
+       projectPromise = ProjectService.byId($page.params.project);
    }
 </script>
 
-Project {project.name}
+{#await projectPromise}
+    <p>...waiting</p>
+{:then project}
+    Project {project.name}
+{:catch error}
+    <p style="color: red">Project not found !</p>
+{/await}

@@ -4,15 +4,23 @@
     import {ProjectService} from "../../../../../lib/services/ProjectService";
 
     let project
-    let env
+    let envPromise
 
     $: if($page.params?.project) {
-        project = ProjectService.byId($page.params.project);
+        ProjectService.byId($page.params.project).then(foundProject => {
+            project = foundProject
+        });
     }
 
     $: if($page.params?.env) {
-        env = EnvService.byId($page.params.env);
+        envPromise = EnvService.byId($page.params.env);
     }
 </script>
 
-Environnement {env.name} du projet {project.name}
+{#await envPromise}
+    <p>...waiting</p>
+{:then env}
+    Environnement {env.name} du projet {project.name}
+{:catch error}
+    <p style="color: red">Env not found !</p>
+{/await}

@@ -6,19 +6,29 @@
 
     let project
     let env
-    let module
+    let modulePromise
 
     $: if($page.params?.project) {
-        project = ProjectService.byId($page.params.project);
+        ProjectService.byId($page.params.project).then(foundProject => {
+            project = foundProject
+        });
     }
 
     $: if($page.url.searchParams?.has('env')) {
-        env = EnvService.byId($page.url.searchParams?.get('env'));
+        EnvService.byId($page.url.searchParams?.get('env')).then(foundEnv => {
+            env = foundEnv
+        });
     }
 
     $: if($page.params?.module) {
-        module = ModuleService.byId($page.params.module);
+        modulePromise = ModuleService.byId($page.params.module);
     }
 </script>
 
-Module {module.name} du projet {project.name} {#if env} sur l'environnement {env.name}{/if}
+{#await modulePromise}
+    <p>...waiting</p>
+{:then module}
+    Module {module.name} du projet {project.name} {#if env} sur l'environnement {env.name}{/if}
+{:catch error}
+    <p style="color: red">Module not found !</p>
+{/await}
