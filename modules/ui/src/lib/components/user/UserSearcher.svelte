@@ -13,13 +13,14 @@
     const dispatcher = createEventDispatcher();
 
     function searchAndDispatch() {
-        users = api.search(0, limit)
-
-        dispatcher('new-search', {})
+        api.search(0, limit).then(usersFound => {
+            users = usersFound
+            dispatcher('new-search', {})
+        })
     }
 
     export let api = new class implements Searcher<User> {
-        count(): number {
+        count(): Promise<number> {
             return UserService.count(request)
         }
 
@@ -27,10 +28,8 @@
             return users
         }
 
-        search(skip: number, limit: number): User[] {
-            users = UserService.search(request, skip, limit)
-
-            return users
+        search(skip: number, limit: number): Promise<User[]> {
+            return UserService.search(request, skip, limit)
         }
     }
 </script>

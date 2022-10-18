@@ -4,7 +4,7 @@
 	import type {Renderer} from "../utils/api/Renderer";
 	import type {User} from "../../domain/User";
 
-	export let users = []
+	let users = []
 
 	export let api = new class implements Renderer<User> {
 		render(items: User[]): void {

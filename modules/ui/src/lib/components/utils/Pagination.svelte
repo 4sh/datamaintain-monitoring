@@ -17,18 +17,24 @@
 
 	function previous() {
 		currentPage--;
-		renderer.api.render(searcher.api.search(currentPage * limit, limit))
+		searcher.api.search(currentPage * limit, limit).then(users => {
+			renderer.api.render(users)
+		})
 	}
 
 	function next() {
 		currentPage++;
-		renderer.api.render(searcher.api.search(currentPage * limit, limit))
+		searcher.api.search(currentPage * limit, limit).then(users => {
+			renderer.api.render(users)
+		})
 	}
 
 	function onNewSearch() {
 		renderer.api.render(searcher.api.getCurrentResults())
 		currentPage = 0
-		nbTotalOfPages = Math.ceil(searcher.api.count() / limit)
+		searcher.api.count().then(count => {
+			nbTotalOfPages = Math.ceil(count / limit)
+		})
 	}
 
 	onDestroy(() => {

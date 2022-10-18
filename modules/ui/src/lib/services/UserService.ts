@@ -4,7 +4,7 @@ import {UserMock} from "../mocks/UserMock";
 export type UserSearchRequest= { q: string };
 
 export class UserService {
-    public static search(request: UserSearchRequest, skip?: number, limit?: number): User[]  {
+    public static search(request: UserSearchRequest, skip?: number, limit?: number): Promise<User[]>  {
         let users = UserMock.users;
 
         if (request.q) {
@@ -23,10 +23,12 @@ export class UserService {
             users = users.slice(0, limit)
         }
 
-        return users;
+        return new Promise<User[]>(resolve => {
+            resolve(users)
+        });
     }
 
-    public static count(request: UserSearchRequest): number  {
+    public static count(request: UserSearchRequest): Promise<number>  {
         let users = UserMock.users;
 
         if (request.q) {
@@ -37,7 +39,9 @@ export class UserService {
                 );
         }
 
-        return users.length;
+        return new Promise<number>(resolve => {
+            resolve(users.length)
+        });
     }
 
     public static byId(id: string): User | undefined {
