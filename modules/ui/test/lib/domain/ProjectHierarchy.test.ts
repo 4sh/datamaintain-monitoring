@@ -38,8 +38,8 @@ describe('SearchItem', () => {
 
 		expect(searchItem.match('Dat')).toBeTruthy()
 		expect(searchItem.match('Datamaintain')).toBeTruthy()
-		// expect(searchItem.match('datamaintain')).toBeTruthy()
-		// expect(searchItem.match('dàtamaintain')).toBeTruthy()
+		expect(searchItem.match('datamaintain')).toBeTruthy()
+		expect(searchItem.match('dàtamaintain')).toBeTruthy()
 	})
 })
 

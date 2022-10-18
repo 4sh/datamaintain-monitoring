@@ -65,6 +65,10 @@ export class SearchItem {
 
     private normalize(text: string): string {
         return text
+            .trim()
+            .toLocaleLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
     }
 }
 
