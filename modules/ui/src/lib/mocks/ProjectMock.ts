@@ -1,4 +1,5 @@
-import type {EnvHierarchy, Project, ProjectHierarchy} from "../domain/Project";
+import type {Project} from "../domain/Project";
+import type {EnvHierarchy, ProjectHierarchy} from "../domain/ProjectHierarchy";
 import {EnvMock} from "./EnvMock";
 import {ModuleMock} from "./ModuleMock";
 
