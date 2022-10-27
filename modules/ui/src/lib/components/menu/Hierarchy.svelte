@@ -15,10 +15,10 @@
 {#await projectHierarchiesPromise}
     <p>...waiting</p>
 {:then projectHierarchies}
-    <div className="hierarchy">
+    <div class="hierarchy">
         <input type="text" on:change={filterHierarchy}>
 
-        <div className="projects">
+        <div class="projects">
             {#each projectHierarchies as project}
                 <ProjectHierarchy {project}/>
             {/each}

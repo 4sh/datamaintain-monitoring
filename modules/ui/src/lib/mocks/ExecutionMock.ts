@@ -2,6 +2,13 @@ import type {Execution} from "../domain/execution/Execution";
 import {ExecutionOrigin, ExecutionStatus, ExecutionType} from "../domain/execution/Execution";
 import type {ExecutionWithReport} from "../domain/execution/Execution";
 import {ScriptMock} from "./ScriptMock";
+import {
+    EnvExecutedScriptEntry,
+    ScriptEnvEntry,
+    ScriptEnvMatrix,
+    ScriptExecutionMetadata
+} from "../domain/script/ScriptEnvMatrix";
+import {EnvMock} from "./EnvMock";
 
 
 export class ExecutionMock {
@@ -11,21 +18,24 @@ export class ExecutionMock {
             date: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
-            status: ExecutionStatus.COMPLETED
+            status: ExecutionStatus.COMPLETED,
+            duration: 125
         },
         {
             id: '2',
             date: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
-            status: ExecutionStatus.COMPLETED
+            status: ExecutionStatus.COMPLETED,
+            duration: 361
         },
         {
             id: '3',
             date: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
-            status: ExecutionStatus.COMPLETED
+            status: ExecutionStatus.COMPLETED,
+            duration: 88
         }
     ];
 
@@ -71,4 +81,28 @@ export class ExecutionMock {
                 }
         }
     ];
+
+    public static scriptEnvMatrixByProject(projectId: string): ScriptEnvMatrix {
+        const matrix = new ScriptEnvMatrix(EnvMock.byProjectId(projectId));
+
+        ScriptMock.scripts.forEach(script => {
+            const scriptEnvEntry = new ScriptEnvEntry(script.identifier, script.name);
+
+            EnvMock.byProjectId(projectId).forEach(env => {
+                const number = Math.floor(Math.random() * 4);
+
+                if (number > 0) {
+                    const execution = this.executions[number - 1]
+                    const scriptExecutionMetadata = new ScriptExecutionMetadata(execution.id, execution.date, execution.duration, script.identifier)
+
+                    scriptEnvEntry.addEnvExecutedScriptEntry(
+                        new EnvExecutedScriptEntry(env.id, env.name, scriptExecutionMetadata))
+                }
+            })
+
+            matrix.addScriptEnvEntry(scriptEnvEntry);
+        })
+
+        return matrix;
+    }
 }

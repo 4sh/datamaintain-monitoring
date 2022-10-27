@@ -5,7 +5,8 @@ export interface Execution {
     date: Date,
     origin: ExecutionOrigin,
     type: ExecutionType,
-    status: ExecutionStatus
+    status: ExecutionStatus,
+    duration: number
 }
 
 export interface ExecutionWithReport extends Execution {

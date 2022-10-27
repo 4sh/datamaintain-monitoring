@@ -4,6 +4,9 @@
     "description": "Datamaintain monitoring application",
     "actions": {
       "logout": "Logout"
+    },
+    "units": {
+      "seconds-small": "s"
     }
   },
   "settings": {
