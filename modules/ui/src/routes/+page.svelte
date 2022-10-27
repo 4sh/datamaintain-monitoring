@@ -8,13 +8,13 @@ import ProjectHierarchy from "../lib/components/menu/Hierarchy.svelte";
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>Datamaintain</title>
+	<meta name="description" content="Datamaintain monitoring application" />
 </svelte:head>
 
 <section>
 	<h1>
-		Home
+		Datamaintain
 	</h1>
 </section>
 
