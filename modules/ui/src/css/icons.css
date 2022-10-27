@@ -1,0 +1,22 @@
+.i-16 {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Definition of the icons */
+/* Go to https://heroicons.com/ and copy svg in a dedicated file */
+.i-logout {
+    @apply stroke-1 hover:stroke-2;
+    display: block;
+    text-indent: -9999px;
+    background: url(/icons/logout.svg) no-repeat;
+}
+
+.i-cog-8,
+.i-settings {
+    @apply stroke-1 hover:stroke-2;
+    display: block;
+    text-indent: -9999px;
+    background: url(/icons/cog-8.svg) no-repeat;
+}

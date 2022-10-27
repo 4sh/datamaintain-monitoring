@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from '$lib/components/header/Header.svelte';
 	import '../app.css';
+	import '../css/icons.css';
 	import {getLocaleFromNavigator, init, isLoading, register} from "svelte-i18n";
 
 	register("en", () => import("../public/lang/en.json"));

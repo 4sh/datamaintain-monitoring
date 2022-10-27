@@ -5,16 +5,17 @@
 <script lang="ts">
 
 import ProjectHierarchy from "../lib/components/menu/Hierarchy.svelte";
+import {_} from "svelte-i18n";
 </script>
 
 <svelte:head>
-	<title>Datamaintain</title>
+	<title>{$_('app.title')}</title>
 	<meta name="description" content="Datamaintain monitoring application" />
 </svelte:head>
 
 <section>
 	<h1>
-		Datamaintain
+		{$_('app.title')}
 	</h1>
 </section>
 

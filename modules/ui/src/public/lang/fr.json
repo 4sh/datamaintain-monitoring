@@ -1,7 +1,12 @@
 {
   "app": {
-    "home": "Accueil",
-    "about": "À propos",
-    "todos": "Tâches"
+    "title": "Datamaintain",
+    "description": "Datamaintain monitoring application",
+    "actions": {
+      "logout": "Déconnexion"
+    }
+  },
+  "settings": {
+    "placeholder": "Configuration"
   }
 }
