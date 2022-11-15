@@ -19,6 +19,7 @@ import {_} from "svelte-i18n";
 	</h1>
 </section>
 
+<a href="projects">Créer un nouveau projet</a>
 <ProjectHierarchy></ProjectHierarchy>
 
 <style>

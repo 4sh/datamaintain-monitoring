@@ -1,10 +1,9 @@
 <script lang="ts">
     import {page} from "$app/stores";
-    import {ProjectService} from "../../../../../lib/services/ProjectService";
-    import {ModuleService} from "../../../../../lib/services/ModuleService";
-    import {EnvService} from "../../../../../lib/services/EnvService";
-    import ScriptEnvMatrixComponent from "../../../../../lib/components/matrix/ScriptEnvMatrixComponent.svelte";
-    import {ExecutionMock} from "../../../../../lib/mocks/ExecutionMock";
+    import {ProjectService} from "../../../../../../lib/services/ProjectService";
+    import {ModuleService} from "../../../../../../lib/services/ModuleService";
+    import {EnvService} from "../../../../../../lib/services/EnvService";
+    import {ExecutionMock} from "../../../../../../lib/mocks/ExecutionMock";
 
     let project
     let env
@@ -35,14 +34,7 @@
 {#await modulePromise}
     <p>...waiting</p>
 {:then module}
-    Module {module.name} du projet {project.name} {#if env} sur l'environnement {env.name}{/if}
-
-    <br>
-    <a href="{module.id}/edit">Editer</a>
-
-    {#if scriptEnvMatrix}
-        <ScriptEnvMatrixComponent projectRef="{project.id}" matrix="{scriptEnvMatrix}"></ScriptEnvMatrixComponent>
-    {/if}
+    Edition du module {module.name} du projet {project.name}
 {:catch error}
     <p style="color: red">Module not found !</p>
 {/await}

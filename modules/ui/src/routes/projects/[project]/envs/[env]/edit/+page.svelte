@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {EnvService} from "../../../../../lib/services/EnvService";
+    import {EnvService} from "../../../../../../lib/services/EnvService";
     import {page} from "$app/stores";
-    import {ProjectService} from "../../../../../lib/services/ProjectService";
+    import {ProjectService} from "../../../../../../lib/services/ProjectService";
 
     let project
     let envPromise
@@ -20,10 +20,7 @@
 {#await envPromise}
     <p>...waiting</p>
 {:then env}
-    Environnement {env.name} du projet {project.name}
-
-    <br>
-    <a href="{env.id}/edit">Editer</a>
+    Edition de l'environnement {env.name} du projet {project.name}
 {:catch error}
     <p style="color: red">Env not found !</p>
 {/await}
