@@ -1,4 +1,5 @@
 import type {Env} from "../Env";
+import type {ScriptExecutionMetadata} from "../ScriptExecutionMetadata";
 
 
 export class ScriptEnvMatrix {
@@ -46,18 +47,3 @@ export class EnvExecutedScriptEntry {
         this.execution = execution
     }
 }
-
-export class ScriptExecutionMetadata {
-    executionId: string
-    executionDate: Date
-    duration: number
-    scriptId: string
-
-    constructor(executionId: string, executionDate: Date, duration: number, scriptId: string) {
-        this.executionId = executionId;
-        this.executionDate = executionDate;
-        this.duration = duration;
-        this.scriptId = scriptId;
-    }
-}
-

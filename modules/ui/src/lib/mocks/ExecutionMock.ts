@@ -5,10 +5,13 @@ import {ScriptMock} from "./ScriptMock";
 import {
     EnvExecutedScriptEntry,
     ScriptEnvEntry,
-    ScriptEnvMatrix,
-    ScriptExecutionMetadata
+    ScriptEnvMatrix
 } from "../domain/script/ScriptEnvMatrix";
 import {EnvMock} from "./EnvMock";
+import {EnvExecutionEntry, ModuleEnvEntry, ModuleEnvMatrix} from "../domain/ModuleEnvMatrix";
+import {ModuleMock} from "./ModuleMock";
+import {ScriptExecutionMetadata} from "../domain/ScriptExecutionMetadata";
+import {ExecutionMetadata} from "../domain/ExecutionMetadata";
 
 
 export class ExecutionMock {
@@ -101,6 +104,31 @@ export class ExecutionMock {
             })
 
             matrix.addScriptEnvEntry(scriptEnvEntry);
+        })
+
+        return matrix;
+    }
+
+    public static moduleEnvMatrixByProject(projectId: string): ModuleEnvMatrix {
+        const matrix = new ModuleEnvMatrix(EnvMock.byProjectId(projectId));
+
+        ModuleMock.byProjectId(projectId).forEach(module => {
+            const moduleEnvEntry = new ModuleEnvEntry(module.id, module.name);
+
+            EnvMock.byProjectId(projectId).forEach(env => {
+                const number = Math.floor(Math.random() * ExecutionMock.executions.length);
+
+                if (number > 0) {
+                    const execution = this.executions[number - 1]
+                    const executionMetadata = new ExecutionMetadata(
+                        execution.id, execution.date, execution.duration, execution.status)
+
+                    moduleEnvEntry.addEnvModuleEntry(
+                        new EnvExecutionEntry(env.id, env.name, executionMetadata))
+                }
+            })
+
+            matrix.addModuleEnvEntry(moduleEnvEntry);
         })
 
         return matrix;

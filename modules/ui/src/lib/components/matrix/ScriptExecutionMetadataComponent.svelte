@@ -1,6 +1,5 @@
 <script lang="ts">
-    import {ScriptExecutionMetadata} from "../../domain/script/ScriptEnvMatrix";
-    import {_} from "svelte-i18n";
+    import {ScriptExecutionMetadata} from "../../domain/ScriptExecutionMetadata";
 
     export let metadata: ScriptExecutionMetadata
 </script>
