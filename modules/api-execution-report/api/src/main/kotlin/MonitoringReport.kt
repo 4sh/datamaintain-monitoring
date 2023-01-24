@@ -1,2 +1,1 @@
-data class MonitoringReport(val scriptsExecutedNumber: Int) {
-}
+data class MonitoringReport(val scriptsExecutedNumber: Int)
