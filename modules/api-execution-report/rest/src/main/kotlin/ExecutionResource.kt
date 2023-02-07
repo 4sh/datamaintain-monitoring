@@ -11,7 +11,8 @@ class ExecutionResource: PublicResource {
 
     override fun routes(): List<ContractRoute> = listOf(
         "$baseUrl/start" bindContract Method.POST to startExecution(),
-        "$baseUrl/stop" / Path.of("executionId") bindContract Method.PUT to stopExecution()
+        "$baseUrl/stop" / Path.of("executionId") bindContract Method.PUT to stopExecution(),
+        baseUrl / Path.of("executionId") / "script" / "start" bindContract Method.PUT to startScriptExecution()
     )
 
     private fun startExecution() = { _: Request ->
@@ -24,8 +25,15 @@ class ExecutionResource: PublicResource {
         }
     } }
 
+    private fun startScriptExecution() = { executionId: String, _: String, _: String -> { request: Request ->
+        val scriptExecutionStart = scriptExecutionStartLens(request)
+        println("Start script execution $scriptExecutionStart for batch $executionId")
+        Response(OK)
+    } }
+
     companion object {
         private val monitoringReportLens = Body.auto<MonitoringReport>().toLens()
         private val executionStartResponseLens = Body.auto<ExecutionStartResponse>().toLens()
+        private val scriptExecutionStartLens = Body.auto<ScriptExecutionStart>().toLens()
     }
 }
