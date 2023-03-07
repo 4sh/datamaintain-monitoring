@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/header/Header.svelte';
-	import '../app.css';
+	import '../app.scss';
 	import '../css/icons.css';
 	import {getLocaleFromNavigator, init, isLoading, register} from "svelte-i18n";
 

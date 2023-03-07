@@ -6,5 +6,12 @@ import CurrentUserSubHeader from "./CurrentUserSubHeader.svelte";
 	<CurrentUserSubHeader></CurrentUserSubHeader>
 </header>
 
-<style>
+<style lang="scss">
+	@import "src/app";
+
+	.app {
+		&-header {
+			background: $bg-color;
+		}
+	}
 </style>

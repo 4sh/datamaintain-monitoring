@@ -31,13 +31,3 @@
 			   class="i-logout i-16">
 	</div>
 </div>
-
-<style>
-	.current-user-sub-header {
-		@apply absolute inset-y-0 right-0
-	}
-
-	.current-user-sub-header div {
-		@apply inline-block
-	}
-</style>
