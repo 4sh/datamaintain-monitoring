@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Header from '$lib/components/header/Header.svelte';
 	import '../app.scss';
-	import '../css/icons.css';
 	import {getLocaleFromNavigator, init, isLoading, register} from "svelte-i18n";
 
 	register("en", () => import("../public/lang/en.json"));
@@ -38,10 +37,12 @@
 
 		&-header {
 			width: 16%;
+			min-width: 250px;
 			background-color: $primary-color;
 		}
 		&-main {
 			width: 84%;
+			max-width: calc(100% - 250px);
 		}
 	}
 </style>
