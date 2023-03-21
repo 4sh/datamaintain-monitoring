@@ -1,5 +1,6 @@
 <script lang="ts">
-    import EnvHierarchy from "./O_hierarchyEnv.svelte";
+
+    import O_hierarchyEnv from "$lib/components/organisms/O_hierarchy/O_hierarchyEnv.svelte";
 
     export let project;
 </script>
@@ -11,7 +12,7 @@
 
     <div class="project-envs">
         {#each project.envs as env}
-           <EnvHierarchy {env} projectRef="{project.id}"/>
+           <O_hierarchyEnv {env} projectRef="{project.id}"/>
         {/each}
     </div>
 </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import {ScriptEnvMatrix} from "../../../domain/script/ScriptEnvMatrix";
-    import ScriptExecutionMetadataComponent from "./O_matrixScriptExecutionMetadata.svelte";
+	import {ScriptEnvMatrix} from "$lib/domain/script/ScriptEnvMatrix";
+    import O_matrixScriptExecutionMetadata
+        from "$lib/components/organisms/O_matrix/O_matrixScriptExecutionMetadata.svelte";
 
     export let projectRef: string
     export let matrix: ScriptEnvMatrix
@@ -25,7 +26,7 @@
 
             {#each matrix.envs as { id, name }}
                 <td class="px-2">
-                    <ScriptExecutionMetadataComponent metadata="{entry.getScriptExecutionMetadata(id)?.execution}"/>
+                    <O_matrixScriptExecutionMetadata metadata="{entry.getScriptExecutionMetadata(id)?.execution}"/>
                 </td>
             {/each}
         </tr>

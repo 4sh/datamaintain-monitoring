@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {ProjectService} from "../../../services/ProjectService";
-    import ProjectHierarchy from "./O_hierarchyProject.svelte";
-    import {HierarchySearch} from "../../../domain/ProjectHierarchy";
+    import {ProjectService} from "$lib/services/ProjectService";
+    import {HierarchySearch} from "$lib/domain/ProjectHierarchy";
+    import O_hierarchyProject from "$lib/components/organisms/O_hierarchy/O_hierarchyProject.svelte";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
 
@@ -20,7 +20,7 @@
 
         <div class="projects">
             {#each projectHierarchies as project}
-                <ProjectHierarchy {project}/>
+                <O_hierarchyProject {project}/>
             {/each}
         </div>
     </div>

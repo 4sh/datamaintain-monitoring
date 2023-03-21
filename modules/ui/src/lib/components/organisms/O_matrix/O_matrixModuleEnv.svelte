@@ -1,6 +1,6 @@
 <script lang="ts">
-    import {ModuleEnvMatrix} from "../../../domain/ModuleEnvMatrix";
-    import ExecutionMetadataComponent from "./O_matrixExecutionMetadata.svelte";
+    import {ModuleEnvMatrix} from "$lib/domain/ModuleEnvMatrix";
+    import O_matrixExecutionMetadata from "$lib/components/organisms/O_matrix/O_matrixExecutionMetadata.svelte";
 
     export let projectRef: string
     export let matrix: ModuleEnvMatrix
@@ -25,7 +25,7 @@
 
             {#each matrix.envs as { id, name }}
                 <td class="px-2">
-                    <ExecutionMetadataComponent metadata="{entry.getEnvExecutionEntryMetadata(id)?.execution}"/>
+                    <O_matrixExecutionMetadata metadata="{entry.getEnvExecutionEntryMetadata(id)?.execution}"/>
                 </td>
             {/each}
         </tr>

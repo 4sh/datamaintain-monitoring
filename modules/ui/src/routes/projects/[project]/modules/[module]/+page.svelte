@@ -1,10 +1,10 @@
 <script lang="ts">
     import {page} from "$app/stores";
-    import {ProjectService} from "../../../../../lib/services/ProjectService";
-    import {ModuleService} from "../../../../../lib/services/ModuleService";
-    import {EnvService} from "../../../../../lib/services/EnvService";
-    import ScriptEnvMatrixComponent from "../../../../../lib/components/matrix/ScriptEnvMatrixComponent.svelte";
-    import {ExecutionMock} from "../../../../../lib/mocks/ExecutionMock";
+    import {ProjectService} from "$lib/services/ProjectService";
+    import {ModuleService} from "$lib/services/ModuleService";
+    import {EnvService} from "$lib/services/EnvService";
+    import {ExecutionMock} from "$lib/mocks/ExecutionMock";
+    import O_matrixScriptEnv from "$lib/components/organisms/O_matrix/O_matrixScriptEnv.svelte";
 
     let project
     let env
@@ -41,7 +41,7 @@
     <a href="{module.id}/edit">Editer</a>
 
     {#if scriptEnvMatrix}
-        <ScriptEnvMatrixComponent projectRef="{project.id}" matrix="{scriptEnvMatrix}"></ScriptEnvMatrixComponent>
+        <O_matrixScriptEnv projectRef="{project.id}" matrix="{scriptEnvMatrix}"></O_matrixScriptEnv>
     {/if}
 {:catch error}
     <p style="color: red">Module not found !</p>

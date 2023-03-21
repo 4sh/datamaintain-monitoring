@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {ProjectService} from "../../../../lib/services/ProjectService";
+    import {ProjectService} from "$lib/services/ProjectService";
     import {page} from "$app/stores";
 
     let projectPromise

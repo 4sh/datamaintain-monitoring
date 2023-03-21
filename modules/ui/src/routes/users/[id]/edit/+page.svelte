@@ -1,8 +1,8 @@
 <script lang="ts">
     import {page} from '$app/stores';
 
-    import {UserService} from "../../../../lib/services/UserService";
-    import UserEdition from "../../../../lib/components/user/UserEdition.svelte";
+    import {UserService} from "$lib/services/UserService";
+    import O_userEdition from "$lib/components/organisms/O_user/O_userEdition.svelte";
 
     let userPromise
 
@@ -14,7 +14,7 @@
 {#await userPromise}
     <p>...waiting</p>
 {:then user}
-    <UserEdition {user}/>
+    <O_userEdition {user}/>
 {:catch error}
     <p style="color: red">User not found !</p>
 {/await}
