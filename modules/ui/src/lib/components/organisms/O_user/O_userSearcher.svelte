@@ -4,7 +4,7 @@
 	import {UserService} from "$lib/services/UserService";
     import {createEventDispatcher} from "svelte";
     import type {User} from "$lib/domain/User";
-    import type {Searcher} from "$lib/components/organisms/O_pagination/api/Searcher";
+    import type {Searcher} from "$lib/components/molecules/O_pagination/api/Searcher";
 
     export let limit: number;
 

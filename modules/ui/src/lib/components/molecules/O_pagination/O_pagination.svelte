@@ -2,8 +2,8 @@
 
 	import {onDestroy} from "svelte";
 	import type {User} from "$lib/domain/User";
-	import type {Searcher} from "$lib/components/organisms/O_pagination/api/Searcher";
-	import type {Renderer} from "$lib/components/organisms/O_pagination/api/Renderer";
+	import type {Searcher} from "$lib/components/molecules/O_pagination/api/Searcher";
+	import type {Renderer} from "$lib/components/molecules/O_pagination/api/Renderer";
 
 	export let searcherType: Searcher<User>
 	export let rendererType: Renderer<User>
