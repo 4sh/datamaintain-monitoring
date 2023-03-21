@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.scss';
 	import {getLocaleFromNavigator, init, isLoading, register} from "svelte-i18n";
-	import O_header from "$lib/components/organisms/O_header/O_header.svelte";
+	import O_header from "$lib/components/organisms/O_header.svelte";
 
 	register("en", () => import("../public/lang/en.json"));
 	register("fr", () => import("../public/lang/fr.json"));

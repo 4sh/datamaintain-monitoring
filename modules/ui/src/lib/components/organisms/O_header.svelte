@@ -1,5 +1,5 @@
 <script lang="ts">
-import O_projectHierarchy from "../O_hierarchy/O_Hierarchy.svelte";
+import O_projectHierarchy from "$lib/components/organisms/O_hierarchy/O_hierarchy.svelte";
 import {currentTheme} from "$lib/stores/theme";
 import M_logoText from "$lib/components/molecules/M_logoText.svelte";
 
