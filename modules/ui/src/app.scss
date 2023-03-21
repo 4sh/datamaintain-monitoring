@@ -8,7 +8,7 @@ body {
     margin: 0;
     height: 100%;
     background-color: $bg-color;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif!important;
 
     > * {
         color: $secondary-color;
