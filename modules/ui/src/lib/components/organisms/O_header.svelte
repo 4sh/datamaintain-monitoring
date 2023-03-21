@@ -1,6 +1,7 @@
 <script lang="ts">
-import ProjectHierarchy from "../menu/Hierarchy.svelte";
+import O_projectHierarchy from "../O_hierarchy/O_Hierarchy.svelte";
 import {currentTheme} from "$lib/stores/theme";
+import M_logoText from "$lib/components/molecules/M_logoText.svelte";
 
 function toggleTheme() {
 	if($currentTheme === "light") {
@@ -14,17 +15,17 @@ function toggleTheme() {
 <div class="header">
 	<div class="header-logo">
 		<div class="header-logo-img">
-			<img src="src/assets/images/svg/datamaintain-logo-picto.svg" alt="Logo Datamaintain Picto">
+			<img src="./src/assets/images/svg/datamaintain-logo.svg" alt="Logo Datamaintain">
 		</div>
 		<div class="header-logo-name">
-			<img src="src/assets/images/svg/datamaintain-logo-letters.svg" alt="Logo Datamaintain Letters">
+			<M_logoText />
 		</div>
 	</div>
 
 	<button type="submit" on:click={toggleTheme}>Switch theme</button>
 
 	<div class="header-hierarchy">
-		<ProjectHierarchy></ProjectHierarchy>
+		<O_projectHierarchy></O_projectHierarchy>
 	</div>
 </div>
 
@@ -53,10 +54,6 @@ function toggleTheme() {
 			&-name {
 				max-width: calc(100% - 80px);
 				margin-left: 24px;
-
-				img {
-					width: 100%;
-				}
 			}
 		}
 

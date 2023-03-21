@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {ProjectService} from "../../services/ProjectService";
-    import ProjectHierarchy from "./ProjectHierarchy.svelte";
-    import {HierarchySearch} from "../../domain/ProjectHierarchy";
+    import {ProjectService} from "../../../services/ProjectService";
+    import ProjectHierarchy from "./O_hierarchyProject.svelte";
+    import {HierarchySearch} from "../../../domain/ProjectHierarchy";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
 

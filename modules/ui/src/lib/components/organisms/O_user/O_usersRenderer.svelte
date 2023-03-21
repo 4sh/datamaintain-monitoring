@@ -1,8 +1,8 @@
 <svelte:options accessors={true}/>
 
 <script lang="ts">
-	import type {Renderer} from "../utils/api/Renderer";
-	import type {User} from "../../domain/User";
+	import type {Renderer} from "../O_pagination/api/Renderer";
+	import type {User} from "../../../domain/User";
 
 	let users = []
 

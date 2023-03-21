@@ -1,5 +1,7 @@
 :root {
     --main-bg-color: #F3F6F9;
+    --main-text-color: #63c4db;
     --primary-color: #FFFFFF;
     --secondary-color: #163542;
+    --bg-logo: rgb(22 53 66 / 20%);
 }

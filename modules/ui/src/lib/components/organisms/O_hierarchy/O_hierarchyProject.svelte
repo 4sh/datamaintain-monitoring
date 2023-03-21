@@ -1,5 +1,5 @@
 <script lang="ts">
-    import EnvHierarchy from "./EnvHierarchy.svelte";
+    import EnvHierarchy from "./O_hierarchyEnv.svelte";
 
     export let project;
 </script>
