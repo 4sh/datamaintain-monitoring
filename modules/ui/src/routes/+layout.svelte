@@ -16,18 +16,32 @@
 {#if $isLoading}
 	<p>Loading ...</p>
 {:else}
-	<Header />
 
-	<main>
-		<slot />
-	</main>
-
-	<footer>
-		<p>footer</p>
-	</footer>
+	<div class="layout">
+		<div class="layout-header">
+			<Header />
+		</div>
+		<div class="layout-main">
+			<slot />
+		</div>
+	</div>
 
 {/if}
 
-<style>
+<style lang="scss">
+	@import "src/app";
 
+	.layout {
+		display: flex;
+		flex-direction: row;
+		height: 100%;
+
+		&-header {
+			width: 16%;
+			background-color: $primary-color;
+		}
+		&-main {
+			width: 84%;
+		}
+	}
 </style>
