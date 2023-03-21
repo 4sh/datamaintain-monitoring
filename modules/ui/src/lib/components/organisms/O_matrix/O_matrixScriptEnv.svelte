@@ -1,9 +1,9 @@
 <script lang="ts">
-    import {ModuleEnvMatrix} from "../../domain/ModuleEnvMatrix";
-    import ExecutionMetadataComponent from "./ExecutionMetadataComponent.svelte";
+	import {ScriptEnvMatrix} from "../../../domain/script/ScriptEnvMatrix";
+    import ScriptExecutionMetadataComponent from "./O_matrixScriptExecutionMetadata.svelte";
 
     export let projectRef: string
-    export let matrix: ModuleEnvMatrix
+    export let matrix: ScriptEnvMatrix
 </script>
 
 <table class="table-auto">
@@ -20,12 +20,12 @@
     {#each matrix.entries as entry}
         <tr>
             <td>
-                <a href="/projects/{projectRef}/modules/{entry.moduleId}">{entry.moduleName}</a>
+                <a href="/scripts/{entry.scriptId}">{entry.scriptName}</a>
             </td>
 
             {#each matrix.envs as { id, name }}
                 <td class="px-2">
-                    <ExecutionMetadataComponent metadata="{entry.getEnvExecutionEntryMetadata(id)?.execution}"/>
+                    <ScriptExecutionMetadataComponent metadata="{entry.getScriptExecutionMetadata(id)?.execution}"/>
                 </td>
             {/each}
         </tr>

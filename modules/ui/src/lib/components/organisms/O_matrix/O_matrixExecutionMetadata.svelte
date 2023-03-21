@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {ExecutionMetadata} from "../../domain/ExecutionMetadata";
+    import {ExecutionMetadata} from "../../../domain/ExecutionMetadata";
 
     export let metadata: ExecutionMetadata
 </script>
