@@ -1,5 +1,5 @@
-import type {Env} from "../domain/Env";
-import {EnvMock} from "../mocks/EnvMock";
+import type {Env} from "$lib/domain/Env";
+import {EnvMock} from "$lib/mocks/EnvMock";
 
 
 export class EnvService {
