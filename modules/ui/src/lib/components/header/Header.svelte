@@ -1,5 +1,14 @@
 <script lang="ts">
 import ProjectHierarchy from "../menu/Hierarchy.svelte";
+import {currentTheme} from "$lib/stores/theme";
+
+function toggleTheme() {
+	if($currentTheme === "light") {
+		currentTheme.set("dark");
+	} else {
+		currentTheme.set("light");
+	}
+}
 </script>
 
 <div class="header">
@@ -11,6 +20,9 @@ import ProjectHierarchy from "../menu/Hierarchy.svelte";
 			<img src="src/assets/images/svg/datamaintain-logo-letters.svg" alt="Logo Datamaintain Letters">
 		</div>
 	</div>
+
+	<button type="submit" on:click={toggleTheme}>Switch theme</button>
+
 	<div class="header-hierarchy">
 		<ProjectHierarchy></ProjectHierarchy>
 	</div>
