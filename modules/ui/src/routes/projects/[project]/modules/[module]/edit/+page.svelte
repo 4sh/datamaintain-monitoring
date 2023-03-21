@@ -1,9 +1,9 @@
 <script lang="ts">
     import {page} from "$app/stores";
-    import {ProjectService} from "../../../../../../lib/services/ProjectService";
-    import {ModuleService} from "../../../../../../lib/services/ModuleService";
-    import {EnvService} from "../../../../../../lib/services/EnvService";
-    import {ExecutionMock} from "../../../../../../lib/mocks/ExecutionMock";
+    import {ProjectService} from "$lib/services/ProjectService";
+    import {ModuleService} from "$lib/services/ModuleService";
+    import {EnvService} from "$lib/services/EnvService";
+    import {ExecutionMock} from "$lib/mocks/ExecutionMock";
 
     let project
     let env

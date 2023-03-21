@@ -1,7 +1,7 @@
 <script lang="ts">
-    import {EnvService} from "../../../../../../lib/services/EnvService";
+    import {EnvService} from "$lib/services/EnvService";
     import {page} from "$app/stores";
-    import {ProjectService} from "../../../../../../lib/services/ProjectService";
+    import {ProjectService} from "$lib/services/ProjectService";
 
     let project
     let envPromise

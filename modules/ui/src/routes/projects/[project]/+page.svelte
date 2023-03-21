@@ -1,8 +1,8 @@
 <script lang="ts">
-   import {ProjectService} from "../../../lib/services/ProjectService";
+   import {ProjectService} from "$lib/services/ProjectService";
    import {page} from "$app/stores";
-   import {ExecutionMock} from "../../../lib/mocks/ExecutionMock";
-   import ModuleEnvMatrixComponent from "../../../lib/components/matrix/ModuleEnvMatrixComponent.svelte";
+   import {ExecutionMock} from "$lib/mocks/ExecutionMock";
+   import O_matrixModuleEnv from "$lib/components/organisms/O_matrix/O_matrixModuleEnv.svelte";
 
    let projectPromise
    let moduleEnvMatrix
@@ -28,7 +28,7 @@
     <a href="{project.id}/edit">Editer</a>
 
     {#if moduleEnvMatrix}
-        <ModuleEnvMatrixComponent projectRef="{project.id}" matrix="{moduleEnvMatrix}"></ModuleEnvMatrixComponent>
+        <O_matrixModuleEnv projectRef="{project.id}" matrix="{moduleEnvMatrix}"></O_matrixModuleEnv>
     {/if}
 {:catch error}
     <p style="color: red">Project not found !</p>

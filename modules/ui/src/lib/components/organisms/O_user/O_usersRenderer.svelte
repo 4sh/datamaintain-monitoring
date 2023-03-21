@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	import type {Renderer} from "../O_pagination/api/Renderer";
-	import type {User} from "../../../domain/User";
+	import type {User} from "$lib/domain/User";
 
 	let users = []
 
