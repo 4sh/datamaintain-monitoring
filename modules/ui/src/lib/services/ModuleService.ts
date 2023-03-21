@@ -1,5 +1,5 @@
-import type {Module} from "../domain/Module";
-import {ModuleMock} from "../mocks/ModuleMock";
+import type {Module} from "$lib/domain/Module";
+import {ModuleMock} from "$lib/mocks/ModuleMock";
 
 
 export class ModuleService {

@@ -1,4 +1,4 @@
-import type {Env} from "../domain/Env";
+import type {Env} from "$lib/domain/Env";
 
 
 export class EnvMock {

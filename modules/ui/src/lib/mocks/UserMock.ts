@@ -1,4 +1,4 @@
-import type {User} from "../domain/User";
+import type {User} from "$lib/domain/User";
 
 
 export class UserMock {

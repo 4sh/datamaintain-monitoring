@@ -1,5 +1,5 @@
-import type {Execution, ExecutionWithReport} from "../domain/execution/Execution";
-import {ExecutionMock} from "../mocks/ExecutionMock";
+import type {Execution, ExecutionWithReport} from "$lib/domain/execution/Execution";
+import {ExecutionMock} from "$lib/mocks/ExecutionMock";
 
 export type ExecutionSearchRequest= {};
 

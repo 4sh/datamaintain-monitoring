@@ -1,5 +1,5 @@
-import type {User} from "../domain/User";
-import {UserMock} from "../mocks/UserMock";
+import type {User} from "$lib/domain/User";
+import {UserMock} from "$lib/mocks/UserMock";
 
 export type UserSearchRequest= { q: string };
 

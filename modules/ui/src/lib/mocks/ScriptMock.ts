@@ -1,6 +1,6 @@
-import type {ExecutedScript, Script} from "../domain/script/Script";
-import {ScriptAction} from "../domain/script/Script";
-import type {ExecutionStatus} from "../domain/execution/Execution";
+import type {ExecutedScript, Script} from "$lib/domain/script/Script";
+import {ScriptAction} from "$lib/domain/script/Script";
+import type {ExecutionStatus} from "$lib/domain/execution/Execution";
 
 
 const script1 = {

@@ -1,4 +1,4 @@
-import type {Module} from "../domain/Module";
+import type {Module} from "$lib/domain/Module";
 
 
 export class ModuleMock {

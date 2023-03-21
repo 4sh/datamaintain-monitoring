@@ -1,6 +1,6 @@
-import type {ProjectHierarchy} from "../domain/ProjectHierarchy";
-import {ProjectMock} from "../mocks/ProjectMock";
-import type {Project} from "../domain/Project";
+import type {ProjectHierarchy} from "$lib/domain/ProjectHierarchy";
+import {ProjectMock} from "$lib/mocks/ProjectMock";
+import type {Project} from "$lib/domain/Project";
 
 export class ProjectService {
     public static byId(id: string): Promise<Project> {

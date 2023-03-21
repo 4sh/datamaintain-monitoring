@@ -1,17 +1,17 @@
-import type {Execution} from "../domain/execution/Execution";
-import {ExecutionOrigin, ExecutionStatus, ExecutionType} from "../domain/execution/Execution";
-import type {ExecutionWithReport} from "../domain/execution/Execution";
+import type {Execution} from "$lib/domain/execution/Execution";
+import {ExecutionOrigin, ExecutionStatus, ExecutionType} from "$lib/domain/execution/Execution";
+import type {ExecutionWithReport} from "$lib/domain/execution/Execution";
 import {ScriptMock} from "./ScriptMock";
 import {
     EnvExecutedScriptEntry,
     ScriptEnvEntry,
     ScriptEnvMatrix
-} from "../domain/script/ScriptEnvMatrix";
+} from "$lib/domain/script/ScriptEnvMatrix";
 import {EnvMock} from "./EnvMock";
-import {EnvExecutionEntry, ModuleEnvEntry, ModuleEnvMatrix} from "../domain/ModuleEnvMatrix";
+import {EnvExecutionEntry, ModuleEnvEntry, ModuleEnvMatrix} from "$lib/domain/ModuleEnvMatrix";
 import {ModuleMock} from "./ModuleMock";
-import {ScriptExecutionMetadata} from "../domain/ScriptExecutionMetadata";
-import {ExecutionMetadata} from "../domain/ExecutionMetadata";
+import {ScriptExecutionMetadata} from "$lib/domain/ScriptExecutionMetadata";
+import {ExecutionMetadata} from "$lib/domain/ExecutionMetadata";
 
 
 export class ExecutionMock {
