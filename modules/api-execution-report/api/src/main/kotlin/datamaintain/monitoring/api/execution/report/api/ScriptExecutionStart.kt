@@ -1,3 +1,5 @@
+package datamaintain.monitoring.api.execution.report.api
+
 import java.time.Instant
 
 data class ScriptExecutionStart(
