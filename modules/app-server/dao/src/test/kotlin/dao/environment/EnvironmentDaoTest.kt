@@ -12,6 +12,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
+import strikt.assertions.isNull
 import java.util.*
 
 internal class EnvironmentDaoTest: AbstractDaoTest() {
@@ -79,6 +80,38 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(environmentName)
                 get { fkProjectRef }.isEqualTo(projectId)
+            }
+        }
+    }
+
+    @Nested
+    inner class TestFindOneById {
+        @Test
+        fun `should return null when id does not exist in db`() {
+            // Given
+            val id = UUID.randomUUID()
+
+            // When
+            val loadedEnvironment = environmentDao.findOneById(id)
+
+            // Then
+            expectThat(loadedEnvironment).isNull()
+        }
+
+        @Test
+        fun `should load environment from db when it exists`() {
+            // Given
+            val environment = buildDmEnvironment(fkProjectRef = projectId)
+            val insertedId = environmentDao.insert(environment)!!.id!!
+
+            // When
+            val loadedEnvironment = environmentDao.findOneById(insertedId)
+
+            // Then
+            expectThat(loadedEnvironment).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { name }.isEqualTo(environment.name)
+                get { fkProjectRef }.isEqualTo(environment.fkProjectRef)
             }
         }
     }
