@@ -16,6 +16,7 @@ import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
+import strikt.assertions.isNull
 import java.util.*
 
 internal class BatchExecutionDaoTest : AbstractDaoTest() {
@@ -95,6 +96,46 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             }
         }
     }
+
+    @Nested
+    inner class TestDelete {
+        @Test
+        fun `should do nothing when deleting non existing document`() {
+            // Given
+            val insertedId = batchExecutionDao.insert(buildDmBatchExecution(
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            ))!!.id!!
+            val randomId = UUID.randomUUID()
+
+            // When
+            batchExecutionDao.delete(randomId)
+
+            // Then
+            expectThat(findOneDmBatchExecutionById(insertedId)).isNotNull()
+        }
+
+        @Test
+        fun `should delete proper document`() {
+            // Given
+            val insertedId1 = batchExecutionDao.insert(buildDmBatchExecution(
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            ))!!.id!!
+            val insertedId2 = batchExecutionDao.insert(buildDmBatchExecution(
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            ))!!.id!!
+
+            // When
+            batchExecutionDao.delete(insertedId1)
+
+            // Then
+            expectThat(findOneDmBatchExecutionById(insertedId1)).isNull()
+            expectThat(findOneDmBatchExecutionById(insertedId2)).isNotNull()
+        }
+    }
+
 
     private fun findOneDmBatchExecutionById(id: UUID?) = dslContext.select(
         DM_BATCH_EXECUTION.ID,
