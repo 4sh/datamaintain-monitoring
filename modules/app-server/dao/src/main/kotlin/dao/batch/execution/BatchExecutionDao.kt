@@ -25,6 +25,8 @@ class BatchExecutionDao(private val dslContext: DSLContext) {
             ?.into(DmBatchExecution::class.java)
 
     fun delete(id: UUID) {
-        TODO("Not yet implemented")
+        dslContext.delete(DM_BATCH_EXECUTION)
+            .where(DM_BATCH_EXECUTION.ID.eq(id))
+            .execute()
     }
 }
