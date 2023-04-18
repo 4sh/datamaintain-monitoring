@@ -84,14 +84,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val insertedId = batchExecutionDao.insert(dmBatchExecution)?.id
 
             // Then
-            val insertedDmBatchExecution = dslContext.select(
-                DM_BATCH_EXECUTION.ID,
-                DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF,
-                DM_BATCH_EXECUTION.FK_MODULE_REF
-            )
-                .from(DM_BATCH_EXECUTION)
-                .where(DM_BATCH_EXECUTION.ID.eq(insertedId))
-                .fetchOneInto(DmBatchExecution::class.java)
+            val insertedDmBatchExecution = findOneDmBatchExecutionById(insertedId)
 
             expectThat(
                 insertedDmBatchExecution
@@ -103,4 +96,12 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         }
     }
 
+    private fun findOneDmBatchExecutionById(id: UUID?) = dslContext.select(
+        DM_BATCH_EXECUTION.ID,
+        DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF,
+        DM_BATCH_EXECUTION.FK_MODULE_REF
+    )
+        .from(DM_BATCH_EXECUTION)
+        .where(DM_BATCH_EXECUTION.ID.eq(id))
+        .fetchOneInto(DmBatchExecution::class.java)
 }
