@@ -19,15 +19,18 @@ internal class ProjectDaoTest : AbstractDaoTest() {
     @Nested
     inner class TestInsert {
         @Test
-        fun `insert should return document with not null id`() {
+        fun `insert should return inserted document`() {
             // Given
             val dmProject = buildDmProject()
 
             // When
-            val insertedId = projectDao.insert(dmProject)?.id
+            val insertedProject = projectDao.insert(dmProject)
 
             // Then
-            expectThat(insertedId).isNotNull()
+            expectThat(insertedProject).isNotNull().and {
+                get { id }.isNotNull()
+                get { name }.isEqualTo(dmProject.name)
+            }
         }
 
         @Test
