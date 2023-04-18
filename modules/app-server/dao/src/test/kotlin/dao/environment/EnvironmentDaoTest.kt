@@ -175,7 +175,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         }
 
         @Test
-        fun `should return updated project`() {
+        fun `should return updated environment`() {
             // Given
             val environment = buildDmEnvironment(name = "myName", fkProjectRef = projectId)
             val insertedId = environmentDao.insert(environment)!!.id
@@ -183,10 +183,10 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
 
             // When
             val newName = "myOtherName"
-            val updatedProject = environmentDao.update(buildDmEnvironment(id = insertedId, name = newName, fkProjectRef = otherProjectId))
+            val updatedEnvironment = environmentDao.update(buildDmEnvironment(id = insertedId, name = newName, fkProjectRef = otherProjectId))
 
             // Then
-            expectThat(updatedProject).isNotNull().and {
+            expectThat(updatedEnvironment).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
                 get { fkProjectRef }.isEqualTo(projectId)

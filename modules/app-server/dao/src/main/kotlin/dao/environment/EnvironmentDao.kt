@@ -19,9 +19,13 @@ class EnvironmentDao(override val dslContext: DSLContext): BaseDao<DmEnvironment
             .fetchOne()
             ?.into(DmEnvironment::class.java)
 
-    override fun update(data: DmEnvironment): DmEnvironment? {
-        TODO("Not yet implemented")
-    }
+    override fun update(data: DmEnvironment): DmEnvironment? =
+        dslContext.update(DM_ENVIRONMENT)
+            .set(DM_ENVIRONMENT.NAME, data.name)
+            .where(DM_ENVIRONMENT.ID.eq(data.id))
+            .returningResult(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
+            .fetchOne()
+            ?.into(DmEnvironment::class.java)
 
     override fun delete(id: UUID) {
         TODO("Not yet implemented")
