@@ -31,6 +31,18 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         }
 
         @Test
+        fun `insert should not use given id as document id`() {
+            // Given
+            val myId = UUID.randomUUID()
+            val dmProject = buildDmProject(id = myId)
+
+            // When
+            val insertedId = projectDao.insert(dmProject)!!.id
+
+            // Then
+            expectThat(insertedId).isNotEqualTo(myId)
+        }
+        @Test
         fun `insert should write document in database`() {
             // Given
             val projectName = "myName"
