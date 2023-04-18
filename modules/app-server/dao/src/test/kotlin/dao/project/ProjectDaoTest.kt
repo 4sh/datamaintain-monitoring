@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import org.testcontainers.junit.jupiter.Testcontainers
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.UUID
@@ -49,7 +50,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `insert should write document in database`() {
             // Given
             val projectName = "myName"
-            val dmProject = buildDmProject(projectName)
+            val dmProject = buildDmProject(name = projectName)
 
             // When
             val insertedId = projectDao.insert(dmProject)?.id
