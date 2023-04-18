@@ -18,6 +18,10 @@ import java.util.*
 internal class EnvironmentDaoTest: AbstractDaoTest() {
     val environmentDao = EnvironmentDao(dslContext)
 
+    override fun dropTables() {
+        dslContext.delete(DM_ENVIRONMENT).execute()
+    }
+
     companion object {
         private lateinit var projectId: UUID
 

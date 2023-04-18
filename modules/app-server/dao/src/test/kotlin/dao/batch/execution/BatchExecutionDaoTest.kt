@@ -22,6 +22,10 @@ import java.util.*
 internal class BatchExecutionDaoTest : AbstractDaoTest() {
     private val batchExecutionDao = BatchExecutionDao(dslContext)
 
+    override fun dropTables() {
+        dslContext.delete(DM_BATCH_EXECUTION).execute()
+    }
+
     companion object {
         private lateinit var environmentId: UUID
         private lateinit var moduleId: UUID
