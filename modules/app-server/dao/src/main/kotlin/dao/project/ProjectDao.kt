@@ -32,4 +32,8 @@ class ProjectDao(override val dslContext: DSLContext) : BaseDao<DmProject, UUID>
             .where(DM_PROJECT.ID.eq(id))
             .execute()
     }
+
+    override fun findOneById(id: UUID): DmProject? =
+        dslContext.fetchOne(DM_PROJECT, DM_PROJECT.ID.eq(id))
+            ?.into(DmProject::class.java)
 }

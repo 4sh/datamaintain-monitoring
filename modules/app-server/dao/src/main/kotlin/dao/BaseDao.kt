@@ -8,4 +8,5 @@ interface BaseDao<POJO_TYPE, ID_TYPE> {
     fun insert(data: POJO_TYPE): POJO_TYPE?
     fun update(data: POJO_TYPE): POJO_TYPE?
     fun delete(id: ID_TYPE)
+    fun findOneById(id: ID_TYPE): POJO_TYPE?
 }
