@@ -188,5 +188,19 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             // Then
             expectThat(projectDao.findOneById(insertedId)).isNotNull()
         }
+
+        @Test
+        fun `should delete proper document`() {
+            // Given
+            val insertedId1 = projectDao.insert(buildDmProject())!!.id!!
+            val insertedId2 = projectDao.insert(buildDmProject())!!.id!!
+
+            // When
+            projectDao.delete(insertedId1)
+
+            // Then
+            expectThat(projectDao.findOneById(insertedId1)).isNull()
+            expectThat(projectDao.findOneById(insertedId2)).isNotNull()
+        }
     }
 }
