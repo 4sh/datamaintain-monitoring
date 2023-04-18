@@ -15,6 +15,10 @@ import java.util.UUID
 internal class ProjectDaoTest : AbstractDaoTest() {
     private val projectDao = ProjectDao(dslContext)
 
+    override fun dropTables() {
+        dslContext.delete(DM_PROJECT).execute()
+    }
+
     @Nested
     inner class TestInsert {
         @Test

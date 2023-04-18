@@ -18,6 +18,10 @@ import java.util.UUID
 class ModuleDaoTest : AbstractDaoTest() {
     private val moduleDao = ModuleDao(dslContext)
 
+    override fun dropTables() {
+        dslContext.delete(DM_MODULE).execute()
+    }
+
     companion object {
         private lateinit var projectId1: UUID
         private lateinit var projectId2: UUID
