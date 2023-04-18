@@ -107,7 +107,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should return null when id does not exist in db`() {
             // Given
             val project = buildDmProject(name = "myName")
-            projectDao.insert(project)!!.id
+            projectDao.insert(project)
             val randomId = UUID.randomUUID()
 
             // When
