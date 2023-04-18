@@ -5,8 +5,8 @@ import java.util.*
 
 fun buildDmBatchExecution(
     id: UUID? = null,
-    fkEnvironmentRef: UUID = UUID.randomUUID(),
-    fkModuleRef: UUID = UUID.randomUUID()
+    fkEnvironmentRef: UUID,
+    fkModuleRef: UUID
 ) = DmBatchExecution(
     id = id, fkEnvironmentRef = fkEnvironmentRef, fkModuleRef = fkModuleRef
 )
