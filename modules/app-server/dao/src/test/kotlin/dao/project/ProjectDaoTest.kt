@@ -157,4 +157,20 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             }
         }
     }
+
+    @Nested
+    inner class TestDelete {
+        @Test
+        fun `should do nothing when deleting non existing document`() {
+            // Given
+            val insertedId = projectDao.insert(buildDmProject())!!.id!!
+            val randomId = UUID.randomUUID()
+
+            // When
+            projectDao.delete(randomId)
+
+            // Then
+            expectThat(projectDao.findOneById(insertedId)).isNotNull()
+        }
+    }
 }
