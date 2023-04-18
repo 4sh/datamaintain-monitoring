@@ -39,7 +39,10 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted document`() {
             // Given
-            val dmBatchExecution = buildDmBatchExecution()
+            val dmBatchExecution = buildDmBatchExecution(
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
 
             // When
             val insertedBatchExecution = batchExecutionDao.insert(dmBatchExecution)
@@ -56,7 +59,11 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `insert should not use given id as document id`() {
             // Given
             val myId = UUID.randomUUID()
-            val dmBatchExecution = buildDmBatchExecution(id = myId)
+            val dmBatchExecution = buildDmBatchExecution(
+                id = myId,
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
 
             // When
             val insertedId = batchExecutionDao.insert(dmBatchExecution)!!.id
