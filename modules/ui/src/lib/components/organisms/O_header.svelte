@@ -2,6 +2,7 @@
     import O_projectHierarchy from "$lib/components/organisms/O_hierarchy/O_hierarchy.svelte";
     import {currentTheme} from "$lib/stores/theme";
     import M_logoText from "$lib/components/molecules/M_logoText.svelte";
+    import logo from "$lib/assets/images/svg/datamaintain-logo.svg";
 
     function toggleTheme() {
         if ($currentTheme === "light") {
@@ -15,7 +16,7 @@
 <div class="header">
     <div class="header-logo">
         <div class="header-logo-img">
-            <img src="./src/assets/images/svg/datamaintain-logo.svg" alt="Logo Datamaintain">
+            <img src={logo} alt="Logo Datamaintain">
         </div>
         <div class="header-logo-name">
             <M_logoText/>
