@@ -19,9 +19,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return document with not null id`() {
             // Given
-            val dmProject = DmProject(
-                name = "myName"
-            )
+            val dmProject = buildDmProject()
 
             // When
             val insertedId = projectDao.insert(dmProject)?.id
@@ -34,9 +32,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `insert should write document in database`() {
             // Given
             val projectName = "myName"
-            val dmProject = DmProject(
-                name = projectName
-            )
+            val dmProject = buildDmProject(projectName)
 
             // When
             val insertedId = projectDao.insert(dmProject)?.id
