@@ -5,7 +5,6 @@ import jooq.generated.domain.tables.pojos.DmProject
 import jooq.generated.domain.tables.references.DM_PROJECT
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.testcontainers.junit.jupiter.Testcontainers
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotEqualTo
@@ -13,7 +12,6 @@ import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.UUID
 
-@Testcontainers
 internal class ProjectDaoTest : AbstractDaoTest() {
     private val projectDao = ProjectDao(dslContext)
 
