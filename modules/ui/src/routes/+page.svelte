@@ -3,17 +3,12 @@
 </script>
 
 <script lang="ts">
-
-import {_} from "svelte-i18n";
-import { currentTheme } from '$lib/stores/theme';
-
+	import {_} from "svelte-i18n";
 </script>
 
 <svelte:head>
 	<title>{$_('app.title')}</title>
 	<meta name="description" content="Datamaintain monitoring application" />
-
-	<link rel="stylesheet" href="./{$currentTheme}.css" />
 </svelte:head>
 
 <section>
