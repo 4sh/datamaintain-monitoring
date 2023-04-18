@@ -27,7 +27,7 @@ class EnvironmentDao(override val dslContext: DSLContext): BaseDao<DmEnvironment
         TODO("Not yet implemented")
     }
 
-    override fun findOneById(id: UUID): DmEnvironment? {
-        TODO("Not yet implemented")
-    }
+    override fun findOneById(id: UUID): DmEnvironment? =
+        dslContext.fetchOne(DM_ENVIRONMENT, DM_ENVIRONMENT.ID.eq(id))
+            ?.into(DmEnvironment::class.java)
 }
