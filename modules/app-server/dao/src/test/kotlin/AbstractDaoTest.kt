@@ -3,6 +3,7 @@ import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -11,6 +12,13 @@ import java.sql.DriverManager
 
 @Testcontainers
 abstract class AbstractDaoTest {
+
+    abstract fun dropTables()
+
+    @BeforeEach
+    fun emptyTables() {
+        dropTables()
+    }
 
     companion object {
         lateinit var dslContext: DSLContext
