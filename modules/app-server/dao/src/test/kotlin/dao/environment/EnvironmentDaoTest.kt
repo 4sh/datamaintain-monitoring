@@ -194,4 +194,34 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         }
     }
 
+    @Nested
+    inner class TestDelete {
+        @Test
+        fun `should do nothing when deleting non existing document`() {
+            // Given
+            val insertedId = environmentDao.insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
+            val randomId = UUID.randomUUID()
+
+            // When
+            environmentDao.delete(randomId)
+
+            // Then
+            expectThat(environmentDao.findOneById(insertedId)).isNotNull()
+        }
+
+        @Test
+        fun `should delete proper document`() {
+            // Given
+            val insertedId1 = environmentDao.insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
+            val insertedId2 = environmentDao.insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
+
+            // When
+            environmentDao.delete(insertedId1)
+
+            // Then
+            expectThat(environmentDao.findOneById(insertedId1)).isNull()
+            expectThat(environmentDao.findOneById(insertedId2)).isNotNull()
+        }
+    }
+
 }
