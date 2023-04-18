@@ -28,7 +28,9 @@ class EnvironmentDao(override val dslContext: DSLContext): BaseDao<DmEnvironment
             ?.into(DmEnvironment::class.java)
 
     override fun delete(id: UUID) {
-        TODO("Not yet implemented")
+        dslContext.delete(DM_ENVIRONMENT)
+            .where(DM_ENVIRONMENT.ID.eq(id))
+            .execute()
     }
 
     override fun findOneById(id: UUID): DmEnvironment? =
