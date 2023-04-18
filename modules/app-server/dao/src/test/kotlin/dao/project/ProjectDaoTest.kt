@@ -9,6 +9,8 @@ import org.testcontainers.junit.jupiter.Testcontainers
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
+import strikt.assertions.isNull
+import java.util.UUID
 
 @Testcontainers
 internal class ProjectDaoTest : AbstractDaoTest() {
@@ -48,6 +50,37 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             ).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(projectName)
+            }
+        }
+    }
+
+    @Nested
+    inner class TestFindOneById {
+        @Test
+        fun `should return null when id does not exist in db`() {
+            // Given
+            val id = UUID.randomUUID()
+
+            // When
+            val loadedProject = projectDao.findOneById(id)
+
+            // Then
+            expectThat(loadedProject).isNull()
+        }
+
+        @Test
+        fun `should load project from db when it exists`() {
+            // Given
+            val project = buildDmProject()
+            val insertedId = projectDao.insert(project)!!.id!!
+
+            // When
+            val loadedProject = projectDao.findOneById(insertedId)
+
+            // Then
+            expectThat(loadedProject).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { name }.isEqualTo(project.name)
             }
         }
     }
