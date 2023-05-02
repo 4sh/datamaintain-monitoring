@@ -10,7 +10,7 @@ import org.http4k.core.Status.Companion.OK
 import org.http4k.format.Jackson.auto
 import org.http4k.lens.Path
 
-class ExecutionResource: PublicResource {
+class ExecutionResource: V1Resource {
     private val baseUrl = "executions"
 
     override fun routes(): List<ContractRoute> = listOf(

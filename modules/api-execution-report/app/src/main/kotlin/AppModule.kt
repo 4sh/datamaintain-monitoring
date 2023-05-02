@@ -1,3 +1,3 @@
-val publicResources = setOf(ExecutionResource())
+val v1Resources = setOf(ExecutionResource())
 
-val app = App.invoke(publicResources)
+val app = App.invoke(v1Resources)
