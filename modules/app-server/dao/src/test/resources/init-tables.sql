@@ -46,3 +46,9 @@ CREATE TABLE IF NOT EXISTS dm_script_execution (
 CREATE TABLE IF NOT EXISTS dm_tag (
     name VARCHAR(255) PRIMARY KEY
 );
+
+CREATE TABLE IF NOT EXISTS dm_script_execution_dm_tag (
+    fk_script_execution_ref uuid REFERENCES dm_script_execution(id) ON DELETE CASCADE,
+    fk_tag_ref VARCHAR(255) REFERENCES dm_tag(name) ON DELETE CASCADE,
+    PRIMARY KEY (fk_script_execution_ref, fk_tag_ref)
+);
