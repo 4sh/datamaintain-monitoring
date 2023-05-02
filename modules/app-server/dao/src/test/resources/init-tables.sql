@@ -42,3 +42,7 @@ CREATE TABLE IF NOT EXISTS dm_script_execution (
     fk_script_ref VARCHAR(255) REFERENCES dm_script(checksum) ON DELETE CASCADE,
     fk_batch_execution_ref uuid REFERENCES dm_batch_execution(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS dm_tag (
+    name VARCHAR(255) PRIMARY KEY
+);
