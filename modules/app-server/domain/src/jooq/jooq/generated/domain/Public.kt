@@ -10,6 +10,7 @@ import jooq.generated.domain.tables.DmModule
 import jooq.generated.domain.tables.DmProject
 import jooq.generated.domain.tables.DmScript
 import jooq.generated.domain.tables.DmScriptExecution
+import jooq.generated.domain.tables.DmScriptExecutionDmTag
 import jooq.generated.domain.tables.DmTag
 
 import kotlin.collections.List
@@ -63,6 +64,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val DM_SCRIPT_EXECUTION: DmScriptExecution get() = DmScriptExecution.DM_SCRIPT_EXECUTION
 
     /**
+     * The table <code>public.dm_script_execution_dm_tag</code>.
+     */
+    val DM_SCRIPT_EXECUTION_DM_TAG: DmScriptExecutionDmTag get() = DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG
+
+    /**
      * The table <code>public.dm_tag</code>.
      */
     val DM_TAG: DmTag get() = DmTag.DM_TAG
@@ -76,6 +82,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
         DmProject.DM_PROJECT,
         DmScript.DM_SCRIPT,
         DmScriptExecution.DM_SCRIPT_EXECUTION,
+        DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG,
         DmTag.DM_TAG
     )
 }
