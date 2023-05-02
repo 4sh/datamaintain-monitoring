@@ -10,6 +10,7 @@ import jooq.generated.domain.tables.DmModule
 import jooq.generated.domain.tables.DmProject
 import jooq.generated.domain.tables.DmScript
 import jooq.generated.domain.tables.DmScriptExecution
+import jooq.generated.domain.tables.DmTag
 
 
 
@@ -42,3 +43,8 @@ val DM_SCRIPT: DmScript = DmScript.DM_SCRIPT
  * The table <code>public.dm_script_execution</code>.
  */
 val DM_SCRIPT_EXECUTION: DmScriptExecution = DmScriptExecution.DM_SCRIPT_EXECUTION
+
+/**
+ * The table <code>public.dm_tag</code>.
+ */
+val DM_TAG: DmTag = DmTag.DM_TAG
