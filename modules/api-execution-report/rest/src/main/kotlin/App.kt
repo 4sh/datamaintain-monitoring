@@ -6,9 +6,9 @@ import org.http4k.routing.routes
 
 object App : KLogging() {
     operator fun invoke(
-        publicResources: Set<PublicResource>
+        v1Resources: Set<V1Resource>
     ): RoutingHttpHandler =
-        routes("/api/public" bind contract {
-            routes += publicResources.flatMap { it.routes() }
+        routes("/api/v1" bind contract {
+            routes += v1Resources.flatMap { it.routes() }
         })
 }

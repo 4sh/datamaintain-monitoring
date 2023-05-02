@@ -4,4 +4,4 @@ interface BaseResource {
     fun routes(): List<ContractRoute>
 }
 
-interface PublicResource: BaseResource
+interface V1Resource: BaseResource
