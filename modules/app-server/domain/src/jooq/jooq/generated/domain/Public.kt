@@ -10,6 +10,7 @@ import jooq.generated.domain.tables.DmModule
 import jooq.generated.domain.tables.DmProject
 import jooq.generated.domain.tables.DmScript
 import jooq.generated.domain.tables.DmScriptExecution
+import jooq.generated.domain.tables.DmTag
 
 import kotlin.collections.List
 
@@ -61,6 +62,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      */
     val DM_SCRIPT_EXECUTION: DmScriptExecution get() = DmScriptExecution.DM_SCRIPT_EXECUTION
 
+    /**
+     * The table <code>public.dm_tag</code>.
+     */
+    val DM_TAG: DmTag get() = DmTag.DM_TAG
+
     public override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     public override fun getTables(): List<Table<*>> = listOf(
@@ -69,6 +75,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
         DmModule.DM_MODULE,
         DmProject.DM_PROJECT,
         DmScript.DM_SCRIPT,
-        DmScriptExecution.DM_SCRIPT_EXECUTION
+        DmScriptExecution.DM_SCRIPT_EXECUTION,
+        DmTag.DM_TAG
     )
 }
