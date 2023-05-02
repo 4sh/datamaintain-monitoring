@@ -10,11 +10,13 @@ import jooq.generated.domain.tables.DmModule
 import jooq.generated.domain.tables.DmProject
 import jooq.generated.domain.tables.DmScript
 import jooq.generated.domain.tables.DmScriptExecution
+import jooq.generated.domain.tables.DmScriptExecutionDmTag
 import jooq.generated.domain.tables.DmTag
 import jooq.generated.domain.tables.records.DmBatchExecutionRecord
 import jooq.generated.domain.tables.records.DmEnvironmentRecord
 import jooq.generated.domain.tables.records.DmModuleRecord
 import jooq.generated.domain.tables.records.DmProjectRecord
+import jooq.generated.domain.tables.records.DmScriptExecutionDmTagRecord
 import jooq.generated.domain.tables.records.DmScriptExecutionRecord
 import jooq.generated.domain.tables.records.DmScriptRecord
 import jooq.generated.domain.tables.records.DmTagRecord
@@ -36,6 +38,7 @@ val DM_MODULE_PKEY: UniqueKey<DmModuleRecord> = Internal.createUniqueKey(DmModul
 val DM_PROJECT_PKEY: UniqueKey<DmProjectRecord> = Internal.createUniqueKey(DmProject.DM_PROJECT, DSL.name("dm_project_pkey"), arrayOf(DmProject.DM_PROJECT.ID), true)
 val DM_SCRIPT_PKEY: UniqueKey<DmScriptRecord> = Internal.createUniqueKey(DmScript.DM_SCRIPT, DSL.name("dm_script_pkey"), arrayOf(DmScript.DM_SCRIPT.CHECKSUM), true)
 val DM_SCRIPT_EXECUTION_PKEY: UniqueKey<DmScriptExecutionRecord> = Internal.createUniqueKey(DmScriptExecution.DM_SCRIPT_EXECUTION, DSL.name("dm_script_execution_pkey"), arrayOf(DmScriptExecution.DM_SCRIPT_EXECUTION.ID), true)
+val DM_SCRIPT_EXECUTION_DM_TAG_PKEY: UniqueKey<DmScriptExecutionDmTagRecord> = Internal.createUniqueKey(DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG, DSL.name("dm_script_execution_dm_tag_pkey"), arrayOf(DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG.FK_SCRIPT_EXECUTION_REF, DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG.FK_TAG_REF), true)
 val DM_TAG_PKEY: UniqueKey<DmTagRecord> = Internal.createUniqueKey(DmTag.DM_TAG, DSL.name("dm_tag_pkey"), arrayOf(DmTag.DM_TAG.NAME), true)
 
 // -------------------------------------------------------------------------
@@ -48,3 +51,5 @@ val DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY: ForeignKey<DmEnvironment
 val DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY: ForeignKey<DmModuleRecord, DmProjectRecord> = Internal.createForeignKey(DmModule.DM_MODULE, DSL.name("dm_module_fk_project_ref_fkey"), arrayOf(DmModule.DM_MODULE.FK_PROJECT_REF), jooq.generated.domain.keys.DM_PROJECT_PKEY, arrayOf(DmProject.DM_PROJECT.ID), true)
 val DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_BATCH_EXECUTION_REF_FKEY: ForeignKey<DmScriptExecutionRecord, DmBatchExecutionRecord> = Internal.createForeignKey(DmScriptExecution.DM_SCRIPT_EXECUTION, DSL.name("dm_script_execution_fk_batch_execution_ref_fkey"), arrayOf(DmScriptExecution.DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF), jooq.generated.domain.keys.DM_BATCH_EXECUTION_PKEY, arrayOf(DmBatchExecution.DM_BATCH_EXECUTION.ID), true)
 val DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_SCRIPT_REF_FKEY: ForeignKey<DmScriptExecutionRecord, DmScriptRecord> = Internal.createForeignKey(DmScriptExecution.DM_SCRIPT_EXECUTION, DSL.name("dm_script_execution_fk_script_ref_fkey"), arrayOf(DmScriptExecution.DM_SCRIPT_EXECUTION.FK_SCRIPT_REF), jooq.generated.domain.keys.DM_SCRIPT_PKEY, arrayOf(DmScript.DM_SCRIPT.CHECKSUM), true)
+val DM_SCRIPT_EXECUTION_DM_TAG__DM_SCRIPT_EXECUTION_DM_TAG_FK_SCRIPT_EXECUTION_REF_FKEY: ForeignKey<DmScriptExecutionDmTagRecord, DmScriptExecutionRecord> = Internal.createForeignKey(DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG, DSL.name("dm_script_execution_dm_tag_fk_script_execution_ref_fkey"), arrayOf(DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG.FK_SCRIPT_EXECUTION_REF), jooq.generated.domain.keys.DM_SCRIPT_EXECUTION_PKEY, arrayOf(DmScriptExecution.DM_SCRIPT_EXECUTION.ID), true)
+val DM_SCRIPT_EXECUTION_DM_TAG__DM_SCRIPT_EXECUTION_DM_TAG_FK_TAG_REF_FKEY: ForeignKey<DmScriptExecutionDmTagRecord, DmTagRecord> = Internal.createForeignKey(DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG, DSL.name("dm_script_execution_dm_tag_fk_tag_ref_fkey"), arrayOf(DmScriptExecutionDmTag.DM_SCRIPT_EXECUTION_DM_TAG.FK_TAG_REF), jooq.generated.domain.keys.DM_TAG_PKEY, arrayOf(DmTag.DM_TAG.NAME), true)
