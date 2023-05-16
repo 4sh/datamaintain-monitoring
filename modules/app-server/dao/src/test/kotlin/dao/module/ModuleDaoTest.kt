@@ -2,7 +2,7 @@ package dao.module
 
 import AbstractDaoTest
 import dao.project.ProjectDao
-import dao.project.buildDmProject
+import dao.project.buildProjectCreationRequest
 import generated.domain.tables.pojos.DmModule
 import generated.domain.tables.references.DM_MODULE
 import org.junit.jupiter.api.BeforeAll
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.UUID
@@ -29,8 +28,8 @@ class ModuleDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertOneProject() {
-            projectId1 = ProjectDao(dslContext).insert(buildDmProject(name = "project1"))!!.id!!
-            projectId2 = ProjectDao(dslContext).insert(buildDmProject(name = "project2"))!!.id!!
+            projectId1 = ProjectDao(dslContext).insert(buildProjectCreationRequest(name = "project1"))!!.id!!
+            projectId2 = ProjectDao(dslContext).insert(buildProjectCreationRequest(name = "project2"))!!.id!!
         }
     }
 
@@ -39,40 +38,27 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted document`() {
             // Given
-            val dmModule = buildDmModule(fkProjectRef = projectId1)
+            val moduleCreationRequest = buildModuleCreationRequest(fkProjectRef = projectId1)
 
             // When
-            val insertedModule = moduleDao.insert(dmModule)
+            val insertedModule = moduleDao.insert(moduleCreationRequest)
 
             // Then
             expectThat(insertedModule).isNotNull().and {
                 get { id }.isNotNull()
-                get { name }.isEqualTo(dmModule.name)
-                get { fkProjectRef }.isEqualTo(dmModule.fkProjectRef)
+                get { name }.isEqualTo(moduleCreationRequest.name)
+                get { fkProjectRef }.isEqualTo(moduleCreationRequest.fkProjectRef)
             }
-        }
-
-        @Test
-        fun `insert should not use given id as document id`() {
-            // Given
-            val myId = UUID.randomUUID()
-            val dmModule = buildDmModule(id = myId, fkProjectRef = projectId1)
-
-            // When
-            val insertedId = moduleDao.insert(dmModule)!!.id
-
-            // Then
-            expectThat(insertedId).isNotEqualTo(myId)
         }
 
         @Test
         fun `insert should write document in database`() {
             // Given
             val moduleName = "myName"
-            val dmModule = buildDmModule(name = moduleName, fkProjectRef = projectId1)
+            val moduleCreationRequest = buildModuleCreationRequest(name = moduleName, fkProjectRef = projectId1)
 
             // When
-            val insertedId = moduleDao.insert(dmModule)?.id
+            val insertedId = moduleDao.insert(moduleCreationRequest)?.id
 
             // Then
             val insertedDmModule = dslContext.select(DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
@@ -105,7 +91,7 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should load project from db when it exists`() {
             // Given
-            val module = buildDmModule(fkProjectRef = projectId1)
+            val module = buildModuleCreationRequest(fkProjectRef = projectId1)
             val insertedId = moduleDao.insert(module)!!.id!!
 
             // When
@@ -127,7 +113,7 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
-            val module = buildDmModule(name = "myName", fkProjectRef = projectId1)
+            val module = buildModuleCreationRequest(name = "myName", fkProjectRef = projectId1)
             moduleDao.insert(module)
             val randomId = UUID.randomUUID()
 
@@ -145,7 +131,7 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should not update anything when id does not exist`() {
             // Given
-            val module = buildDmModule(name = "myName", fkProjectRef = projectId1)
+            val module = buildModuleCreationRequest(name = "myName", fkProjectRef = projectId1)
             val insertedId = moduleDao.insert(module)!!.id!!
             val randomId = UUID.randomUUID()
 
@@ -163,7 +149,7 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should update given module (no fk update possible)`() {
             // Given
-            val module = buildDmModule(name = "myName", fkProjectRef = projectId1)
+            val module = buildModuleCreationRequest(name = "myName", fkProjectRef = projectId1)
             val insertId = moduleDao.insert(module)!!.id!!
 
             // When
@@ -182,7 +168,7 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should return updated module`() {
             // Given
-            val module = buildDmModule(name = "myName", fkProjectRef = projectId1)
+            val module = buildModuleCreationRequest(name = "myName", fkProjectRef = projectId1)
             val insertedId = moduleDao.insert(module)!!.id!!
 
             // When
@@ -205,7 +191,7 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedId = moduleDao.insert(buildDmModule(fkProjectRef = projectId1))!!.id!!
+            val insertedId = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectId1))!!.id!!
             val randomId = UUID.randomUUID()
 
             // When
@@ -218,8 +204,8 @@ class ModuleDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper document`() {
             // Given
-            val insertedId1 = moduleDao.insert(buildDmModule(fkProjectRef = projectId1))!!.id!!
-            val insertedId2 = moduleDao.insert(buildDmModule(fkProjectRef = projectId1))!!.id!!
+            val insertedId1 = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectId1))!!.id!!
+            val insertedId2 = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectId1))!!.id!!
 
             // When
             moduleDao.delete(insertedId1)

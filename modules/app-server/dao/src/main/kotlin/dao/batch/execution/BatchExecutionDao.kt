@@ -1,5 +1,6 @@
 package dao.batch.execution
 
+import batch.execution.BatchExecutionCreationRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
 import org.jooq.DSLContext
@@ -7,7 +8,7 @@ import org.jooq.impl.DSL.`val`
 import java.util.*
 
 class BatchExecutionDao(private val dslContext: DSLContext) {
-    fun insert(data: DmBatchExecution): DmBatchExecution? =
+    fun insert(data: BatchExecutionCreationRequest): DmBatchExecution? =
         dslContext.insertInto(
             DM_BATCH_EXECUTION,
             DM_BATCH_EXECUTION.FK_MODULE_REF,

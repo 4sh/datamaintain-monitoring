@@ -2,16 +2,23 @@ package dao.script.execution
 
 import AbstractDaoTest
 import dao.batch.execution.BatchExecutionDao
+import dao.batch.execution.buildBatchExecutionCreationRequest
 import dao.batch.execution.buildDmBatchExecution
 import dao.environment.EnvironmentDao
 import dao.environment.buildDmEnvironment
+import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
 import dao.module.buildDmModule
+import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
 import dao.project.buildDmProject
+import dao.project.buildProjectCreationRequest
 import dao.script.ScriptDao
 import dao.script.buildDmScript
+import dao.script.buildScriptCreationRequest
 import generated.domain.enums.ScriptExecutionStatus
+import generated.domain.keys.DM_SCRIPT_EXECUTION_DM_TAG_PKEY
+import generated.domain.keys.DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_BATCH_EXECUTION_REF_FKEY
 import generated.domain.tables.pojos.DmScriptExecution
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.junit.jupiter.api.BeforeAll
@@ -37,11 +44,11 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertNeededObjectsInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildDmProject())!!.id!!
-            val environmentId = EnvironmentDao(dslContext).insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
-            val moduleId = ModuleDao(dslContext).insert(buildDmModule(fkProjectRef = projectId))!!.id!!
-            batchExecutionRef = BatchExecutionDao(dslContext).insert(buildDmBatchExecution(fkEnvironmentRef = environmentId, fkModuleRef = moduleId))!!.id!!
-            ScriptDao(dslContext).insert(buildDmScript(checksum = scriptChecksum))
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest())!!.id!!
+            val environmentId = EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
+            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId))!!.id!!
+            batchExecutionRef = BatchExecutionDao(dslContext).insert(buildBatchExecutionCreationRequest(fkEnvironmentRef = environmentId, fkModuleRef = moduleId))!!.id!!
+            ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
         }
     }
 
@@ -50,14 +57,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted row`() {
             // Given
-            val dmScriptExecution = buildDmScriptExecution(
+            val dmScriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
                 startDate =  OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                endDate =  OffsetDateTime.of(2023, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC),
-                durationInMs = 129321,
-                output = "myOutput",
-                status = ScriptExecutionStatus.OK
             )
 
             // When
@@ -67,41 +70,18 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             expectThat(insertedScriptExecution).isNotNull().and {
                 get { id }.isNotNull()
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
-                get { endDate?.isEqual(dmScriptExecution.endDate) }.isTrue()
-                get { durationInMs }.isEqualTo(dmScriptExecution.durationInMs)
-                get { output }.isEqualTo(dmScriptExecution.output)
-                get { status }.isEqualTo(dmScriptExecution.status)
+                get { fkScriptRef }.isEqualTo(scriptChecksum)
+                get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
-        }
-
-        @Test
-        fun `insert should not use given id as row id`() {
-            // Given
-            val myId = UUID.randomUUID()
-            val dmScriptExecution = buildDmScriptExecution(
-                id = myId,
-                fkBatchExecutionRef = batchExecutionRef,
-                fkScriptRef = scriptChecksum
-            )
-
-            // When
-            val insertedId = scriptExecutionDao.insert(dmScriptExecution)!!.id
-
-            // Then
-            expectThat(insertedId).isNotEqualTo(myId)
         }
 
         @Test
         fun `insert should write row in database`() {
             // Given
-            val dmScriptExecution = buildDmScriptExecution(
+            val dmScriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
                 startDate =  OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                endDate =  OffsetDateTime.of(2023, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC),
-                durationInMs = 129321,
-                output = "myOutput",
-                status = ScriptExecutionStatus.OK
             )
 
             // When
@@ -111,10 +91,8 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val insertedDmScriptExecution = dslContext.select(
                 DM_SCRIPT_EXECUTION.ID,
                 DM_SCRIPT_EXECUTION.START_DATE,
-                DM_SCRIPT_EXECUTION.END_DATE,
-                DM_SCRIPT_EXECUTION.DURATION_IN_MS,
-                DM_SCRIPT_EXECUTION.OUTPUT,
-                DM_SCRIPT_EXECUTION.STATUS
+                DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
+                DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF
             )
                 .from(DM_SCRIPT_EXECUTION)
                 .where(DM_SCRIPT_EXECUTION.ID.eq(insertedId))
@@ -125,10 +103,8 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             ).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
-                get { endDate?.isEqual(dmScriptExecution.endDate) }.isTrue()
-                get { durationInMs }.isEqualTo(dmScriptExecution.durationInMs)
-                get { output }.isEqualTo(dmScriptExecution.output)
-                get { status }.isEqualTo(dmScriptExecution.status)
+                get { fkScriptRef }.isEqualTo(scriptChecksum)
+                get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
         }
     }
@@ -150,14 +126,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should load script execution from db when it exists`() {
             // Given
-            val dmScriptExecution = buildDmScriptExecution(
+            val dmScriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
                 startDate =  OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                endDate =  OffsetDateTime.of(2023, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC),
-                durationInMs = 129321,
-                output = "myOutput",
-                status = ScriptExecutionStatus.OK
             )
 
             val insertedId = scriptExecutionDao.insert(dmScriptExecution)!!.id!!
@@ -169,10 +141,8 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             expectThat(loadedScriptExecution).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
-                get { endDate?.isEqual(dmScriptExecution.endDate) }.isTrue()
-                get { durationInMs }.isEqualTo(dmScriptExecution.durationInMs)
-                get { output }.isEqualTo(dmScriptExecution.output)
-                get { status }.isEqualTo(dmScriptExecution.status)
+                get { fkScriptRef }.isEqualTo(scriptChecksum)
+                get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
         }
     }
@@ -182,10 +152,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
-            val scriptExecution = buildDmScriptExecution(
+            val scriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
-                output = "myOutput1"
+                startDate = OffsetDateTime.of(2023, 5, 16, 14, 26, 0, 0, ZoneOffset.UTC)
             )
             scriptExecutionDao.insert(scriptExecution)
             val randomId = UUID.randomUUID()
@@ -194,7 +164,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val updatedScriptExecution = scriptExecutionDao.update(
                 buildDmScriptExecution(
                     id = randomId,
-                    output = "myOutput2",
+                    startDate = OffsetDateTime.of(2023, 8, 26, 4, 26, 0, 0, ZoneOffset.UTC),
                     fkBatchExecutionRef = batchExecutionRef,
                     fkScriptRef = scriptChecksum,
                 )
@@ -207,10 +177,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should not update anything when id does not exist`() {
             // Given
-            val scriptExecution = buildDmScriptExecution(
+            val scriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
-                output = "myOutput1"
+                startDate = OffsetDateTime.of(2023, 5, 16, 14, 26, 0, 0, ZoneOffset.UTC)
             )
             val insertedId = scriptExecutionDao.insert(scriptExecution)!!.id
             val randomId = UUID.randomUUID()
@@ -227,21 +197,17 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val scriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId!!)
             expectThat(scriptExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { output }.isEqualTo(scriptExecution.output)
+                get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
             }
         }
 
         @Test
         fun `should update given script execution without updating start date, batch execution nor script ref`() {
             // Given
-            val scriptExecution = buildDmScriptExecution(
+            val scriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
                 startDate =  OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                endDate =  null,
-                durationInMs = null,
-                output = null,
-                status = null
             )
             val insertedId = scriptExecutionDao.insert(scriptExecution)!!.id
 
@@ -278,14 +244,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should return updated script execution`() {
             // Given
-            val scriptExecution = buildDmScriptExecution(
+            val scriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
-                startDate =  OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                endDate =  null,
-                durationInMs = null,
-                output = null,
-                status = null
+                startDate =  OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
             )
             val insertedId = scriptExecutionDao.insert(scriptExecution)!!.id
 
@@ -325,7 +287,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing row`() {
             // Given
-            val insertedId = scriptExecutionDao.insert(buildDmScriptExecution(
+            val insertedId = scriptExecutionDao.insert(buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum
             ))!!.id!!
@@ -341,11 +303,11 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper row`() {
             // Given
-            val insertedId1 = scriptExecutionDao.insert(buildDmScriptExecution(
+            val insertedId1 = scriptExecutionDao.insert(buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum
             ))!!.id!!
-            val insertedId2 = scriptExecutionDao.insert(buildDmScriptExecution(
+            val insertedId2 = scriptExecutionDao.insert(buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum
             ))!!.id!!

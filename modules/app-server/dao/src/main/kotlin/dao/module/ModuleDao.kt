@@ -2,13 +2,14 @@ package dao.module
 
 import generated.domain.tables.pojos.DmModule
 import generated.domain.tables.references.DM_MODULE
+import module.ModuleCreationRequest
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`
 import java.util.UUID
 
 class ModuleDao(val dslContext: DSLContext) {
-    fun insert(data: DmModule): DmModule? =
+    fun insert(data: ModuleCreationRequest): DmModule? =
         dslContext.insertInto(DM_MODULE, DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
             .values(
                 defaultValue(DM_MODULE.ID),

@@ -23,14 +23,14 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted row`() {
             // Given
-            val dmTag: DmTag = buildDmTag()
+            val tagCreationRequest = buildTagCreationRequest()
 
             // When
-            val insertedTag = tagDao.insert(dmTag)
+            val insertedTag = tagDao.insert(tagCreationRequest)
 
             // Then
             expectThat(insertedTag).isNotNull().and {
-                get { name }.isEqualTo(dmTag.name)
+                get { name }.isEqualTo(tagCreationRequest.name)
             }
         }
 
@@ -38,10 +38,10 @@ internal class TagDaoTest : AbstractDaoTest() {
         fun `insert should write row in database`() {
             // Given
             val tagName = "myTag"
-            val dmTag = buildDmTag(name = tagName)
+            val tagCreationRequest = buildTagCreationRequest(name = tagName)
 
             // When
-            val insertedId = tagDao.insert(dmTag)?.name
+            val insertedId = tagDao.insert(tagCreationRequest)?.name
 
             // Then
             val insertedDmTag = dslContext.select(DM_TAG.NAME)
@@ -57,10 +57,10 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return null when inserting already existing row`() {
             // Given
-            tagDao.insert(buildDmTag())!!
+            tagDao.insert(buildTagCreationRequest())!!
 
             // When
-            val insertedTag = tagDao.insert(buildDmTag())
+            val insertedTag = tagDao.insert(buildTagCreationRequest())
 
             // Then
             expectThat(insertedTag).isNull()
@@ -84,7 +84,7 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `should load tag from db when it exists`() {
             // Given
-            val tag = buildDmTag()
+            val tag = buildTagCreationRequest()
             val insertedId = tagDao.insert(tag)!!.name!!
 
             // When
@@ -102,7 +102,7 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing row`() {
             // Given
-            val insertedId = tagDao.insert(buildDmTag())!!.name!!
+            val insertedId = tagDao.insert(buildTagCreationRequest())!!.name!!
             val randomId = UUID.randomUUID().toString()
 
             // When
@@ -115,8 +115,8 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper row`() {
             // Given
-            val insertedId1 = tagDao.insert(buildDmTag(name = "myName1"))!!.name!!
-            val insertedId2 = tagDao.insert(buildDmTag(name = "myName2"))!!.name!!
+            val insertedId1 = tagDao.insert(buildTagCreationRequest(name = "myName1"))!!.name!!
+            val insertedId2 = tagDao.insert(buildTagCreationRequest(name = "myName2"))!!.name!!
 
             // When
             tagDao.delete(insertedId1)

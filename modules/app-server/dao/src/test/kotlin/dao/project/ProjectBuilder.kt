@@ -1,6 +1,7 @@
 package dao.project
 
 import generated.domain.tables.pojos.DmProject
+import project.ProjectCreationRequest
 import java.util.UUID
 
 fun buildDmProject(
@@ -10,3 +11,7 @@ fun buildDmProject(
     id = id,
     name = name
 )
+
+fun buildProjectCreationRequest(
+    name: String = "myName"
+) = ProjectCreationRequest(name)

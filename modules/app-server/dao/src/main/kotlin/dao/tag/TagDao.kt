@@ -5,9 +5,10 @@ import generated.domain.tables.references.DM_TAG
 
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
+import tag.TagCreationRequest
 
 class TagDao(val dslContext: DSLContext) {
-    fun insert(data: DmTag): DmTag? =
+    fun insert(data: TagCreationRequest): DmTag? =
         dslContext.insertInto(DM_TAG, DM_TAG.NAME)
             .values(
                 `val`(data.name)

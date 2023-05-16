@@ -5,10 +5,11 @@ import generated.domain.tables.references.DM_PROJECT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`
+import project.ProjectCreationRequest
 import java.util.UUID
 
 class ProjectDao(val dslContext: DSLContext) {
-    fun insert(data: DmProject): DmProject? =
+    fun insert(data: ProjectCreationRequest): DmProject? =
         dslContext.insertInto(DM_PROJECT, DM_PROJECT.ID, DM_PROJECT.NAME)
             .values(
                 defaultValue(DM_PROJECT.ID),

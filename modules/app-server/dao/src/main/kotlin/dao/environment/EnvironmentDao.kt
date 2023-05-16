@@ -1,5 +1,6 @@
 package dao.environment
 
+import environment.EnvironmentCreationRequest
 import generated.domain.tables.pojos.DmEnvironment
 import generated.domain.tables.references.DM_ENVIRONMENT
 import org.jooq.DSLContext
@@ -8,7 +9,7 @@ import org.jooq.impl.DSL.`val`
 import java.util.*
 
 class EnvironmentDao(val dslContext: DSLContext) {
-    fun insert(data: DmEnvironment): DmEnvironment? =
+    fun insert(data: EnvironmentCreationRequest): DmEnvironment? =
         dslContext.insertInto(DM_ENVIRONMENT, DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
             .values(
                 defaultValue(DM_ENVIRONMENT.ID),
