@@ -50,7 +50,7 @@ jooq {
                         isValidationAnnotations = true
                     }
                     target.apply {
-                        packageName = "jooq.generated.domain"
+                        packageName = "generated.domain"
                         directory = "${project.rootDir}/modules/app-server/domain/src/jooq"
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
