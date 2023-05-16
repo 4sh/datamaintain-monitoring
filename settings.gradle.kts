@@ -8,4 +8,6 @@ include(
     "modules:app-server:domain",
     "modules:app-server:rest",
     "modules:app-server:app",
+    "modules:app-server:domain",
+    "modules:app-server:rest"
 )
