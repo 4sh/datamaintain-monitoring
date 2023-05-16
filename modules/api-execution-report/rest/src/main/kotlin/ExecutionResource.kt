@@ -16,8 +16,8 @@ class ExecutionResource: V1Resource {
     override fun routes(): List<ContractRoute> = listOf(
         "$baseUrl/start" bindContract Method.POST to startExecution(),
         "$baseUrl/stop" / Path.of("executionId") bindContract Method.PUT to stopExecution(),
-        baseUrl / Path.of("executionId") / "script" / "start" bindContract Method.PUT to startScriptExecution(),
-        baseUrl / Path.of("executionId") / "script" / "stop" bindContract Method.PUT to stopScriptExecution()
+        baseUrl / Path.of("executionId") / "scripts" / "start" bindContract Method.POST to startScriptExecution(),
+        baseUrl / Path.of("executionId") / "scripts" / "stop" bindContract Method.POST to stopScriptExecution()
     )
 
     private fun startExecution() = { _: Request ->
