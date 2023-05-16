@@ -1,6 +1,6 @@
 package dao.batch.execution
 
-import jooq.generated.domain.tables.pojos.DmBatchExecution
+import generated.domain.tables.pojos.DmBatchExecution
 import java.util.*
 
 fun buildDmBatchExecution(

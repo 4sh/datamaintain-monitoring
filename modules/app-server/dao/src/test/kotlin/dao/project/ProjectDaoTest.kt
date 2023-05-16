@@ -1,8 +1,8 @@
 package dao.project
 
 import AbstractDaoTest
-import jooq.generated.domain.tables.pojos.DmProject
-import jooq.generated.domain.tables.references.DM_PROJECT
+import generated.domain.tables.pojos.DmProject
+import generated.domain.tables.references.DM_PROJECT
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

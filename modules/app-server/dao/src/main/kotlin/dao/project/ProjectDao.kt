@@ -1,7 +1,7 @@
 package dao.project
 
-import jooq.generated.domain.tables.pojos.DmProject
-import jooq.generated.domain.tables.references.DM_PROJECT
+import generated.domain.tables.pojos.DmProject
+import generated.domain.tables.references.DM_PROJECT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`

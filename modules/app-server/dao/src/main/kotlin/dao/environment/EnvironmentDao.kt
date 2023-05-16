@@ -1,7 +1,7 @@
 package dao.environment
 
-import jooq.generated.domain.tables.pojos.DmEnvironment
-import jooq.generated.domain.tables.references.DM_ENVIRONMENT
+import generated.domain.tables.pojos.DmEnvironment
+import generated.domain.tables.references.DM_ENVIRONMENT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`

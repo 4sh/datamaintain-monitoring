@@ -1,6 +1,6 @@
 package dao.module
 
-import jooq.generated.domain.tables.pojos.DmModule
+import generated.domain.tables.pojos.DmModule
 import java.util.UUID
 
 fun buildDmModule(

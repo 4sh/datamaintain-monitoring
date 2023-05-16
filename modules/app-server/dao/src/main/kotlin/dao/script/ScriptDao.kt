@@ -1,7 +1,7 @@
 package dao.script
 
-import jooq.generated.domain.tables.pojos.DmScript
-import jooq.generated.domain.tables.references.DM_SCRIPT
+import generated.domain.tables.pojos.DmScript
+import generated.domain.tables.references.DM_SCRIPT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 

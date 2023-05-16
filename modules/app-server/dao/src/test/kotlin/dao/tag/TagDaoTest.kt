@@ -1,8 +1,8 @@
 package dao.tag
 
 import AbstractDaoTest
-import jooq.generated.domain.tables.pojos.DmTag
-import jooq.generated.domain.tables.references.DM_TAG
+import generated.domain.tables.pojos.DmTag
+import generated.domain.tables.references.DM_TAG
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat

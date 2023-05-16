@@ -1,7 +1,7 @@
 package dao.batch.execution
 
-import jooq.generated.domain.tables.pojos.DmBatchExecution
-import jooq.generated.domain.tables.references.DM_BATCH_EXECUTION
+import generated.domain.tables.pojos.DmBatchExecution
+import generated.domain.tables.references.DM_BATCH_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import java.util.*

@@ -15,8 +15,8 @@ import dao.script.execution.ScriptExecutionDao
 import dao.script.execution.buildDmScriptExecution
 import dao.tag.TagDao
 import dao.tag.buildDmTag
-import jooq.generated.domain.tables.pojos.DmScriptExecutionDmTag
-import jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
+import generated.domain.tables.pojos.DmScriptExecutionDmTag
+import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

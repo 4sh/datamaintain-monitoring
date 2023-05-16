@@ -1,7 +1,7 @@
 package dao.script.execution
 
-import jooq.generated.domain.enums.ScriptExecutionStatus
-import jooq.generated.domain.tables.pojos.DmScriptExecution
+import generated.domain.enums.ScriptExecutionStatus
+import generated.domain.tables.pojos.DmScriptExecution
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*

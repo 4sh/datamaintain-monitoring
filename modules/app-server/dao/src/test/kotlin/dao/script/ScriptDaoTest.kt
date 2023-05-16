@@ -1,8 +1,8 @@
 package dao.script
 
 import AbstractDaoTest
-import jooq.generated.domain.tables.pojos.DmScript
-import jooq.generated.domain.tables.references.DM_SCRIPT
+import generated.domain.tables.pojos.DmScript
+import generated.domain.tables.references.DM_SCRIPT
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
