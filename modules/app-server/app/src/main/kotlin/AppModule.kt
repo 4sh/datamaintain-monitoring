@@ -1,5 +1,5 @@
 import dao.project.ProjectDao
-import jooq.generated.domain.tables.pojos.DmProject
+import generated.domain.tables.pojos.DmProject
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import java.sql.Connection

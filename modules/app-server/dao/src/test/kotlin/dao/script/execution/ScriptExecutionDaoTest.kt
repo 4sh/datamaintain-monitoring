@@ -11,9 +11,9 @@ import dao.project.ProjectDao
 import dao.project.buildDmProject
 import dao.script.ScriptDao
 import dao.script.buildDmScript
-import jooq.generated.domain.enums.ScriptExecutionStatus
-import jooq.generated.domain.tables.pojos.DmScriptExecution
-import jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION
+import generated.domain.enums.ScriptExecutionStatus
+import generated.domain.tables.pojos.DmScriptExecution
+import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

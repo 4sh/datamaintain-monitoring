@@ -1,6 +1,6 @@
 package dao.script.execution.tag
 
-import jooq.generated.domain.tables.pojos.DmScriptExecutionDmTag
+import generated.domain.tables.pojos.DmScriptExecutionDmTag
 import java.util.UUID
 
 fun buildScriptExecutionTag(

@@ -1,7 +1,7 @@
 package dao.script.execution.tag
 
-import jooq.generated.domain.tables.pojos.DmScriptExecutionDmTag
-import jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
+import generated.domain.tables.pojos.DmScriptExecutionDmTag
+import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import java.util.*

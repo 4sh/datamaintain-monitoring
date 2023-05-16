@@ -1,6 +1,6 @@
 package dao.environment
 
-import jooq.generated.domain.tables.pojos.DmEnvironment
+import generated.domain.tables.pojos.DmEnvironment
 import java.util.UUID
 
 fun buildDmEnvironment(

@@ -3,8 +3,8 @@ package dao.module
 import AbstractDaoTest
 import dao.project.ProjectDao
 import dao.project.buildDmProject
-import jooq.generated.domain.tables.pojos.DmModule
-import jooq.generated.domain.tables.references.DM_MODULE
+import generated.domain.tables.pojos.DmModule
+import generated.domain.tables.references.DM_MODULE
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

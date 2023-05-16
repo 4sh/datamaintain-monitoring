@@ -1,6 +1,6 @@
 package dao.script
 
-import jooq.generated.domain.tables.pojos.DmScript
+import generated.domain.tables.pojos.DmScript
 
 fun buildDmScript(
     name: String = "myName",
