@@ -23,16 +23,16 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted document`() {
             // Given
-            val dmScript = buildDmScript()
+            val scriptCreationRequest = buildScriptCreationRequest()
 
             // When
-            val insertedScript = scriptDao.insert(dmScript)
+            val insertedScript = scriptDao.insert(scriptCreationRequest)
 
             // Then
             expectThat(insertedScript).isNotNull().and {
-                get { name }.isEqualTo(dmScript.name)
-                get { checksum }.isEqualTo(dmScript.checksum)
-                get { content }.isEqualTo(dmScript.content)
+                get { name }.isEqualTo(scriptCreationRequest.name)
+                get { checksum }.isEqualTo(scriptCreationRequest.checksum)
+                get { content }.isEqualTo(scriptCreationRequest.content)
             }
         }
 
@@ -40,10 +40,10 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `insert should write document in database`() {
             // Given
             val scriptName = "myName"
-            val dmScript = buildDmScript(name = scriptName)
+            val scriptCreationRequest = buildScriptCreationRequest(name = scriptName)
 
             // When
-            val insertedId = scriptDao.insert(dmScript)?.checksum
+            val insertedId = scriptDao.insert(scriptCreationRequest)?.checksum
 
             // Then
             val insertedDmScript = dslContext.select(DM_SCRIPT.NAME, DM_SCRIPT.CHECKSUM, DM_SCRIPT.CONTENT)
@@ -53,8 +53,8 @@ class ScriptDaoTest : AbstractDaoTest() {
 
             expectThat(insertedDmScript).isNotNull().and {
                 get { name }.isEqualTo(scriptName)
-                get { checksum }.isEqualTo(dmScript.checksum)
-                get { content }.isEqualTo(dmScript.content)
+                get { checksum }.isEqualTo(scriptCreationRequest.checksum)
+                get { content }.isEqualTo(scriptCreationRequest.content)
             }
         }
     }
@@ -76,7 +76,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should load project from db when it exists`() {
             // Given
-            val script = buildDmScript()
+            val script = buildScriptCreationRequest()
             val insertedChecksum = scriptDao.insert(script)!!.checksum!!
 
             // When
@@ -96,7 +96,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
-            val script = buildDmScript(name = "myName", content = "myContent")
+            val script = buildScriptCreationRequest(name = "myName", content = "myContent")
             scriptDao.insert(script)
             val randomChecksum = UUID.randomUUID().toString()
 
@@ -114,7 +114,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should not update anything when id does not exist`() {
             // Given
-            val script = buildDmScript(name = "myName", content = "myContent")
+            val script = buildScriptCreationRequest(name = "myName", content = "myContent")
             val insertedChecksum = scriptDao.insert(script)!!.checksum!!
             val randomChecksum = UUID.randomUUID().toString()
 
@@ -136,7 +136,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should update given project`() {
             // Given
-            val script = buildDmScript(name = "myName", content = "myContent")
+            val script = buildScriptCreationRequest(name = "myName", content = "myContent")
             val insertedChecksum = scriptDao.insert(script)!!.checksum!!
 
             // When
@@ -155,7 +155,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should return updated project`() {
             // Given
-            val script = buildDmScript(name = "myName", content = "myContent")
+            val script = buildScriptCreationRequest(name = "myName", content = "myContent")
             val insertedChecksum = scriptDao.insert(script)!!.checksum!!
 
             // When
@@ -179,7 +179,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedChecksum = scriptDao.insert(buildDmScript())!!.checksum!!
+            val insertedChecksum = scriptDao.insert(buildScriptCreationRequest())!!.checksum!!
             val randomChecksum = UUID.randomUUID().toString()
 
             // When
@@ -193,9 +193,9 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should delete proper document`() {
             // Given
             val insertedChecksum1 =
-                scriptDao.insert(buildDmScript(checksum = UUID.randomUUID().toString()))!!.checksum!!
+                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString()))!!.checksum!!
             val insertedChecksum2 =
-                scriptDao.insert(buildDmScript(checksum = UUID.randomUUID().toString()))!!.checksum!!
+                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString()))!!.checksum!!
 
             // When
             scriptDao.delete(insertedChecksum1)

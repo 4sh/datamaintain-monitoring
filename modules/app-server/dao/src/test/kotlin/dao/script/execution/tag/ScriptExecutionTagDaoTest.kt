@@ -2,19 +2,20 @@ package dao.script.execution.tag
 
 import AbstractDaoTest
 import dao.batch.execution.BatchExecutionDao
-import dao.batch.execution.buildDmBatchExecution
+import dao.batch.execution.buildBatchExecutionCreationRequest
 import dao.environment.EnvironmentDao
-import dao.environment.buildDmEnvironment
+import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
-import dao.module.buildDmModule
+import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
-import dao.project.buildDmProject
+import dao.project.buildProjectCreationRequest
 import dao.script.ScriptDao
-import dao.script.buildDmScript
+import dao.script.buildScriptCreationRequest
 import dao.script.execution.ScriptExecutionDao
-import dao.script.execution.buildDmScriptExecution
+import dao.script.execution.buildScriptExecutionCreationRequest
 import dao.tag.TagDao
 import dao.tag.buildDmTag
+import dao.tag.buildTagCreationRequest
 import generated.domain.tables.pojos.DmScriptExecutionDmTag
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
 import org.junit.jupiter.api.BeforeAll
@@ -41,23 +42,23 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertNeededObjectsInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildDmProject())!!.id!!
-            val environmentId = EnvironmentDao(dslContext).insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
-            val moduleId = ModuleDao(dslContext).insert(buildDmModule(fkProjectRef = projectId))!!.id!!
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest())!!.id!!
+            val environmentId = EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
+            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId))!!.id!!
             val scriptChecksum = "myChecksum"
-            ScriptDao(dslContext).insert(buildDmScript(checksum = scriptChecksum))
+            ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
 
-            val batchExecutionRef = BatchExecutionDao(dslContext).insert(buildDmBatchExecution(fkEnvironmentRef = environmentId, fkModuleRef = moduleId))!!.id!!
+            val batchExecutionRef = BatchExecutionDao(dslContext).insert(buildBatchExecutionCreationRequest(fkEnvironmentRef = environmentId, fkModuleRef = moduleId))!!.id!!
 
             scriptExecutionRef = ScriptExecutionDao(dslContext).insert(
-                buildDmScriptExecution(
+                buildScriptExecutionCreationRequest(
                     fkScriptRef = scriptChecksum,
                     fkBatchExecutionRef = batchExecutionRef
                 )
             )!!.id!!
 
-            tagRef = TagDao(dslContext).insert(buildDmTag())!!.name!!
-            tagRef2 = TagDao(dslContext).insert(buildDmTag(name = "myName2"))!!.name!!
+            tagRef = TagDao(dslContext).insert(buildTagCreationRequest())!!.name!!
+            tagRef2 = TagDao(dslContext).insert(buildTagCreationRequest(name = "myName2"))!!.name!!
         }
     }
 
@@ -67,13 +68,13 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted row`() {
             // Given
-            val dmScriptExecutionTag = buildScriptExecutionTag(
+            val scriptExecutionTagCreationRequest = buildScriptExecutionTagCreationRequest(
                 scriptExecutionRef = scriptExecutionRef,
                 tagRef = tagRef
             )
 
             // When
-            val insertedScriptExecutionTag = scriptExecutionTagDao.insert(dmScriptExecutionTag)
+            val insertedScriptExecutionTag = scriptExecutionTagDao.insert(scriptExecutionTagCreationRequest)
 
             // Then
             expectThat(insertedScriptExecutionTag).isNotNull().and {
@@ -85,13 +86,13 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should write document in database`() {
             // Given
-            val dmScriptExecutionTag = buildScriptExecutionTag(
+            val scriptExecutionTagCreationRequest = buildScriptExecutionTagCreationRequest(
                 scriptExecutionRef = scriptExecutionRef,
                 tagRef = tagRef
             )
 
             // When
-            scriptExecutionTagDao.insert(dmScriptExecutionTag)
+            scriptExecutionTagDao.insert(scriptExecutionTagCreationRequest)
 
             // Then
             val insertedDmScriptExecutionTag = dslContext
@@ -117,7 +118,7 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         fun `should do nothing when deleting non existing row`() {
             // Given
             scriptExecutionTagDao.insert(
-                buildScriptExecutionTag(
+                buildScriptExecutionTagCreationRequest(
                     scriptExecutionRef = scriptExecutionRef,
                     tagRef = tagRef
                 )
@@ -143,13 +144,13 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         fun `should delete proper row`() {
             // Given
             val scriptExecutionDmTag1 = scriptExecutionTagDao.insert(
-                buildScriptExecutionTag(
+                buildScriptExecutionTagCreationRequest(
                     scriptExecutionRef = scriptExecutionRef,
                     tagRef = tagRef
                 )
             )!!
             val scriptExecutionDmTag2 = scriptExecutionTagDao.insert(
-                buildScriptExecutionTag(
+                buildScriptExecutionTagCreationRequest(
                     scriptExecutionRef = scriptExecutionRef,
                     tagRef = tagRef2
                 )

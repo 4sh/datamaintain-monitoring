@@ -1,6 +1,7 @@
 package dao.module
 
 import generated.domain.tables.pojos.DmModule
+import module.ModuleCreationRequest
 import java.util.UUID
 
 fun buildDmModule(
@@ -8,3 +9,8 @@ fun buildDmModule(
     name: String = "myName",
     fkProjectRef: UUID
 ) = DmModule(id = id, name = name, fkProjectRef = fkProjectRef)
+
+fun buildModuleCreationRequest(
+    name: String = "myName",
+    fkProjectRef: UUID
+) = ModuleCreationRequest(name = name, fkProjectRef = fkProjectRef)

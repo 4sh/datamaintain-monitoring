@@ -4,9 +4,10 @@ import generated.domain.tables.pojos.DmScript
 import generated.domain.tables.references.DM_SCRIPT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
+import script.ScriptCreationRequest
 
 class ScriptDao(val dslContext: DSLContext) {
-    fun insert(data: DmScript): DmScript? =
+    fun insert(data: ScriptCreationRequest): DmScript? =
         dslContext.insertInto(DM_SCRIPT, DM_SCRIPT.NAME, DM_SCRIPT.CHECKSUM, DM_SCRIPT.CONTENT)
             .values(
                 `val`(data.name),

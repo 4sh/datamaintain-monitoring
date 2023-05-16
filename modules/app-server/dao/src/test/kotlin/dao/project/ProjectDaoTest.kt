@@ -24,38 +24,26 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted document`() {
             // Given
-            val dmProject = buildDmProject()
+            val projectCreationRequest = buildProjectCreationRequest()
 
             // When
-            val insertedProject = projectDao.insert(dmProject)
+            val insertedProject = projectDao.insert(projectCreationRequest)
 
             // Then
             expectThat(insertedProject).isNotNull().and {
                 get { id }.isNotNull()
-                get { name }.isEqualTo(dmProject.name)
+                get { name }.isEqualTo(projectCreationRequest.name)
             }
         }
 
         @Test
-        fun `insert should not use given id as document id`() {
-            // Given
-            val myId = UUID.randomUUID()
-            val dmProject = buildDmProject(id = myId)
-
-            // When
-            val insertedId = projectDao.insert(dmProject)!!.id
-
-            // Then
-            expectThat(insertedId).isNotEqualTo(myId)
-        }
-        @Test
         fun `insert should write document in database`() {
             // Given
             val projectName = "myName"
-            val dmProject = buildDmProject(name = projectName)
+            val projectCreationRequest = buildProjectCreationRequest(name = projectName)
 
             // When
-            val insertedId = projectDao.insert(dmProject)?.id
+            val insertedId = projectDao.insert(projectCreationRequest)?.id
 
             // Then
             val insertedDmProject = dslContext.select(DM_PROJECT.ID, DM_PROJECT.NAME)
@@ -89,7 +77,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should load project from db when it exists`() {
             // Given
-            val project = buildDmProject()
+            val project = buildProjectCreationRequest()
             val insertedId = projectDao.insert(project)!!.id!!
 
             // When
@@ -108,7 +96,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
-            val project = buildDmProject(name = "myName")
+            val project = buildProjectCreationRequest(name = "myName")
             projectDao.insert(project)
             val randomId = UUID.randomUUID()
 
@@ -125,7 +113,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should not update anything when id does not exist`() {
             // Given
-            val project = buildDmProject(name = "myName")
+            val project = buildProjectCreationRequest(name = "myName")
             val insertedId = projectDao.insert(project)!!.id
             val randomId = UUID.randomUUID()
 
@@ -143,7 +131,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should update given project`() {
             // Given
-            val project = buildDmProject(name = "myName")
+            val project = buildProjectCreationRequest(name = "myName")
             val insertedId = projectDao.insert(project)!!.id
 
             // When
@@ -161,7 +149,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should return updated project`() {
             // Given
-            val project = buildDmProject(name = "myName")
+            val project = buildProjectCreationRequest(name = "myName")
             val insertedId = projectDao.insert(project)!!.id
 
             // When
@@ -181,7 +169,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedId = projectDao.insert(buildDmProject())!!.id!!
+            val insertedId = projectDao.insert(buildProjectCreationRequest())!!.id!!
             val randomId = UUID.randomUUID()
 
             // When
@@ -194,8 +182,8 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper document`() {
             // Given
-            val insertedId1 = projectDao.insert(buildDmProject())!!.id!!
-            val insertedId2 = projectDao.insert(buildDmProject())!!.id!!
+            val insertedId1 = projectDao.insert(buildProjectCreationRequest())!!.id!!
+            val insertedId2 = projectDao.insert(buildProjectCreationRequest())!!.id!!
 
             // When
             projectDao.delete(insertedId1)

@@ -2,7 +2,7 @@ package dao.environment
 
 import AbstractDaoTest
 import dao.project.ProjectDao
-import dao.project.buildDmProject
+import dao.project.buildProjectCreationRequest
 import generated.domain.tables.pojos.DmEnvironment
 import generated.domain.tables.references.DM_ENVIRONMENT
 import org.junit.jupiter.api.BeforeAll
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.*
@@ -28,7 +27,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertOneProjectInDb() {
-            projectId = ProjectDao(dslContext).insert(buildDmProject())!!.id!!
+            projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest())!!.id!!
         }
     }
 
@@ -37,40 +36,27 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `insert should return inserted document`() {
             // Given
-            val dmEnvironment = buildDmEnvironment(fkProjectRef = projectId)
+            val environmentCreationRequest = buildEnvironmentCreationRequest(fkProjectRef = projectId)
 
             // When
-            val insertedEnvironment = environmentDao.insert(dmEnvironment)
+            val insertedEnvironment = environmentDao.insert(environmentCreationRequest)
 
             // Then
             expectThat(insertedEnvironment).isNotNull().and {
                 get { id }.isNotNull()
-                get { name }.isEqualTo(dmEnvironment.name)
-                get { fkProjectRef }.isEqualTo(dmEnvironment.fkProjectRef)
+                get { name }.isEqualTo(environmentCreationRequest.name)
+                get { fkProjectRef }.isEqualTo(environmentCreationRequest.fkProjectRef)
             }
-        }
-
-        @Test
-        fun `insert should not use given id as document id`() {
-            // Given
-            val myId = UUID.randomUUID()
-            val dmEnvironment = buildDmEnvironment(id = myId, fkProjectRef = projectId)
-
-            // When
-            val insertedId = environmentDao.insert(dmEnvironment)!!.id
-
-            // Then
-            expectThat(insertedId).isNotEqualTo(myId)
         }
 
         @Test
         fun `insert should write document in database`() {
             // Given
             val environmentName = "myName"
-            val dmEnvironment = buildDmEnvironment(name = environmentName, fkProjectRef = projectId)
+            val environmentCreationRequest = buildEnvironmentCreationRequest(name = environmentName, fkProjectRef = projectId)
 
             // When
-            val insertedId = environmentDao.insert(dmEnvironment)?.id
+            val insertedId = environmentDao.insert(environmentCreationRequest)?.id
 
             // Then
             val insertedDmEnvironment = dslContext.select(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
@@ -105,7 +91,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should load environment from db when it exists`() {
             // Given
-            val environment = buildDmEnvironment(fkProjectRef = projectId)
+            val environment = buildEnvironmentCreationRequest(fkProjectRef = projectId)
             val insertedId = environmentDao.insert(environment)!!.id!!
 
             // When
@@ -125,7 +111,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
-            val environment = buildDmEnvironment(name = "myEnvironmentName", fkProjectRef = projectId)
+            val environment = buildEnvironmentCreationRequest(name = "myEnvironmentName", fkProjectRef = projectId)
             environmentDao.insert(environment)!!.id
             val randomId = UUID.randomUUID()
 
@@ -143,7 +129,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should not update anything when id does not exist`() {
             // Given
-            val environment = buildDmEnvironment(name = "myName", fkProjectRef = projectId)
+            val environment = buildEnvironmentCreationRequest(name = "myName", fkProjectRef = projectId)
             val insertedId = environmentDao.insert(environment)!!.id
             val randomId = UUID.randomUUID()
 
@@ -161,7 +147,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should update given environment without updating project ref`() {
             // Given
-            val environment = buildDmEnvironment(name = "myName", fkProjectRef = projectId)
+            val environment = buildEnvironmentCreationRequest(name = "myName", fkProjectRef = projectId)
             val insertedId = environmentDao.insert(environment)!!.id
             val otherProjectId = UUID.randomUUID()
 
@@ -181,7 +167,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should return updated environment`() {
             // Given
-            val environment = buildDmEnvironment(name = "myName", fkProjectRef = projectId)
+            val environment = buildEnvironmentCreationRequest(name = "myName", fkProjectRef = projectId)
             val insertedId = environmentDao.insert(environment)!!.id
             val otherProjectId = UUID.randomUUID()
 
@@ -203,7 +189,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedId = environmentDao.insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
+            val insertedId = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
             val randomId = UUID.randomUUID()
 
             // When
@@ -216,8 +202,8 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @Test
         fun `should delete proper document`() {
             // Given
-            val insertedId1 = environmentDao.insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
-            val insertedId2 = environmentDao.insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
+            val insertedId1 = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
+            val insertedId2 = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
 
             // When
             environmentDao.delete(insertedId1)

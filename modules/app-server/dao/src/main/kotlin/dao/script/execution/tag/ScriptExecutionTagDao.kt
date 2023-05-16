@@ -4,10 +4,11 @@ import generated.domain.tables.pojos.DmScriptExecutionDmTag
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
+import script.execution.tag.ScriptExecutionTagCreationRequest
 import java.util.*
 
 class ScriptExecutionTagDao(val dslContext: DSLContext) {
-    fun insert(data: DmScriptExecutionDmTag): DmScriptExecutionDmTag? =
+    fun insert(data: ScriptExecutionTagCreationRequest): DmScriptExecutionDmTag? =
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION_DM_TAG,
             DM_SCRIPT_EXECUTION_DM_TAG.FK_SCRIPT_EXECUTION_REF,

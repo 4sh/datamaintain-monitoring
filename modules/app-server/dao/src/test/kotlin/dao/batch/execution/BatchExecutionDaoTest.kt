@@ -3,10 +3,13 @@ package dao.batch.execution
 import AbstractDaoTest
 import dao.environment.EnvironmentDao
 import dao.environment.buildDmEnvironment
+import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
 import dao.module.buildDmModule
+import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
 import dao.project.buildDmProject
+import dao.project.buildProjectCreationRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
 import org.junit.jupiter.api.BeforeAll
@@ -33,9 +36,9 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertModuleAndEnvironmentInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildDmProject())!!.id!!
-            environmentId = EnvironmentDao(dslContext).insert(buildDmEnvironment(fkProjectRef = projectId))!!.id!!
-            moduleId = ModuleDao(dslContext).insert(buildDmModule(fkProjectRef = projectId))!!.id!!
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest())!!.id!!
+            environmentId = EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
+            moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId))!!.id!!
         }
     }
 
@@ -44,49 +47,32 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `insert should return inserted document`() {
             // Given
-            val dmBatchExecution = buildDmBatchExecution(
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 fkModuleRef = moduleId,
                 fkEnvironmentRef = environmentId
             )
 
             // When
-            val insertedBatchExecution = batchExecutionDao.insert(dmBatchExecution)
+            val insertedBatchExecution = batchExecutionDao.insert(batchExecutionCreationRequest)
 
             // Then
             expectThat(insertedBatchExecution).isNotNull().and {
                 get { id }.isNotNull()
-                get { fkModuleRef }.isEqualTo(dmBatchExecution.fkModuleRef)
-                get { fkEnvironmentRef }.isEqualTo(dmBatchExecution.fkEnvironmentRef)
+                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
+                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
             }
-        }
-
-        @Test
-        fun `insert should not use given id as document id`() {
-            // Given
-            val myId = UUID.randomUUID()
-            val dmBatchExecution = buildDmBatchExecution(
-                id = myId,
-                fkModuleRef = moduleId,
-                fkEnvironmentRef = environmentId
-            )
-
-            // When
-            val insertedId = batchExecutionDao.insert(dmBatchExecution)!!.id
-
-            // Then
-            expectThat(insertedId).isNotEqualTo(myId)
         }
 
         @Test
         fun `insert should write document in database`() {
             // Given
-            val dmBatchExecution = buildDmBatchExecution(
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 fkEnvironmentRef = environmentId,
                 fkModuleRef = moduleId
             )
 
             // When
-            val insertedId = batchExecutionDao.insert(dmBatchExecution)?.id
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest)?.id
 
             // Then
             val insertedDmBatchExecution = findOneDmBatchExecutionById(insertedId)
@@ -106,7 +92,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedId = batchExecutionDao.insert(buildDmBatchExecution(
+            val insertedId = batchExecutionDao.insert(buildBatchExecutionCreationRequest(
                 fkModuleRef = moduleId,
                 fkEnvironmentRef = environmentId
             ))!!.id!!
@@ -122,11 +108,11 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper document`() {
             // Given
-            val insertedId1 = batchExecutionDao.insert(buildDmBatchExecution(
+            val insertedId1 = batchExecutionDao.insert(buildBatchExecutionCreationRequest(
                 fkModuleRef = moduleId,
                 fkEnvironmentRef = environmentId
             ))!!.id!!
-            val insertedId2 = batchExecutionDao.insert(buildDmBatchExecution(
+            val insertedId2 = batchExecutionDao.insert(buildBatchExecutionCreationRequest(
                 fkModuleRef = moduleId,
                 fkEnvironmentRef = environmentId
             ))!!.id!!
