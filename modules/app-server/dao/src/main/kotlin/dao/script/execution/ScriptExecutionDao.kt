@@ -1,14 +1,13 @@
 package dao.script.execution
 
-import dao.BaseDao
 import jooq.generated.domain.tables.pojos.DmScriptExecution
 import jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import java.util.*
 
-class ScriptExecutionDao(override val dslContext: DSLContext) : BaseDao<DmScriptExecution, UUID> {
-    override fun insert(data: DmScriptExecution): DmScriptExecution? =
+class ScriptExecutionDao(val dslContext: DSLContext) {
+    fun insert(data: DmScriptExecution): DmScriptExecution? =
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION,
             DM_SCRIPT_EXECUTION.START_DATE,
@@ -38,7 +37,7 @@ class ScriptExecutionDao(override val dslContext: DSLContext) : BaseDao<DmScript
         ).fetchOne()
             ?.into(DmScriptExecution::class.java)
 
-    override fun update(data: DmScriptExecution): DmScriptExecution? =
+    fun update(data: DmScriptExecution): DmScriptExecution? =
         dslContext.update(DM_SCRIPT_EXECUTION)
             .set(DM_SCRIPT_EXECUTION.END_DATE, data.endDate)
             .set(DM_SCRIPT_EXECUTION.OUTPUT, data.output)
@@ -58,13 +57,13 @@ class ScriptExecutionDao(override val dslContext: DSLContext) : BaseDao<DmScript
             .fetchOne()
             ?.into(DmScriptExecution::class.java)
 
-    override fun delete(id: UUID) {
+    fun delete(id: UUID) {
         dslContext.delete(DM_SCRIPT_EXECUTION)
             .where(DM_SCRIPT_EXECUTION.ID.eq(id))
             .execute()
     }
 
-    override fun findOneById(id: UUID): DmScriptExecution? =
+    fun findOneById(id: UUID): DmScriptExecution? =
         dslContext.fetchOne(DM_SCRIPT_EXECUTION, DM_SCRIPT_EXECUTION.ID.eq(id))
             ?.into(DmScriptExecution::class.java)
 }
