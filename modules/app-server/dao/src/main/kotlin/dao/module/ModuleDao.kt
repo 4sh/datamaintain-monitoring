@@ -3,6 +3,7 @@ package dao.module
 import generated.domain.tables.pojos.DmModule
 import generated.domain.tables.references.DM_MODULE
 import module.ModuleCreationRequest
+import module.ModuleNameUpdateRequest
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`
@@ -18,10 +19,10 @@ class ModuleDao(val dslContext: DSLContext) {
             ).returningResult(DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
             .fetchSingleInto(DmModule::class.java)
 
-    fun update(data: DmModule): DmModule? =
+    fun updateModuleName(moduleId: UUID, updateRequest: ModuleNameUpdateRequest): DmModule? =
         dslContext.update(DM_MODULE)
-            .set(DM_MODULE.NAME, data.name)
-            .where(DM_MODULE.ID.eq(data.id))
+            .set(DM_MODULE.NAME, updateRequest.name)
+            .where(DM_MODULE.ID.eq(moduleId))
             .returningResult(DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
             .fetchOne()
             ?.into(DmModule::class.java)
