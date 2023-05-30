@@ -92,7 +92,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
     }
 
     @Nested
-    inner class TestUpdate {
+    inner class TestUpdateName {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
@@ -101,9 +101,8 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             val randomId = UUID.randomUUID()
 
             // When
-            val updatedProject = projectDao.update(buildDmProject(
-                name = "myOtherName",
-                id = randomId
+            val updatedProject = projectDao.updateProjectName(randomId, buildProjectNameUpdateRequest(
+                name = "myOtherName"
             ))
 
             // Then
@@ -114,14 +113,14 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should not update anything when id does not exist`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
-            val insertedId = projectDao.insert(project).id
+            val insertedId = projectDao.insert(project).id!!
             val randomId = UUID.randomUUID()
 
             // When
-            projectDao.update(buildDmProject(name = "myOtherName", id = randomId))
+            projectDao.updateProjectName(randomId, buildProjectNameUpdateRequest(name = "myOtherName"))
 
             // Then
-            val projectFromDb = projectDao.findOneById(insertedId!!)
+            val projectFromDb = projectDao.findOneById(insertedId)
             expectThat(projectFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(project.name)
@@ -129,17 +128,17 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         }
 
         @Test
-        fun `should update given project`() {
+        fun `should update given project name`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
-            val insertedId = projectDao.insert(project).id
+            val insertedId = projectDao.insert(project).id!!
 
             // When
             val newName = "myOtherName"
-            projectDao.update(buildDmProject(id = insertedId, name = newName))
+            projectDao.updateProjectName(insertedId, buildProjectNameUpdateRequest(name = newName))
 
             // Then
-            val updatedProjectFromDb = projectDao.findOneById(insertedId!!)
+            val updatedProjectFromDb = projectDao.findOneById(insertedId)
             expectThat(updatedProjectFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
@@ -150,11 +149,13 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should return updated project`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
-            val insertedId = projectDao.insert(project).id
+            val insertedId = projectDao.insert(project).id!!
 
             // When
             val newName = "myOtherName"
-            val updatedProject = projectDao.update(buildDmProject(id = insertedId, name = newName))
+            val updatedProject = projectDao.updateProjectName(insertedId, buildProjectNameUpdateRequest(
+                name = newName
+            ))
 
             // Then
             expectThat(updatedProject).isNotNull().and {
