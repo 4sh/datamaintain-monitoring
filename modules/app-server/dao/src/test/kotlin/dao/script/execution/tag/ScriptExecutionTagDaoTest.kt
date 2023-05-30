@@ -14,7 +14,6 @@ import dao.script.buildScriptCreationRequest
 import dao.script.execution.ScriptExecutionDao
 import dao.script.execution.buildScriptExecutionCreationRequest
 import dao.tag.TagDao
-import dao.tag.buildDmTag
 import dao.tag.buildTagCreationRequest
 import generated.domain.tables.pojos.DmScriptExecutionDmTag
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
@@ -42,23 +41,29 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertNeededObjectsInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest())!!.id!!
-            val environmentId = EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
-            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId))!!.id!!
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id!!
+            val environmentId =
+                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id!!
+            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id!!
             val scriptChecksum = "myChecksum"
             ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
 
-            val batchExecutionRef = BatchExecutionDao(dslContext).insert(buildBatchExecutionCreationRequest(fkEnvironmentRef = environmentId, fkModuleRef = moduleId))!!.id!!
+            val batchExecutionRef = BatchExecutionDao(dslContext).insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environmentId,
+                    fkModuleRef = moduleId
+                )
+            ).id!!
 
             scriptExecutionRef = ScriptExecutionDao(dslContext).insert(
                 buildScriptExecutionCreationRequest(
                     fkScriptRef = scriptChecksum,
                     fkBatchExecutionRef = batchExecutionRef
                 )
-            )!!.id!!
+            ).id!!
 
-            tagRef = TagDao(dslContext).insert(buildTagCreationRequest())!!.name!!
-            tagRef2 = TagDao(dslContext).insert(buildTagCreationRequest(name = "myName2"))!!.name!!
+            tagRef = TagDao(dslContext).insert(buildTagCreationRequest()).name!!
+            tagRef2 = TagDao(dslContext).insert(buildTagCreationRequest(name = "myName2")).name!!
         }
     }
 
@@ -148,13 +153,13 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
                     scriptExecutionRef = scriptExecutionRef,
                     tagRef = tagRef
                 )
-            )!!
+            )
             val scriptExecutionDmTag2 = scriptExecutionTagDao.insert(
                 buildScriptExecutionTagCreationRequest(
                     scriptExecutionRef = scriptExecutionRef,
                     tagRef = tagRef2
                 )
-            )!!
+            )
 
             // When
             scriptExecutionTagDao.delete(scriptExecutionDmTag1.fkScriptExecutionRef!!, scriptExecutionDmTag1.fkTagRef!!)

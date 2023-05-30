@@ -2,13 +2,10 @@ package dao.batch.execution
 
 import AbstractDaoTest
 import dao.environment.EnvironmentDao
-import dao.environment.buildDmEnvironment
 import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
-import dao.module.buildDmModule
 import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
-import dao.project.buildDmProject
 import dao.project.buildProjectCreationRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
@@ -17,7 +14,6 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
-import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.*
@@ -36,9 +32,10 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertModuleAndEnvironmentInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest())!!.id!!
-            environmentId = EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))!!.id!!
-            moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId))!!.id!!
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id!!
+            environmentId =
+                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id!!
+            moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id!!
         }
     }
 
@@ -72,7 +69,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             )
 
             // When
-            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest)?.id
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
 
             // Then
             val insertedDmBatchExecution = findOneDmBatchExecutionById(insertedId)
@@ -92,10 +89,12 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedId = batchExecutionDao.insert(buildBatchExecutionCreationRequest(
-                fkModuleRef = moduleId,
-                fkEnvironmentRef = environmentId
-            ))!!.id!!
+            val insertedId = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkModuleRef = moduleId,
+                    fkEnvironmentRef = environmentId
+                )
+            ).id!!
             val randomId = UUID.randomUUID()
 
             // When
@@ -108,14 +107,18 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper document`() {
             // Given
-            val insertedId1 = batchExecutionDao.insert(buildBatchExecutionCreationRequest(
-                fkModuleRef = moduleId,
-                fkEnvironmentRef = environmentId
-            ))!!.id!!
-            val insertedId2 = batchExecutionDao.insert(buildBatchExecutionCreationRequest(
-                fkModuleRef = moduleId,
-                fkEnvironmentRef = environmentId
-            ))!!.id!!
+            val insertedId1 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkModuleRef = moduleId,
+                    fkEnvironmentRef = environmentId
+                )
+            ).id!!
+            val insertedId2 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkModuleRef = moduleId,
+                    fkEnvironmentRef = environmentId
+                )
+            ).id!!
 
             // When
             batchExecutionDao.delete(insertedId1)
