@@ -6,7 +6,8 @@ import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`
 import project.ProjectCreationRequest
-import java.util.UUID
+import project.ProjectNameUpdateRequest
+import java.util.*
 
 class ProjectDao(val dslContext: DSLContext) {
     fun insert(data: ProjectCreationRequest): DmProject =
@@ -18,10 +19,10 @@ class ProjectDao(val dslContext: DSLContext) {
             .returningResult(DM_PROJECT.ID, DM_PROJECT.NAME)
             .fetchSingleInto(DmProject::class.java)
 
-    fun update(data: DmProject): DmProject? =
+    fun updateProjectName(id: UUID, updateRequest: ProjectNameUpdateRequest): DmProject? =
         dslContext.update(DM_PROJECT)
-            .set(DM_PROJECT.NAME, data.name)
-            .where(DM_PROJECT.ID.eq(data.id))
+            .set(DM_PROJECT.NAME, updateRequest.name)
+            .where(DM_PROJECT.ID.eq(id))
             .returningResult(DM_PROJECT.ID, DM_PROJECT.NAME)
             .fetchOne()
             ?.into(DmProject::class.java)
