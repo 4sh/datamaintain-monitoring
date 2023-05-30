@@ -1,1 +1,0 @@
-val app = App.invoke(setOf())

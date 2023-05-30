@@ -1,6 +1,1 @@
-import org.http4k.server.Netty
-import org.http4k.server.asServer
-
-fun main() {
-    app.asServer(Netty(8080)).start()
-}
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
