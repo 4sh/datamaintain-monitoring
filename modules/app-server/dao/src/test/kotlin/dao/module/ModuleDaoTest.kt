@@ -109,7 +109,7 @@ class ModuleDaoTest : AbstractDaoTest() {
     }
 
     @Nested
-    inner class TestUpdate {
+    inner class TestUpdateName {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
@@ -118,11 +118,7 @@ class ModuleDaoTest : AbstractDaoTest() {
             val randomId = UUID.randomUUID()
 
             // When
-            val updatedModule = moduleDao.update(buildDmModule(
-                id = randomId,
-                name = "myOtherName",
-                fkProjectRef = projectId2
-            ))
+            val updatedModule = moduleDao.updateModuleName(randomId, buildModuleNameUpdateRequest(name = "myOtherName"))
 
             // Then
             expectThat(updatedModule).isNull()
@@ -136,7 +132,7 @@ class ModuleDaoTest : AbstractDaoTest() {
             val randomId = UUID.randomUUID()
 
             // When
-            moduleDao.update(buildDmModule(name = "myOtherName", id = randomId, fkProjectRef = projectId2))
+            moduleDao.updateModuleName(randomId, buildModuleNameUpdateRequest(name = "myOtherName"))
 
             // Then
             expectThat(moduleDao.findOneById(insertedId)).isNotNull().and {
@@ -147,14 +143,14 @@ class ModuleDaoTest : AbstractDaoTest() {
         }
 
         @Test
-        fun `should update given module (no fk update possible)`() {
+        fun `should update given module name`() {
             // Given
             val module = buildModuleCreationRequest(name = "myName", fkProjectRef = projectId1)
             val insertId = moduleDao.insert(module).id!!
 
             // When
             val newName = "myOtherName"
-            moduleDao.update(buildDmModule(id = insertId, name = newName, fkProjectRef = projectId2))
+            moduleDao.updateModuleName(insertId, buildModuleNameUpdateRequest(name = newName))
 
             // Then
             val updatedProjectFromDb = moduleDao.findOneById(insertId)
@@ -173,9 +169,7 @@ class ModuleDaoTest : AbstractDaoTest() {
 
             // When
             val newName = "myOtherName"
-            val updatedModule = moduleDao.update(
-                buildDmModule(id = insertedId, name = newName, fkProjectRef = projectId2)
-            )
+            val updatedModule = moduleDao.updateModuleName(insertedId, buildModuleNameUpdateRequest(name = newName))
 
             // Then
             expectThat(updatedModule).isNotNull().and {
