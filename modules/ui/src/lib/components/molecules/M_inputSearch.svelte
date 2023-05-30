@@ -7,7 +7,7 @@
         <input type="text" on:change placeholder="Rechercher">
     </div>
     <div class="inputSearch-icon">
-        <A_icon type="search" size="small"/>
+        <A_icon type="search" size="semiSlim"/>
     </div>
 </div>
 
@@ -34,8 +34,6 @@
         color: $secondary-color;
 
         &::placeholder {
-          color: $secondary-color;
-          font-weight: lighter;
           font-style: italic;
         }
       }
