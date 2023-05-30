@@ -15,7 +15,7 @@
 
 <svelte:head>
 	<!-- The path to the theme is the one after copy task (see vite.config.js) -->
-	<link rel="stylesheet" href="_app/immutable/assets/themes/{$currentTheme}.css" />
+	<link rel="stylesheet" href="/_app/immutable/assets/themes/{$currentTheme}.css" />
 </svelte:head>
 
 {#if $isLoading}
