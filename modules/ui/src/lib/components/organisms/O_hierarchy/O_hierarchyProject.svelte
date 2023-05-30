@@ -1,28 +1,30 @@
 <script lang="ts">
 
     import O_hierarchyEnv from "$lib/components/organisms/O_hierarchy/O_hierarchyEnv.svelte";
+    import M_accordion from "$lib/components/molecules/M_accordion.svelte";
+    import A_icon from "$lib/components/atoms/A_icon.svelte";
 
     export let project;
 </script>
 
-<div class="project">
-    <div class="project-name">
-        <a href="/projects/{project.id}">{project.name}</a>
-    </div>
-
-    <div class="project-envs">
+<M_accordion prefixIcon="folder_open" prefixIconSize="light">
+    <a class="projectName" slot="title"
+       href="/projects/{project.id}">
+        {project.name}
+    </a>
+    <div slot="content">
         {#each project.envs as env}
-           <O_hierarchyEnv {env} projectRef="{project.id}"/>
+            <O_hierarchyEnv {env} projectRef="{project.id}"/>
         {/each}
     </div>
-</div>
+</M_accordion>
 
-<style>
-    .project-name {
-        font-weight: bold;
-    }
+<style lang="scss">
+  @import "src/app";
 
-    .project-envs {
-        padding-left: 10px;
-    }
+  .projectName {
+    color: $secondary-color;
+    text-decoration: none;
+  }
+
 </style>

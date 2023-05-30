@@ -3,6 +3,7 @@
     import {HierarchySearch} from "$lib/domain/ProjectHierarchy";
     import O_hierarchyProject from "$lib/components/organisms/O_hierarchy/O_hierarchyProject.svelte";
     import M_inputSearch from "$lib/components/molecules/M_inputSearch.svelte";
+    import M_accordion from "$lib/components/molecules/M_accordion.svelte";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
 
@@ -38,5 +39,28 @@
     <p style="color: red">Env not found !</p>
 {/await}
 
-<style>
+<style lang="scss">
+  @import "src/app";
+
+  .hierarchy {
+    &-title {
+      font-size: rem-calc(14px);
+      text-transform: uppercase;
+      margin-bottom: rem-calc(15px);
+    }
+    &-search {
+      margin: {
+        right: rem-calc(-14px);
+        bottom: rem-calc(15px);
+        left: rem-calc(-14px);
+      };
+    }
+    &-projects {
+      margin: {
+        right: rem-calc(-14px);
+        left: rem-calc(-14px);
+      };
+    }
+  }
+
 </style>

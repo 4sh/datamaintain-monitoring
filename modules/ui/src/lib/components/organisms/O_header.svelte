@@ -48,7 +48,7 @@
       padding: 30px;
 
       &-img {
-        background-color: $bg-logo;
+        background-color: rgb(var(--secondary-color-rgb) / .3);
         height: 56px;
         width: 56px;
         border-radius: 8px;

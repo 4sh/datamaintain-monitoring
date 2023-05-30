@@ -1,7 +1,13 @@
 :root {
-    --main-bg-color: #F3F6F9;
-    --main-text-color: #63c4db;
-    --primary-color: #FFFFFF;
-    --secondary-color: #163542;
-    --bg-logo: rgb(22 53 66 / 20%);
+    --main-bg-color-rgb: 243 246 249;
+    --main-bg-color: rgb(var(--main-bg-color-rgb));
+
+    --main-text-color-rgb: 99 196 219;
+    --main-text-color: rgb(var(--main-text-color-rgb));
+
+    --primary-color-rgb: 255 255 255;
+    --primary-color: rgb(var(--primary-color-rgb));
+
+    --secondary-color-rgb: 22 53 56;
+    --secondary-color: rgb(var(--secondary-color-rgb));
 }
