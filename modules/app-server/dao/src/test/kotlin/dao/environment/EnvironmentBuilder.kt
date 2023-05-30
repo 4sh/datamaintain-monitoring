@@ -1,6 +1,7 @@
 package dao.environment
 
 import environment.EnvironmentCreationRequest
+import environment.EnvironmentNameUpdateRequest
 import generated.domain.tables.pojos.DmEnvironment
 import java.util.UUID
 
@@ -20,4 +21,10 @@ fun buildEnvironmentCreationRequest(
 ) = EnvironmentCreationRequest(
     name = name,
     fkProjectRef = fkProjectRef
+)
+
+fun buildEnvironmentNameUpdateRequest(
+    name: String = "environmentName"
+) = EnvironmentNameUpdateRequest(
+    name = name
 )
