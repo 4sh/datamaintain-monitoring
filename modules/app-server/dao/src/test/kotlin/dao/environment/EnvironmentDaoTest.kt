@@ -107,7 +107,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
     }
 
     @Nested
-    inner class TestUpdate {
+    inner class TestUpdateName {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
@@ -116,10 +116,8 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
             val randomId = UUID.randomUUID()
 
             // When
-            val updatedEnvironment = environmentDao.update(buildDmEnvironment(
-                name = "myOtherEnvironmentName",
-                id = randomId,
-                fkProjectRef = projectId
+            val updatedEnvironment = environmentDao.updateEnvironmentName(randomId, buildEnvironmentNameUpdateRequest(
+                name = "myOtherEnvironmentName"
             ))
 
             // Then
@@ -134,7 +132,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
             val randomId = UUID.randomUUID()
 
             // When
-            environmentDao.update(buildDmEnvironment(name = "myOtherName", id = randomId, fkProjectRef = projectId))
+            environmentDao.updateEnvironmentName(randomId, buildEnvironmentNameUpdateRequest(name = "myOtherName"))
 
             // Then
             val environmentFromDb = environmentDao.findOneById(insertedId!!)
@@ -145,18 +143,18 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         }
 
         @Test
-        fun `should update given environment without updating project ref`() {
+        fun `should update given environment's name`() {
             // Given
             val environment = buildEnvironmentCreationRequest(name = "myName", fkProjectRef = projectId)
-            val insertedId = environmentDao.insert(environment).id
-            val otherProjectId = UUID.randomUUID()
+            val insertedId = environmentDao.insert(environment).id!!
+            UUID.randomUUID()
 
             // When
             val newName = "myOtherName"
-            environmentDao.update(buildDmEnvironment(id = insertedId, name = newName, fkProjectRef = otherProjectId))
+            environmentDao.updateEnvironmentName(insertedId, buildEnvironmentNameUpdateRequest(name = newName))
 
             // Then
-            val updatedEnvironmentFromDb = environmentDao.findOneById(insertedId!!)
+            val updatedEnvironmentFromDb = environmentDao.findOneById(insertedId)
             expectThat(updatedEnvironmentFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
@@ -168,12 +166,12 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         fun `should return updated environment`() {
             // Given
             val environment = buildEnvironmentCreationRequest(name = "myName", fkProjectRef = projectId)
-            val insertedId = environmentDao.insert(environment).id
+            val insertedId = environmentDao.insert(environment).id!!
             val otherProjectId = UUID.randomUUID()
 
             // When
             val newName = "myOtherName"
-            val updatedEnvironment = environmentDao.update(buildDmEnvironment(id = insertedId, name = newName, fkProjectRef = otherProjectId))
+            val updatedEnvironment = environmentDao.updateEnvironmentName(insertedId, buildEnvironmentNameUpdateRequest(name = newName))
 
             // Then
             expectThat(updatedEnvironment).isNotNull().and {

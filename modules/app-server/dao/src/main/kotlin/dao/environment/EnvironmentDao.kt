@@ -1,6 +1,7 @@
 package dao.environment
 
 import environment.EnvironmentCreationRequest
+import environment.EnvironmentNameUpdateRequest
 import generated.domain.tables.pojos.DmEnvironment
 import generated.domain.tables.references.DM_ENVIRONMENT
 import org.jooq.DSLContext
@@ -18,10 +19,10 @@ class EnvironmentDao(val dslContext: DSLContext) {
             ).returningResult(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
             .fetchSingleInto(DmEnvironment::class.java)
 
-    fun update(data: DmEnvironment): DmEnvironment? =
+    fun updateEnvironmentName(environmentId: UUID, updateRequest: EnvironmentNameUpdateRequest): DmEnvironment? =
         dslContext.update(DM_ENVIRONMENT)
-            .set(DM_ENVIRONMENT.NAME, data.name)
-            .where(DM_ENVIRONMENT.ID.eq(data.id))
+            .set(DM_ENVIRONMENT.NAME, updateRequest.name)
+            .where(DM_ENVIRONMENT.ID.eq(environmentId))
             .returningResult(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
             .fetchOne()
             ?.into(DmEnvironment::class.java)
