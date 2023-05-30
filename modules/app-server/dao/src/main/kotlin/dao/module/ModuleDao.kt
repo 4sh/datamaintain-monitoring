@@ -9,15 +9,14 @@ import org.jooq.impl.DSL.`val`
 import java.util.UUID
 
 class ModuleDao(val dslContext: DSLContext) {
-    fun insert(data: ModuleCreationRequest): DmModule? =
+    fun insert(data: ModuleCreationRequest): DmModule =
         dslContext.insertInto(DM_MODULE, DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
             .values(
                 defaultValue(DM_MODULE.ID),
                 `val`(data.name),
                 `val`(data.fkProjectRef)
             ).returningResult(DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
-            .fetchOne()
-            ?.into(DmModule::class.java)
+            .fetchSingleInto(DmModule::class.java)
 
     fun update(data: DmModule): DmModule? =
         dslContext.update(DM_MODULE)

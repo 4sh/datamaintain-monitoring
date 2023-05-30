@@ -8,7 +8,7 @@ import script.execution.ScriptExecutionCreationRequest
 import java.util.*
 
 class ScriptExecutionDao(val dslContext: DSLContext) {
-    fun insert(data: ScriptExecutionCreationRequest): DmScriptExecution? =
+    fun insert(data: ScriptExecutionCreationRequest): DmScriptExecution =
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION,
             DM_SCRIPT_EXECUTION.START_DATE,
@@ -27,8 +27,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             DM_SCRIPT_EXECUTION.DURATION_IN_MS,
             DM_SCRIPT_EXECUTION.STATUS,
             DM_SCRIPT_EXECUTION.OUTPUT
-        ).fetchOne()
-            ?.into(DmScriptExecution::class.java)
+        ).fetchSingleInto(DmScriptExecution::class.java)
 
     fun update(data: DmScriptExecution): DmScriptExecution? =
         dslContext.update(DM_SCRIPT_EXECUTION)

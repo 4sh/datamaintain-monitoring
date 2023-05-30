@@ -8,15 +8,13 @@ import org.jooq.impl.DSL.`val`
 import tag.TagCreationRequest
 
 class TagDao(val dslContext: DSLContext) {
-    fun insert(data: TagCreationRequest): DmTag? =
+    fun insert(data: TagCreationRequest): DmTag =
         dslContext.insertInto(DM_TAG, DM_TAG.NAME)
             .values(
                 `val`(data.name)
             )
-            .onDuplicateKeyIgnore()
             .returningResult(DM_TAG.NAME)
-            .fetchOne()
-            ?.into(DmTag::class.java)
+            .fetchSingleInto(DmTag::class.java)
 
     fun delete(id: String) {
         dslContext.delete(DM_TAG)

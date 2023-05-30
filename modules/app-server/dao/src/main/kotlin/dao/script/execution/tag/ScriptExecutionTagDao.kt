@@ -8,7 +8,7 @@ import script.execution.tag.ScriptExecutionTagCreationRequest
 import java.util.*
 
 class ScriptExecutionTagDao(val dslContext: DSLContext) {
-    fun insert(data: ScriptExecutionTagCreationRequest): DmScriptExecutionDmTag? =
+    fun insert(data: ScriptExecutionTagCreationRequest): DmScriptExecutionDmTag =
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION_DM_TAG,
             DM_SCRIPT_EXECUTION_DM_TAG.FK_SCRIPT_EXECUTION_REF,
@@ -19,8 +19,7 @@ class ScriptExecutionTagDao(val dslContext: DSLContext) {
                 `val`(data.fkTagRef)
             )
             .returningResult(DM_SCRIPT_EXECUTION_DM_TAG.FK_SCRIPT_EXECUTION_REF, DM_SCRIPT_EXECUTION_DM_TAG.FK_TAG_REF)
-            .fetchOne()
-            ?.into(DmScriptExecutionDmTag::class.java)
+            .fetchSingleInto(DmScriptExecutionDmTag::class.java)
 
     fun delete(scriptExecutionRef: UUID, tagRef: String) {
         dslContext.delete(DM_SCRIPT_EXECUTION_DM_TAG)

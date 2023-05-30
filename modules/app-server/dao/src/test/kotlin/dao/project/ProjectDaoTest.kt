@@ -43,7 +43,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             val projectCreationRequest = buildProjectCreationRequest(name = projectName)
 
             // When
-            val insertedId = projectDao.insert(projectCreationRequest)?.id
+            val insertedId = projectDao.insert(projectCreationRequest).id
 
             // Then
             val insertedDmProject = dslContext.select(DM_PROJECT.ID, DM_PROJECT.NAME)
@@ -78,7 +78,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should load project from db when it exists`() {
             // Given
             val project = buildProjectCreationRequest()
-            val insertedId = projectDao.insert(project)!!.id!!
+            val insertedId = projectDao.insert(project).id!!
 
             // When
             val loadedProject = projectDao.findOneById(insertedId)
@@ -114,7 +114,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should not update anything when id does not exist`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
-            val insertedId = projectDao.insert(project)!!.id
+            val insertedId = projectDao.insert(project).id
             val randomId = UUID.randomUUID()
 
             // When
@@ -132,7 +132,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should update given project`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
-            val insertedId = projectDao.insert(project)!!.id
+            val insertedId = projectDao.insert(project).id
 
             // When
             val newName = "myOtherName"
@@ -150,7 +150,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should return updated project`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
-            val insertedId = projectDao.insert(project)!!.id
+            val insertedId = projectDao.insert(project).id
 
             // When
             val newName = "myOtherName"
@@ -169,7 +169,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedId = projectDao.insert(buildProjectCreationRequest())!!.id!!
+            val insertedId = projectDao.insert(buildProjectCreationRequest()).id!!
             val randomId = UUID.randomUUID()
 
             // When
@@ -182,8 +182,8 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper document`() {
             // Given
-            val insertedId1 = projectDao.insert(buildProjectCreationRequest())!!.id!!
-            val insertedId2 = projectDao.insert(buildProjectCreationRequest())!!.id!!
+            val insertedId1 = projectDao.insert(buildProjectCreationRequest()).id!!
+            val insertedId2 = projectDao.insert(buildProjectCreationRequest()).id!!
 
             // When
             projectDao.delete(insertedId1)

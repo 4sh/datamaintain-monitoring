@@ -9,15 +9,14 @@ import org.jooq.impl.DSL.`val`
 import java.util.*
 
 class EnvironmentDao(val dslContext: DSLContext) {
-    fun insert(data: EnvironmentCreationRequest): DmEnvironment? =
+    fun insert(data: EnvironmentCreationRequest): DmEnvironment =
         dslContext.insertInto(DM_ENVIRONMENT, DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
             .values(
                 defaultValue(DM_ENVIRONMENT.ID),
                 `val`(data.name),
                 `val`(data.fkProjectRef)
             ).returningResult(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
-            .fetchOne()
-            ?.into(DmEnvironment::class.java)
+            .fetchSingleInto(DmEnvironment::class.java)
 
     fun update(data: DmEnvironment): DmEnvironment? =
         dslContext.update(DM_ENVIRONMENT)

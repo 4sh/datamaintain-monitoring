@@ -1,14 +1,19 @@
 package dao.script
 
 import AbstractDaoTest
+import dao.tag.buildTagCreationRequest
 import generated.domain.tables.pojos.DmScript
 import generated.domain.tables.references.DM_SCRIPT
+import isDuplicatedKeyException
+import org.jooq.exception.IntegrityConstraintViolationException
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
+import strikt.api.expectThrows
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
+import strikt.assertions.isTrue
 import java.util.UUID
 
 class ScriptDaoTest : AbstractDaoTest() {
@@ -37,13 +42,13 @@ class ScriptDaoTest : AbstractDaoTest() {
         }
 
         @Test
-        fun `insert should write document in database`() {
+        fun `insert should write document name in database`() {
             // Given
             val scriptName = "myName"
             val scriptCreationRequest = buildScriptCreationRequest(name = scriptName)
 
             // When
-            val insertedId = scriptDao.insert(scriptCreationRequest)?.checksum
+            val insertedId = scriptDao.insert(scriptCreationRequest).checksum
 
             // Then
             val insertedDmScript = dslContext.select(DM_SCRIPT.NAME, DM_SCRIPT.CHECKSUM, DM_SCRIPT.CONTENT)
@@ -53,9 +58,18 @@ class ScriptDaoTest : AbstractDaoTest() {
 
             expectThat(insertedDmScript).isNotNull().and {
                 get { name }.isEqualTo(scriptName)
-                get { checksum }.isEqualTo(scriptCreationRequest.checksum)
-                get { content }.isEqualTo(scriptCreationRequest.content)
             }
+        }
+
+        @Test
+        fun `insert should throw exception when inserting already existing row`() {
+            // Given
+            val checksum = "myChecksum"
+            scriptDao.insert(buildScriptCreationRequest(checksum = checksum))
+
+            // When / Then
+            expectThrows<IntegrityConstraintViolationException> { scriptDao.insert(buildScriptCreationRequest( checksum = checksum)) }
+                .and { get { isDuplicatedKeyException() }.isTrue() }
         }
     }
 
@@ -77,7 +91,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should load project from db when it exists`() {
             // Given
             val script = buildScriptCreationRequest()
-            val insertedChecksum = scriptDao.insert(script)!!.checksum!!
+            val insertedChecksum = scriptDao.insert(script).checksum!!
 
             // When
             val loadedScript = scriptDao.findOneById(insertedChecksum)
@@ -115,7 +129,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should not update anything when id does not exist`() {
             // Given
             val script = buildScriptCreationRequest(name = "myName", content = "myContent")
-            val insertedChecksum = scriptDao.insert(script)!!.checksum!!
+            val insertedChecksum = scriptDao.insert(script).checksum!!
             val randomChecksum = UUID.randomUUID().toString()
 
             // When
@@ -137,7 +151,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should update given project`() {
             // Given
             val script = buildScriptCreationRequest(name = "myName", content = "myContent")
-            val insertedChecksum = scriptDao.insert(script)!!.checksum!!
+            val insertedChecksum = scriptDao.insert(script).checksum!!
 
             // When
             val newName = "myOtherName"
@@ -156,7 +170,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should return updated project`() {
             // Given
             val script = buildScriptCreationRequest(name = "myName", content = "myContent")
-            val insertedChecksum = scriptDao.insert(script)!!.checksum!!
+            val insertedChecksum = scriptDao.insert(script).checksum!!
 
             // When
             val newName = "myOtherName"
@@ -179,7 +193,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedChecksum = scriptDao.insert(buildScriptCreationRequest())!!.checksum!!
+            val insertedChecksum = scriptDao.insert(buildScriptCreationRequest()).checksum!!
             val randomChecksum = UUID.randomUUID().toString()
 
             // When
@@ -193,9 +207,9 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should delete proper document`() {
             // Given
             val insertedChecksum1 =
-                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString()))!!.checksum!!
+                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString())).checksum!!
             val insertedChecksum2 =
-                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString()))!!.checksum!!
+                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString())).checksum!!
 
             // When
             scriptDao.delete(insertedChecksum1)

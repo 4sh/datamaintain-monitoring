@@ -9,15 +9,14 @@ import project.ProjectCreationRequest
 import java.util.UUID
 
 class ProjectDao(val dslContext: DSLContext) {
-    fun insert(data: ProjectCreationRequest): DmProject? =
+    fun insert(data: ProjectCreationRequest): DmProject =
         dslContext.insertInto(DM_PROJECT, DM_PROJECT.ID, DM_PROJECT.NAME)
             .values(
                 defaultValue(DM_PROJECT.ID),
                 `val`(data.name)
             )
             .returningResult(DM_PROJECT.ID, DM_PROJECT.NAME)
-            .fetchOne()
-            ?.into(DmProject::class.java)
+            .fetchSingleInto(DmProject::class.java)
 
     fun update(data: DmProject): DmProject? =
         dslContext.update(DM_PROJECT)

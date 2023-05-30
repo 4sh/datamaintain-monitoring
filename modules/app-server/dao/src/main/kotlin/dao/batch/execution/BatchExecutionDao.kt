@@ -8,7 +8,7 @@ import org.jooq.impl.DSL.`val`
 import java.util.*
 
 class BatchExecutionDao(private val dslContext: DSLContext) {
-    fun insert(data: BatchExecutionCreationRequest): DmBatchExecution? =
+    fun insert(data: BatchExecutionCreationRequest): DmBatchExecution =
         dslContext.insertInto(
             DM_BATCH_EXECUTION,
             DM_BATCH_EXECUTION.FK_MODULE_REF,
@@ -22,8 +22,7 @@ class BatchExecutionDao(private val dslContext: DSLContext) {
                 DM_BATCH_EXECUTION.FK_MODULE_REF,
                 DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF
             )
-            .fetchOne()
-            ?.into(DmBatchExecution::class.java)
+            .fetchSingleInto(DmBatchExecution::class.java)
 
     fun delete(id: UUID) {
         dslContext.delete(DM_BATCH_EXECUTION)

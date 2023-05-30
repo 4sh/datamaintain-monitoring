@@ -7,15 +7,14 @@ import org.jooq.impl.DSL.`val`
 import script.ScriptCreationRequest
 
 class ScriptDao(val dslContext: DSLContext) {
-    fun insert(data: ScriptCreationRequest): DmScript? =
+    fun insert(data: ScriptCreationRequest): DmScript =
         dslContext.insertInto(DM_SCRIPT, DM_SCRIPT.NAME, DM_SCRIPT.CHECKSUM, DM_SCRIPT.CONTENT)
             .values(
                 `val`(data.name),
                 `val`(data.checksum),
                 `val`(data.content)
             ).returningResult(DM_SCRIPT.CHECKSUM, DM_SCRIPT.NAME, DM_SCRIPT.CONTENT)
-            .fetchOne()
-            ?.into(DmScript::class.java)
+            .fetchSingleInto(DmScript::class.java)
 
     fun update(data: DmScript): DmScript? =
         dslContext.update(DM_SCRIPT)
