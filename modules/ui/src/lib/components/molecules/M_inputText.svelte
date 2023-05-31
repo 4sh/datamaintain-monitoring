@@ -4,8 +4,9 @@
 
     export let label;
     export let value;
+    export let placeholder;
 </script>
 
 <A_label {label}>
-    <A_inputText {value}></A_inputText>
+    <A_inputText {value} {placeholder}></A_inputText>
 </A_label>

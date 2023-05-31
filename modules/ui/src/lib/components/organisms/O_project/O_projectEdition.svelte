@@ -5,7 +5,7 @@
 </script>
 
 <form>
-    <M_inputText label="Name" bind:value={project.name} />
+    <M_inputText label="Name" bind:value={project.name} placeholder="Name..." />
 </form>
 
 <style>
