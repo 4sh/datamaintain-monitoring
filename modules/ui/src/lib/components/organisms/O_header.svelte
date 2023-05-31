@@ -3,6 +3,7 @@
     import {currentTheme} from "$lib/stores/theme";
     import M_logoText from "$lib/components/molecules/M_logoText.svelte";
     import logo from "$lib/assets/images/svg/datamaintain-logo.svg";
+    import M_buttonSwitch from "$lib/components/molecules/M_buttonSwitch.svelte";
 
     function toggleTheme() {
         if ($currentTheme === "light") {
@@ -27,8 +28,11 @@
         <O_projectHierarchy></O_projectHierarchy>
     </div>
 
-    <div class="header-switch">
+    <div>
         <button type="submit" on:click={toggleTheme}>Switch theme</button>
+    </div>
+    <div class="header-switch">
+        <M_buttonSwitch alignment="right" flex="shrink" label="Dark Mode" checked="true"></M_buttonSwitch>
     </div>
 
 </div>
