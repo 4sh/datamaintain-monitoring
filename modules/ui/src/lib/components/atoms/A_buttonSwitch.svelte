@@ -15,7 +15,7 @@
     display: inline-block;
     width: rem-calc(38px);
     height: rem-calc(16px);
-    border: 2px solid $secondary-color;
+    border: 2px solid $app-secondary_900;
     border-radius: rem-calc(20px);
 
     input {

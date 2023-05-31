@@ -23,7 +23,7 @@
   @import "src/app";
 
   .projectName {
-    color: $secondary-color;
+    color: $app-secondary_900;
     text-decoration: none;
   }
 

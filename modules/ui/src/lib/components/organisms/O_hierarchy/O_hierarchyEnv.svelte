@@ -28,11 +28,11 @@
 
   .hierarchyEnv {
     &-title {
-      color: $secondary-color;
+      color: $app-secondary_900;
       text-decoration: none;
     }
     &-moduleTitle {
-      color: $secondary-color;
+      color: $app-secondary_900;
       text-decoration: none;
     }
   }

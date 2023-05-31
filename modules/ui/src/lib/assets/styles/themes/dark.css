@@ -2,9 +2,6 @@
     --main-bg-color-rgb: 44 51 80;
     --main-bg-color: rgb(var(--main-bg-color-rgb));
 
-    --main-text-color-rgb: 99 196 219;
-    --main-text-color: rgb(var(--main-text-color-rgb));
-
     --primary-color-rgb: 15 22 66;
     --primary-color: rgb(var(--primary-color-rgb));
 
