@@ -14,8 +14,8 @@
       border-left: none;
       border-right: none;
       border-radius: 0;
-      border-bottom: 0.5px solid $text-color;
-      color: $secondary-color;
+      border-bottom: 0.5px solid $app-primary_700;
+      color: $app-secondary_900;
       font-size: rem-calc(13px)!important;
       line-height: rem-calc(16px)!important;
       margin: 0;
@@ -27,7 +27,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      caret-color: $text-color;
+      caret-color: $app-primary_700;
 
       &:focus {
         box-shadow: none;

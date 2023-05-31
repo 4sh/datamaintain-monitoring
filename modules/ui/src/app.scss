@@ -8,10 +8,10 @@ html {
 body {
     margin: 0;
     height: 100%;
-    background-color: $bg-color;
+    background-color: $app-primary_800;
     font-family: 'Montserrat', sans-serif!important;
 
     > * {
-        color: $secondary-color;
+        color: $app-secondary_900;
     }
 }

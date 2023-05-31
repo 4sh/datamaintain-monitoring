@@ -44,7 +44,7 @@
 		&-header {
 			width: 16%;
 			min-width: 250px;
-			background-color: $primary-color;
+			background-color: $app-primary_900;
 		}
 		&-main {
 			width: 84%;

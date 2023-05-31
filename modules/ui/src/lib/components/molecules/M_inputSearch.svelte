@@ -15,7 +15,7 @@
   @import "src/app";
 
   .inputSearch {
-    background-color: $bg-color;
+    background-color: $app-primary_800;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -31,7 +31,7 @@
         background: transparent;
         outline: none;
         font-weight: 400;
-        color: $secondary-color;
+        color: $app-secondary_900;
 
         &::placeholder {
           font-style: italic;

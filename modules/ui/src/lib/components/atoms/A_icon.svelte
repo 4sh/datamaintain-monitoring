@@ -74,7 +74,7 @@
     /* VISIBILITY */
 
     &._secondary {
-      color: $secondary-color;
+      color: $app-secondary_900;
     }
   }
 </style>

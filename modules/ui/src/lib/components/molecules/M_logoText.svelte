@@ -25,10 +25,10 @@
 
       path {
         &.primary {
-          fill: $text-color;
+          fill: $app-primary_700;
         }
         &.secondary {
-          fill: $secondary-color;
+          fill: $app-secondary_900;
         }
       }
     }
