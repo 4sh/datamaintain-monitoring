@@ -2,6 +2,7 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import M_user from "$lib/components/molecules/M_user.svelte";
     import M_card from "$lib/components/molecules/M_card.svelte";
+    import M_progressBar from "$lib/components/molecules/M_progressBar.svelte";
 </script>
 
 <div class="dashboardView">
@@ -33,10 +34,50 @@
 
     <div class="dashboardView-content">
         <div class="dashboardView-content-cards">
-            <M_card></M_card>
-            <M_card></M_card>
-            <M_card></M_card>
-            <M_card></M_card>
+            <div class="dashboardView-content-cards-item">
+                <M_card cardTitle="BeC13092022-2" cardModule="Module 1"
+                        projectLabel="BeC" envLabel="R">
+                    <span slot="startExeDate">12/09/2022</span>
+                    <span slot="startExeTime">13h57</span>
+                    <span slot="timeExe">2h 36min 23s</span>
+                    <span slot="nbScript">7</span>
+                    <span slot="nbKo">0</span>
+                    <span slot="nbOk">3</span>
+                </M_card>
+            </div>
+            <div class="dashboardView-content-cards-item">
+                <M_card cardTitle="PF12092022-1" cardModule="Module 1"
+                        cardStatus="check" projectLabel="PoF" envLabel="P">
+                    <span slot="startExeDate">12/09/2022</span>
+                    <span slot="startExeTime">13h57</span>
+                    <span slot="timeExe">2h 36min 23s</span>
+                    <span slot="nbScript">7</span>
+                    <span slot="nbKo">0</span>
+                    <span slot="nbOk">3</span>
+                </M_card>
+            </div>
+            <div class="dashboardView-content-cards-item">
+                <M_card cardTitle="CHE12092022-4" cardModule="Module 1"
+                        cardStatus="error" projectLabel="CHE" envLabel="P">
+                    <span slot="startExeDate">12/09/2022</span>
+                    <span slot="startExeTime">13h57</span>
+                    <span slot="timeExe">2h 36min 23s</span>
+                    <span slot="nbScript">7</span>
+                    <span slot="nbKo">0</span>
+                    <span slot="nbOk">3</span>
+                </M_card>
+            </div>
+            <div class="dashboardView-content-cards-item">
+                <M_card cardTitle="BeC13092022-2" cardModule="Module 1"
+                        projectLabel="BeC" envLabel="R">
+                    <span slot="startExeDate">12/09/2022</span>
+                    <span slot="startExeTime">13h57</span>
+                    <span slot="timeExe">2h 36min 23s</span>
+                    <span slot="nbScript">7</span>
+                    <span slot="nbKo">0</span>
+                    <span slot="nbOk">3</span>
+                </M_card>
+            </div>
         </div>
         <div class="dashboardView-content-alerts">
             Toutes les alertes
@@ -103,10 +144,22 @@
 
       &-cards {
         width: 70%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-gap: rem-calc(30px);
+        display: flex;
+        flex-flow: row wrap;
         margin-right: rem-calc(45px);
+
+        &-item {
+          width: calc(50% - 15px);
+          margin-bottom: rem-calc(30px);
+          display: flex;
+
+          &:nth-child(odd) {
+            padding-right: rem-calc(15px);
+          }
+          &:nth-child(even) {
+            padding-left: rem-calc(15px);
+          }
+        }
       }
 
       &-alerts {
