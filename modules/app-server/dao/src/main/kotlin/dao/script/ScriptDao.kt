@@ -16,15 +16,6 @@ class ScriptDao(val dslContext: DSLContext) {
             ).returningResult(DM_SCRIPT.CHECKSUM, DM_SCRIPT.NAME, DM_SCRIPT.CONTENT)
             .fetchSingleInto(DmScript::class.java)
 
-    fun update(data: DmScript): DmScript? =
-        dslContext.update(DM_SCRIPT)
-            .set(DM_SCRIPT.NAME, data.name)
-            .set(DM_SCRIPT.CONTENT, data.content)
-            .where(DM_SCRIPT.CHECKSUM.eq(data.checksum))
-            .returningResult(DM_SCRIPT.NAME, DM_SCRIPT.CHECKSUM, DM_SCRIPT.CONTENT)
-            .fetchOne()
-            ?.into(DmScript::class.java)
-
     fun delete(id: String) {
         dslContext.delete(DM_SCRIPT)
             .where(DM_SCRIPT.CHECKSUM.eq(id))
