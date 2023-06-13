@@ -12,4 +12,5 @@ dependencies {
     implementation(project(":modules:app-server:dao"))
     implementation(project(":modules:app-server:domain"))
     implementation("org.postgresql:postgresql:42.5.1")
+    implementation(project(":modules:app-server:server"))
 }
