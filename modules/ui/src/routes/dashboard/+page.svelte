@@ -2,6 +2,7 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import M_user from "$lib/components/molecules/M_user.svelte";
     import M_cardDashboard from "$lib/components/molecules/M_cardDashboard.svelte";
+    import {Svroller} from "svrollbar";
 </script>
 
 <div class="dashboardView">
@@ -32,57 +33,59 @@
     </div>
 
     <div class="dashboardView-content">
-        <div class="dashboardView-content-cards">
+        <Svroller>
+            <div class="dashboardView-content-cards">
 
-            <div class="dashboardView-content-cards-item">
-                <M_cardDashboard></M_cardDashboard>
-            </div>
+                <div class="dashboardView-content-cards-item">
+                    <M_cardDashboard></M_cardDashboard>
+                </div>
 
-            <div class="dashboardView-content-cards-item">
-                <M_cardDashboard cardTitle="BeC13092022-2" cardModule="Module 1"
-                                 projectLabel="BeC" envLabel="R">
-                    <span slot="startExeDate">12/09/2022</span>
-                    <span slot="startExeTime">13h57</span>
-                    <span slot="timeExe">2h 36min 23s</span>
-                    <span slot="nbScript">7</span>
-                    <span slot="nbKo">0</span>
-                    <span slot="nbOk">3</span>
-                </M_cardDashboard>
+                <div class="dashboardView-content-cards-item">
+                    <M_cardDashboard cardTitle="BeC13092022-2" cardModule="Module 1"
+                                     projectLabel="BeC" envLabel="R">
+                        <span slot="startExeDate">12/09/2022</span>
+                        <span slot="startExeTime">13h57</span>
+                        <span slot="timeExe">2h 36min 23s</span>
+                        <span slot="nbScript">7</span>
+                        <span slot="nbKo">0</span>
+                        <span slot="nbOk">3</span>
+                    </M_cardDashboard>
+                </div>
+                <div class="dashboardView-content-cards-item">
+                    <M_cardDashboard cardTitle="PF12092022-1" cardModule="Module 1"
+                                     cardStatus="check" projectLabel="PoF" envLabel="P">
+                        <span slot="startExeDate">12/09/2022</span>
+                        <span slot="startExeTime">13h57</span>
+                        <span slot="timeExe">2h 36min 23s</span>
+                        <span slot="nbScript">7</span>
+                        <span slot="nbKo">0</span>
+                        <span slot="nbOk">3</span>
+                    </M_cardDashboard>
+                </div>
+                <div class="dashboardView-content-cards-item">
+                    <M_cardDashboard cardTitle="CHE12092022-4" cardModule="Module 1"
+                                     cardStatus="error" projectLabel="CHE" envLabel="P">
+                        <span slot="startExeDate">12/09/2022</span>
+                        <span slot="startExeTime">13h57</span>
+                        <span slot="timeExe">2h 36min 23s</span>
+                        <span slot="nbScript">7</span>
+                        <span slot="nbKo">0</span>
+                        <span slot="nbOk">3</span>
+                    </M_cardDashboard>
+                </div>
+                <div class="dashboardView-content-cards-item">
+                    <M_cardDashboard cardTitle="BeC13092022-2" cardModule="Module 1"
+                                     projectLabel="BeC" envLabel="R">
+                        <span slot="startExeDate">12/09/2022</span>
+                        <span slot="startExeTime">13h57</span>
+                        <span slot="timeExe">2h 36min 23s</span>
+                        <span slot="nbScript">7</span>
+                        <span slot="nbKo">0</span>
+                        <span slot="nbOk">3</span>
+                    </M_cardDashboard>
+                </div>
             </div>
-            <div class="dashboardView-content-cards-item">
-                <M_cardDashboard cardTitle="PF12092022-1" cardModule="Module 1"
-                                 cardStatus="check" projectLabel="PoF" envLabel="P">
-                    <span slot="startExeDate">12/09/2022</span>
-                    <span slot="startExeTime">13h57</span>
-                    <span slot="timeExe">2h 36min 23s</span>
-                    <span slot="nbScript">7</span>
-                    <span slot="nbKo">0</span>
-                    <span slot="nbOk">3</span>
-                </M_cardDashboard>
-            </div>
-            <div class="dashboardView-content-cards-item">
-                <M_cardDashboard cardTitle="CHE12092022-4" cardModule="Module 1"
-                                 cardStatus="error" projectLabel="CHE" envLabel="P">
-                    <span slot="startExeDate">12/09/2022</span>
-                    <span slot="startExeTime">13h57</span>
-                    <span slot="timeExe">2h 36min 23s</span>
-                    <span slot="nbScript">7</span>
-                    <span slot="nbKo">0</span>
-                    <span slot="nbOk">3</span>
-                </M_cardDashboard>
-            </div>
-            <div class="dashboardView-content-cards-item">
-                <M_cardDashboard cardTitle="BeC13092022-2" cardModule="Module 1"
-                                 projectLabel="BeC" envLabel="R">
-                    <span slot="startExeDate">12/09/2022</span>
-                    <span slot="startExeTime">13h57</span>
-                    <span slot="timeExe">2h 36min 23s</span>
-                    <span slot="nbScript">7</span>
-                    <span slot="nbKo">0</span>
-                    <span slot="nbOk">3</span>
-                </M_cardDashboard>
-            </div>
-        </div>
+        </Svroller>
         <div class="dashboardView-content-alerts">
             Toutes les alertes
             <br>
@@ -97,6 +100,8 @@
   .dashboardView {
     padding: rem-calc(30px);
     height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
 
     &-alert {
       background-color: $app-primary_900;
@@ -106,6 +111,7 @@
       align-items: center;
       padding: 0 rem-calc(20px);
       margin-bottom: rem-calc(32px);
+      flex: 0 0 auto;
 
       &-icon {
         padding-right: rem-calc(16px);
@@ -130,6 +136,7 @@
       display: flex;
       align-items: center;
       margin-bottom: rem-calc(32px);
+      flex: 0 0 auto;
 
       &-name {
         font-size: rem-calc(24px);
@@ -145,12 +152,14 @@
 
     &-content {
       display: flex;
+      overflow: hidden;
+      flex: 1 1 0;
 
       &-cards {
-        width: 70%;
         display: flex;
         flex-flow: row wrap;
-        margin-right: rem-calc(45px);
+        margin-right: rem-calc(25px);
+        flex: 1 1 0;
 
         &-item {
           width: calc(50% - 15px);
@@ -169,6 +178,7 @@
 
       &-alerts {
         width: 30%;
+        margin-left: rem-calc(20px);
       }
     }
   }
