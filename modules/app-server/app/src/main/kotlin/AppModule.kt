@@ -1,10 +1,8 @@
 import dao.project.ProjectDao
-import generated.domain.tables.pojos.DmProject
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import java.sql.Connection
 import java.sql.DriverManager
-import java.util.*
 
 val url = "jdbc:postgresql://localhost:5432/datamaintain"
 val user = "datamaintain"

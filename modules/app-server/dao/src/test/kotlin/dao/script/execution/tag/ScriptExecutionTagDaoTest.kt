@@ -41,10 +41,10 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertNeededObjectsInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id!!
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
             val environmentId =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id!!
-            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id!!
+                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
+            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
             val scriptChecksum = "myChecksum"
             ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
 
@@ -53,17 +53,17 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
                     fkEnvironmentRef = environmentId,
                     fkModuleRef = moduleId
                 )
-            ).id!!
+            ).id
 
             scriptExecutionRef = ScriptExecutionDao(dslContext).insert(
                 buildScriptExecutionCreationRequest(
-                    fkScriptRef = scriptChecksum,
-                    fkBatchExecutionRef = batchExecutionRef
+                    scriptRef = scriptChecksum,
+                    batchExecutionRef = batchExecutionRef
                 )
-            ).id!!
+            ).id
 
-            tagRef = TagDao(dslContext).insert(buildTagCreationRequest()).name!!
-            tagRef2 = TagDao(dslContext).insert(buildTagCreationRequest(name = "myName2")).name!!
+            tagRef = TagDao(dslContext).insert(buildTagCreationRequest()).name
+            tagRef2 = TagDao(dslContext).insert(buildTagCreationRequest(name = "myName2")).name
         }
     }
 

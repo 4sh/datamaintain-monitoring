@@ -1,7 +1,6 @@
 package dao.tag
 
 import AbstractDaoTest
-import generated.domain.tables.pojos.DmTag
 import generated.domain.tables.references.DM_TAG
 import isDuplicatedKeyException
 import org.jooq.exception.IntegrityConstraintViolationException
@@ -13,6 +12,7 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import strikt.assertions.isTrue
+import tag.Tag
 import java.util.*
 
 internal class TagDaoTest : AbstractDaoTest() {
@@ -51,7 +51,7 @@ internal class TagDaoTest : AbstractDaoTest() {
             val insertedDmTag = dslContext.select(DM_TAG.NAME)
                 .from(DM_TAG)
                 .where(DM_TAG.NAME.eq(insertedId))
-                .fetchOneInto(DmTag::class.java)
+                .fetchOneInto(Tag::class.java)
 
             expectThat(insertedDmTag).isNotNull().and {
                 get { name }.isEqualTo(insertedId)
@@ -87,7 +87,7 @@ internal class TagDaoTest : AbstractDaoTest() {
         fun `should load tag from db when it exists`() {
             // Given
             val tag = buildTagCreationRequest()
-            val insertedId = tagDao.insert(tag).name!!
+            val insertedId = tagDao.insert(tag).name
 
             // When
             val loadedTAg = tagDao.findOneById(insertedId)
@@ -104,7 +104,7 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing row`() {
             // Given
-            val insertedId = tagDao.insert(buildTagCreationRequest()).name!!
+            val insertedId = tagDao.insert(buildTagCreationRequest()).name
             val randomId = UUID.randomUUID().toString()
 
             // When
@@ -117,8 +117,8 @@ internal class TagDaoTest : AbstractDaoTest() {
         @Test
         fun `should delete proper row`() {
             // Given
-            val insertedId1 = tagDao.insert(buildTagCreationRequest(name = "myName1")).name!!
-            val insertedId2 = tagDao.insert(buildTagCreationRequest(name = "myName2")).name!!
+            val insertedId1 = tagDao.insert(buildTagCreationRequest(name = "myName1")).name
+            val insertedId2 = tagDao.insert(buildTagCreationRequest(name = "myName2")).name
 
             // When
             tagDao.delete(insertedId1)

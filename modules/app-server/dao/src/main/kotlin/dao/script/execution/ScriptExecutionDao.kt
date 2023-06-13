@@ -1,15 +1,16 @@
 package dao.script.execution
 
-import generated.domain.tables.pojos.DmScriptExecution
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
+import script.execution.ScriptExecution
 import script.execution.ScriptExecutionCreationRequest
 import script.execution.ScriptExecutionEndUpdateRequest
+import script.execution.ScriptExecutionStatus
 import java.util.*
 
 class ScriptExecutionDao(val dslContext: DSLContext) {
-    fun insert(data: ScriptExecutionCreationRequest): DmScriptExecution =
+    fun insert(data: ScriptExecutionCreationRequest): ScriptExecution =
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION,
             DM_SCRIPT_EXECUTION.START_DATE,
@@ -28,13 +29,16 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             DM_SCRIPT_EXECUTION.DURATION_IN_MS,
             DM_SCRIPT_EXECUTION.STATUS,
             DM_SCRIPT_EXECUTION.OUTPUT
-        ).fetchSingleInto(DmScriptExecution::class.java)
+        ).fetchSingleInto(ScriptExecution::class.java)
 
-    fun updateScriptExecutionEndData(scriptExecutionId: UUID, executionEndData: ScriptExecutionEndUpdateRequest): DmScriptExecution? =
+    fun updateScriptExecutionEndData(
+        scriptExecutionId: UUID,
+        executionEndData: ScriptExecutionEndUpdateRequest
+    ): ScriptExecution? =
         dslContext.update(DM_SCRIPT_EXECUTION)
             .set(DM_SCRIPT_EXECUTION.END_DATE, executionEndData.endDate)
             .set(DM_SCRIPT_EXECUTION.OUTPUT, executionEndData.output)
-            .set(DM_SCRIPT_EXECUTION.STATUS, executionEndData.status)
+            .set(DM_SCRIPT_EXECUTION.STATUS, executionEndData.status.toDto())
             .set(DM_SCRIPT_EXECUTION.DURATION_IN_MS, executionEndData.durationInMs)
             .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
             .returningResult(
@@ -48,7 +52,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
                 DM_SCRIPT_EXECUTION.OUTPUT
             )
             .fetchOne()
-            ?.into(DmScriptExecution::class.java)
+            ?.into(ScriptExecution::class.java)
 
     fun delete(id: UUID) {
         dslContext.delete(DM_SCRIPT_EXECUTION)
@@ -56,7 +60,12 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             .execute()
     }
 
-    fun findOneById(id: UUID): DmScriptExecution? =
+    fun findOneById(id: UUID): ScriptExecution? =
         dslContext.fetchOne(DM_SCRIPT_EXECUTION, DM_SCRIPT_EXECUTION.ID.eq(id))
-            ?.into(DmScriptExecution::class.java)
+            ?.into(ScriptExecution::class.java)
+}
+
+fun ScriptExecutionStatus.toDto() = when (this) {
+    ScriptExecutionStatus.OK -> generated.domain.enums.ScriptExecutionStatus.OK
+    ScriptExecutionStatus.KO -> generated.domain.enums.ScriptExecutionStatus.KO
 }

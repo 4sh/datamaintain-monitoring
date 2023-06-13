@@ -1,31 +1,29 @@
 package dao.project
 
-import generated.domain.tables.pojos.DmProject
 import generated.domain.tables.references.DM_PROJECT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`
-import project.ProjectCreationRequest
-import project.ProjectNameUpdateRequest
+import project.*
 import java.util.*
 
 class ProjectDao(val dslContext: DSLContext) {
-    fun insert(data: ProjectCreationRequest): DmProject =
+    fun insert(data: ProjectCreationRequest): Project =
         dslContext.insertInto(DM_PROJECT, DM_PROJECT.ID, DM_PROJECT.NAME)
             .values(
                 defaultValue(DM_PROJECT.ID),
                 `val`(data.name)
             )
             .returningResult(DM_PROJECT.ID, DM_PROJECT.NAME)
-            .fetchSingleInto(DmProject::class.java)
+            .fetchSingleInto(Project::class.java)
 
-    fun updateProjectName(id: UUID, updateRequest: ProjectNameUpdateRequest): DmProject? =
+    fun updateProjectName(id: UUID, updateRequest: ProjectNameUpdateRequest): Project? =
         dslContext.update(DM_PROJECT)
             .set(DM_PROJECT.NAME, updateRequest.name)
             .where(DM_PROJECT.ID.eq(id))
             .returningResult(DM_PROJECT.ID, DM_PROJECT.NAME)
             .fetchOne()
-            ?.into(DmProject::class.java)
+            ?.into(Project::class.java)
 
     fun delete(id: UUID) {
         dslContext.delete(DM_PROJECT)
@@ -33,7 +31,7 @@ class ProjectDao(val dslContext: DSLContext) {
             .execute()
     }
 
-    fun findOneById(id: UUID): DmProject? =
+    fun findOneById(id: UUID): Project? =
         dslContext.fetchOne(DM_PROJECT, DM_PROJECT.ID.eq(id))
-            ?.into(DmProject::class.java)
+            ?.into(Project::class.java)
 }
