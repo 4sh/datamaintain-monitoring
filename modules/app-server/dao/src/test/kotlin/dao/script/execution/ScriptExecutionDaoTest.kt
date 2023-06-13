@@ -150,26 +150,21 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
     }
 
     @Nested
-    inner class TestUpdate {
+    inner class TestUpdateExecutionEndData {
         @Test
         fun `should return null when id does not exist in db`() {
             // Given
             val scriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
-                fkScriptRef = scriptChecksum,
-                startDate = OffsetDateTime.of(2023, 5, 16, 14, 26, 0, 0, ZoneOffset.UTC)
+                fkScriptRef = scriptChecksum
             )
             scriptExecutionDao.insert(scriptExecution)
             val randomId = UUID.randomUUID()
 
             // When
-            val updatedScriptExecution = scriptExecutionDao.update(
-                buildDmScriptExecution(
-                    id = randomId,
-                    startDate = OffsetDateTime.of(2023, 8, 26, 4, 26, 0, 0, ZoneOffset.UTC),
-                    fkBatchExecutionRef = batchExecutionRef,
-                    fkScriptRef = scriptChecksum,
-                )
+            val updatedScriptExecution = scriptExecutionDao.updateScriptExecutionEndData(
+                randomId,
+                buildScriptExecutionEndUpdateRequest()
             )
 
             // Then
@@ -188,41 +183,39 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val randomId = UUID.randomUUID()
 
             // When
-            scriptExecutionDao.update(buildDmScriptExecution(
-                fkBatchExecutionRef = batchExecutionRef,
-                fkScriptRef = scriptChecksum,
-                output = "myOutput2",
-                id = randomId
-            ))
+            scriptExecutionDao.updateScriptExecutionEndData(
+                randomId,
+                buildScriptExecutionEndUpdateRequest()
+            )
 
             // Then
             val scriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId!!)
             expectThat(scriptExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { status }.isNull()
+                get { output }.isNull()
+                get { durationInMs }.isNull()
             }
         }
 
         @Test
-        fun `should update given script execution without updating start date, batch execution nor script ref`() {
+        fun `should update given script execution with script execution end data`() {
             // Given
             val scriptExecution = buildScriptExecutionCreationRequest(
                 fkBatchExecutionRef = batchExecutionRef,
                 fkScriptRef = scriptChecksum,
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
             )
-            val insertedId = scriptExecutionDao.insert(scriptExecution).id
+            val insertedId = scriptExecutionDao.insert(scriptExecution).id!!
 
             // When
             val newEndDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
             val newDurationInMs = 129
             val newOutput = "myOtherOutput"
             val newStatus = ScriptExecutionStatus.KO
-            scriptExecutionDao.update(buildDmScriptExecution(
-                id = insertedId,
-                fkBatchExecutionRef = UUID.randomUUID(),
-                fkScriptRef = "anotherScriptChecksum",
-                startDate = OffsetDateTime.of(2024, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+            scriptExecutionDao.updateScriptExecutionEndData(insertedId, buildScriptExecutionEndUpdateRequest(
                 endDate = newEndDate,
                 durationInMs = newDurationInMs,
                 output = newOutput,
@@ -230,12 +223,8 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             ))
 
             // Then
-            val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId!!)
+            val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
             expectThat(updatedScriptExecutionFromDb).isNotNull().and {
-                get { id }.isEqualTo(insertedId)
-                get { fkBatchExecutionRef }.isEqualTo(scriptExecution.fkBatchExecutionRef)
-                get { fkScriptRef }.isEqualTo(scriptExecution.fkScriptRef)
-                get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate?.isEqual(newEndDate) }.isTrue()
                 get { durationInMs }.isEqualTo(newDurationInMs)
                 get { output }.isEqualTo(newOutput)
@@ -251,18 +240,14 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 fkScriptRef = scriptChecksum,
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
             )
-            val insertedId = scriptExecutionDao.insert(scriptExecution).id
+            val insertedId = scriptExecutionDao.insert(scriptExecution).id!!
 
             // When
             val newEndDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
             val newDurationInMs = 129
             val newOutput = "myOtherOutput"
             val newStatus = ScriptExecutionStatus.KO
-            scriptExecutionDao.update(buildDmScriptExecution(
-                id = insertedId,
-                fkBatchExecutionRef = UUID.randomUUID(),
-                fkScriptRef = "anotherScriptChecksum",
-                startDate = OffsetDateTime.of(2024, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+            scriptExecutionDao.updateScriptExecutionEndData(insertedId, buildScriptExecutionEndUpdateRequest(
                 endDate = newEndDate,
                 durationInMs = newDurationInMs,
                 output = newOutput,
@@ -270,7 +255,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             ))
 
             // Then
-            val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId!!)
+            val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
             expectThat(updatedScriptExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { fkBatchExecutionRef }.isEqualTo(scriptExecution.fkBatchExecutionRef)

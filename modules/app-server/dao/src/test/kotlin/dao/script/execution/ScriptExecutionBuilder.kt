@@ -3,6 +3,7 @@ package dao.script.execution
 import generated.domain.enums.ScriptExecutionStatus
 import generated.domain.tables.pojos.DmScriptExecution
 import script.execution.ScriptExecutionCreationRequest
+import script.execution.ScriptExecutionEndUpdateRequest
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*
@@ -35,4 +36,16 @@ fun buildScriptExecutionCreationRequest(
     startDate = startDate,
     fkScriptRef = fkScriptRef,
     fkBatchExecutionRef = fkBatchExecutionRef,
+)
+
+fun buildScriptExecutionEndUpdateRequest(
+    endDate: OffsetDateTime = OffsetDateTime.of(2023, 5, 30, 14, 26, 0, 0, ZoneOffset.UTC),
+    durationInMs: Int = 2000,
+    output: String = "output",
+    status: ScriptExecutionStatus = ScriptExecutionStatus.OK,
+) = ScriptExecutionEndUpdateRequest(
+    endDate = endDate,
+    durationInMs = durationInMs,
+    output = output,
+    status = status
 )
