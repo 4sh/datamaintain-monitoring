@@ -3,7 +3,6 @@
     import {HierarchySearch} from "$lib/domain/ProjectHierarchy";
     import O_hierarchyProject from "$lib/components/organisms/O_hierarchy/O_hierarchyProject.svelte";
     import M_inputSearch from "$lib/components/molecules/M_inputSearch.svelte";
-    import M_accordion from "$lib/components/molecules/M_accordion.svelte";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
 
