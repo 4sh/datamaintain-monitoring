@@ -20,5 +20,4 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.4.7")
 
     testImplementation("io.ktor:ktor-server-test-host:2.2.4")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:2.2.4")
 }
