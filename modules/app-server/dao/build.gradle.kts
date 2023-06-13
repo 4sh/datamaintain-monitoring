@@ -79,7 +79,7 @@ buildscript {
 
 tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
     (launcher::set)(javaToolchains.launcherFor {
-        languageVersion.set(JavaLanguageVersion.of(18))
+        languageVersion.set(JavaLanguageVersion.of(Versions.java.toInt()))
     })
 }
 
