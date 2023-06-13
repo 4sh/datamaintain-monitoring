@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk${Versions.java}"))
+
 }
 
 val compileKotlin: KotlinCompile by tasks
