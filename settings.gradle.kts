@@ -8,5 +8,6 @@ include(
     "modules:app-server:domain",
     "modules:app-server:app",
     "modules:app-server:rest",
-    "modules:app-server:dao"
+    "modules:app-server:dao",
+    "modules:proto"
 )
