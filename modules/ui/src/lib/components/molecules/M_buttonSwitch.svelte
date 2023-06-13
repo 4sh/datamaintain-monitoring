@@ -9,5 +9,5 @@
 </script>
 
 <A_label {label} {alignment} {flex}>
-    <A_buttonSwitch bind:checked={checked}></A_buttonSwitch>
+    <A_buttonSwitch bind:checked={checked} on:click></A_buttonSwitch>
 </A_label>
