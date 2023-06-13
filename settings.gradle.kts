@@ -9,5 +9,7 @@ include(
     "modules:app-server:app",
     "modules:app-server:rest",
     "modules:app-server:dao",
+    "modules:app-server:server",
+
     "modules:proto"
 )
