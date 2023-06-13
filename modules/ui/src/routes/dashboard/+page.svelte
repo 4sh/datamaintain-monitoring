@@ -1,8 +1,7 @@
 <script>
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import M_user from "$lib/components/molecules/M_user.svelte";
-    import M_card from "$lib/components/molecules/M_card.svelte";
-    import M_progressBar from "$lib/components/molecules/M_progressBar.svelte";
+    import M_cardDashboard from "$lib/components/molecules/M_cardDashboard.svelte";
 </script>
 
 <div class="dashboardView">
@@ -34,49 +33,54 @@
 
     <div class="dashboardView-content">
         <div class="dashboardView-content-cards">
+
             <div class="dashboardView-content-cards-item">
-                <M_card cardTitle="BeC13092022-2" cardModule="Module 1"
-                        projectLabel="BeC" envLabel="R">
+                <M_cardDashboard></M_cardDashboard>
+            </div>
+
+            <div class="dashboardView-content-cards-item">
+                <M_cardDashboard cardTitle="BeC13092022-2" cardModule="Module 1"
+                                 projectLabel="BeC" envLabel="R">
                     <span slot="startExeDate">12/09/2022</span>
                     <span slot="startExeTime">13h57</span>
                     <span slot="timeExe">2h 36min 23s</span>
                     <span slot="nbScript">7</span>
                     <span slot="nbKo">0</span>
                     <span slot="nbOk">3</span>
-                </M_card>
+                </M_cardDashboard>
             </div>
             <div class="dashboardView-content-cards-item">
-                <M_card cardTitle="PF12092022-1" cardModule="Module 1"
-                        cardStatus="check" projectLabel="PoF" envLabel="P">
+                <M_cardDashboard cardTitle="PF12092022-1" cardModule="Module 1"
+                                 cardStatus="check" projectLabel="PoF" envLabel="P">
                     <span slot="startExeDate">12/09/2022</span>
                     <span slot="startExeTime">13h57</span>
                     <span slot="timeExe">2h 36min 23s</span>
                     <span slot="nbScript">7</span>
                     <span slot="nbKo">0</span>
                     <span slot="nbOk">3</span>
-                </M_card>
+                </M_cardDashboard>
             </div>
             <div class="dashboardView-content-cards-item">
-                <M_card cardTitle="CHE12092022-4" cardModule="Module 1"
-                        cardStatus="error" projectLabel="CHE" envLabel="P">
+                <M_cardDashboard cardTitle="CHE12092022-4" cardModule="Module 1"
+                                 cardStatus="error" projectLabel="CHE" envLabel="P">
                     <span slot="startExeDate">12/09/2022</span>
                     <span slot="startExeTime">13h57</span>
                     <span slot="timeExe">2h 36min 23s</span>
                     <span slot="nbScript">7</span>
                     <span slot="nbKo">0</span>
                     <span slot="nbOk">3</span>
-                </M_card>
+                </M_cardDashboard>
             </div>
             <div class="dashboardView-content-cards-item">
-                <M_card cardTitle="BeC13092022-2" cardModule="Module 1"
-                        projectLabel="BeC" envLabel="R">
+                <M_cardDashboard cardTitle="BeC13092022-2" cardModule="Module 1"
+                                 projectLabel="BeC" envLabel="R">
                     <span slot="startExeDate">12/09/2022</span>
                     <span slot="startExeTime">13h57</span>
                     <span slot="timeExe">2h 36min 23s</span>
                     <span slot="nbScript">7</span>
                     <span slot="nbKo">0</span>
                     <span slot="nbOk">3</span>
-                </M_card>
+                </M_cardDashboard>
             </div>
         </div>
         <div class="dashboardView-content-alerts">
@@ -156,6 +160,7 @@
           &:nth-child(odd) {
             padding-right: rem-calc(15px);
           }
+
           &:nth-child(even) {
             padding-left: rem-calc(15px);
           }
