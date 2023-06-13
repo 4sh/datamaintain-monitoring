@@ -3,6 +3,7 @@
     import M_user from "$lib/components/molecules/M_user.svelte";
     import M_cardDashboard from "$lib/components/molecules/M_cardDashboard.svelte";
     import {Svroller} from "svrollbar";
+    import O_alertList from "$lib/components/organisms/O_alertList.svelte";
 </script>
 
 <div class="dashboardView">
@@ -86,10 +87,9 @@
                 </div>
             </div>
         </Svroller>
+
         <div class="dashboardView-content-alerts">
-            Toutes les alertes
-            <br>
-            Il y a 7 alertes sur vos projets qui n’ont pas été acquittées
+           <O_alertList></O_alertList>
         </div>
     </div>
 </div>

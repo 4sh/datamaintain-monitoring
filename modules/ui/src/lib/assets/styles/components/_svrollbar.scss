@@ -1,6 +1,10 @@
 .svlr-wrapper, .svlr-viewport {
-  width: auto!important;
+  width: 100%!important;
   height: 100%!important;
   display: flex;
   flex: 1 1 0;
+}
+
+.svlr-contents {
+  max-width: 100%!important;
 }
