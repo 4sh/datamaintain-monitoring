@@ -5,6 +5,7 @@ import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import script.execution.ScriptExecutionCreationRequest
+import script.execution.ScriptExecutionEndUpdateRequest
 import java.util.*
 
 class ScriptExecutionDao(val dslContext: DSLContext) {
@@ -29,13 +30,13 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             DM_SCRIPT_EXECUTION.OUTPUT
         ).fetchSingleInto(DmScriptExecution::class.java)
 
-    fun update(data: DmScriptExecution): DmScriptExecution? =
+    fun updateScriptExecutionEndData(scriptExecutionId: UUID, executionEndData: ScriptExecutionEndUpdateRequest): DmScriptExecution? =
         dslContext.update(DM_SCRIPT_EXECUTION)
-            .set(DM_SCRIPT_EXECUTION.END_DATE, data.endDate)
-            .set(DM_SCRIPT_EXECUTION.OUTPUT, data.output)
-            .set(DM_SCRIPT_EXECUTION.STATUS, data.status)
-            .set(DM_SCRIPT_EXECUTION.DURATION_IN_MS, data.durationInMs)
-            .where(DM_SCRIPT_EXECUTION.ID.eq(data.id))
+            .set(DM_SCRIPT_EXECUTION.END_DATE, executionEndData.endDate)
+            .set(DM_SCRIPT_EXECUTION.OUTPUT, executionEndData.output)
+            .set(DM_SCRIPT_EXECUTION.STATUS, executionEndData.status)
+            .set(DM_SCRIPT_EXECUTION.DURATION_IN_MS, executionEndData.durationInMs)
+            .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
             .returningResult(
                 DM_SCRIPT_EXECUTION.ID,
                 DM_SCRIPT_EXECUTION.START_DATE,
