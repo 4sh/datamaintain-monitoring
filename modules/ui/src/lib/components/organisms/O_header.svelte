@@ -28,11 +28,9 @@
         <O_projectHierarchy></O_projectHierarchy>
     </div>
 
-    <div>
-        <button type="submit" on:click={toggleTheme}>Switch theme</button>
-    </div>
     <div class="header-switch">
-        <M_buttonSwitch alignment="right" flex="shrink" label="Dark Mode" checked="true"></M_buttonSwitch>
+        <M_buttonSwitch alignment="right" flex="shrink" label="Dark Mode" checked="true"
+                        on:click={toggleTheme}></M_buttonSwitch>
     </div>
 
 </div>
