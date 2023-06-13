@@ -1,6 +1,5 @@
 package script.execution
 
-import generated.domain.enums.ScriptExecutionStatus
 import java.time.OffsetDateTime
 
 data class ScriptExecutionEndUpdateRequest(

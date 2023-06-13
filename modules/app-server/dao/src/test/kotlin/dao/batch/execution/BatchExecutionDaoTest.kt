@@ -32,10 +32,10 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertModuleAndEnvironmentInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id!!
+            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
             environmentId =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id!!
-            moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id!!
+                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
+            moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
         }
     }
 
@@ -54,7 +54,6 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
 
             // Then
             expectThat(insertedBatchExecution).isNotNull().and {
-                get { id }.isNotNull()
                 get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
                 get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
             }
@@ -94,7 +93,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                     fkModuleRef = moduleId,
                     fkEnvironmentRef = environmentId
                 )
-            ).id!!
+            ).id
             val randomId = UUID.randomUUID()
 
             // When
@@ -112,13 +111,13 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                     fkModuleRef = moduleId,
                     fkEnvironmentRef = environmentId
                 )
-            ).id!!
+            ).id
             val insertedId2 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
                     fkModuleRef = moduleId,
                     fkEnvironmentRef = environmentId
                 )
-            ).id!!
+            ).id
 
             // When
             batchExecutionDao.delete(insertedId1)

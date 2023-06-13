@@ -1,7 +1,6 @@
 package dao.script
 
 import AbstractDaoTest
-import dao.tag.buildTagCreationRequest
 import generated.domain.tables.pojos.DmScript
 import generated.domain.tables.references.DM_SCRIPT
 import isDuplicatedKeyException
@@ -14,7 +13,7 @@ import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import strikt.assertions.isTrue
-import java.util.UUID
+import java.util.*
 
 class ScriptDaoTest : AbstractDaoTest() {
     private val scriptDao = ScriptDao(dslContext)
@@ -91,7 +90,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should load project from db when it exists`() {
             // Given
             val script = buildScriptCreationRequest()
-            val insertedChecksum = scriptDao.insert(script).checksum!!
+            val insertedChecksum = scriptDao.insert(script).checksum
 
             // When
             val loadedScript = scriptDao.findOneById(insertedChecksum)
@@ -110,7 +109,7 @@ class ScriptDaoTest : AbstractDaoTest() {
         @Test
         fun `should do nothing when deleting non existing document`() {
             // Given
-            val insertedChecksum = scriptDao.insert(buildScriptCreationRequest()).checksum!!
+            val insertedChecksum = scriptDao.insert(buildScriptCreationRequest()).checksum
             val randomChecksum = UUID.randomUUID().toString()
 
             // When
@@ -124,9 +123,9 @@ class ScriptDaoTest : AbstractDaoTest() {
         fun `should delete proper document`() {
             // Given
             val insertedChecksum1 =
-                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString())).checksum!!
+                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString())).checksum
             val insertedChecksum2 =
-                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString())).checksum!!
+                scriptDao.insert(buildScriptCreationRequest(checksum = UUID.randomUUID().toString())).checksum
 
             // When
             scriptDao.delete(insertedChecksum1)
