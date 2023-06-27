@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":modules:app-server:domain" ))
     implementation("io.ktor:ktor-server-core:2.2.4")
     implementation("io.ktor:ktor-server-netty:2.2.4")
     implementation("io.ktor:ktor-server-content-negotiation:2.2.4")

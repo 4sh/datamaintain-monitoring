@@ -9,6 +9,6 @@ const val grpcServerPort = 50051
 val helloWorld = HelloWorldServer(grpcServerPort)
 
 fun Application.module() {
-    configureRouting()
+    configureRouting(projectService = projectService)
     configureSerialization()
 }
