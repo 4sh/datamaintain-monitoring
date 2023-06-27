@@ -4,6 +4,7 @@
     import M_logoText from "$lib/components/molecules/M_logoText.svelte";
     import logo from "$lib/assets/images/svg/datamaintain-logo.svg";
     import M_buttonSwitch from "$lib/components/molecules/M_buttonSwitch.svelte";
+    import O_nav from "$lib/components/organisms/O_nav/O_nav.svelte";
 
     function toggleTheme() {
         if ($currentTheme === "light") {
@@ -24,7 +25,8 @@
         </div>
     </div>
 
-    <div class="header-hierarchy">
+    <div class="header-contentNav">
+        <O_nav></O_nav>
         <O_projectHierarchy></O_projectHierarchy>
     </div>
 
@@ -65,9 +67,12 @@
       }
     }
 
-    &-hierarchy {
+    &-contentNav {
       padding: 15px 30px;
       flex: 1 1 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     &-switch {

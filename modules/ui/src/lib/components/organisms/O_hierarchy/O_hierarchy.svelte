@@ -3,6 +3,7 @@
     import {HierarchySearch} from "$lib/domain/ProjectHierarchy";
     import O_hierarchyProject from "$lib/components/organisms/O_hierarchy/O_hierarchyProject.svelte";
     import M_inputSearch from "$lib/components/molecules/M_inputSearch.svelte";
+    import {Svroller} from "svrollbar";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
 
@@ -23,13 +24,15 @@
             Modules
         </div>
         <div class="hierarchy-search">
-            <M_inputSearch on:change="{filterHierarchy}" />
+            <M_inputSearch on:change="{filterHierarchy}"/>
         </div>
 
         <div class="hierarchy-projects">
-            {#each projectHierarchies as project}
-                <O_hierarchyProject {project}/>
-            {/each}
+            <Svroller>
+                {#each projectHierarchies as project}
+                    <O_hierarchyProject {project}/>
+                {/each}
+            </Svroller>
         </div>
     </div>
 
@@ -42,11 +45,17 @@
   @import "src/app";
 
   .hierarchy {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    max-height: calc(100% - 165px);
+
     &-title {
       font-size: rem-calc(14px);
       text-transform: uppercase;
       margin-bottom: rem-calc(15px);
     }
+
     &-search {
       margin: {
         right: rem-calc(-14px);
@@ -54,11 +63,13 @@
         left: rem-calc(-14px);
       };
     }
+
     &-projects {
       margin: {
         right: rem-calc(-14px);
         left: rem-calc(-14px);
       };
+      max-height: calc(100% - 93px);
     }
   }
 
