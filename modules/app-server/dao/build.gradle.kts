@@ -8,7 +8,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
     implementation("org.jooq:jooq:3.18.2")
     implementation(project(":modules:app-server:domain"))
     implementation("org.postgresql:postgresql:42.5.1")
