@@ -1,6 +1,8 @@
 package app.server.app
 
+import dao.module.ModuleDao
 import dao.project.ProjectDao
+import module.ModuleService
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import project.ProjectService
@@ -15,3 +17,6 @@ val dslContext = DSL.using(
 )
 val projectRepository = ProjectDao(dslContext)
 val projectService = ProjectService(projectRepository)
+
+val moduleRepository = ModuleDao(dslContext)
+val moduleService = ModuleService(moduleRepository)
