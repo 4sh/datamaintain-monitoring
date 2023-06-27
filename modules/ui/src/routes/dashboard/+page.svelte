@@ -66,6 +66,8 @@
   .dashboardView {
     padding: rem-calc(30px);
     height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
 
     &-alert {
       background-color: $app-primary_900;
@@ -75,6 +77,7 @@
       align-items: center;
       padding: 0 rem-calc(20px);
       margin-bottom: rem-calc(32px);
+      flex: 0 0 auto;
 
       &-icon {
         padding-right: rem-calc(16px);
@@ -99,6 +102,7 @@
       display: flex;
       align-items: center;
       margin-bottom: rem-calc(32px);
+      flex: 0 0 auto;
 
       &-name {
         font-size: rem-calc(24px);
@@ -114,12 +118,14 @@
 
     &-content {
       display: flex;
+      overflow: hidden;
+      flex: 1 1 0;
 
       &-cards {
-        width: 70%;
         display: flex;
         flex-flow: row wrap;
-        margin-right: rem-calc(45px);
+        margin-right: rem-calc(25px);
+        flex: 1 1 0;
 
         &-item {
           width: calc(50% - 15px);
@@ -138,6 +144,7 @@
 
       &-alerts {
         width: 30%;
+        margin-left: rem-calc(20px);
       }
     }
   }
