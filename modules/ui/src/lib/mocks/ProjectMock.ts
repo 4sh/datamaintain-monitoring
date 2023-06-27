@@ -6,10 +6,10 @@ import {ModuleMock} from "./ModuleMock";
 
 export class ProjectMock {
     public static readonly projects: Project[] = [
-        { id: 'dm', name: "Datamaintain"},
-        { id: 'gh', name: "Github"},
-        { id: 'fb', name: "Facebook"},
-        { id: 'gg', name: "Google"},
+        { id: 'dm', name: "Datamaintain", smallName: "Dm"},
+        { id: 'gh', name: "Github", smallName: "GH"},
+        { id: 'fb', name: "Facebook", smallName: "Fb"},
+        { id: 'gg', name: "Google", smallName: "Gg"},
     ];
 
     public static getProjectHierarchies(): ProjectHierarchy[] {

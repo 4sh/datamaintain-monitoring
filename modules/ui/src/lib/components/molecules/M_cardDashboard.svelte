@@ -2,41 +2,57 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import A_indicator from "$lib/components/atoms/A_indicator.svelte";
     import M_progressBar from "$lib/components/molecules/M_progressBar.svelte";
+    import type {ExecutionForDashboard} from "$lib/domain/execution/Execution";
+    import {ExecutionStatus} from "$lib/domain/execution/Execution";
 
-    export let cardStatus;
-    export let projectLabel;
-    export let envLabel;
-    export let cardTitle: string = '';
-    export let cardModule: string = '';
+    export let execution: ExecutionForDashboard;
+
+    function toStatusClass(status: ExecutionStatus) {
+        var statusClass;
+
+        switch (status) {
+            case ExecutionStatus.PLANNED:
+                statusClass = '';
+                break;
+            case ExecutionStatus.IN_PROGRESS:
+                statusClass = '_inProgress';
+                break;
+            case ExecutionStatus.COMPLETED:
+                statusClass = '_check';
+                break;
+            case ExecutionStatus.ERROR:
+                statusClass = '_error';
+                break;
+        }
+
+        return statusClass;
+    }
 </script>
 
-<div class="mCard _{cardStatus}">
+<div class="mCard {toStatusClass(execution.status)}">
     <div class="mCard-header">
         <div class="flexAuto">
             <div class="mCard-icon">
-                <A_icon type="{cardStatus === 'check' ? 'task_alt' : 'autorenew'}" size="extraLarge"></A_icon>
+                <A_icon type="{execution.status === 'COMPLETED' ? 'task_alt' : 'autorenew'}" size="extraLarge"></A_icon>
             </div>
             <div>
                 <div class="mCard-title">
-                    {cardTitle}
+                    {execution.id}
                 </div>
                 <div class="mCard-module">
-                    {cardModule}
+                    {execution.module.name}
                 </div>
             </div>
         </div>
         <div class="flexShrink">
             <div class="mCard-indicators">
-                {#if projectLabel}
-                    <div class="mCard-indicators-item">
-                        <A_indicator label="{projectLabel}"></A_indicator>
-                    </div>
-                {/if}
-                {#if envLabel}
-                    <div class="mCard-indicators-item">
-                        <A_indicator label="{envLabel}"></A_indicator>
-                    </div>
-                {/if}
+                <div class="mCard-indicators-item">
+                    <A_indicator label="{execution.project.smallName}"></A_indicator>
+                </div>
+
+                <div class="mCard-indicators-item">
+                    <A_indicator label="{execution.env.smallName}"></A_indicator>
+                </div>
             </div>
             <div class="mCard-favorite">
                 <A_icon type="star_border" size="semiLight"></A_icon>
@@ -44,34 +60,21 @@
         </div>
     </div>
     <div class="mCard-content">
-        {#if $$slots.startExeDate || $$slots.startExeTime}
-            <span>Début d’execution :</span>
-            <slot name="startExeDate"></slot>
-            {#if $$slots.startExeDate && $$slots.startExeTime}
-                à
-            {/if}
-            <slot name="startExeTime"></slot>
+            <span>Début d’execution :</span> {execution.date}
             <br>
-        {/if}
-        {#if $$slots.timeExe}
-            <span>Temps d’execution :</span>
-            <slot name="timeExe"></slot>
+
+            <span>Temps d’execution :</span> {execution.duration}
             <br>
-        {/if}
-        {#if $$slots.nbScript}
-            <span>Nombre de scripts :</span>
-            <slot name="nbScript"></slot>
+
+            <span>Nombre de scripts :</span> {execution.nbScriptsKO + execution.nbScriptsOK}
             <br>
-        {/if}
-        {#if $$slots.nbKo}
-            <span>KO :</span>
+
+            <span>KO :</span> {execution.nbScriptsKO}
             <slot name="nbKo"></slot>
             <br>
-        {/if}
-        {#if $$slots.nbOk}
-            <span>OK :</span>
+
+            <span>OK :</span> {execution.nbScriptsOK}
             <slot name="nbOk"></slot>
-        {/if}
     </div>
     <div class="mCard-progressBar">
         <M_progressBar></M_progressBar>

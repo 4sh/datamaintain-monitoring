@@ -13,6 +13,14 @@ export interface ExecutionWithReport extends Execution {
     report: ExecutionReport
 }
 
+export interface ExecutionForDashboard extends Execution {
+    project: {id: string, name: string, smallName: string},
+    module: {id: string, name: string},
+    env: {id: string, name: string, smallName: string},
+    nbScriptsKO: number,
+    nbScriptsOK: number
+}
+
 export enum ExecutionOrigin {
     CLIENT = "CLIENT",
     SERVER = "SERVER",

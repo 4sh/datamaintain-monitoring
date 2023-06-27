@@ -1,4 +1,4 @@
-import type {Execution} from "$lib/domain/execution/Execution";
+import type {Execution, ExecutionForDashboard} from "$lib/domain/execution/Execution";
 import {ExecutionOrigin, ExecutionStatus, ExecutionType} from "$lib/domain/execution/Execution";
 import type {ExecutionWithReport} from "$lib/domain/execution/Execution";
 import {ScriptMock} from "./ScriptMock";
@@ -12,6 +12,7 @@ import {EnvExecutionEntry, ModuleEnvEntry, ModuleEnvMatrix} from "$lib/domain/Mo
 import {ModuleMock} from "./ModuleMock";
 import {ScriptExecutionMetadata} from "$lib/domain/ScriptExecutionMetadata";
 import {ExecutionMetadata} from "$lib/domain/ExecutionMetadata";
+import {ProjectMock} from "$lib/mocks/ProjectMock";
 
 
 export class ExecutionMock {
@@ -29,7 +30,7 @@ export class ExecutionMock {
             date: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
-            status: ExecutionStatus.COMPLETED,
+            status: ExecutionStatus.ERROR,
             duration: 361
         },
         {
@@ -37,7 +38,7 @@ export class ExecutionMock {
             date: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
-            status: ExecutionStatus.COMPLETED,
+            status: ExecutionStatus.IN_PROGRESS,
             duration: 88
         }
     ];
@@ -82,6 +83,33 @@ export class ExecutionMock {
                     ],
                     validatedCheckRules: []
                 }
+        }
+    ];
+
+    public static readonly executionsForDashboard: ExecutionForDashboard[] = [
+        {
+            ...ExecutionMock.executions[0],
+            project: {id: ProjectMock.projects[0].id, name: ProjectMock.projects[0].name, smallName: ProjectMock.projects[0].smallName},
+            module: {id: ModuleMock.modules[0].id, name: ModuleMock.modules[0].name},
+            env: {id: EnvMock.envs[0].id, name: EnvMock.envs[0].name, smallName: EnvMock.envs[0].smallName},
+            nbScriptsKO: 5,
+            nbScriptsOK: 11
+        },
+        {
+            ...ExecutionMock.executions[1],
+            project: {id: ProjectMock.projects[1].id, name: ProjectMock.projects[1].name, smallName: ProjectMock.projects[1].smallName},
+            module: {id: ModuleMock.modules[1].id, name: ModuleMock.modules[1].name},
+            env: {id: EnvMock.envs[3].id, name: EnvMock.envs[3].name, smallName: EnvMock.envs[3].smallName},
+            nbScriptsKO: 0,
+            nbScriptsOK: 12
+        },
+        {
+            ...ExecutionMock.executions[2],
+            project: {id: ProjectMock.projects[0].id, name: ProjectMock.projects[0].name, smallName: ProjectMock.projects[2].smallName},
+            module: {id: ModuleMock.modules[0].id, name: ModuleMock.modules[0].name},
+            env: {id: EnvMock.envs[0].id, name: EnvMock.envs[0].name, smallName: EnvMock.envs[0].smallName},
+            nbScriptsKO: 1,
+            nbScriptsOK: 23
         }
     ];
 
