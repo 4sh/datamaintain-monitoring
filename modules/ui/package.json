@@ -39,6 +39,7 @@
 	"dependencies": {
 		"@fontsource/fira-mono": "4.5.0",
 		"cookie": "0.4.1",
-		"svelte-i18n": "3.4.0"
+		"svelte-i18n": "3.4.0",
+		"svrollbar": "^0.12.0"
 	}
 }
