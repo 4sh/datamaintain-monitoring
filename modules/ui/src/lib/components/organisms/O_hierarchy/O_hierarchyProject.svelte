@@ -8,7 +8,8 @@
 
 <M_menuItem prefixIcon="folder_open"
         prefixIconSize="light"
-        title="{project.name}">
+        title="{project.name}"
+        url="projects/{project.id}">
     <div slot="content">
         {#each project.envs as env}
             <O_hierarchyEnv {env} projectRef="{project.id}"/>
