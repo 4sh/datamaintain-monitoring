@@ -1,4 +1,5 @@
 export type Env = {
     id: string,
-    name: string
+    name: string,
+    smallName: string
 };

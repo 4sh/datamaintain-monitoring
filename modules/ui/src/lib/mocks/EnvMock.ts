@@ -3,24 +3,24 @@ import type {Env} from "$lib/domain/Env";
 
 export class EnvMock {
     public static readonly dmEnvs = [
-        {id: 'dm-qa', name: "QA"},
-        {id: 'dm-pp', name: "Preprod"},
-        {id: 'dm-p', name: "Prod"}
+        {id: 'dm-qa', name: "QA", smallName: "Qa"},
+        {id: 'dm-pp', name: "Preprod", smallName: "Pp"},
+        {id: 'dm-p', name: "Prod", smallName: "P"}
     ];
 
     public static readonly ghEnvs = [
-        {id: 'gh-qa', name: "QA"},
-        {id: 'gh-pp', name: "Preprod"},
-        {id: 'gh-p', name: "Prod"}
+        {id: 'gh-qa', name: "QA", smallName: "Qa"},
+        {id: 'gh-pp', name: "Preprod", smallName: "Pp"},
+        {id: 'gh-p', name: "Prod", smallName: "P"}
     ];
 
     public static readonly fbEnvs = [
-        { id: 'fb-p', name: "Prod"}
+        { id: 'fb-p', name: "Prod", smallName: "P"}
     ];
 
     public static readonly ggEnvs = [
-        { id: 'gg-pp', name: "Qualification"},
-        { id: 'gg-p', name: "Prod"}
+        { id: 'gg-pp', name: "Qualification", smallName: "Qa"},
+        { id: 'gg-p', name: "Prod", smallName: "P"}
     ];
 
     public static readonly envs: Env[] = [
