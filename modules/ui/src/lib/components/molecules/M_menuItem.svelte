@@ -8,6 +8,7 @@
 
     export let prefixIconWeight;
     export let title = '';
+    export let shortTitle = '';
     export let url;
     export let subContentRange = 'primary';
 
@@ -34,7 +35,7 @@
                 <A_icon type="{prefixIcon}" size="{prefixIconSize}" weight="{prefixIconWeight}" visibility="secondary"></A_icon>
             </div>
             <div class="menuItem-title-label">
-                {title}
+                {title} <span>{shortTitle}</span>
             </div>
         </div>
         {#if subContentRange !== 'tertiary'}
@@ -82,6 +83,13 @@
         line-height: rem-calc(20px);
         margin-left: rem-calc(10px);
         font-weight: 400;
+
+        span {
+          color: $app-primary_700;
+          font-size: rem-calc(13px);
+          margin-left: rem-calc(3px);
+          text-transform: uppercase;
+        }
       }
 
       &-icon {

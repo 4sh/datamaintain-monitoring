@@ -6,6 +6,7 @@
 </script>
 
 <M_menuItem title="{env.name}"
+            shortTitle="{env.smallName}"
             prefixIcon="radio_button_unchecked"
             prefixIconWeight="bold"
             url="projects/{projectRef}/envs/{env.id}"
@@ -13,6 +14,7 @@
     <div slot="content">
         {#each env.modules as module}
             <M_menuItem title="{module.name}"
+                        shortTitle="{module.smallName}"
                         prefixIcon="fiber_manual_record"
                         url="projects/{projectRef}/modules/{module.id}?env={env.id}"
                         subContentRange="tertiary">
