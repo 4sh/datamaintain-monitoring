@@ -1,7 +1,7 @@
 <script lang="ts">
 
-import {Svroller} from "svrollbar";
-import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
+    import {Svroller} from "svrollbar";
+    import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
 </script>
 
 <div class="alertList">
@@ -15,19 +15,21 @@ import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
     </div>
     <div class="alertList-content">
         <Svroller>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
-           <M_alertItem></M_alertItem>
+            <div class="alertList-content-scroller">
+                <M_alertItem warning="true"></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem warning="true"></M_alertItem>
+                <M_alertItem warning="true"></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem warning="true"></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem warning="true"></M_alertItem>
+                <M_alertItem></M_alertItem>
+                <M_alertItem></M_alertItem>
+            </div>
         </Svroller>
     </div>
 </div>
@@ -51,6 +53,7 @@ import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
       &-title {
         font-size: rem-calc(16px);
       }
+
       &-info {
         font-size: rem-calc(11px);
         font-weight: 300;
@@ -62,6 +65,21 @@ import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
       padding: rem-calc(25px 10px 25px 25px);
       flex: 1 1 0;
       overflow: hidden;
+
+      &-scroller {
+        position: relative;
+
+        &:before {
+          content: '';
+          position: absolute;
+          height: calc(100% - 20px);
+          width: rem-calc(1px);
+          background: $app-neutral_900;
+          left: rem-calc(18px);
+          z-index: -1;
+          margin-top: rem-calc(10px);
+        }
+      }
     }
   }
 
