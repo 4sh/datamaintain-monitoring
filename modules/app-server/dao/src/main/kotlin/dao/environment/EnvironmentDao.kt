@@ -7,8 +7,8 @@ import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`
 import java.util.*
 
-class EnvironmentDao(val dslContext: DSLContext) {
-    fun insert(data: EnvironmentCreationRequest): Environment =
+class EnvironmentDao(val dslContext: DSLContext): EnvironmentDaoInterface {
+    override fun insert(data: EnvironmentCreationRequest): Environment =
         dslContext.insertInto(DM_ENVIRONMENT, DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
             .values(
                 defaultValue(DM_ENVIRONMENT.ID),
@@ -17,7 +17,7 @@ class EnvironmentDao(val dslContext: DSLContext) {
             ).returningResult(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
             .fetchSingleInto(Environment::class.java)
 
-    fun updateEnvironmentName(environmentId: UUID, updateRequest: EnvironmentNameUpdateRequest): Environment? =
+    override fun updateEnvironmentName(environmentId: UUID, updateRequest: EnvironmentNameUpdateRequest): Environment? =
         dslContext.update(DM_ENVIRONMENT)
             .set(DM_ENVIRONMENT.NAME, updateRequest.name)
             .where(DM_ENVIRONMENT.ID.eq(environmentId))
@@ -25,13 +25,13 @@ class EnvironmentDao(val dslContext: DSLContext) {
             .fetchOne()
             ?.into(Environment::class.java)
 
-    fun delete(id: UUID) {
+    override fun delete(id: UUID) {
         dslContext.delete(DM_ENVIRONMENT)
             .where(DM_ENVIRONMENT.ID.eq(id))
             .execute()
     }
 
-    fun findOneById(id: UUID): Environment? =
+    override fun findOneById(id: UUID): Environment? =
         dslContext.fetchOne(DM_ENVIRONMENT, DM_ENVIRONMENT.ID.eq(id))
             ?.into(Environment::class.java)
 }
