@@ -1,12 +1,14 @@
 package dao.script.execution
 
+import dao.utils.toDto
+import generated.domain.enums.ExecutionStatus
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import script.execution.ScriptExecution
 import script.execution.ScriptExecutionCreationRequest
 import script.execution.ScriptExecutionEndUpdateRequest
-import script.execution.ScriptExecutionStatus
+import script.execution.ScriptExecutionStartUpdateRequest
 import java.util.*
 
 class ScriptExecutionDao(val dslContext: DSLContext) {
@@ -14,10 +16,12 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION,
             DM_SCRIPT_EXECUTION.START_DATE,
+            DM_SCRIPT_EXECUTION.STATUS,
             DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
             DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
         ).values(
             `val`(data.startDate),
+            `val`(data.status.toDto()),
             `val`(data.fkScriptRef),
             `val`(data.fkBatchExecutionRef),
         ).returningResult(
@@ -63,9 +67,4 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
     fun findOneById(id: UUID): ScriptExecution? =
         dslContext.fetchOne(DM_SCRIPT_EXECUTION, DM_SCRIPT_EXECUTION.ID.eq(id))
             ?.into(ScriptExecution::class.java)
-}
-
-fun ScriptExecutionStatus.toDto() = when (this) {
-    ScriptExecutionStatus.OK -> generated.domain.enums.ScriptExecutionStatus.OK
-    ScriptExecutionStatus.KO -> generated.domain.enums.ScriptExecutionStatus.KO
 }
