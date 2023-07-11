@@ -30,11 +30,13 @@ fun Application.configureRouting(
     environmentService: EnvironmentService
 ) {
     routing {
-        routeV1(
-            projectService = projectService,
-            moduleService = moduleService,
-            environmentService = environmentService
-        )
+        route("/api") {
+            routeV1(
+                projectService = projectService,
+                moduleService = moduleService,
+                environmentService = environmentService
+            )
+        }
     }
 }
 
