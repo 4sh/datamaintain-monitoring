@@ -5,15 +5,19 @@ package generated.domain.keys
 
 
 import generated.domain.tables.DmBatchExecution
+import generated.domain.tables.DmBatchExecutionDmFlag
 import generated.domain.tables.DmEnvironment
+import generated.domain.tables.DmFlag
 import generated.domain.tables.DmModule
 import generated.domain.tables.DmProject
 import generated.domain.tables.DmScript
 import generated.domain.tables.DmScriptExecution
 import generated.domain.tables.DmScriptExecutionDmTag
 import generated.domain.tables.DmTag
+import generated.domain.tables.records.DmBatchExecutionDmFlagRecord
 import generated.domain.tables.records.DmBatchExecutionRecord
 import generated.domain.tables.records.DmEnvironmentRecord
+import generated.domain.tables.records.DmFlagRecord
 import generated.domain.tables.records.DmModuleRecord
 import generated.domain.tables.records.DmProjectRecord
 import generated.domain.tables.records.DmScriptExecutionDmTagRecord
@@ -33,7 +37,9 @@ import org.jooq.impl.Internal
 // -------------------------------------------------------------------------
 
 val DM_BATCH_EXECUTION_PKEY: UniqueKey<DmBatchExecutionRecord> = Internal.createUniqueKey(DmBatchExecution.DM_BATCH_EXECUTION, DSL.name("dm_batch_execution_pkey"), arrayOf(DmBatchExecution.DM_BATCH_EXECUTION.ID), true)
+val DM_BATCH_EXECUTION_DM_FLAG_PKEY: UniqueKey<DmBatchExecutionDmFlagRecord> = Internal.createUniqueKey(DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG, DSL.name("dm_batch_execution_dm_flag_pkey"), arrayOf(DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG.FK_BATCH_EXECUTION_REF, DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG.FK_FLAG_REF), true)
 val DM_ENVIRONMENT_PKEY: UniqueKey<DmEnvironmentRecord> = Internal.createUniqueKey(DmEnvironment.DM_ENVIRONMENT, DSL.name("dm_environment_pkey"), arrayOf(DmEnvironment.DM_ENVIRONMENT.ID), true)
+val DM_FLAG_PKEY: UniqueKey<DmFlagRecord> = Internal.createUniqueKey(DmFlag.DM_FLAG, DSL.name("dm_flag_pkey"), arrayOf(DmFlag.DM_FLAG.NAME), true)
 val DM_MODULE_PKEY: UniqueKey<DmModuleRecord> = Internal.createUniqueKey(DmModule.DM_MODULE, DSL.name("dm_module_pkey"), arrayOf(DmModule.DM_MODULE.ID), true)
 val DM_PROJECT_PKEY: UniqueKey<DmProjectRecord> = Internal.createUniqueKey(DmProject.DM_PROJECT, DSL.name("dm_project_pkey"), arrayOf(DmProject.DM_PROJECT.ID), true)
 val DM_SCRIPT_PKEY: UniqueKey<DmScriptRecord> = Internal.createUniqueKey(DmScript.DM_SCRIPT, DSL.name("dm_script_pkey"), arrayOf(DmScript.DM_SCRIPT.CHECKSUM), true)
@@ -47,6 +53,8 @@ val DM_TAG_PKEY: UniqueKey<DmTagRecord> = Internal.createUniqueKey(DmTag.DM_TAG,
 
 val DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_ENVIRONMENT_REF_FKEY: ForeignKey<DmBatchExecutionRecord, DmEnvironmentRecord> = Internal.createForeignKey(DmBatchExecution.DM_BATCH_EXECUTION, DSL.name("dm_batch_execution_fk_environment_ref_fkey"), arrayOf(DmBatchExecution.DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF), generated.domain.keys.DM_ENVIRONMENT_PKEY, arrayOf(DmEnvironment.DM_ENVIRONMENT.ID), true)
 val DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_MODULE_REF_FKEY: ForeignKey<DmBatchExecutionRecord, DmModuleRecord> = Internal.createForeignKey(DmBatchExecution.DM_BATCH_EXECUTION, DSL.name("dm_batch_execution_fk_module_ref_fkey"), arrayOf(DmBatchExecution.DM_BATCH_EXECUTION.FK_MODULE_REF), generated.domain.keys.DM_MODULE_PKEY, arrayOf(DmModule.DM_MODULE.ID), true)
+val DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_BATCH_EXECUTION_REF_FKEY: ForeignKey<DmBatchExecutionDmFlagRecord, DmBatchExecutionRecord> = Internal.createForeignKey(DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG, DSL.name("dm_batch_execution_dm_flag_fk_batch_execution_ref_fkey"), arrayOf(DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG.FK_BATCH_EXECUTION_REF), generated.domain.keys.DM_BATCH_EXECUTION_PKEY, arrayOf(DmBatchExecution.DM_BATCH_EXECUTION.ID), true)
+val DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_FLAG_REF_FKEY: ForeignKey<DmBatchExecutionDmFlagRecord, DmFlagRecord> = Internal.createForeignKey(DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG, DSL.name("dm_batch_execution_dm_flag_fk_flag_ref_fkey"), arrayOf(DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG.FK_FLAG_REF), generated.domain.keys.DM_FLAG_PKEY, arrayOf(DmFlag.DM_FLAG.NAME), true)
 val DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY: ForeignKey<DmEnvironmentRecord, DmProjectRecord> = Internal.createForeignKey(DmEnvironment.DM_ENVIRONMENT, DSL.name("dm_environment_fk_project_ref_fkey"), arrayOf(DmEnvironment.DM_ENVIRONMENT.FK_PROJECT_REF), generated.domain.keys.DM_PROJECT_PKEY, arrayOf(DmProject.DM_PROJECT.ID), true)
 val DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY: ForeignKey<DmModuleRecord, DmProjectRecord> = Internal.createForeignKey(DmModule.DM_MODULE, DSL.name("dm_module_fk_project_ref_fkey"), arrayOf(DmModule.DM_MODULE.FK_PROJECT_REF), generated.domain.keys.DM_PROJECT_PKEY, arrayOf(DmProject.DM_PROJECT.ID), true)
 val DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_BATCH_EXECUTION_REF_FKEY: ForeignKey<DmScriptExecutionRecord, DmBatchExecutionRecord> = Internal.createForeignKey(DmScriptExecution.DM_SCRIPT_EXECUTION, DSL.name("dm_script_execution_fk_batch_execution_ref_fkey"), arrayOf(DmScriptExecution.DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF), generated.domain.keys.DM_BATCH_EXECUTION_PKEY, arrayOf(DmBatchExecution.DM_BATCH_EXECUTION.ID), true)

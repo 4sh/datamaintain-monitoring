@@ -5,7 +5,7 @@ package generated.domain.tables
 
 
 import generated.domain.Public
-import generated.domain.enums.ScriptExecutionStatus
+import generated.domain.enums.ExecutionStatus
 import generated.domain.keys.DM_SCRIPT_EXECUTION_PKEY
 import generated.domain.keys.DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_BATCH_EXECUTION_REF_FKEY
 import generated.domain.keys.DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_SCRIPT_REF_FKEY
@@ -96,7 +96,7 @@ open class DmScriptExecution(
     /**
      * The column <code>public.dm_script_execution.status</code>.
      */
-    val STATUS: TableField<DmScriptExecutionRecord, ScriptExecutionStatus?> = createField(DSL.name("status"), SQLDataType.VARCHAR.asEnumDataType(generated.domain.enums.ScriptExecutionStatus::class.java), this, "")
+    val STATUS: TableField<DmScriptExecutionRecord, ExecutionStatus?> = createField(DSL.name("status"), SQLDataType.VARCHAR.asEnumDataType(generated.domain.enums.ExecutionStatus::class.java), this, "")
 
     /**
      * The column <code>public.dm_script_execution.fk_script_ref</code>.
@@ -183,16 +183,16 @@ open class DmScriptExecution(
     // -------------------------------------------------------------------------
     // Row8 type methods
     // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row8<UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ScriptExecutionStatus?, String?, UUID?> = super.fieldsRow() as Row8<UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ScriptExecutionStatus?, String?, UUID?>
+    public override fun fieldsRow(): Row8<UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ExecutionStatus?, String?, UUID?> = super.fieldsRow() as Row8<UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ExecutionStatus?, String?, UUID?>
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    fun <U> mapping(from: (UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ScriptExecutionStatus?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    fun <U> mapping(from: (UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ExecutionStatus?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ScriptExecutionStatus?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    fun <U> mapping(toType: Class<U>, from: (UUID?, OffsetDateTime?, OffsetDateTime?, Int?, String?, ExecutionStatus?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }
