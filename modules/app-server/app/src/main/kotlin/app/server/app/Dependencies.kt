@@ -1,7 +1,9 @@
 package app.server.app
 
+import dao.environment.EnvironmentDao
 import dao.module.ModuleDao
 import dao.project.ProjectDao
+import environment.EnvironmentService
 import module.ModuleService
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
@@ -20,3 +22,6 @@ val projectService = ProjectService(projectDao)
 
 val moduleDao = ModuleDao(dslContext)
 val moduleService = ModuleService(moduleDao)
+
+val environmentDao = EnvironmentDao(dslContext)
+val environmentService = EnvironmentService(environmentDao)

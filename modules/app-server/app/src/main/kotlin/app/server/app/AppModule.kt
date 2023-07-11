@@ -11,7 +11,8 @@ val helloWorld = HelloWorldServer(grpcServerPort)
 fun Application.module() {
     configureRouting(
         projectService = projectService,
-        moduleService = moduleService
+        moduleService = moduleService,
+        environmentService = environmentService
     )
     configureSerialization()
 }
