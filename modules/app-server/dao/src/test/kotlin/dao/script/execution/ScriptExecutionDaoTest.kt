@@ -11,6 +11,7 @@ import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.script.ScriptDao
 import dao.script.buildScriptCreationRequest
+import execution.Status
 import generated.domain.tables.pojos.DmScriptExecution
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.junit.jupiter.api.BeforeAll
@@ -69,7 +70,9 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
 
             // Then
             expectThat(insertedScriptExecution).isNotNull().and {
-                get { startDate.isEqual(dmScriptExecution.startDate) }.isTrue()
+                get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { status }.isEqualTo(Status.PLANNED)
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
@@ -140,7 +143,9 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             // Then
             expectThat(loadedScriptExecution).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate.isEqual(dmScriptExecution.startDate) }.isTrue()
+                get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { status }.isEqualTo(dmScriptExecution.status)
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
@@ -190,9 +195,9 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val scriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
             expectThat(scriptExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate.isEqual(scriptExecution.startDate) }.isTrue()
+                get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
-                get { status }.isNull()
+                get { status }.isEqualTo(scriptExecution.status)
                 get { output }.isNull()
                 get { durationInMs }.isNull()
             }
@@ -212,7 +217,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val newEndDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
             val newDurationInMs = 129
             val newOutput = "myOtherOutput"
-            val newStatus = script.execution.ScriptExecutionStatus.KO
+            val newStatus = Status.COMPLETED
             scriptExecutionDao.updateScriptExecutionEndData(insertedId, buildScriptExecutionEndUpdateRequest(
                 endDate = newEndDate,
                 durationInMs = newDurationInMs,
@@ -244,7 +249,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val newEndDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
             val newDurationInMs = 129
             val newOutput = "myOtherOutput"
-            val newStatus = script.execution.ScriptExecutionStatus.KO
+            val newStatus = Status.ERROR
             scriptExecutionDao.updateScriptExecutionEndData(insertedId, buildScriptExecutionEndUpdateRequest(
                 endDate = newEndDate,
                 durationInMs = newDurationInMs,
@@ -258,7 +263,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { id }.isEqualTo(insertedId)
                 get { fkBatchExecutionRef }.isEqualTo(scriptExecution.fkBatchExecutionRef)
                 get { fkScriptRef }.isEqualTo(scriptExecution.fkScriptRef)
-                get { startDate.isEqual(scriptExecution.startDate) }.isTrue()
+                get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate?.isEqual(newEndDate) }.isTrue()
                 get { durationInMs }.isEqualTo(newDurationInMs)
                 get { output }.isEqualTo(newOutput)
