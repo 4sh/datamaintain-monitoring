@@ -15,8 +15,8 @@ val dslContext = DSL.using(
         "datamaintain"
     ), SQLDialect.POSTGRES
 )
-val projectRepository = ProjectDao(dslContext)
-val projectService = ProjectService(projectRepository)
+val projectDao = ProjectDao(dslContext)
+val projectService = ProjectService(projectDao)
 
-val moduleRepository = ModuleDao(dslContext)
-val moduleService = ModuleService(moduleRepository)
+val moduleDao = ModuleDao(dslContext)
+val moduleService = ModuleService(moduleDao)
