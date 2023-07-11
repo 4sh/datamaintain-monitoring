@@ -5,11 +5,15 @@ package generated.domain.tables
 
 
 import generated.domain.Public
+import generated.domain.enums.BatchExecutionOrigin
+import generated.domain.enums.BatchExecutionType
+import generated.domain.enums.ExecutionStatus
 import generated.domain.keys.DM_BATCH_EXECUTION_PKEY
 import generated.domain.keys.DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_ENVIRONMENT_REF_FKEY
 import generated.domain.keys.DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_MODULE_REF_FKEY
 import generated.domain.tables.records.DmBatchExecutionRecord
 
+import java.time.OffsetDateTime
 import java.util.UUID
 import java.util.function.Function
 
@@ -20,7 +24,7 @@ import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row3
+import org.jooq.Row9
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -70,6 +74,36 @@ open class DmBatchExecution(
      * The column <code>public.dm_batch_execution.id</code>.
      */
     val ID: TableField<DmBatchExecutionRecord, UUID?> = createField(DSL.name("id"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field(DSL.raw("gen_random_uuid()"), SQLDataType.UUID)), this, "")
+
+    /**
+     * The column <code>public.dm_batch_execution.start_date</code>.
+     */
+    val START_DATE: TableField<DmBatchExecutionRecord, OffsetDateTime?> = createField(DSL.name("start_date"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "")
+
+    /**
+     * The column <code>public.dm_batch_execution.end_date</code>.
+     */
+    val END_DATE: TableField<DmBatchExecutionRecord, OffsetDateTime?> = createField(DSL.name("end_date"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "")
+
+    /**
+     * The column <code>public.dm_batch_execution.duration_in_ms</code>.
+     */
+    val DURATION_IN_MS: TableField<DmBatchExecutionRecord, Int?> = createField(DSL.name("duration_in_ms"), SQLDataType.INTEGER, this, "")
+
+    /**
+     * The column <code>public.dm_batch_execution.origin</code>.
+     */
+    val ORIGIN: TableField<DmBatchExecutionRecord, BatchExecutionOrigin?> = createField(DSL.name("origin"), SQLDataType.VARCHAR.asEnumDataType(generated.domain.enums.BatchExecutionOrigin::class.java), this, "")
+
+    /**
+     * The column <code>public.dm_batch_execution.type</code>.
+     */
+    val TYPE: TableField<DmBatchExecutionRecord, BatchExecutionType?> = createField(DSL.name("type"), SQLDataType.VARCHAR.asEnumDataType(generated.domain.enums.BatchExecutionType::class.java), this, "")
+
+    /**
+     * The column <code>public.dm_batch_execution.status</code>.
+     */
+    val STATUS: TableField<DmBatchExecutionRecord, ExecutionStatus?> = createField(DSL.name("status"), SQLDataType.VARCHAR.asEnumDataType(generated.domain.enums.ExecutionStatus::class.java), this, "")
 
     /**
      * The column <code>public.dm_batch_execution.fk_environment_ref</code>.
@@ -153,18 +187,18 @@ open class DmBatchExecution(
     public override fun rename(name: Table<*>): DmBatchExecution = DmBatchExecution(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row3<UUID?, UUID?, UUID?> = super.fieldsRow() as Row3<UUID?, UUID?, UUID?>
+    public override fun fieldsRow(): Row9<UUID?, OffsetDateTime?, OffsetDateTime?, Int?, BatchExecutionOrigin?, BatchExecutionType?, ExecutionStatus?, UUID?, UUID?> = super.fieldsRow() as Row9<UUID?, OffsetDateTime?, OffsetDateTime?, Int?, BatchExecutionOrigin?, BatchExecutionType?, ExecutionStatus?, UUID?, UUID?>
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    fun <U> mapping(from: (UUID?, UUID?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    fun <U> mapping(from: (UUID?, OffsetDateTime?, OffsetDateTime?, Int?, BatchExecutionOrigin?, BatchExecutionType?, ExecutionStatus?, UUID?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, UUID?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    fun <U> mapping(toType: Class<U>, from: (UUID?, OffsetDateTime?, OffsetDateTime?, Int?, BatchExecutionOrigin?, BatchExecutionType?, ExecutionStatus?, UUID?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }

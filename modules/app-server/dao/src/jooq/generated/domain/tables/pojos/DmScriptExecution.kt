@@ -4,7 +4,7 @@
 package generated.domain.tables.pojos
 
 
-import generated.domain.enums.ScriptExecutionStatus
+import generated.domain.enums.ExecutionStatus
 
 import jakarta.validation.constraints.Size
 
@@ -23,7 +23,7 @@ data class DmScriptExecution(
     val endDate: OffsetDateTime? = null,
     val durationInMs: Int? = null,
     val output: String? = null,
-    val status: ScriptExecutionStatus? = null,
+    val status: ExecutionStatus? = null,
     @get:Size(max = 255)
     val fkScriptRef: String? = null,
     val fkBatchExecutionRef: UUID? = null

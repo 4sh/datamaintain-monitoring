@@ -5,7 +5,9 @@ package generated.domain
 
 
 import generated.domain.tables.DmBatchExecution
+import generated.domain.tables.DmBatchExecutionDmFlag
 import generated.domain.tables.DmEnvironment
+import generated.domain.tables.DmFlag
 import generated.domain.tables.DmModule
 import generated.domain.tables.DmProject
 import generated.domain.tables.DmScript
@@ -39,9 +41,19 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val DM_BATCH_EXECUTION: DmBatchExecution get() = DmBatchExecution.DM_BATCH_EXECUTION
 
     /**
+     * The table <code>public.dm_batch_execution_dm_flag</code>.
+     */
+    val DM_BATCH_EXECUTION_DM_FLAG: DmBatchExecutionDmFlag get() = DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG
+
+    /**
      * The table <code>public.dm_environment</code>.
      */
     val DM_ENVIRONMENT: DmEnvironment get() = DmEnvironment.DM_ENVIRONMENT
+
+    /**
+     * The table <code>public.dm_flag</code>.
+     */
+    val DM_FLAG: DmFlag get() = DmFlag.DM_FLAG
 
     /**
      * The table <code>public.dm_module</code>.
@@ -77,7 +89,9 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
 
     public override fun getTables(): List<Table<*>> = listOf(
         DmBatchExecution.DM_BATCH_EXECUTION,
+        DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG,
         DmEnvironment.DM_ENVIRONMENT,
+        DmFlag.DM_FLAG,
         DmModule.DM_MODULE,
         DmProject.DM_PROJECT,
         DmScript.DM_SCRIPT,

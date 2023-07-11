@@ -4,7 +4,12 @@
 package generated.domain.tables.pojos
 
 
+import generated.domain.enums.BatchExecutionOrigin
+import generated.domain.enums.BatchExecutionType
+import generated.domain.enums.ExecutionStatus
+
 import java.io.Serializable
+import java.time.OffsetDateTime
 import java.util.UUID
 
 
@@ -14,6 +19,12 @@ import java.util.UUID
 @Suppress("UNCHECKED_CAST")
 data class DmBatchExecution(
     val id: UUID? = null,
+    val startDate: OffsetDateTime? = null,
+    val endDate: OffsetDateTime? = null,
+    val durationInMs: Int? = null,
+    val origin: BatchExecutionOrigin? = null,
+    val type: BatchExecutionType? = null,
+    val status: ExecutionStatus? = null,
     val fkEnvironmentRef: UUID? = null,
     val fkModuleRef: UUID? = null
 ): Serializable {
@@ -31,6 +42,42 @@ data class DmBatchExecution(
                 return false
         }
         else if (this.id != o.id)
+            return false
+        if (this.startDate == null) {
+            if (o.startDate != null)
+                return false
+        }
+        else if (this.startDate != o.startDate)
+            return false
+        if (this.endDate == null) {
+            if (o.endDate != null)
+                return false
+        }
+        else if (this.endDate != o.endDate)
+            return false
+        if (this.durationInMs == null) {
+            if (o.durationInMs != null)
+                return false
+        }
+        else if (this.durationInMs != o.durationInMs)
+            return false
+        if (this.origin == null) {
+            if (o.origin != null)
+                return false
+        }
+        else if (this.origin != o.origin)
+            return false
+        if (this.type == null) {
+            if (o.type != null)
+                return false
+        }
+        else if (this.type != o.type)
+            return false
+        if (this.status == null) {
+            if (o.status != null)
+                return false
+        }
+        else if (this.status != o.status)
             return false
         if (this.fkEnvironmentRef == null) {
             if (o.fkEnvironmentRef != null)
@@ -51,6 +98,12 @@ data class DmBatchExecution(
         val prime = 31
         var result = 1
         result = prime * result + (if (this.id == null) 0 else this.id.hashCode())
+        result = prime * result + (if (this.startDate == null) 0 else this.startDate.hashCode())
+        result = prime * result + (if (this.endDate == null) 0 else this.endDate.hashCode())
+        result = prime * result + (if (this.durationInMs == null) 0 else this.durationInMs.hashCode())
+        result = prime * result + (if (this.origin == null) 0 else this.origin.hashCode())
+        result = prime * result + (if (this.type == null) 0 else this.type.hashCode())
+        result = prime * result + (if (this.status == null) 0 else this.status.hashCode())
         result = prime * result + (if (this.fkEnvironmentRef == null) 0 else this.fkEnvironmentRef.hashCode())
         result = prime * result + (if (this.fkModuleRef == null) 0 else this.fkModuleRef.hashCode())
         return result
@@ -60,6 +113,12 @@ data class DmBatchExecution(
         val sb = StringBuilder("DmBatchExecution (")
 
         sb.append(id)
+        sb.append(", ").append(startDate)
+        sb.append(", ").append(endDate)
+        sb.append(", ").append(durationInMs)
+        sb.append(", ").append(origin)
+        sb.append(", ").append(type)
+        sb.append(", ").append(status)
         sb.append(", ").append(fkEnvironmentRef)
         sb.append(", ").append(fkModuleRef)
 

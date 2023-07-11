@@ -1,6 +1,6 @@
 package dao.batch.execution
 
-import batch.execution.BatchExecutionCreationRequest
+import execution.batch.BatchExecutionCreationRequest
 import java.util.*
 
 fun buildBatchExecutionCreationRequest(
