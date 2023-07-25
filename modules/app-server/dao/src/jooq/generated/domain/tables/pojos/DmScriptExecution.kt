@@ -22,6 +22,7 @@ data class DmScriptExecution(
     val startDate: OffsetDateTime? = null,
     val endDate: OffsetDateTime? = null,
     val durationInMs: Int? = null,
+    val executionOrderIndex: Int? = null,
     val output: String? = null,
     val status: ExecutionStatus? = null,
     @get:Size(max = 255)
@@ -61,6 +62,12 @@ data class DmScriptExecution(
         }
         else if (this.durationInMs != o.durationInMs)
             return false
+        if (this.executionOrderIndex == null) {
+            if (o.executionOrderIndex != null)
+                return false
+        }
+        else if (this.executionOrderIndex != o.executionOrderIndex)
+            return false
         if (this.output == null) {
             if (o.output != null)
                 return false
@@ -95,6 +102,7 @@ data class DmScriptExecution(
         result = prime * result + (if (this.startDate == null) 0 else this.startDate.hashCode())
         result = prime * result + (if (this.endDate == null) 0 else this.endDate.hashCode())
         result = prime * result + (if (this.durationInMs == null) 0 else this.durationInMs.hashCode())
+        result = prime * result + (if (this.executionOrderIndex == null) 0 else this.executionOrderIndex.hashCode())
         result = prime * result + (if (this.output == null) 0 else this.output.hashCode())
         result = prime * result + (if (this.status == null) 0 else this.status.hashCode())
         result = prime * result + (if (this.fkScriptRef == null) 0 else this.fkScriptRef.hashCode())
@@ -109,6 +117,7 @@ data class DmScriptExecution(
         sb.append(", ").append(startDate)
         sb.append(", ").append(endDate)
         sb.append(", ").append(durationInMs)
+        sb.append(", ").append(executionOrderIndex)
         sb.append(", ").append(output)
         sb.append(", ").append(status)
         sb.append(", ").append(fkScriptRef)
