@@ -204,38 +204,6 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         }
 
         @Test
-        fun `should update given script execution with script execution end data`() {
-            // Given
-            val scriptExecution = buildScriptExecutionCreationRequest(
-                batchExecutionRef = batchExecutionRef,
-                scriptRef = scriptChecksum,
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-            )
-            val insertedId = scriptExecutionDao.insert(scriptExecution).id
-
-            // When
-            val newEndDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
-            val newDurationInMs = 129
-            val newOutput = "myOtherOutput"
-            val newStatus = Status.COMPLETED
-            scriptExecutionDao.updateScriptExecutionEndData(insertedId, buildScriptExecutionEndUpdateRequest(
-                endDate = newEndDate,
-                durationInMs = newDurationInMs,
-                output = newOutput,
-                status = newStatus
-            ))
-
-            // Then
-            val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
-            expectThat(updatedScriptExecutionFromDb).isNotNull().and {
-                get { endDate?.isEqual(newEndDate) }.isTrue()
-                get { durationInMs }.isEqualTo(newDurationInMs)
-                get { output }.isEqualTo(newOutput)
-                get { status }.isEqualTo(newStatus)
-            }
-        }
-
-        @Test
         fun `should return updated script execution`() {
             // Given
             val scriptExecution = buildScriptExecutionCreationRequest(
@@ -268,6 +236,89 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { durationInMs }.isEqualTo(newDurationInMs)
                 get { output }.isEqualTo(newOutput)
                 get { status }.isEqualTo(newStatus)
+            }
+        }
+    }
+
+    @Nested
+    inner class TestUpdateExecutionStartData {
+        @Test
+        fun `should return null when id does not exist in db`() {
+            // Given
+            val scriptExecution = buildScriptExecutionCreationRequest(
+                batchExecutionRef = batchExecutionRef,
+                scriptRef = scriptChecksum
+            )
+            scriptExecutionDao.insert(scriptExecution)
+            val randomId = UUID.randomUUID()
+
+            // When
+            val updatedScriptExecution = scriptExecutionDao.updateScriptExecutionStartData(
+                randomId,
+                buildScriptExecutionStartUpdateRequest()
+            )
+
+            // Then
+            expectThat(updatedScriptExecution).isNull()
+        }
+
+        @Test
+        fun `should not update anything when id does not exist`() {
+            // Given
+            val scriptExecution = buildScriptExecutionCreationRequest(
+                batchExecutionRef = batchExecutionRef,
+                scriptRef = scriptChecksum,
+                startDate = OffsetDateTime.of(2023, 5, 16, 14, 26, 0, 0, ZoneOffset.UTC)
+            )
+            val insertedId = scriptExecutionDao.insert(scriptExecution).id
+            val randomId = UUID.randomUUID()
+
+            // When
+            scriptExecutionDao.updateScriptExecutionStartData(
+                randomId,
+                buildScriptExecutionStartUpdateRequest()
+            )
+
+            // Then
+            val scriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
+            expectThat(scriptExecutionFromDb).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { status }.isEqualTo(scriptExecution.status)
+                get { output }.isNull()
+                get { durationInMs }.isNull()
+            }
+        }
+
+        @Test
+        fun `should return updated script execution`() {
+            // Given
+            val scriptExecution = buildScriptExecutionCreationRequest(
+                batchExecutionRef = batchExecutionRef,
+                scriptRef = scriptChecksum,
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
+            )
+            val insertedId = scriptExecutionDao.insert(scriptExecution).id
+
+            // When
+            val newStartDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
+            scriptExecutionDao.updateScriptExecutionStartData(
+                insertedId,
+                buildScriptExecutionStartUpdateRequest(
+                    startDate = newStartDate
+                )
+            )
+
+            // Then
+            val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
+            expectThat(updatedScriptExecutionFromDb).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { fkBatchExecutionRef }.isEqualTo(scriptExecution.fkBatchExecutionRef)
+                get { fkScriptRef }.isEqualTo(scriptExecution.fkScriptRef)
+                get { startDate?.isEqual(newStartDate) }.isTrue()
+                get { endDate }.isNull()
+                get { status }.isEqualTo(Status.IN_PROGRESS)
             }
         }
     }
