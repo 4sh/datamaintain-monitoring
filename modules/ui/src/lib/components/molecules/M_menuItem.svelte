@@ -37,7 +37,7 @@
     });
 </script>
 
-<div class="menuItem" transition:fade>
+<div class="menuItem" in:fade>
     <div class="menuItem-title _{subContentRange}" class:_selected={selected}>
         <div class="menuItem-title-container" on:click={toggleMenuAndGoto}>
             <div class="menuItem-title-icon">

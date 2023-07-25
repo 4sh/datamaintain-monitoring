@@ -6,40 +6,49 @@
     import {Svroller} from "svrollbar";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
+    let timer;
 
     function filterHierarchy(event) {
-        projectHierarchiesPromise = ProjectService.projectHierarchies().then(result => {
-            return new HierarchySearch(event.target.value).filter(result);
-        })
+        debounce(event, event => {
+            projectHierarchiesPromise = ProjectService.projectHierarchies().then(result => {
+                return new HierarchySearch(event.target.value).filter(result);
+            })
+        });
+    }
+
+    function debounce(event, callback) {
+        clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            callback(event);
+        }, 400);
     }
 </script>
 
-{#await projectHierarchiesPromise}
-    <p>...waiting</p>
-{:then projectHierarchies}
+<div class="hierarchy">
+    <div class="hierarchy-title">
+        Modules
+    </div>
+    <div class="hierarchy-search">
+        <M_inputSearch on:input="{filterHierarchy}"/>
+    </div>
 
+    <div class="hierarchy-projects">
+        {#await projectHierarchiesPromise}
+            <p>...waiting</p>
+        {:then projectHierarchies}
 
-    <div class="hierarchy">
-        <div class="hierarchy-title">
-            Modules
-        </div>
-        <div class="hierarchy-search">
-            <M_inputSearch on:change="{filterHierarchy}"/>
-        </div>
-
-        <div class="hierarchy-projects">
             <Svroller>
                 {#each projectHierarchies as project}
                     <O_hierarchyProject {project}/>
                 {/each}
             </Svroller>
-        </div>
+
+        {:catch error}
+            <p style="color: red">Env not found !</p>
+        {/await}
     </div>
-
-
-{:catch error}
-    <p style="color: red">Env not found !</p>
-{/await}
+</div>
 
 <style lang="scss">
   @import "src/app";

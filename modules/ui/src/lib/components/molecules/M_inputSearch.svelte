@@ -4,7 +4,7 @@
 
 <div class="inputSearch">
     <div class="inputSearch-input">
-        <input type="text" on:change placeholder="Rechercher">
+        <input type="text" on:input placeholder="Rechercher">
     </div>
     <div class="inputSearch-icon">
         <A_icon type="search" size="semiSlim"/>
