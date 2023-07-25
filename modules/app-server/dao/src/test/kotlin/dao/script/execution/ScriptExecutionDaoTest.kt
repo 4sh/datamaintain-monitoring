@@ -11,6 +11,7 @@ import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.script.ScriptDao
 import dao.script.buildScriptCreationRequest
+import dao.utils.toDto
 import execution.Status
 import generated.domain.tables.pojos.DmScriptExecution
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
@@ -60,6 +61,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         fun `insert should return inserted row`() {
             // Given
             val dmScriptExecution = buildScriptExecutionCreationRequest(
+                executionOrderIndex = 4,
                 batchExecutionRef = batchExecutionRef,
                 scriptRef = scriptChecksum,
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
@@ -72,6 +74,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             expectThat(insertedScriptExecution).isNotNull().and {
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
+                get { executionOrderIndex }.isEqualTo(4)
                 get { status }.isEqualTo(Status.PLANNED)
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
@@ -94,6 +97,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val insertedDmScriptExecution = dslContext.select(
                 DM_SCRIPT_EXECUTION.ID,
                 DM_SCRIPT_EXECUTION.START_DATE,
+                DM_SCRIPT_EXECUTION.END_DATE,
+                DM_SCRIPT_EXECUTION.OUTPUT,
+                DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
+                DM_SCRIPT_EXECUTION.STATUS,
                 DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
                 DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF
             )
@@ -106,6 +113,10 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             ).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { output }.isNull()
+                get { executionOrderIndex }.isEqualTo(0)
+                get { status }.isEqualTo(dmScriptExecution.status.toDto())
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
@@ -197,6 +208,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
+                get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(scriptExecution.status)
                 get { output }.isNull()
                 get { durationInMs }.isNull()
@@ -235,6 +247,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { endDate?.isEqual(newEndDate) }.isTrue()
                 get { durationInMs }.isEqualTo(newDurationInMs)
                 get { output }.isEqualTo(newOutput)
+                get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(newStatus)
             }
         }
@@ -285,6 +298,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
+                get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(scriptExecution.status)
                 get { output }.isNull()
                 get { durationInMs }.isNull()
@@ -318,6 +332,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { fkScriptRef }.isEqualTo(scriptExecution.fkScriptRef)
                 get { startDate?.isEqual(newStartDate) }.isTrue()
                 get { endDate }.isNull()
+                get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(Status.IN_PROGRESS)
             }
         }
