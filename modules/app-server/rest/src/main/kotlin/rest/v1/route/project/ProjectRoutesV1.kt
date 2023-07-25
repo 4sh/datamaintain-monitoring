@@ -14,6 +14,10 @@ internal const val projectId = "projectId"
 internal fun ApplicationCall.projectId() = UUID.fromString(this.parameters[projectId])
 
 internal fun Route.projectV1Routes(projectService: ProjectService) {
+    get("/projects/hierarchies") {
+        call.respondNullable(projectService.findProjectHierarchies().map { it.toHierarchyDtoV1() })
+    }
+
     get("/projects/{$projectId}") {
         call.respondNullable(projectService.findOneById(call.projectId())?.toDtoV1())
     }
