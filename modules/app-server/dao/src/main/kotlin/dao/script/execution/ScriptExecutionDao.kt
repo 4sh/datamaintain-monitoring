@@ -35,6 +35,27 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             DM_SCRIPT_EXECUTION.OUTPUT
         ).fetchSingleInto(ScriptExecution::class.java)
 
+    fun updateScriptExecutionStartData(
+        scriptExecutionId: UUID,
+        executionStartData: ScriptExecutionStartUpdateRequest
+    ): ScriptExecution? =
+        dslContext.update(DM_SCRIPT_EXECUTION)
+            .set(DM_SCRIPT_EXECUTION.START_DATE, executionStartData.startDate)
+            .set(DM_SCRIPT_EXECUTION.STATUS, ExecutionStatus.IN_PROGRESS)
+            .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
+            .returningResult(
+                DM_SCRIPT_EXECUTION.ID,
+                DM_SCRIPT_EXECUTION.START_DATE,
+                DM_SCRIPT_EXECUTION.END_DATE,
+                DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
+                DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
+                DM_SCRIPT_EXECUTION.DURATION_IN_MS,
+                DM_SCRIPT_EXECUTION.STATUS,
+                DM_SCRIPT_EXECUTION.OUTPUT
+            ).fetchOne()
+            ?.into(ScriptExecution::class.java)
+
+
     fun updateScriptExecutionEndData(
         scriptExecutionId: UUID,
         executionEndData: ScriptExecutionEndUpdateRequest
