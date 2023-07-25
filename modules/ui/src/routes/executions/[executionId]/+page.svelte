@@ -3,6 +3,8 @@
     import M_breadcrumbItem from "$lib/components/molecules/M_breadcrumbItem.svelte";
     import {Tooltip} from "svelte-tooltip-simple";
     import M_codeBlock from "$lib/components/molecules/M_codeBlock.svelte";
+    import O_hierarchyEnv from "$lib/components/organisms/O_hierarchy/O_hierarchyEnv.svelte";
+    import M_menuItem from "$lib/components/molecules/M_menuItem.svelte";
 
     let codeLog = 'MongoDB shell version v4.2.21\n' +
         '                    connecting to: mongodb://cluster-prod-k8s-shard-00-00.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-01.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-02.lk5ez.mongodb.net:27017/cartoborne?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-qhubug-shard-0&ssl=true\n' +
@@ -467,7 +469,13 @@
     </div>
 
     <div class="executionView-container">
-        <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
+        <div class="executionView-tabs">
+            <div class="executionView-tabs-item">Script</div>
+            <div class="executionView-tabs-item _active">Logs</div>
+        </div>
+        <div class="executionView-details">
+            <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
+        </div>
     </div>
 </div>
 
@@ -537,46 +545,34 @@
       font-size: rem-calc(24px);
     }
 
-    &-log {
-      border-radius: rem-calc(4px);
-      height: 100%;
-      border: rem-calc(1px) solid rgba($app-secondary_700, .5);
-      font-size: rem-calc(12px);
-      line-height: rem-calc(25px);
-      max-height: calc(100% - 30px);
-      position: relative;
+    &-tabs {
+      display: flex;
 
-      &-section {
+      &-item {
+        height: rem-calc(24px);
+        margin: rem-calc(10px 13px 16px) 0;
+        border-radius: rem-calc(12px);
+        padding: 0 rem-calc(14px);
         display: flex;
-        counter-reset: section;
-        white-space: nowrap;
-        white-space-collapse: preserve-breaks;
-        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace !important;
-      }
+        align-items: center;
+        font-size: rem-calc(14px);
+        border: rem-calc(1px) solid rgba($app-secondary_700, .5);
 
-      &-number {
-        padding: rem-calc(15px);
-        background: rgba(var(--secondary-color-rgb) / .1);
+        &:hover {
+          cursor: pointer;
+          background-color: $app-primary_900;
+        }
 
-        &-item {
-          color: $app-secondary_700;
-          width: rem-calc(30px);
-          text-align: right;
-
-          &._extended {
-            width: rem-calc(40px);
-          }
+        &._active {
+          background: linear-gradient(16deg, rgba(99, 196, 219, 1) 0%, rgba(156, 222, 237, 1) 100%)!important;
+          font-weight: 500;
+          border: none;
         }
       }
+    }
 
-      &-line {
-        padding: rem-calc(15px) 0;
-        width: calc(100% - 60px);
-
-        &-item {
-          padding: 0 rem-calc(20px);
-        }
-      }
+    &-details {
+      max-height: calc(100% - 50px);
     }
   }
 </style>

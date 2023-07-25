@@ -41,7 +41,6 @@
     border: rem-calc(1px) solid rgba($app-secondary_700, .5);
     font-size: rem-calc(12px);
     line-height: rem-calc(25px);
-    max-height: calc(100% - 30px);
     position: relative;
 
     &-section {
