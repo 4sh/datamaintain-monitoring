@@ -8,7 +8,7 @@ import java.time.ZoneOffset
 import java.util.*
 
 fun buildScriptExecutionCreationRequest(
-    startDate: OffsetDateTime = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+    startDate: OffsetDateTime? = null,
     status: Status = Status.PLANNED,
     scriptRef: String,
     batchExecutionRef: UUID

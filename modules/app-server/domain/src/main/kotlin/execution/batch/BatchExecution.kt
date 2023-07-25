@@ -6,7 +6,7 @@ import java.util.*
 
 data class BatchExecution(
     val id: UUID,
-    val startDate: OffsetDateTime,
+    val startDate: OffsetDateTime? = null,
     val endDate: OffsetDateTime? = null,
     val durationInMs: Int? = null,
     val origin: Origin,
