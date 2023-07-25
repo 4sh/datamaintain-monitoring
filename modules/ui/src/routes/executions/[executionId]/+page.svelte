@@ -2,7 +2,7 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import M_breadcrumbItem from "$lib/components/molecules/M_breadcrumbItem.svelte";
     import {Tooltip} from "svelte-tooltip-simple";
-    import {Svroller} from "svrollbar";
+    import M_codeBlock from "$lib/components/molecules/M_codeBlock.svelte";
 
     let codeLog = 'MongoDB shell version v4.2.21\n' +
         '                    connecting to: mongodb://cluster-prod-k8s-shard-00-00.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-01.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-02.lk5ez.mongodb.net:27017/cartoborne?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-qhubug-shard-0&ssl=true\n' +
@@ -429,8 +429,10 @@
         '                    41400 owners setted\n' +
         '                    41500 owners setted\n' +
         '                    41600 owners setted\n' +
-        '                    41621 owners setted\n' +
-        '                    Script add_media_owners_on_meta_charge_consumption.js executed in 1 minutes and 55 seconds';
+        '                    41621 owners setted';
+
+
+    const codeLogArray = codeLog.split('\n');
 </script>
 
 <div class="executionView">
@@ -465,13 +467,7 @@
     </div>
 
     <div class="executionView-container">
-        <div class="executionView-log">
-            <Svroller>
-                <div>
-                    {codeLog}
-                </div>
-            </Svroller>
-        </div>
+        <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
     </div>
 </div>
 
@@ -542,17 +538,44 @@
     }
 
     &-log {
-      border-radius: rem-calc(8px);
+      border-radius: rem-calc(4px);
       height: 100%;
-      background-color: $app-primary_900;
-      padding: rem-calc(15px 20px);
+      border: rem-calc(1px) solid rgba($app-secondary_700, .5);
       font-size: rem-calc(12px);
       line-height: rem-calc(25px);
       max-height: calc(100% - 30px);
+      position: relative;
 
-      div {
+      &-section {
+        display: flex;
+        counter-reset: section;
         white-space: nowrap;
         white-space-collapse: preserve-breaks;
+        font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace !important;
+      }
+
+      &-number {
+        padding: rem-calc(15px);
+        background: rgba(var(--secondary-color-rgb) / .1);
+
+        &-item {
+          color: $app-secondary_700;
+          width: rem-calc(30px);
+          text-align: right;
+
+          &._extended {
+            width: rem-calc(40px);
+          }
+        }
+      }
+
+      &-line {
+        padding: rem-calc(15px) 0;
+        width: calc(100% - 60px);
+
+        &-item {
+          padding: 0 rem-calc(20px);
+        }
       }
     }
   }
