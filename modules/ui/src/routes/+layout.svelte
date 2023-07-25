@@ -3,6 +3,8 @@
 	import {getLocaleFromNavigator, init, isLoading, register} from "svelte-i18n";
 	import O_header from "$lib/components/organisms/O_header.svelte";
 	import {currentTheme} from "$lib/stores/theme";
+	import {page} from "$app/stores";
+	import {currentSiteSection, SiteSectionService} from "$lib/services/utils/SiteSectionService";
 
 	register("en", () => import("../public/lang/en.json"));
 	register("fr", () => import("../public/lang/fr.json"));
@@ -11,6 +13,10 @@
 		fallbackLocale: "en",
 		initialLocale: getLocaleFromNavigator()
 	});
+
+	page.subscribe(newPage => {
+		currentSiteSection.set(SiteSectionService.toSiteSection(newPage.url));
+	})
 </script>
 
 <svelte:head>

@@ -2,6 +2,7 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import { fade, slide } from 'svelte/transition'
     import { goto } from '$app/navigation';
+    import {currentSiteSection, SiteSectionService} from "$lib/services/utils/SiteSectionService";
 
     export let prefixIcon = 'fiber_manual_record';
     export let prefixIconSize = 'semiSlim';
@@ -12,6 +13,7 @@
     export let url;
     export let subContentRange = 'primary';
 
+    let selected = false;
 
     let isOpen = false;
 
@@ -26,10 +28,17 @@
             goto(`/${url}`, { replaceState: true })
         }
     }
+
+    currentSiteSection.subscribe(currentSiteSection => {
+        let siteSection = url && SiteSectionService.toSiteSection(`/${url}`);
+        selected = siteSection && JSON.stringify(currentSiteSection) === JSON.stringify(siteSection);
+
+        isOpen = selected || siteSection && SiteSectionService.isParentOf(siteSection, currentSiteSection);
+    });
 </script>
 
 <div class="menuItem" transition:fade>
-    <div class="menuItem-title _{subContentRange}">
+    <div class="menuItem-title _{subContentRange}" class:_selected={selected}>
         <div class="menuItem-title-container" on:click={toggleMenuAndGoto}>
             <div class="menuItem-title-icon">
                 <A_icon type="{prefixIcon}" size="{prefixIconSize}" weight="{prefixIconWeight}" visibility="secondary"></A_icon>
