@@ -16,11 +16,13 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION,
             DM_SCRIPT_EXECUTION.START_DATE,
+            DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
             DM_SCRIPT_EXECUTION.STATUS,
             DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
             DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
         ).values(
             `val`(data.startDate),
+            `val`(data.executionOrderIndex),
             `val`(data.status.toDto()),
             `val`(data.fkScriptRef),
             `val`(data.fkBatchExecutionRef),
@@ -31,6 +33,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
             DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
             DM_SCRIPT_EXECUTION.DURATION_IN_MS,
+            DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
             DM_SCRIPT_EXECUTION.STATUS,
             DM_SCRIPT_EXECUTION.OUTPUT
         ).fetchSingleInto(ScriptExecution::class.java)
@@ -50,6 +53,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
                 DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
                 DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
                 DM_SCRIPT_EXECUTION.DURATION_IN_MS,
+                DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
                 DM_SCRIPT_EXECUTION.STATUS,
                 DM_SCRIPT_EXECUTION.OUTPUT
             ).fetchOne()
@@ -73,6 +77,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
                 DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
                 DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
                 DM_SCRIPT_EXECUTION.DURATION_IN_MS,
+                DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
                 DM_SCRIPT_EXECUTION.STATUS,
                 DM_SCRIPT_EXECUTION.OUTPUT
             )

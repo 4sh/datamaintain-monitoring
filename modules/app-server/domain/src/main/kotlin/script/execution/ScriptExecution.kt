@@ -9,6 +9,7 @@ data class ScriptExecution(
     val startDate: OffsetDateTime? = null,
     val endDate: OffsetDateTime? = null,
     val durationInMs: Int? = null,
+    val executionOrderIndex: Int,
     val output: String? = null,
     val status: Status? = null,
     val fkScriptRef: String,
