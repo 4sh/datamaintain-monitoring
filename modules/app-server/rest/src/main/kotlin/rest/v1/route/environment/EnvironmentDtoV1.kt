@@ -2,7 +2,7 @@ package rest.v1.route.environment
 
 import environment.Environment
 import kotlinx.serialization.Serializable
-import rest.UUIDSerializer
+import rest.serializer.UUIDSerializer
 import java.util.*
 
 @Serializable

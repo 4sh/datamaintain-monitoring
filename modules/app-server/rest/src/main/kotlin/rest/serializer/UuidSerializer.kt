@@ -1,4 +1,4 @@
-package rest
+package rest.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

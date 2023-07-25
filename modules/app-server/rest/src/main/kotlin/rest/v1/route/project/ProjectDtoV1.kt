@@ -3,7 +3,7 @@ package rest.v1.route.project
 import project.Project
 import project.ProjectCreationRequest
 import project.ProjectNameUpdateRequest
-import rest.UUIDSerializer
+import rest.serializer.UUIDSerializer
 import java.util.*
 
 @kotlinx.serialization.Serializable
