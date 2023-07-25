@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS dm_script_execution (
     start_date TIMESTAMP WITH TIME ZONE,
     end_date TIMESTAMP WITH TIME ZONE,
     duration_in_ms INTEGER,
+    execution_order_index INTEGER,
     output TEXT,
     status execution_status,
     fk_script_ref VARCHAR(255) REFERENCES dm_script(checksum) ON DELETE CASCADE,
