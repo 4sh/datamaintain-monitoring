@@ -1,3 +1,9 @@
+import dao.environment.EnvironmentDao
+import dao.module.ModuleDao
+import dao.project.ProjectDao
+import dao.project.buildProjectCreationRequest
+import environment.EnvironmentCreationRequest
+import module.ModuleCreationRequest
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
@@ -12,7 +18,6 @@ import java.sql.DriverManager
 
 @Testcontainers
 abstract class AbstractDaoTest {
-
     abstract fun dropTables()
 
     @BeforeEach
@@ -20,9 +25,28 @@ abstract class AbstractDaoTest {
         dropTables()
     }
 
+    fun  withProjectInDb(projectName: String, modulesNames: List<String> = listOf(), environmentsNames: List<String> = listOf()) {
+        val projectId = projectDao.insert(buildProjectCreationRequest(name = projectName)).id
+        modulesNames.forEach { moduleDao.insert(ModuleCreationRequest(name = it, fkProjectRef = projectId)) }
+        environmentsNames.forEach { environmentDao.insert(EnvironmentCreationRequest(name = it, fkProjectRef = projectId)) }
+    }
+
+    fun withModulesInDb(vararg modules: ModuleCreationRequest) {
+        val moduleDao = ModuleDao(dslContext)
+        modules.forEach { moduleDao.insert(it) }
+    }
+
+    fun withEnvironmentsInDb(vararg environments: EnvironmentCreationRequest) {
+        val environmentDao = EnvironmentDao(dslContext)
+        environments.forEach { environmentDao.insert(it) }
+    }
+
     companion object {
         lateinit var dslContext: DSLContext
         private const val databaseName = "datamaintain"
+        private lateinit var moduleDao: ModuleDao
+        private lateinit var projectDao: ProjectDao
+        private lateinit var environmentDao: EnvironmentDao
 
         @Container
         val postgresContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:15")
@@ -39,6 +63,9 @@ abstract class AbstractDaoTest {
                 postgresContainer.password
             )
             dslContext = DSL.using(connection, SQLDialect.POSTGRES)
+            moduleDao = ModuleDao(dslContext)
+            projectDao = ProjectDao(dslContext)
+            environmentDao = EnvironmentDao(dslContext)
         }
 
         @AfterAll

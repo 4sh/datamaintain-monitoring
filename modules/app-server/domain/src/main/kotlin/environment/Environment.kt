@@ -2,8 +2,8 @@ package environment
 
 import java.util.*
 
-data class Environment(
-    val id: UUID,
-    val name: String,
-    val fkProjectRef: UUID
+open class Environment(
+    open val id: UUID,
+    open val name: String,
+    open val fkProjectRef: UUID
 )

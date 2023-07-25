@@ -1,14 +1,17 @@
 package dao.project
 
 import AbstractDaoTest
+import dao.environment.buildEnvironmentCreationRequest
+import dao.module.ModuleDao
+import dao.module.buildModuleCreationRequest
 import generated.domain.tables.references.DM_PROJECT
+import module.ModuleCreationRequest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import project.Project
+import project.ProjectHierarchy
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotNull
-import strikt.assertions.isNull
+import strikt.assertions.*
 import java.util.*
 
 internal class ProjectDaoTest : AbstractDaoTest() {
@@ -190,6 +193,114 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             // Then
             expectThat(projectDao.findOneById(insertedId1)).isNull()
             expectThat(projectDao.findOneById(insertedId2)).isNotNull()
+        }
+    }
+
+    @Nested
+    inner class TestFindProjectHierarchies {
+        @Test
+        fun `should load project linked modules and environments`() {
+            // Given
+            withProjectInDb(
+                projectName = "myProject",
+                modulesNames = listOf("mySecondModule"),
+                environmentsNames = listOf("myFirstEnvironment")
+            )
+
+            // When
+            val projectHierarchies = projectDao.findProjectHierarchies()
+
+            // Then
+            expectThat(
+                projectHierarchies[0]
+            ) {
+                get { name }.isEqualTo("myProject")
+                get { envs[0].name }.isEqualTo("myFirstEnvironment")
+                get { envs[0].modules[0].name }.isEqualTo("mySecondModule")
+            }
+        }
+
+        @Test
+        fun `should put all modules into each environment hierarchy`() {
+            // Given
+            withProjectInDb(
+                projectName = "myProject",
+                modulesNames = listOf("mySecondModule", "myFirstModule"),
+                environmentsNames = listOf("myFirstEnvironment", "mySecondEnvironment")
+            )
+
+            // When
+            val projectHierarchies = projectDao.findProjectHierarchies()
+
+            // Then
+            expectThat(
+                projectHierarchies[0].envs
+            ).all {
+                get { modules.map { it.name }}.containsExactly("myFirstModule", "mySecondModule")
+            }
+        }
+
+        @Test
+        fun `should sort modules by their names with alphabetical ascendant order`() {
+            // Given
+            withProjectInDb(
+                projectName = "myProject",
+                modulesNames = listOf("mySecondModule", "myFirstModule"),
+                environmentsNames = listOf("myFirstEnvironment")
+            )
+
+            // When
+            val projectHierarchies = projectDao.findProjectHierarchies()
+
+            // Then
+            expectThat(
+                projectHierarchies[0].envs[0].modules.map { it.name }
+            ).containsExactly("myFirstModule", "mySecondModule")
+        }
+
+        @Test
+        fun `should sort environments by their names with alphabetical ascendant order`() {
+            // Given
+            withProjectInDb(
+                projectName = "myProject",
+                environmentsNames = listOf("mySecondEnvironment", "myFirstEnvironment")
+            )
+
+            // When
+            val projectHierarchies = projectDao.findProjectHierarchies()
+
+            // Then
+
+            expectThat(
+                projectHierarchies[0]
+            ) {
+                get { envs[0].name }.isEqualTo("myFirstEnvironment")
+                get { envs[1].name }.isEqualTo("mySecondEnvironment")
+            }
+        }
+
+        @Test
+        fun `should sort projects by their names with alphabetical ascendant order`() {
+            // Given
+            withProjectInDb(
+                projectName = "myProject"
+            )
+
+            withProjectInDb(
+                projectName = "myOtherProject"
+            )
+
+            // When
+            val projectHierarchies = projectDao.findProjectHierarchies()
+
+            // Then
+
+            expectThat(
+                projectHierarchies
+            ) {
+                get(0).get { name }.isEqualTo("myOtherProject")
+                get(1).get { name }.isEqualTo("myProject")
+            }
         }
     }
 }
