@@ -9,4 +9,5 @@ class ProjectService(private val projectDao: ProjectDaoInterface) {
 
     fun delete(id: UUID) = projectDao.delete(id)
     fun findOneById(id: UUID): Project? = projectDao.findOneById(id)
+    fun findProjectHierarchies(): List<ProjectHierarchy> = projectDao.findProjectHierarchies()
 }
