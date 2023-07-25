@@ -74,6 +74,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             expectThat(insertedScriptExecution).isNotNull().and {
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
+                get { durationInMs }.isNull()
                 get { executionOrderIndex }.isEqualTo(4)
                 get { status }.isEqualTo(Status.PLANNED)
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
@@ -98,6 +99,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 DM_SCRIPT_EXECUTION.ID,
                 DM_SCRIPT_EXECUTION.START_DATE,
                 DM_SCRIPT_EXECUTION.END_DATE,
+                DM_SCRIPT_EXECUTION.DURATION_IN_MS,
                 DM_SCRIPT_EXECUTION.OUTPUT,
                 DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
                 DM_SCRIPT_EXECUTION.STATUS,
@@ -114,6 +116,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
+                get { durationInMs }.isNull()
                 get { output }.isNull()
                 get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(dmScriptExecution.status.toDto())
@@ -226,13 +229,11 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val insertedId = scriptExecutionDao.insert(scriptExecution).id
 
             // When
-            val newEndDate = OffsetDateTime.of(2024, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
-            val newDurationInMs = 129
+            val newEndDate = OffsetDateTime.of(2023, 5, 2, 14, 38, 0, 0, ZoneOffset.UTC)
             val newOutput = "myOtherOutput"
             val newStatus = Status.ERROR
             scriptExecutionDao.updateScriptExecutionEndData(insertedId, buildScriptExecutionEndUpdateRequest(
                 endDate = newEndDate,
-                durationInMs = newDurationInMs,
                 output = newOutput,
                 status = newStatus
             ))
@@ -245,7 +246,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { fkScriptRef }.isEqualTo(scriptExecution.fkScriptRef)
                 get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate?.isEqual(newEndDate) }.isTrue()
-                get { durationInMs }.isEqualTo(newDurationInMs)
+                get { durationInMs }.isEqualTo(720_000)
                 get { output }.isEqualTo(newOutput)
                 get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(newStatus)
@@ -332,6 +333,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { fkScriptRef }.isEqualTo(scriptExecution.fkScriptRef)
                 get { startDate?.isEqual(newStartDate) }.isTrue()
                 get { endDate }.isNull()
+                get { durationInMs }.isNull()
                 get { executionOrderIndex }.isEqualTo(0)
                 get { status }.isEqualTo(Status.IN_PROGRESS)
             }

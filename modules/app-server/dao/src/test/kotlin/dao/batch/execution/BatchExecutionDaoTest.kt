@@ -8,6 +8,7 @@ import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.utils.toDto
+import execution.Status
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
 import org.junit.jupiter.api.BeforeAll
@@ -95,6 +96,227 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { status }.isEqualTo(batchExecutionCreationRequest.status.toDto())
                 get { fkEnvironmentRef }.isEqualTo(environmentId)
                 get { fkModuleRef }.isEqualTo(moduleId)
+            }
+        }
+    }
+
+    @Nested
+    inner class TestFindOneById {
+        @Test
+        fun `should return null when id does not exist in db`() {
+            // Given
+            val id = UUID.randomUUID()
+
+            // When
+            val batchExecution = batchExecutionDao.findOneById(id)
+
+            // Then
+            expectThat(batchExecution).isNull()
+        }
+
+        @Test
+        fun `should load script execution from db when it exists`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                fkEnvironmentRef = environmentId,
+                fkModuleRef = moduleId
+            )
+
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
+
+            // When
+            val batchExecution = batchExecutionDao.findOneById(insertedId)
+
+            // Then
+            expectThat(batchExecution).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+            }
+        }
+    }
+
+    @Nested
+    inner class TestUpdateBatchExecutionStartData {
+        @Test
+        fun `should return null when id does not exist in db`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
+
+            batchExecutionDao.insert(batchExecutionCreationRequest)
+            val randomId = UUID.randomUUID()
+
+            // When
+            val updatedBatchExecution = batchExecutionDao.updateBatchExecutionStartData(
+                randomId,
+                buildBatchExecutionStartUpdateRequest()
+            )
+
+            // Then
+            expectThat(updatedBatchExecution).isNull()
+        }
+
+        @Test
+        fun `should not update anything when id does not exist`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
+
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
+            val randomId = UUID.randomUUID()
+
+            // When
+            batchExecutionDao.updateBatchExecutionStartData(
+                randomId,
+                buildBatchExecutionStartUpdateRequest()
+            )
+
+            // Then
+            val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
+            expectThat(batchExecutionFromDb).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { durationInMs }.isNull()
+                get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
+                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { type }.isEqualTo(batchExecutionCreationRequest.type)
+                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
+                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+            }
+        }
+
+        @Test
+        fun `should return updated script execution`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                startDate = null,
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
+
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
+            val newStartDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
+
+            // When
+            batchExecutionDao.updateBatchExecutionStartData(
+                insertedId,
+                buildBatchExecutionStartUpdateRequest(
+                    startDate = newStartDate,
+                )
+            )
+
+            // Then
+            val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
+            expectThat(batchExecutionFromDb).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { startDate?.isEqual(newStartDate) }.isTrue()
+                get { endDate }.isNull()
+                get { durationInMs }.isNull()
+                get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
+                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { type }.isEqualTo(batchExecutionCreationRequest.type)
+                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
+                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+            }
+        }
+    }
+
+    @Nested
+    inner class TestUpdateBatchExecutionEndData {
+        @Test
+        fun `should return null when id does not exist in db`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
+
+            batchExecutionDao.insert(batchExecutionCreationRequest)
+            val randomId = UUID.randomUUID()
+
+            // When
+            val updatedBatchExecution = batchExecutionDao.updateBatchExecutionEndData(
+                randomId,
+                buildBatchExecutionEndUpdateRequest()
+            )
+
+            // Then
+            expectThat(updatedBatchExecution).isNull()
+        }
+
+        @Test
+        fun `should not update anything when id does not exist`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
+
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
+            val randomId = UUID.randomUUID()
+
+            // When
+            batchExecutionDao.updateBatchExecutionEndData(
+                randomId,
+                buildBatchExecutionEndUpdateRequest()
+            )
+
+            // Then
+            val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
+            expectThat(batchExecutionFromDb).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { durationInMs }.isNull()
+                get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
+                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { type }.isEqualTo(batchExecutionCreationRequest.type)
+                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
+                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+            }
+        }
+
+        @Test
+        fun `should return updated script execution`() {
+            // Given
+            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                fkModuleRef = moduleId,
+                fkEnvironmentRef = environmentId
+            )
+
+            val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
+            val newEndDate = OffsetDateTime.of(2023, 5, 2, 14, 30, 0, 0, ZoneOffset.UTC)
+
+            // When
+            batchExecutionDao.updateBatchExecutionEndData(
+                insertedId,
+                buildBatchExecutionEndUpdateRequest(
+                    endDate = newEndDate,
+                    status = Status.COMPLETED
+                )
+            )
+
+            // Then
+            val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
+            expectThat(batchExecutionFromDb).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { endDate?.isEqual(newEndDate) }.isTrue()
+                get { durationInMs }.isEqualTo(240_000)
+                get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
+                get { status }.isEqualTo(Status.COMPLETED)
+                get { type }.isEqualTo(batchExecutionCreationRequest.type)
+                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
+                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
             }
         }
     }

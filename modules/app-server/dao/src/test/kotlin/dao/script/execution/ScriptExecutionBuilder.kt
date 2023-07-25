@@ -30,12 +30,10 @@ fun buildScriptExecutionStartUpdateRequest(
 
 fun buildScriptExecutionEndUpdateRequest(
     endDate: OffsetDateTime = OffsetDateTime.of(2023, 5, 30, 14, 26, 0, 0, ZoneOffset.UTC),
-    durationInMs: Int = 2000,
     output: String = "output",
     status: Status = Status.COMPLETED,
 ) = ScriptExecutionEndUpdateRequest(
     endDate = endDate,
-    durationInMs = durationInMs,
     output = output,
     status = status
 )

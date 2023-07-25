@@ -68,7 +68,6 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             .set(DM_SCRIPT_EXECUTION.END_DATE, executionEndData.endDate)
             .set(DM_SCRIPT_EXECUTION.OUTPUT, executionEndData.output)
             .set(DM_SCRIPT_EXECUTION.STATUS, executionEndData.status.toDto())
-            .set(DM_SCRIPT_EXECUTION.DURATION_IN_MS, executionEndData.durationInMs)
             .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
             .returningResult(
                 DM_SCRIPT_EXECUTION.ID,
