@@ -3,8 +3,16 @@
     import M_breadcrumbItem from "$lib/components/molecules/M_breadcrumbItem.svelte";
     import {Tooltip} from "svelte-tooltip-simple";
     import M_codeBlock from "$lib/components/molecules/M_codeBlock.svelte";
-    import O_hierarchyEnv from "$lib/components/organisms/O_hierarchy/O_hierarchyEnv.svelte";
-    import M_menuItem from "$lib/components/molecules/M_menuItem.svelte";
+    import O_scriptDetail from "$lib/components/organisms/O_scriptDetail.svelte";
+    import M_tabs from "$lib/components/molecules/M_tabs.svelte";
+    import O_scriptList from "$lib/components/organisms/O_scriptList.svelte";
+
+    let tabItems = ['Script', 'Logs']
+    let activeTabItem = 'Script'
+
+    const triggerTabChange = (event) => {
+        activeTabItem = event.detail;
+    }
 
     let codeLog = 'MongoDB shell version v4.2.21\n' +
         '                    connecting to: mongodb://cluster-prod-k8s-shard-00-00.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-01.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-02.lk5ez.mongodb.net:27017/cartoborne?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-qhubug-shard-0&ssl=true\n' +
@@ -450,7 +458,7 @@
                 <M_breadcrumbItem nameItem="Portail Fret"></M_breadcrumbItem>
                 <M_breadcrumbItem nameItem="Production"></M_breadcrumbItem>
                 <M_breadcrumbItem nameItem="Module"></M_breadcrumbItem>
-                <M_breadcrumbItem nameItem="Execution PF12092022-1" isLast="true"></M_breadcrumbItem>
+                <M_breadcrumbItem nameItem="Exécution PF12092022-1" isLast="true"></M_breadcrumbItem>
             </div>
             <div class="executionView-header-favorite">
                 <Tooltip text="Ajouter aux favoris">
@@ -460,21 +468,50 @@
         </div>
 
         <div class="executionView-title">
-            PF12092022-1
+            Exécution PF12092022-1
         </div>
 
         <div class="executionView-content">
-            Execution [executionId]
+            <div class="executionView-content-container">
+                <div class="executionView-content-title">
+                    Lancé le :
+                </div>
+                <div class="executionView-content-data">
+                    12/09/2022 à 13h57
+                </div>
+            </div>
+            <div class="executionView-content-container">
+                <div class="executionView-content-title">
+                    Module :
+                </div>
+                <div class="executionView-content-data">
+                    Module Machin
+                </div>
+            </div>
+            <div class="executionView-content-container">
+                <div class="executionView-content-title">
+                    Environnement :
+                </div>
+                <div class="executionView-content-data">
+                    Production
+                </div>
+            </div>
+        </div>
+
+        <div class="executionView-scripts">
+            <O_scriptList></O_scriptList>
         </div>
     </div>
 
     <div class="executionView-container">
-        <div class="executionView-tabs">
-            <div class="executionView-tabs-item">Script</div>
-            <div class="executionView-tabs-item _active">Logs</div>
-        </div>
+        <M_tabs tabItems={tabItems} activeItem={activeTabItem} on:tabChange={triggerTabChange}/>
+
         <div class="executionView-details">
-            <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
+            {#if activeTabItem === 'Script'}
+                <O_scriptDetail></O_scriptDetail>
+            {:else if activeTabItem === 'Logs'}
+                <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
+            {/if}
         </div>
     </div>
 </div>
@@ -540,39 +577,35 @@
     &-title {
       display: flex;
       align-items: center;
-      margin-bottom: rem-calc(32px);
+      margin-bottom: rem-calc(25px);
       flex: 0 0 auto;
+      font-weight: 500;
+      letter-spacing: rem-calc(1px);
       font-size: rem-calc(24px);
+      color: $app-primary_700;
     }
 
-    &-tabs {
-      display: flex;
+    &-content {
+      font-size: rem-calc(14px);
 
-      &-item {
-        height: rem-calc(24px);
-        margin: rem-calc(10px 13px 16px) 0;
-        border-radius: rem-calc(12px);
-        padding: 0 rem-calc(14px);
+      &-container {
         display: flex;
-        align-items: center;
-        font-size: rem-calc(14px);
-        border: rem-calc(1px) solid rgba($app-secondary_700, .5);
+        margin-bottom: rem-calc(10px);
+      }
 
-        &:hover {
-          cursor: pointer;
-          background-color: $app-primary_900;
-        }
-
-        &._active {
-          background: linear-gradient(16deg, rgba(99, 196, 219, 1) 0%, rgba(156, 222, 237, 1) 100%)!important;
-          font-weight: 500;
-          border: none;
-        }
+      &-title {
+        margin-right: rem-calc(5px);
+        font-weight: 600;
       }
     }
 
+    &-scripts {
+      height: 100%;
+      margin-top: rem-calc(25px);
+    }
+
     &-details {
-      max-height: calc(100% - 50px);
+      height: calc(100% - 50px);
     }
   }
 </style>
