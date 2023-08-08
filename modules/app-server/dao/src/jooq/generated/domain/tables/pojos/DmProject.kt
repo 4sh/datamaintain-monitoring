@@ -17,7 +17,9 @@ import java.util.UUID
 data class DmProject(
     val id: UUID? = null,
     @get:Size(max = 255)
-    val name: String? = null
+    val name: String? = null,
+    @get:Size(max = 255)
+    val smallName: String? = null
 ): Serializable {
 
     public override fun equals(other: Any?): Boolean {
@@ -40,6 +42,12 @@ data class DmProject(
         }
         else if (this.name != o.name)
             return false
+        if (this.smallName == null) {
+            if (o.smallName != null)
+                return false
+        }
+        else if (this.smallName != o.smallName)
+            return false
         return true
     }
 
@@ -48,6 +56,7 @@ data class DmProject(
         var result = 1
         result = prime * result + (if (this.id == null) 0 else this.id.hashCode())
         result = prime * result + (if (this.name == null) 0 else this.name.hashCode())
+        result = prime * result + (if (this.smallName == null) 0 else this.smallName.hashCode())
         return result
     }
 
@@ -56,6 +65,7 @@ data class DmProject(
 
         sb.append(id)
         sb.append(", ").append(name)
+        sb.append(", ").append(smallName)
 
         sb.append(")")
         return sb.toString()

@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS dm_project (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-    name VARCHAR(255)
+    name VARCHAR(255),
+    small_name VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS dm_environment (

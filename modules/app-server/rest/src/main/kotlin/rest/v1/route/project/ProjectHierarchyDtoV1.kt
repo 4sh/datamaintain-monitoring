@@ -10,7 +10,8 @@ data class ProjectHierarchyDtoV1(
     val envs: List<EnvironmentHierarchyDtoV1>,
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val name: String
+    val name: String,
+    val smallName: String
 )
 
 @Serializable
@@ -42,5 +43,6 @@ fun ProjectHierarchy.toHierarchyDtoV1() = ProjectHierarchyDtoV1(
         )
     },
     id = id,
-    name = name
+    name = name,
+    smallName = smallName
 )
