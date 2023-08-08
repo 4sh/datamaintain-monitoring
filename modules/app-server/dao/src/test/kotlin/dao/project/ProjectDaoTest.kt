@@ -1,6 +1,7 @@
 package dao.project
 
 import AbstractDaoTest
+import EnvironmentCreationRequestWithoutForeignKey
 import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
 import dao.module.buildModuleCreationRequest
@@ -9,6 +10,7 @@ import module.ModuleCreationRequest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import project.Project
+import project.ProjectCreationRequest
 import project.ProjectHierarchy
 import strikt.api.expectThat
 import strikt.assertions.*
@@ -34,6 +36,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             // Then
             expectThat(insertedProject).isNotNull().and {
                 get { name }.isEqualTo(projectCreationRequest.name)
+                get { smallName }.isEqualTo(projectCreationRequest.smallName)
             }
         }
 
@@ -41,13 +44,14 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `insert should write document in database`() {
             // Given
             val projectName = "myName"
-            val projectCreationRequest = buildProjectCreationRequest(name = projectName)
+            val projectSmallName = "myLittleName"
+            val projectCreationRequest = buildProjectCreationRequest(name = projectName, smallName = projectSmallName)
 
             // When
             val insertedId = projectDao.insert(projectCreationRequest).id
 
             // Then
-            val insertedDmProject = dslContext.select(DM_PROJECT.ID, DM_PROJECT.NAME)
+            val insertedDmProject = dslContext.select(DM_PROJECT.ID, DM_PROJECT.NAME, DM_PROJECT.SMALL_NAME)
                 .from(DM_PROJECT)
                 .where(DM_PROJECT.ID.eq(insertedId))
                 .fetchOneInto(Project::class.java)
@@ -57,6 +61,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             ).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(projectName)
+                get { smallName }.isEqualTo(projectCreationRequest.smallName)
             }
         }
     }
@@ -88,6 +93,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             expectThat(loadedProject).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(project.name)
+                get { smallName }.isEqualTo(project.smallName)
             }
         }
     }
@@ -129,20 +135,22 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         }
 
         @Test
-        fun `should update given project name`() {
+        fun `should update given project name and small name`() {
             // Given
             val project = buildProjectCreationRequest(name = "myName")
             val insertedId = projectDao.insert(project).id
 
             // When
             val newName = "myOtherName"
-            projectDao.updateProjectName(insertedId, buildProjectNameUpdateRequest(name = newName))
+            val newSmallName = "myOtherSmallName"
+            projectDao.updateProjectName(insertedId, buildProjectNameUpdateRequest(name = newName, smallName = newSmallName))
 
             // Then
             val updatedProjectFromDb = projectDao.findOneById(insertedId)
             expectThat(updatedProjectFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
+                get { smallName }.isEqualTo(newSmallName)
             }
         }
 
@@ -154,14 +162,17 @@ internal class ProjectDaoTest : AbstractDaoTest() {
 
             // When
             val newName = "myOtherName"
+            val newSmallName = "myOtherSmallName"
             val updatedProject = projectDao.updateProjectName(insertedId, buildProjectNameUpdateRequest(
-                name = newName
+                name = newName,
+                smallName = newSmallName
             ))
 
             // Then
             expectThat(updatedProject).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
+                get { smallName }.isEqualTo(newSmallName)
             }
         }
     }
@@ -202,9 +213,9 @@ internal class ProjectDaoTest : AbstractDaoTest() {
         fun `should load project linked modules and environments`() {
             // Given
             withProjectInDb(
-                projectName = "myProject",
+                project = ProjectCreationRequest(name = "myProject", "mp"),
                 modulesNames = listOf("mySecondModule"),
-                environmentsNames = listOf("myFirstEnvironment")
+                environments = listOf(EnvironmentCreationRequestWithoutForeignKey(name = "myFirstEnvironment", smallName = "mfe"))
             )
 
             // When
@@ -215,7 +226,9 @@ internal class ProjectDaoTest : AbstractDaoTest() {
                 projectHierarchies[0]
             ) {
                 get { name }.isEqualTo("myProject")
+                get { smallName }.isEqualTo("mp")
                 get { envs[0].name }.isEqualTo("myFirstEnvironment")
+                get { envs[0].smallName }.isEqualTo("mfe")
                 get { envs[0].modules[0].name }.isEqualTo("mySecondModule")
             }
         }

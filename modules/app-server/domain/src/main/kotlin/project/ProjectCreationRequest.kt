@@ -1,3 +1,3 @@
 package project
 
-data class ProjectCreationRequest(val name: String)
+data class ProjectCreationRequest(val name: String, val smallName: String)

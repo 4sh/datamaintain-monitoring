@@ -16,7 +16,7 @@ import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row2
+import org.jooq.Row3
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -72,6 +72,11 @@ open class DmProject(
      */
     val NAME: TableField<DmProjectRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR(255), this, "")
 
+    /**
+     * The column <code>public.dm_project.small_name</code>.
+     */
+    val SMALL_NAME: TableField<DmProjectRecord, String?> = createField(DSL.name("small_name"), SQLDataType.VARCHAR(255), this, "")
+
     private constructor(alias: Name, aliased: Table<DmProjectRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<DmProjectRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
 
@@ -113,18 +118,18 @@ open class DmProject(
     public override fun rename(name: Table<*>): DmProject = DmProject(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row2 type methods
+    // Row3 type methods
     // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row2<UUID?, String?> = super.fieldsRow() as Row2<UUID?, String?>
+    public override fun fieldsRow(): Row3<UUID?, String?, String?> = super.fieldsRow() as Row3<UUID?, String?, String?>
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    fun <U> mapping(from: (UUID?, String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    fun <U> mapping(from: (UUID?, String?, String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    fun <U> mapping(toType: Class<U>, from: (UUID?, String?, String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }

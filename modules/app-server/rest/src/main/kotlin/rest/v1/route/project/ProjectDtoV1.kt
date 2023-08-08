@@ -8,10 +8,12 @@ import java.util.*
 data class ProjectDtoV1(
     @kotlinx.serialization.Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val name: String
+    val name: String,
+    val smallName: String
 )
 
 fun Project.toDtoV1() = ProjectDtoV1(
     id = id,
     name = name,
+    smallName = smallName
 )
