@@ -2,7 +2,7 @@ package project
 
 import java.util.UUID
 
-open class Project(open val id: UUID, open val name: String) {
+open class Project(open val id: UUID, open val name: String, open val smallName: String) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
