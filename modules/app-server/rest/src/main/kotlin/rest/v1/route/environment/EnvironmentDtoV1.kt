@@ -9,10 +9,12 @@ import java.util.*
 data class EnvironmentDtoV1(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val name: String
+    val name: String,
+    val smallName: String
 )
 
 fun Environment.toDtoV1() = EnvironmentDtoV1(
     id = this.id,
-    name = this.name
+    name = this.name,
+    smallName = this.smallName
 )

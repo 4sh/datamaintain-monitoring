@@ -1,3 +1,3 @@
 package environment
 
-data class EnvironmentNameUpdateRequest(val name: String)
+data class EnvironmentNameUpdateRequest(val name: String, val smallName: String)

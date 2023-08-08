@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS dm_project (
 CREATE TABLE IF NOT EXISTS dm_environment (
     id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255),
+    small_name VARCHAR(255),
     fk_project_ref uuid REFERENCES dm_project(id) ON DELETE CASCADE
 );
 

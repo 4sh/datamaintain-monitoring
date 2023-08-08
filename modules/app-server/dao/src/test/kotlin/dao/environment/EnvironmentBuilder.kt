@@ -6,14 +6,18 @@ import java.util.*
 
 fun buildEnvironmentCreationRequest(
     name: String = "environmentName",
+    smallName: String = "en",
     fkProjectRef: UUID
 ) = EnvironmentCreationRequest(
     name = name,
-    fkProjectRef = fkProjectRef
+    fkProjectRef = fkProjectRef,
+    smallName = smallName
 )
 
 fun buildEnvironmentNameUpdateRequest(
-    name: String = "environmentName"
+    name: String = "environmentName",
+    smallName: String = "en"
 ) = EnvironmentNameUpdateRequest(
-    name = name
+    name = name,
+    smallName = smallName
 )

@@ -46,6 +46,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
                 insertedEnvironment
             ).isNotNull().and {
                 get { name }.isEqualTo(environmentCreationRequest.name)
+                get { smallName }.isEqualTo(environmentCreationRequest.smallName)
                 get { fkProjectRef }.isEqualTo(environmentCreationRequest.fkProjectRef)
             }
         }
@@ -54,15 +55,16 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         fun `insert should write document in database`() {
             // Given
             val environmentName = "myName"
+            val environmentSmallName = "mn"
             val environmentCreationRequest =
-                buildEnvironmentCreationRequest(name = environmentName, fkProjectRef = projectId)
+                buildEnvironmentCreationRequest(name = environmentName, smallName = environmentSmallName, fkProjectRef = projectId)
 
             // When
             val insertedId = environmentDao.insert(environmentCreationRequest).id
 
             // Then
             val insertedDmEnvironment =
-                dslContext.select(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF)
+                dslContext.select(DM_ENVIRONMENT.ID, DM_ENVIRONMENT.NAME, DM_ENVIRONMENT.FK_PROJECT_REF, DM_ENVIRONMENT.SMALL_NAME)
                     .from(DM_ENVIRONMENT)
                     .where(DM_ENVIRONMENT.ID.eq(insertedId))
                     .fetchOneInto(Environment::class.java)
@@ -72,6 +74,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
             ).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(environmentName)
+                get { smallName }.isEqualTo(environmentSmallName)
                 get { fkProjectRef }.isEqualTo(projectId)
             }
         }
@@ -104,6 +107,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
             expectThat(loadedEnvironment).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(environment.name)
+                get { smallName }.isEqualTo(environment.smallName)
                 get { fkProjectRef }.isEqualTo(environment.fkProjectRef)
             }
         }
@@ -120,7 +124,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
 
             // When
             val updatedEnvironment = environmentDao.updateEnvironmentName(randomId, buildEnvironmentNameUpdateRequest(
-                name = "myOtherEnvironmentName"
+                name = "myOtherEnvironmentName",
             ))
 
             // Then
@@ -146,21 +150,23 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         }
 
         @Test
-        fun `should update given environment's name`() {
+        fun `should update given environment's name and small name`() {
             // Given
-            val environment = buildEnvironmentCreationRequest(name = "myName", fkProjectRef = projectId)
+            val environment = buildEnvironmentCreationRequest(name = "myName", smallName = "mn", fkProjectRef = projectId)
             val insertedId = environmentDao.insert(environment).id
             UUID.randomUUID()
 
             // When
             val newName = "myOtherName"
-            environmentDao.updateEnvironmentName(insertedId, buildEnvironmentNameUpdateRequest(name = newName))
+            val newSmallName = "mon"
+            environmentDao.updateEnvironmentName(insertedId, buildEnvironmentNameUpdateRequest(name = newName, smallName = newSmallName))
 
             // Then
             val updatedEnvironmentFromDb = environmentDao.findOneById(insertedId)
             expectThat(updatedEnvironmentFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
+                get { smallName }.isEqualTo(newSmallName)
                 get { fkProjectRef }.isEqualTo(projectId)
             }
         }
@@ -173,13 +179,15 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
 
             // When
             val newName = "myOtherName"
+            val newSmallName = "mon"
             val updatedEnvironment =
-                environmentDao.updateEnvironmentName(insertedId, buildEnvironmentNameUpdateRequest(name = newName))
+                environmentDao.updateEnvironmentName(insertedId, buildEnvironmentNameUpdateRequest(name = newName, smallName = newSmallName))
 
             // Then
             expectThat(updatedEnvironment).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
                 get { name }.isEqualTo(newName)
+                get { smallName }.isEqualTo(newSmallName)
                 get { fkProjectRef }.isEqualTo(projectId)
             }
         }
