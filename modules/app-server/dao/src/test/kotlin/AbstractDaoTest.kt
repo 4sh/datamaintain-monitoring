@@ -13,8 +13,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import project.ProjectCreationRequest
 import java.sql.Connection
 import java.sql.DriverManager
+import java.util.*
 
 @Testcontainers
 abstract class AbstractDaoTest {
@@ -25,10 +27,25 @@ abstract class AbstractDaoTest {
         dropTables()
     }
 
-    fun  withProjectInDb(projectName: String, modulesNames: List<String> = listOf(), environmentsNames: List<String> = listOf()) {
-        val projectId = projectDao.insert(buildProjectCreationRequest(name = projectName)).id
+    fun withProjectInDb(
+        project: ProjectCreationRequest,
+        environments: List<EnvironmentCreationRequestWithoutForeignKey> = listOf(),
+        modulesNames: List<String> = listOf(),
+    ) {
+        val projectId = projectDao.insert(buildProjectCreationRequest(name = project.name, smallName = project.smallName)).id
         modulesNames.forEach { moduleDao.insert(ModuleCreationRequest(name = it, fkProjectRef = projectId)) }
-        environmentsNames.forEach { environmentDao.insert(EnvironmentCreationRequest(name = it, fkProjectRef = projectId)) }
+        environments.forEach { environmentDao.insert(EnvironmentCreationRequest(name = it.name, fkProjectRef = projectId, smallName = it.smallName)) }
+    }
+
+    fun  withProjectInDb(
+        projectName: String,
+        modulesNames: List<String> = listOf(),
+        environmentsNames: List<String> = listOf(),
+        projectSmallName: String = ""
+    ) {
+        val projectId = projectDao.insert(buildProjectCreationRequest(name = projectName, smallName = projectSmallName)).id
+        modulesNames.forEach { moduleDao.insert(ModuleCreationRequest(name = it, fkProjectRef = projectId)) }
+        environmentsNames.forEach { environmentDao.insert(EnvironmentCreationRequest(name = it, fkProjectRef = projectId, smallName = "")) }
     }
 
     fun withModulesInDb(vararg modules: ModuleCreationRequest) {
@@ -75,3 +92,7 @@ abstract class AbstractDaoTest {
         }
     }
 }
+
+data class ModuleCreationRequestWithoutForeignKey(val name: String)
+
+data class EnvironmentCreationRequestWithoutForeignKey(val name: String, val smallName: String = "small $name")

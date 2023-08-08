@@ -19,7 +19,8 @@ data class EnvironmentHierarchyDtoV1(
     val modules: List<EnvironmentHierarchyModuleDtoV1>,
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    val name: String
+    val name: String,
+    val smallName: String
 )
 
 @Serializable
@@ -40,6 +41,7 @@ fun ProjectHierarchy.toHierarchyDtoV1() = ProjectHierarchyDtoV1(
             },
             id = env.id,
             name = env.name,
+            smallName = smallName
         )
     },
     id = id,

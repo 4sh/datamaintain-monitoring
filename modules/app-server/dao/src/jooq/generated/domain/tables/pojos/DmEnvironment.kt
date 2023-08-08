@@ -18,6 +18,8 @@ data class DmEnvironment(
     val id: UUID? = null,
     @get:Size(max = 255)
     val name: String? = null,
+    @get:Size(max = 255)
+    val smallName: String? = null,
     val fkProjectRef: UUID? = null
 ): Serializable {
 
@@ -41,6 +43,12 @@ data class DmEnvironment(
         }
         else if (this.name != o.name)
             return false
+        if (this.smallName == null) {
+            if (o.smallName != null)
+                return false
+        }
+        else if (this.smallName != o.smallName)
+            return false
         if (this.fkProjectRef == null) {
             if (o.fkProjectRef != null)
                 return false
@@ -55,6 +63,7 @@ data class DmEnvironment(
         var result = 1
         result = prime * result + (if (this.id == null) 0 else this.id.hashCode())
         result = prime * result + (if (this.name == null) 0 else this.name.hashCode())
+        result = prime * result + (if (this.smallName == null) 0 else this.smallName.hashCode())
         result = prime * result + (if (this.fkProjectRef == null) 0 else this.fkProjectRef.hashCode())
         return result
     }
@@ -64,6 +73,7 @@ data class DmEnvironment(
 
         sb.append(id)
         sb.append(", ").append(name)
+        sb.append(", ").append(smallName)
         sb.append(", ").append(fkProjectRef)
 
         sb.append(")")

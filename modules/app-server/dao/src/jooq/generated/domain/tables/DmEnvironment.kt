@@ -19,7 +19,7 @@ import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row3
+import org.jooq.Row4
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -74,6 +74,11 @@ open class DmEnvironment(
      * The column <code>public.dm_environment.name</code>.
      */
     val NAME: TableField<DmEnvironmentRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR(255), this, "")
+
+    /**
+     * The column <code>public.dm_environment.small_name</code>.
+     */
+    val SMALL_NAME: TableField<DmEnvironmentRecord, String?> = createField(DSL.name("small_name"), SQLDataType.VARCHAR(255), this, "")
 
     /**
      * The column <code>public.dm_environment.fk_project_ref</code>.
@@ -137,18 +142,18 @@ open class DmEnvironment(
     public override fun rename(name: Table<*>): DmEnvironment = DmEnvironment(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row3 type methods
+    // Row4 type methods
     // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row3<UUID?, String?, UUID?> = super.fieldsRow() as Row3<UUID?, String?, UUID?>
+    public override fun fieldsRow(): Row4<UUID?, String?, String?, UUID?> = super.fieldsRow() as Row4<UUID?, String?, String?, UUID?>
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
      */
-    fun <U> mapping(from: (UUID?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    fun <U> mapping(from: (UUID?, String?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
 
     /**
      * Convenience mapping calling {@link SelectField#convertFrom(Class,
      * Function)}.
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    fun <U> mapping(toType: Class<U>, from: (UUID?, String?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }
