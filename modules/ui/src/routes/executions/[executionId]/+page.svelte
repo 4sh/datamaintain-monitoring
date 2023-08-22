@@ -524,15 +524,16 @@
     height: 100%;
 
     &-container {
-      padding: rem-calc(30px);
       height: calc(100% - 60px);
       display: flex;
       flex-direction: column;
-      width: calc(50% - 60px);
+      width: calc(50% - 30px);
 
       &:first-child {
-        padding-right: 0;
-        width: calc(50% - 30px);
+        padding-right: rem-calc(30px);
+      }
+      &:last-child {
+        padding-left: rem-calc(30px);
       }
     }
 

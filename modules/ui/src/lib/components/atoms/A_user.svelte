@@ -1,5 +1,9 @@
+<script>
+    export let src;
+</script>
+
 <div class="aUSer">
-    <img src="src/lib/assets/images/jpg/john_doe.jpeg" alt="Photo de l'utilisateur">
+    <img src="{src}" alt="Photo de l'utilisateur">
 </div>
 
 <style lang="scss">
