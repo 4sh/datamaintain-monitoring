@@ -11,6 +11,7 @@ services:
     volumes:
       - postgres:/data/postgres
       - ../dao/src/test/resources/init-tables.sql:/docker-entrypoint-initdb.d/10-init-tables.sql
+      - ./init-dev-data.sql:/docker-entrypoint-initdb.d/11-init-data.sql
     ports:
       - "5432:5432"
     networks:
