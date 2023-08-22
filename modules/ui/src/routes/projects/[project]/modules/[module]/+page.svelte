@@ -35,7 +35,7 @@
 {#await modulePromise}
     <p>...waiting</p>
 {:then module}
-    Module {module.name} du projet {project.name} {#if env} sur l'environnement {env.name}{/if}
+    Module {module.name} du projet {#if project} {project.name} {/if} {#if env} sur l'environnement {env.name}{/if}
 
     <br>
     <a href="{module.id}/edit">Editer</a>

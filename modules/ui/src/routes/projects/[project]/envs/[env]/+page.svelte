@@ -20,7 +20,7 @@
 {#await envPromise}
     <p>...waiting</p>
 {:then env}
-    Environnement {env.name} du projet {project.name}
+    Environnement {env.name} du projet {#if project} {project.name} {/if}
 
     <br>
     <a href="{env.id}/edit">Editer</a>
