@@ -5,6 +5,11 @@
     import O_alertList from "$lib/components/organisms/O_alertList.svelte";
 
     let executionsPromise = ExecutionService.searchMostRecent();
+    let ghostMode = true;
+
+    function toggleGhostMode() {
+        ghostMode = !ghostMode;
+    }
 </script>
 
 <div class="dashboardView grid-y">
@@ -20,6 +25,7 @@
 
     <div class="dashboardView-content cell auto grid-x">
         <div class="cell auto">
+            <button on:click={toggleGhostMode}>ghostmode</button>
             <Svroller>
                 <div class="dashboardView-content-cards grid-x">
 
@@ -28,7 +34,7 @@
                     {:then executions}
                         {#each executions as execution, i}
                             <div class="dashboardView-content-cards-item">
-                                <M_cardDashboard {execution}></M_cardDashboard>
+                                <M_cardDashboard {execution} ghostMode="{ghostMode}"></M_cardDashboard>
                             </div>
                         {/each}
                     {:catch error}
