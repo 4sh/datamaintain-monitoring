@@ -3,7 +3,7 @@ version: '3.5'
 services:
   postgres:
     container_name: datamaintain_postgres_container
-    image: postgres
+    image: postgres:15.4
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-datamaintain}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-datamaintain}
