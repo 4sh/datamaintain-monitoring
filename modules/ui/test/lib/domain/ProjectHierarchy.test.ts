@@ -113,7 +113,7 @@ describe('HierarchySearch', () => {
 		const projectHierarchies = search.filter(ProjectMock.getProjectHierarchies());
 
 		expect(projectHierarchies).toEqual(
-			ProjectMock.getProjectHierarchies().filter(project => project.id === 'dm')
+			ProjectMock.getProjectHierarchies().filter(project => project.id === 'ecee7679-7197-432d-85a0-2d2d4da6096e')
 		)
 	})
 
@@ -124,9 +124,9 @@ describe('HierarchySearch', () => {
 
 		expect(projectHierarchies).toEqual(
 			ProjectMock.getProjectHierarchies()
-				.filter(project => project.id === 'dm')
+				.filter(project => project.id === 'ecee7679-7197-432d-85a0-2d2d4da6096e')
 				.map(project => {
-					project.envs = project.envs.filter(env => env.id === 'dm-qa')
+					project.envs = project.envs.filter(env => env.id === '109a2c08-e836-451a-86ef-d67be8ffc648')
 					return project;
 				})
 		)
@@ -139,12 +139,12 @@ describe('HierarchySearch', () => {
 
 		expect(projectHierarchies).toEqual(
 			ProjectMock.getProjectHierarchies()
-				.filter(project => project.id === 'dm'
-					|| project.id === 'gh')
+				.filter(project => project.id === 'ecee7679-7197-432d-85a0-2d2d4da6096e'
+					|| project.id === '6b383cf5-0712-478e-b590-9f82965476b5')
 				.map(project => {
 					project.envs = project.envs.
-					filter(env => env.id === 'dm-qa'
-						|| env.id === 'gh-qa')
+					filter(env => env.id === '109a2c08-e836-451a-86ef-d67be8ffc648'
+						|| env.id === '1a72f8ae-e4cf-4812-8876-8c3eb4a3ee65')
 					return project;
 				})
 		)
@@ -157,13 +157,13 @@ describe('HierarchySearch', () => {
 
 
 		const expectedHierarchy = ProjectMock.getProjectHierarchies()
-			.filter(project => project.id === 'gg')
+			.filter(project => project.id === '5e586e50-80e5-4a22-a91e-e266c3e01138')
 			.map(project => {
 				project.envs = project.envs
-					.filter(env => env.id === 'gg-pp')
+					.filter(env => env.id === 'd900abc9-032b-43f6-8666-0454d175ab10')
 					.map(env => {
 						env.modules = env.modules
-							.filter(module => module.id === 'gg-yt')
+							.filter(module => module.id === '52db1224-e09c-4d1b-a049-bab122faacd4')
 						return env
 					});
 
@@ -180,13 +180,13 @@ describe('HierarchySearch', () => {
 
 
 		const expectedHierarchy = ProjectMock.getProjectHierarchies()
-			.filter(project => project.id === 'dm')
+			.filter(project => project.id === 'ecee7679-7197-432d-85a0-2d2d4da6096e')
 			.map(project => {
 				project.envs = project.envs
-					.filter(env => env.id === 'dm-qa')
+					.filter(env => env.id === '109a2c08-e836-451a-86ef-d67be8ffc648')
 					.map(env => {
 						env.modules = env.modules
-							.filter(module => module.id === 'dm-dm')
+							.filter(module => module.id === 'a78e96a7-6748-4f01-9691-ea3bf851ad43')
 						return env
 					});
 
@@ -203,12 +203,12 @@ describe('HierarchySearch', () => {
 
 
 		const expectedHierarchy = ProjectMock.getProjectHierarchies()
-			.filter(project => project.id === 'dm')
+			.filter(project => project.id === 'ecee7679-7197-432d-85a0-2d2d4da6096e')
 			.map(project => {
 				project.envs = project.envs
 					.map(env => {
 						env.modules = env.modules
-							.filter(module => module.id === 'dm-dm')
+							.filter(module => module.id === 'a78e96a7-6748-4f01-9691-ea3bf851ad43')
 						return env
 					});
 
@@ -225,14 +225,14 @@ describe('HierarchySearch', () => {
 
 
 		const expectedHierarchy = ProjectMock.getProjectHierarchies()
-			.filter(project => project.id === 'gh' || project.id === 'gg')
+			.filter(project => project.id === '6b383cf5-0712-478e-b590-9f82965476b5' || project.id === '5e586e50-80e5-4a22-a91e-e266c3e01138')
 			.map(project => {
 				project.envs = project.envs
 					.map(env => {
 						env.modules = env.modules
-							.filter(module => module.id === 'gh-gp'
-							|| module.id === 'gg-gp'
-							|| module.id === 'gg-gs')
+							.filter(module => module.id === '70dc790e-40d8-4d80-9500-75173629e47f'
+							|| module.id === 'f50781d4-2f29-4338-9f39-a79d39f90614'
+							|| module.id === '80ba4570-86c6-4e92-aaaf-9010207e1d56')
 						return env
 					});
 
