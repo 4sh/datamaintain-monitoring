@@ -1,5 +1,4 @@
 import type {ProjectHierarchy} from "$lib/domain/ProjectHierarchy";
-import {ProjectMock} from "$lib/mocks/ProjectMock";
 import type {Project} from "$lib/domain/Project";
 
 export class ProjectService {
@@ -9,9 +8,8 @@ export class ProjectService {
         return (await res.json()) as Project;
     }
 
-    public static projectHierarchies(): Promise<ProjectHierarchy[]> {
-        return new Promise<ProjectHierarchy[]>((resolve) => {
-            resolve(ProjectMock.getProjectHierarchies())
-        })
+    public static projectHierarchies = async (): Promise<ProjectHierarchy[]> => {
+        const res = await fetch(`${ProjectService.baseUrl}/hierarchies`);
+        return (await res.json()) as ProjectHierarchy[];
     }
 }
