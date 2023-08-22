@@ -37,24 +37,24 @@
     });
 </script>
 
-<div class="menuItem" in:fade>
-    <div class="menuItem-title _{subContentRange}" class:_selected={selected}>
-        <div class="menuItem-title-container" on:click={toggleMenuAndGoto}>
-            <div class="menuItem-title-icon">
+<div class="menuItem grid-y" in:fade>
+    <div class="menuItem-title cell shrink grid-x align-middle _{subContentRange}" class:_selected={selected}>
+        <div class="menuItem-title-container cell auto grid-x align-middle" on:click={toggleMenuAndGoto}>
+            <div class="menuItem-title-icon cell shrink">
                 <A_icon type="{prefixIcon}" size="{prefixIconSize}" weight="{prefixIconWeight}" visibility="secondary"></A_icon>
             </div>
-            <div class="menuItem-title-label">
+            <div class="menuItem-title-label cell auto">
                 {title} <span>{shortTitle}</span>
             </div>
         </div>
         {#if subContentRange !== 'tertiary'}
-            <div class="menuItem-title-icon {isOpen ? '_isOpen' : ''}" on:click={toggleMenu}>
+            <div class="menuItem-title-icon cell shrink grid-x align-center align-middle {isOpen ? '_isOpen' : ''}" on:click={toggleMenu}>
                 <A_icon type="expand_more" size="light" visibility="secondary"></A_icon>
             </div>
         {/if}
     </div>
     {#if isOpen}
-        <div class="menuItem-content" transition:slide|local>
+        <div class="menuItem-content cell shrink" transition:slide|local>
             <slot name="content"></slot>
         </div>
     {/if}
@@ -66,9 +66,6 @@
   .menuItem {
 
     &-title {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
       padding: 0 rem-calc(8px);
       height: rem-calc(36px);
       border-radius: rem-calc(4px);
@@ -79,12 +76,6 @@
 
       &._selected {
         background: linear-gradient(16deg, rgba(99, 196, 219, 1) 0%, rgba(156, 222, 237, 1) 100%);
-      }
-
-      &-container {
-        display: flex;
-        flex-direction: row;
-        flex: 1 1 0;
       }
 
       &-label {
@@ -103,8 +94,6 @@
 
       &-icon {
         height: rem-calc(20px);
-        display: flex;
-        align-items: center;
         transition: transform 300ms ease;
 
         &._isOpen {

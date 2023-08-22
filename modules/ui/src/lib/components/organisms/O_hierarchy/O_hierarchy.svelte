@@ -54,9 +54,6 @@
   @import "src/app";
 
   .hierarchy {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 0;
     max-height: calc(100% - 165px);
 
     &-title {

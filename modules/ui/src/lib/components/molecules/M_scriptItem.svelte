@@ -6,14 +6,14 @@
     export let active;
 </script>
 
-<div class="scriptItem {active ? '_isActive' : ''}">
-    <div class="scriptItem-icon _{status}">
+<div class="scriptItem {active ? '_isActive' : ''} grid-x">
+    <div class="scriptItem-icon _{status} cell shrink grid-x align-middle align-center">
         <A_icon type="{status === 'valid' ? 'task_alt' :
                        status === 'progress' ? 'autorenew' :
                        status === 'waiting' ? 'hourglass_empty' :
                        status === 'error' ? 'error_outline' : ''}" size="light"></A_icon>
     </div>
-    <div class="scriptItem-content">
+    <div class="scriptItem-content cell auto">
         <div class="scriptItem-title">Script Name</div>
         <div>
             <div class="scriptItem-info">Début : 12/09/2022 à 14h23</div>
@@ -26,7 +26,6 @@
   @import "src/app";
 
   .scriptItem {
-    display: flex;
     padding: rem-calc(0 15px 20px 0);
 
     &:hover {
@@ -50,9 +49,6 @@
       height: rem-calc(36px);
       border-radius: rem-calc(18px);
       background-color: $app-primary_900;
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
       &._valid {
         color: $app-success_900;

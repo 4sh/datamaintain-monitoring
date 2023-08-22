@@ -4,8 +4,8 @@
     import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
 </script>
 
-<div class="alertList">
-    <div class="alertList-header">
+<div class="alertList grid-y">
+    <div class="alertList-header cell shrink">
         <div class="alertList-header-title">
             Toutes les alertes
         </div>
@@ -13,7 +13,7 @@
             Il y a 7 alertes sur vos projets qui n’ont pas été acquittées
         </div>
     </div>
-    <div class="alertList-content">
+    <div class="alertList-content cell auto">
         <Svroller>
             <div class="alertList-content-scroller">
                 <M_alertItem warning="true"></M_alertItem>
@@ -41,14 +41,11 @@
     background-color: rgb(var(--secondary-color-rgb) / .06);
     border-radius: rem-calc(6px);
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     &-header {
       background-color: $app-primary_900;
       border-radius: rem-calc(6px);
       padding: rem-calc(20px 25px);
-      flex: 0 0 auto;
 
       &-title {
         font-size: rem-calc(16px);
@@ -63,7 +60,6 @@
 
     &-content {
       padding: rem-calc(25px 10px 25px 25px);
-      flex: 1 1 0;
       overflow: hidden;
 
       &-scroller {

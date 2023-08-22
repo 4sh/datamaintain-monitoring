@@ -3,87 +3,87 @@
     import A_tag from "$lib/components/atoms/form/A_tag.svelte";
 </script>
 
-<div class="oScript">
+<div class="oScript cell auto">
     <div class="oScript-mainTitle">
         Script Name
     </div>
-    <div class="oScript-container">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle">
+        <div class="oScript-title cell shrink">
             Statut :
         </div>
-        <div class="oScript-data">
+        <div class="oScript-data cell shrink">
             En cours
         </div>
-        <div class="oScript-icon">
+        <div class="oScript-icon cell shrink grid-x align-middle align-center">
             <A_icon type="autorenew" size="light"></A_icon>
         </div>
-        <div class="oScript-linkScript">
-            <div>Accéder au script</div>
-            <div>
+        <div class="oScript-linkScript cell auto grid-x align-right align-middle">
+            <div class="cell shrink">Accéder au script</div>
+            <div class="cell shrink">
                 <A_icon type="chevron_right" size="extraThin"></A_icon>
             </div>
         </div>
     </div>
-    <div class="oScript-container">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle">
+        <div class="oScript-title cell shrink">
             Date de début d’exécution :
         </div>
-        <div class="oScript-data">
+        <div class="oScript-data cell shrink">
             12/09/2022 à 17h30
         </div>
     </div>
-    <div class="oScript-container">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle">
+        <div class="oScript-title cell shrink">
             Temps d’exécution :
         </div>
-        <div class="oScript-data">
+        <div class="oScript-data cell shrink">
             2 : 27 : 34
         </div>
     </div>
-    <div class="oScript-container">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle">
+        <div class="oScript-title cell shrink">
             Date de fin d’exécution :
         </div>
-        <div class="oScript-data">
+        <div class="oScript-data cell shrink">
             En cours
         </div>
     </div>
-    <div class="oScript-container _column">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle _column">
+        <div class="oScript-title cell shrink">
             Flags :
         </div>
-        <div class="oScript-data">
-            <div class="oScript-tag">
+        <div class="oScript-data cell shrink grid-x align-middle">
+            <div class="oScript-tag cell shrink">
                 <A_tag label="Flag 1"></A_tag>
             </div>
         </div>
     </div>
-    <div class="oScript-container _column">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle _column">
+        <div class="oScript-title cell shrink">
             Tags :
         </div>
-        <div class="oScript-data">
-            <div class="oScript-tag">
+        <div class="oScript-data cell shrink grid-x align-middle">
+            <div class="oScript-tag cell shrink">
                 <A_tag label="Tag 1"></A_tag>
             </div>
-            <div class="oScript-tag">
+            <div class="oScript-tag cell shrink">
                 <A_tag label="Tag 2"></A_tag>
             </div>
         </div>
     </div>
-    <div class="oScript-container _column">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle _column">
+        <div class="oScript-title cell shrink">
             Chemin d’exécution :
         </div>
-        <div class="oScript-url">
+        <div class="oScript-url cell shrink">
             truc/muchmachin/compartimentD/menuW/dossierbidule/sousdossierchose/fichiertartempion
         </div>
     </div>
-    <div class="oScript-container _column">
-        <div class="oScript-title">
+    <div class=" oScript-container grid-x align-middle _column">
+        <div class="oScript-title cell shrink">
             Paramètres d’exécution :
         </div>
-        <div class="oScript-url">
+        <div class="oScript-url cell shrink">
             settings
         </div>
     </div>
@@ -110,8 +110,6 @@
     }
 
     &-container {
-      display: flex;
-      align-items: center;
       line-height: rem-calc(17px);
       margin-bottom: rem-calc(15px);
 
@@ -134,10 +132,6 @@
     }
 
     &-linkScript {
-      flex: 1 1 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
       color: $app-primary_700;
       font-weight: 500;
 
@@ -156,19 +150,12 @@
       margin-right: rem-calc(8px);
     }
 
-    &-data {
-      display: flex;
-    }
-
     &-icon {
       height: rem-calc(30px);
       width: rem-calc(30px);
       margin-left: rem-calc(10px);
       color: $app-primary_700;
       background: rgba(var(--secondary-color-rgb)/0.1);
-      align-items: center;
-      display: flex;
-      justify-content: center;
       border-radius: rem-calc(15px);
     }
 

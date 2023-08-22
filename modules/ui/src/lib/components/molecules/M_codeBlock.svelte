@@ -8,7 +8,7 @@
     const numberItemWidthClass = '_number-item-width-' + (numberItemLength <= maxNumberItemLength ? numberItemLength : maxNumberItemLength);
 </script>
 
-<div class="mCodeBlock">
+<div class="mCodeBlock cell auto">
     <Svroller>
         <div class="mCodeBlock-section {numberItemWidthClass}">
             <div class="mCodeBlock-number">

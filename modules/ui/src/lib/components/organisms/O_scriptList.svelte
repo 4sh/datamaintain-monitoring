@@ -3,8 +3,8 @@
     import M_scriptItem from "$lib/components/molecules/M_scriptItem.svelte";
 </script>
 
-<div class="scriptList">
-    <div class="scriptList-content">
+<div class="scriptList cell auto grid-y">
+    <div class="scriptList-content cell auto">
         <Svroller>
             <div class="scriptList-content-scroller">
                 <M_scriptItem status="valid"></M_scriptItem>
@@ -27,8 +27,6 @@
     background-color: rgb(var(--secondary-color-rgb) / .06);
     border-radius: rem-calc(6px);
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     &-content {
       padding: rem-calc(25px 10px 25px 25px);

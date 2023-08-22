@@ -15,22 +15,22 @@
     }
 </script>
 
-<div class="header">
-    <div class="header-logo">
-        <div class="header-logo-img">
+<div class="header grid-y">
+    <div class="header-logo cell shrink grid-x align-middle">
+        <div class="header-logo-img cell shrink grid-x align-middle align-center">
             <img src={logo} alt="Logo Datamaintain">
         </div>
-        <div class="header-logo-name">
+        <div class="header-logo-name cell auto">
             <M_logoText/>
         </div>
     </div>
 
-    <div class="header-contentNav">
+    <div class="header-contentNav cell auto">
         <O_nav></O_nav>
         <O_projectHierarchy></O_projectHierarchy>
     </div>
 
-    <div class="header-switch">
+    <div class="header-switch cell shrink">
         <M_buttonSwitch alignment="right" flex="shrink" label="Dark Mode" checked="true"
                         on:click={toggleTheme}></M_buttonSwitch>
     </div>
@@ -42,41 +42,30 @@
 
   .header {
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     &-logo {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      padding: 30px;
+      padding: rem-calc(30px);
 
       &-img {
         background-color: rgb(var(--secondary-color-rgb) / .3);
-        height: 56px;
-        width: 56px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        height: rem-calc(56px);
+        width: rem-calc(56px);
+        border-radius: rem-calc(8px);
       }
 
       &-name {
         max-width: calc(100% - 80px);
-        margin-left: 24px;
+        margin-left: rem-calc(24px);
       }
     }
 
     &-contentNav {
-      padding: 15px 30px;
-      flex: 1 1 0;
+      padding: rem-calc(15px 30px);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
 
     &-switch {
-      padding: 30px;
+      padding: rem-calc(30px);
       text-align: center;
     }
   }

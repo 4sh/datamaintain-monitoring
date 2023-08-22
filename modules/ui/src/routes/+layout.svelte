@@ -30,16 +30,16 @@
     <p>Loading ...</p>
 {:else}
 
-    <div class="layout">
-        <div class="layout-header">
+    <div class="layout grid-x">
+        <div class="layout-header cell shrink">
             <O_header/>
         </div>
-        <div class="layout-main">
-            <div class="layout-topBar">
-                <div class="layout-topBar-icon">
+        <div class="layout-main cell auto grid-y">
+            <div class="layout-topBar cell shrink grid-x align-middle">
+                <div class="layout-topBar-icon cell shrink">
                     <A_icon type="notifications_none"></A_icon>
                 </div>
-                <div class="layout-topBar-infoContainer">
+                <div class="layout-topBar-infoContainer cell auto">
                     <div class="layout-topBar-infoTitle">
                         Alertes de vos suivis
                     </div>
@@ -47,13 +47,13 @@
                         Attention 3 alertes ont été levées sur vos suivis
                     </div>
                 </div>
-                <div class="layout-topBar-user">
+                <div class="layout-topBar-user cell shrink">
                     <M_user src="/src/lib/assets/images/jpg/john_doe.jpeg"
                             name="John Doe">
                     </M_user>
                 </div>
             </div>
-            <div class="layout-content">
+            <div class="layout-content cell auto">
                 <slot/>
             </div>
 
@@ -66,19 +66,14 @@
   @import "src/app";
 
   .layout {
-    display: flex;
-    flex-direction: row;
     height: 100%;
 
     &-header {
-      width: 16%;
-      min-width: rem-calc(250px);
+      width: hom(250px, 50);
       background-color: $app-primary_900;
     }
 
     &-main {
-      width: 84%;
-      max-width: calc(100% - 250px);
       padding: rem-calc(30px);
       height: calc(100% - 60px);
     }
@@ -91,18 +86,11 @@
       background-color: $app-primary_900;
       height: rem-calc(62px);
       border-radius: rem-calc(8px);
-      display: flex;
-      align-items: center;
       padding: 0 rem-calc(20px);
       margin-bottom: rem-calc(32px);
-      flex: 0 0 auto;
 
       &-icon {
         padding-right: rem-calc(16px);
-      }
-
-      &-infoContainer {
-        flex: 1 1 0;
       }
 
       &-infoTitle {

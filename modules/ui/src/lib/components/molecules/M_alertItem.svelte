@@ -6,18 +6,18 @@
     export let warning;
 </script>
 
-<div class="alertItem">
-    <div class="alertItem-icon {warning ? '_warning' : ''}">
+<div class="alertItem grid-x align-middle">
+    <div class="alertItem-icon {warning ? '_warning' : ''} cell shrink grid-x align-center align-middle">
         <A_icon type="{warning ? 'warning' : 'error'}" size="light"></A_icon>
     </div>
-    <div class="alertItem-content">
+    <div class="alertItem-content cell auto">
         <div class="alertItem-title">PF12092022-1</div>
         <div class="alertItem-info">Lorem ipsum dolor sit amet, consectetur</div>
     </div>
-    <div class="alertItem-shortName">
+    <div class="alertItem-shortName cell shrink">
         <A_indicator label="PoF"></A_indicator>
     </div>
-    <div class="alertItem-notification">
+    <div class="alertItem-notification cell shrink">
         <A_icon type="notifications_none" size="semiThin"></A_icon>
     </div>
 </div>
@@ -26,8 +26,6 @@
   @import "src/app";
 
   .alertItem {
-    display: flex;
-    align-items: center;
     padding: rem-calc(10px 15px 10px 0);
 
     &-icon {
@@ -35,9 +33,6 @@
       height: rem-calc(36px);
       border-radius: rem-calc(18px);
       background-color: $app-primary_900;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       color: $app-warning_900;
 
       &._warning {

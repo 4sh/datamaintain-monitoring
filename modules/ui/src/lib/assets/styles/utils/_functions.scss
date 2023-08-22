@@ -150,3 +150,8 @@ $global-font-size: 100% !default;
 
   @return $result;
 }
+
+/// Scale from $base to $base + $inc according to window width (min: 1280px, max: 1920px)
+@function hom($base, $inc) {
+  @return calc($base + $inc * ((max(1280px, min(100vw, 1920px)) - 1280px) / (1920 - 1280)));
+}

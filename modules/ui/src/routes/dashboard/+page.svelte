@@ -7,36 +7,38 @@
     let executionsPromise = ExecutionService.searchMostRecent();
 </script>
 
-<div class="dashboardView">
+<div class="dashboardView grid-y">
 
-    <div class="dashboardView-title">
-        <div class="dashboardView-title-name">
+    <div class="dashboardView-title cell shrink grid-x align-middle">
+        <div class="dashboardView-title-name cell shrink">
             Dashboard
         </div>
-        <div class="dashboardView-title-details">
+        <div class="dashboardView-title-details cell shrink">
             Exécutions en cours
         </div>
     </div>
 
-    <div class="dashboardView-content">
-        <Svroller>
-            <div class="dashboardView-content-cards">
+    <div class="dashboardView-content cell auto grid-x">
+        <div class="cell auto">
+            <Svroller>
+                <div class="dashboardView-content-cards grid-x">
 
-                {#await executionsPromise}
-                    <p>...waiting</p>
-                {:then executions}
-                    {#each executions as execution, i}
-                    <div class="dashboardView-content-cards-item">
-                        <M_cardDashboard {execution}></M_cardDashboard>
-                    </div>
-                    {/each}
-                {:catch error}
-                    <p style="color: red">Error to display dashboard</p>
-                {/await}
-            </div>
-        </Svroller>
+                    {#await executionsPromise}
+                        <p>...waiting</p>
+                    {:then executions}
+                        {#each executions as execution, i}
+                            <div class="dashboardView-content-cards-item">
+                                <M_cardDashboard {execution}></M_cardDashboard>
+                            </div>
+                        {/each}
+                    {:catch error}
+                        <p style="color: red">Error to display dashboard</p>
+                    {/await}
+                </div>
+            </Svroller>
+        </div>
 
-        <div class="dashboardView-content-alerts">
+        <div class="dashboardView-content-alerts cell shrink">
            <O_alertList></O_alertList>
         </div>
     </div>
@@ -47,14 +49,9 @@
 
   .dashboardView {
     height: 100%;
-    display: flex;
-    flex-direction: column;
 
     &-title {
-      display: flex;
-      align-items: center;
       margin-bottom: rem-calc(32px);
-      flex: 0 0 auto;
 
       &-name {
         font-size: rem-calc(24px);
@@ -69,20 +66,14 @@
     }
 
     &-content {
-      display: flex;
       overflow: hidden;
-      flex: 1 1 0;
 
       &-cards {
-        display: flex;
-        flex-flow: row wrap;
         margin-right: rem-calc(25px);
-        flex: 1 1 0;
 
         &-item {
           width: calc(50% - 15px);
           margin-bottom: rem-calc(30px);
-          display: flex;
 
           &:nth-child(odd) {
             padding-right: rem-calc(15px);

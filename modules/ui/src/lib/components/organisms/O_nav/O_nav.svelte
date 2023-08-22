@@ -3,18 +3,18 @@
 import A_icon from "$lib/components/atoms/A_icon.svelte";
 </script>
 
-    <div class="nav">
-        <div class="nav-title">
+    <div class="nav grid-y align-middle">
+        <div class="nav-title cell shrink">
             Navigation
         </div>
-        <div class="nav-content">
-            <a class="nav-item" href="/dashboard">
-                <A_icon type="grid_view" size="light" class="nav-item-icon"></A_icon>
-                <div class="nav-item-label">Dashboard</div>
+        <div class="nav-content cell shrink">
+            <a class="nav-item grid-x align-middle" href="/dashboard">
+                <A_icon type="grid_view" size="light" class="nav-item-icon cell shrink"></A_icon>
+                <div class="nav-item-label cell shrink">Dashboard</div>
             </a>
-            <a class="nav-item" href="/history">
-                <A_icon type="schedule" size="light" class="nav-item-icon"></A_icon>
-                <div class="nav-item-label">Historique</div>
+            <a class="nav-item grid-x align-middle" href="/history">
+                <A_icon type="schedule" size="light" class="nav-item-icon cell shrink"></A_icon>
+                <div class="nav-item-label cell shrink">Historique</div>
             </a>
         </div>
     </div>
@@ -39,13 +39,11 @@ import A_icon from "$lib/components/atoms/A_icon.svelte";
     }
 
     &-item {
-      display: flex;
-      text-decoration: none;
-      align-items: center;
       color: $app-secondary_900;
       height: rem-calc(36px);
       border-radius: rem-calc(4px);
       padding: 0 rem-calc(12px);
+      text-decoration: none;
 
       &-label {
         font-size: rem-calc(15px);

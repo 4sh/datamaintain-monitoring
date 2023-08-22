@@ -2,7 +2,7 @@
     export let label;
 </script>
 
-<div class="aIndicator">
+<div class="aIndicator grid-x align-middle">
     {label}
 </div>
 
@@ -15,7 +15,5 @@
       height: rem-calc(22px);
       padding: 0 rem-calc(6px);
       border-radius: rem-calc(4px);
-      display: flex;
-      align-items: center;
     }
 </style>

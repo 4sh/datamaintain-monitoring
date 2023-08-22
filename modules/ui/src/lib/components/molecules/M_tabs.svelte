@@ -8,11 +8,11 @@
 
 </script>
 
-<div class="mTabs">
+<div class="mTabs cell shrink grid-x align-middle">
     {#each tabItems as item}
         <div on:click={() => dispatch('tabChange', item)}
              class:active={item===activeItem}
-             class="mTabs-item">
+             class="mTabs-item cell shrink grid-x align-middle">
             {item}
         </div>
     {/each}
@@ -22,15 +22,12 @@
   @import "src/app";
 
   .mTabs {
-    display: flex;
 
     &-item {
       height: rem-calc(24px);
       margin: rem-calc(10px 13px 16px) 0;
       border-radius: rem-calc(12px);
       padding: 0 rem-calc(14px);
-      display: flex;
-      align-items: center;
       font-size: rem-calc(14px);
       border: rem-calc(1px) solid rgba($app-secondary_700, .5);
 

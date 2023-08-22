@@ -2,11 +2,11 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
 </script>
 
-<div class="inputSearch">
-    <div class="inputSearch-input">
+<div class="inputSearch grid-x align-middle">
+    <div class="inputSearch-input cell auto">
         <input type="text" on:input placeholder="Rechercher">
     </div>
-    <div class="inputSearch-icon">
+    <div class="inputSearch-icon cell shrink grid-x align-middle align-center">
         <A_icon type="search" size="semiSlim"/>
     </div>
 </div>
@@ -16,12 +16,9 @@
 
   .inputSearch {
     background-color: $app-primary_800;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: space-between;
-    padding: 13px;
-    border-radius: 4px;
+    padding: rem-calc(13px);
+    border-radius: rem-calc(4px);
 
     &-input {
       max-width: calc(100% - 20px);
@@ -37,9 +34,6 @@
           font-style: italic;
         }
       }
-    }
-
-    &-icon {
     }
   }
 </style>

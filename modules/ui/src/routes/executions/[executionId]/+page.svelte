@@ -445,33 +445,33 @@
     const codeLogArray = codeLog.split('\n');
 </script>
 
-<div class="executionView">
+<div class="executionView grid-x">
 
-    <div class="executionView-container">
-        <div class="executionView-header">
-            <div class="executionView-header-return">
+    <div class="executionView-container cell auto grid-y">
+        <div class="executionView-header cell shrink grid-x align-middle">
+            <div class="executionView-header-return cell shrink grid-x align-middle">
                 <Tooltip text="Retour">
                     <A_icon type="keyboard_backspace" size="light"></A_icon>
                 </Tooltip>
             </div>
-            <div class="executionView-header-breadcrumb">
+            <div class="executionView-header-breadcrumb cell auto grid-x">
                 <M_breadcrumbItem nameItem="Portail Fret"></M_breadcrumbItem>
                 <M_breadcrumbItem nameItem="Production"></M_breadcrumbItem>
                 <M_breadcrumbItem nameItem="Module"></M_breadcrumbItem>
                 <M_breadcrumbItem nameItem="Exécution PF12092022-1" isLast="true"></M_breadcrumbItem>
             </div>
-            <div class="executionView-header-favorite">
+            <div class="executionView-header-favorite  cell shrink">
                 <Tooltip text="Ajouter aux favoris">
-                    <A_icon type="star_outline" size="light"></A_icon>
+                    <A_icon type="star_outline" size="extraThin"></A_icon>
                 </Tooltip>
             </div>
         </div>
 
-        <div class="executionView-title">
+        <div class="executionView-title cell shrink">
             Exécution PF12092022-1
         </div>
 
-        <div class="executionView-content">
+        <div class="executionView-content cell shrink">
             <div class="executionView-content-container">
                 <div class="executionView-content-title">
                     Lancé le :
@@ -498,15 +498,15 @@
             </div>
         </div>
 
-        <div class="executionView-scripts">
+        <div class="executionView-scripts cell auto grid-y">
             <O_scriptList></O_scriptList>
         </div>
     </div>
 
-    <div class="executionView-container">
+    <div class="executionView-container cell shrink grid-y">
         <M_tabs tabItems={tabItems} activeItem={activeTabItem} on:tabChange={triggerTabChange}/>
 
-        <div class="executionView-details">
+        <div class="executionView-details cell auto grid-y">
             {#if activeTabItem === 'Script'}
                 <O_scriptDetail></O_scriptDetail>
             {:else if activeTabItem === 'Logs'}
@@ -520,13 +520,9 @@
   @import "src/app";
 
   .executionView {
-    display: flex;
     height: 100%;
 
     &-container {
-      height: calc(100% - 60px);
-      display: flex;
-      flex-direction: column;
       width: calc(50% - 30px);
 
       &:first-child {
@@ -541,21 +537,11 @@
       background-color: $app-primary_900;
       height: rem-calc(50px);
       border-radius: rem-calc(8px);
-      display: flex;
-      align-items: center;
       padding: 0 rem-calc(20px);
       margin-bottom: rem-calc(32px);
-      flex: 0 0 auto;
-
-      &-breadcrumb {
-        flex: 1 1 0;
-        display: flex;
-        align-items: center;
-      }
 
       &-favorite {
-        display: flex;
-        align-items: center;
+        height: rem-calc(16px);
 
         &:hover {
           cursor: pointer;
@@ -564,9 +550,8 @@
       }
 
       &-return {
-        display: flex;
-        align-items: center;
-        margin-right: rem-calc(20px);
+        height: rem-calc(20px);
+        margin-right: rem-calc(10px);
 
         &:hover {
           cursor: pointer;
@@ -576,10 +561,7 @@
     }
 
     &-title {
-      display: flex;
-      align-items: center;
       margin-bottom: rem-calc(25px);
-      flex: 0 0 auto;
       font-weight: 500;
       letter-spacing: rem-calc(1px);
       font-size: rem-calc(24px);
@@ -590,7 +572,6 @@
       font-size: rem-calc(14px);
 
       &-container {
-        display: flex;
         margin-bottom: rem-calc(10px);
       }
 
@@ -607,6 +588,7 @@
 
     &-details {
       height: calc(100% - 50px);
+      width: hom(450px, 300);
     }
   }
 </style>

@@ -4,9 +4,9 @@
     export let flex;
 </script>
 
-<div class="aLabel _{alignment} _{flex}">
-    <div class="aLabel-label">{label}</div>
-    <div class="aLabel-content">
+<div class="aLabel _{alignment} _{flex} grid-x align-middle">
+    <div class="aLabel-label cell shrink">{label}</div>
+    <div class="aLabel-content cell auto">
         <slot></slot>
     </div>
 </div>
@@ -15,19 +15,11 @@
   @import "src/app";
 
   .aLabel {
-    display: flex;
-    align-items: center;
 
     &-label {
       font-size: rem-calc(14px);
       font-weight: lighter;
       padding-right: rem-calc(16px);
-    }
-
-    &-content {
-      flex: 1 1 0;
-      justify-content: flex-start;
-      display: flex;
     }
 
     &._right {

@@ -4,12 +4,12 @@
     export let isLast;
 </script>
 
-<div class="breadcrumbItem">
-    <a class="breadcrumbItem-name">
+<div class="breadcrumbItem grid-x cell shrink align-middle">
+    <a class="breadcrumbItem-name cell shrink">
         {nameItem}
     </a>
     {#if !isLast}
-        <div class="breadcrumbItem-arrow">
+        <div class="breadcrumbItem-arrow cell shrink">
             <A_icon type="chevron_right" size="light"></A_icon>
         </div>
     {/if}
@@ -19,11 +19,11 @@
   @import "src/app";
 
   .breadcrumbItem {
-    display: flex;
-    align-items: center;
+    height: rem-calc(20px);
 
     &-name {
-      font-size: rem-calc(14px);
+      font-size: rem-calc(13px);
+      line-height: rem-calc(20px);
       font-weight: 300;
 
       &:hover {
@@ -33,8 +33,6 @@
     }
 
     &-arrow {
-      display: flex;
-      align-items: center;
       color: $app-neutral_900;
     }
   }

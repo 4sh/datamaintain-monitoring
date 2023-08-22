@@ -1,0 +1,39 @@
+.grid-x {
+  display: flex;
+  flex-flow: wrap;
+
+  &.align-center {
+    justify-content: center;
+  }
+  &.align-middle {
+    align-items: center;
+  }
+  &.align-right {
+    justify-content: flex-end;
+  }
+}
+
+.grid-y {
+  display: flex;
+  flex-flow: column;
+
+  &.align-center {
+    align-items: center;
+  }
+  &.align-middle {
+    justify-content: center;
+  }
+}
+
+.cell {
+  flex: 0 0 auto;
+  max-height: 100%;
+
+  &.shrink {
+    flex: 0 0 auto;
+  }
+
+  &.auto {
+    flex: 1 1 0;
+  }
+}

@@ -29,13 +29,13 @@
     }
 </script>
 
-<div class="mCard {toStatusClass(execution.status)}">
-    <div class="mCard-header">
-        <div class="flexAuto">
-            <div class="mCard-icon">
+<div class="mCard {toStatusClass(execution.status)} grid-y">
+    <div class="mCard-header cell shrink grid-x align-middle">
+        <div class="cell auto grid-x align-middle">
+            <div class="mCard-icon cell shrink grid-x align-middle align-center">
                 <A_icon type="{execution.status === 'COMPLETED' ? 'task_alt' : 'autorenew'}" size="extraLarge"></A_icon>
             </div>
-            <div>
+            <div class="cell auto">
                 <div class="mCard-title">
                     {execution.id}
                 </div>
@@ -44,22 +44,22 @@
                 </div>
             </div>
         </div>
-        <div class="flexShrink">
-            <div class="mCard-indicators">
-                <div class="mCard-indicators-item">
+        <div class="cell shrink grid-x align-middle">
+            <div class="mCard-indicators cell shrink grid-x align-middlei">
+                <div class="mCard-indicators-item cell shrink">
                     <A_indicator label="{execution.project.smallName}"></A_indicator>
                 </div>
 
-                <div class="mCard-indicators-item">
+                <div class="mCard-indicators-item cell shrink">
                     <A_indicator label="{execution.env.smallName}"></A_indicator>
                 </div>
             </div>
-            <div class="mCard-favorite">
+            <div class="mCard-favorite cell shrink">
                 <A_icon type="star_border" size="semiLight"></A_icon>
             </div>
         </div>
     </div>
-    <div class="mCard-content">
+    <div class="mCard-content cell auto">
             <span>Début d’execution :</span> {execution.date}
             <br>
 
@@ -76,10 +76,10 @@
             <span>OK :</span> {execution.nbScriptsOK}
             <slot name="nbOk"></slot>
     </div>
-    <div class="mCard-progressBar">
+    <div class="mCard-progressBar cell shrink">
         <M_progressBar></M_progressBar>
     </div>
-    <div class="mCard-link">
+    <div class="mCard-link  cell shrink">
         Accéder au détails
     </div>
 </div>
@@ -91,9 +91,6 @@
     padding: rem-calc(30px 30px 25px 20px);
     background-color: $app-primary_900;
     border-radius: rem-calc(4px);
-    flex: 1 1 0;
-    display: flex;
-    flex-direction: column;
 
     &._check {
       .mCard-icon, .mCard-title {
@@ -104,22 +101,6 @@
     &._error {
       .mCard-icon, .mCard-title {
         color: $app-error_900;
-      }
-    }
-
-    &-header {
-      display: flex;
-
-      .flexAuto {
-        display: flex;
-        align-items: center;
-        flex: 1 1 0;
-      }
-
-      .flexShrink {
-        display: flex;
-        align-items: center;
-        height: rem-calc(30px);
       }
     }
 
@@ -140,7 +121,6 @@
     }
 
     &-indicators {
-      display: flex;
 
       &-item {
         margin-left: rem-calc(10px);
@@ -149,8 +129,6 @@
 
     &-favorite {
       margin-left: rem-calc(15px);
-      display: flex;
-      align-items: center;
 
       &:hover {
         cursor: pointer;
