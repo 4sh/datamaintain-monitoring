@@ -3,13 +3,17 @@ import type {EnvHierarchy, ProjectHierarchy} from "$lib/domain/ProjectHierarchy"
 import {EnvMock} from "./EnvMock";
 import {ModuleMock} from "./ModuleMock";
 
-
 export class ProjectMock {
+    public static readonly datamaintainProject = { id: 'dm', name: "Datamaintain", smallName: "Dm"};
+    public static readonly githubProject = { id: 'gh', name: "Github", smallName: "GH"};
+    public static readonly facebookProject = { id: 'fb', name: "Facebook", smallName: "Fb"};
+    public static readonly googleProject = { id: 'gg', name: "Google", smallName: "Gg"};
+
     public static readonly projects: Project[] = [
-        { id: 'dm', name: "Datamaintain", smallName: "Dm"},
-        { id: 'gh', name: "Github", smallName: "GH"},
-        { id: 'fb', name: "Facebook", smallName: "Fb"},
-        { id: 'gg', name: "Google", smallName: "Gg"},
+        ProjectMock.datamaintainProject,
+        ProjectMock.githubProject,
+        ProjectMock.facebookProject,
+        ProjectMock.googleProject,
     ];
 
     public static getProjectHierarchies(): ProjectHierarchy[] {

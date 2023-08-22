@@ -36,14 +36,14 @@ export class ModuleMock {
 
     public static byProjectIdAndEnv(projectId: string, envId: string): Module[] {
         switch (projectId) {
-            case 'dm':
+            case ProjectMock.datamaintainProject.id:
                 switch (envId) {
                     case 'dm-qa': return this.dmModules;
                     case 'dm-pp': return this.dmModules;
                     case 'dm-p': return this.dmModules;
                     default: return [];
                 }
-            case 'gh':
+            case ProjectMock.githubProject.id:
                 switch (envId) {
                     case 'gh-qa': return this.ghModules;
                     case 'gh-pp': return this.ghModules;
@@ -52,12 +52,12 @@ export class ModuleMock {
                     ];
                     default: return [];
                 }
-            case 'fb':
+            case ProjectMock.facebookProject.id:
                 switch (envId) {
                     case 'f-p': return this.fbModules;
                     default: return [];
                 }
-            case 'gg':
+            case ProjectMock.googleProject.id:
                 switch (envId) {
                     case 'gg-pp': return [
                         this.ggModules[0],
