@@ -39,6 +39,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
 
 tasks.withType<Jar>().configureEach {
     archiveBaseName.set("proto-stub")
+    // Needed because proto generates duplicates
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 protobuf {
