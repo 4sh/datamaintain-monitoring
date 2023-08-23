@@ -1,5 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    application
 }
 
 appProject()
@@ -13,4 +14,8 @@ dependencies {
     implementation(project(":modules:app-server:domain"))
     implementation("org.postgresql:postgresql:42.5.1")
     implementation(project(":modules:app-server:server"))
+}
+
+application {
+    mainClass.set("app.server.app.AppServerKt")
 }
