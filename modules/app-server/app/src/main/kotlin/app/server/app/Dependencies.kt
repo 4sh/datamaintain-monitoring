@@ -3,6 +3,7 @@ package app.server.app
 import dao.environment.EnvironmentDao
 import dao.module.ModuleDao
 import dao.project.ProjectDao
+import dao.project.ProjectHierarchyDao
 import environment.EnvironmentService
 import module.ModuleService
 import org.jooq.SQLDialect
@@ -18,7 +19,8 @@ val dslContext = DSL.using(
     ), SQLDialect.POSTGRES
 )
 val projectDao = ProjectDao(dslContext)
-val projectService = ProjectService(projectDao)
+val projectHierarchyDao = ProjectHierarchyDao(dslContext)
+val projectService = ProjectService(projectDao, projectHierarchyDao)
 
 val moduleDao = ModuleDao(dslContext)
 val moduleService = ModuleService(moduleDao)
