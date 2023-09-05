@@ -41,10 +41,10 @@
             </div>
             <div class="cell auto">
                 <div class="mCard-title">
-                    <span>{execution.id}</span>
+                    {execution.id}
                 </div>
                 <div class="mCard-module">
-                    <span>{execution.module.name}</span>
+                    {execution.module.name}
                 </div>
             </div>
         </div>
@@ -64,17 +64,17 @@
         </div>
     </div>
     <div class="mCard-content cell auto">
-        <div><span>Début d’execution :</span> <span>{execution.date}</span></div>
-        <div><span>Temps d’execution :</span> <span>{execution.duration}</span></div>
-        <div><span>Nombre de scripts :</span> <span>{execution.nbScriptsKO + execution.nbScriptsOK}</span></div>
-        <div><span>KO :</span> <span>{execution.nbScriptsKO}</span></div>
-        <div><span>OK :</span> <span>{execution.nbScriptsOK}</span></div>
+        <div><span>Début d’execution :</span> {execution.date}</div>
+        <div><span>Temps d’execution :</span> {execution.duration}</div>
+        <div><span>Nombre de scripts :</span> {execution.nbScriptsKO + execution.nbScriptsOK}</div>
+        <div><span>KO :</span> {execution.nbScriptsKO}</div>
+        <div><span>OK :</span> {execution.nbScriptsOK}</div>
     </div>
     <div class="mCard-progressBar cell shrink">
-        <span><M_progressBar></M_progressBar></span>
+        <M_progressBar status="{execution.status}" ghostMode="{ghostMode}"></M_progressBar>
     </div>
     <div class="mCard-link  cell shrink">
-        <span>Accéder au détails</span>
+        Accéder au détails
     </div>
 </div>
 
@@ -184,19 +184,13 @@
         &-title {
           width: calc(100% - 20px);
           background-color: rgb(var(--secondary-color-rgb) / .1);
-
-          span {
-            opacity: 0;
-          }
+          color: transparent;
         }
 
         &-module {
           width: calc(100% - 50px);
           background-color: rgb(var(--secondary-color-rgb) / .1);
-
-          span {
-            opacity: 0;
-          }
+          color: transparent;
         }
 
         &-indicators-item {
@@ -215,23 +209,13 @@
         }
 
         &-content {
-          span {
-            opacity: 0;
-          }
+          color: transparent;
+
           div {
             background-color: rgb(var(--secondary-color-rgb) / .1);
             height: rem-calc(16px);
             margin-bottom: rem-calc(5px);
             border-radius: rem-calc(4px);
-          }
-        }
-
-        &-progressBar {
-          background-color: rgb(var(--secondary-color-rgb) / .1);
-          border-radius: rem-calc(4px);
-
-          span {
-            opacity: 0;
           }
         }
 
@@ -241,10 +225,7 @@
           width: fit-content;
           margin: 0 0 0 auto;
           height: rem-calc(14px);
-
-          span {
-            opacity: 0;
-          }
+          color: transparent;
         }
       }
     }

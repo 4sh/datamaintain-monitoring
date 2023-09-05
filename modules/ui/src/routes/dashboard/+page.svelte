@@ -3,6 +3,7 @@
     import {ExecutionService} from "$lib/services/ExecutionService";
     import {Svroller} from "svrollbar";
     import O_alertList from "$lib/components/organisms/O_alertList.svelte";
+    import M_buttonSwitch from "$lib/components/molecules/M_buttonSwitch.svelte";
 
     let executionsPromise = ExecutionService.searchMostRecent();
     let ghostMode = true;
@@ -21,11 +22,14 @@
         <div class="dashboardView-title-details cell shrink">
             Exécutions en cours
         </div>
+        <div class="cell auto grid-x align-right">
+            <M_buttonSwitch alignment="right" flex="shrink" label="Ghostmode" checked="true"
+                            on:click={toggleGhostMode}></M_buttonSwitch>
+        </div>
     </div>
 
     <div class="dashboardView-content cell auto grid-x">
         <div class="cell auto">
-            <button on:click={toggleGhostMode}>ghostmode</button>
             <Svroller>
                 <div class="dashboardView-content-cards grid-x">
 
@@ -45,7 +49,7 @@
         </div>
 
         <div class="dashboardView-content-alerts cell shrink">
-           <O_alertList></O_alertList>
+            <O_alertList ghostMode="{ghostMode}"></O_alertList>
         </div>
     </div>
 </div>

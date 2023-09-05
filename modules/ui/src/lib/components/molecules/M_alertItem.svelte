@@ -4,21 +4,28 @@
     import A_indicator from "$lib/components/atoms/A_indicator.svelte";
 
     export let warning;
+    export let ghostMode = false;
 </script>
 
-<div class="alertItem grid-x align-middle">
+<div class="alertItem grid-x align-middle _{ghostMode ? 'ghostMode' : ''}">
     <div class="alertItem-icon {warning ? '_warning' : ''} cell shrink grid-x align-center align-middle">
-        <A_icon type="{warning ? 'warning' : 'error'}" size="light"></A_icon>
+        {#if !ghostMode}
+            <A_icon type="{warning ? 'warning' : 'error'}" size="light"></A_icon>
+        {/if}
     </div>
     <div class="alertItem-content cell auto">
         <div class="alertItem-title">PF12092022-1</div>
         <div class="alertItem-info">Lorem ipsum dolor sit amet, consectetur</div>
     </div>
     <div class="alertItem-shortName cell shrink">
-        <A_indicator label="PoF"></A_indicator>
+        {#if !ghostMode}
+            <A_indicator label="PoF"></A_indicator>
+        {/if}
     </div>
     <div class="alertItem-notification cell shrink">
-        <A_icon type="notifications_none" size="semiThin"></A_icon>
+        {#if !ghostMode}
+            <A_icon type="notifications_none" size="semiThin"></A_icon>
+        {/if}
     </div>
 </div>
 
@@ -60,6 +67,45 @@
 
     &-notification {
       padding-left: rem-calc(15px);
+    }
+
+    &._ghostMode {
+      .alertItem {
+        &-icon {
+          background-color: rgb(var(--secondary-color-rgb) / .1);
+        }
+
+        &-title {
+          color: transparent;
+          width: 60%;
+          background-color: rgb(var(--secondary-color-rgb) / .1);
+          margin-bottom: rem-calc(4px);
+          height: rem-calc(13px);
+        }
+
+        &-info {
+          color: transparent;
+          background-color: rgb(var(--secondary-color-rgb) / .1);
+        }
+
+        &-shortName {
+          color: transparent;
+          min-width: rem-calc(30px);
+          min-height: rem-calc(20px);
+          background-color: rgb(var(--secondary-color-rgb) / .1);
+          border-radius: rem-calc(4px);
+        }
+
+        &-notification {
+          color: transparent;
+          width: rem-calc(20px);
+          height: rem-calc(20px);
+          background-color: rgb(var(--secondary-color-rgb) / .1);
+          border-radius: rem-calc(10px);
+          padding: 0;
+          margin-left: rem-calc(15px);
+        }
+      }
     }
   }
 

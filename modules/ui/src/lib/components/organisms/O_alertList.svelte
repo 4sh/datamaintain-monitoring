@@ -2,9 +2,11 @@
 
     import {Svroller} from "svrollbar";
     import M_alertItem from "$lib/components/molecules/M_alertItem.svelte";
+
+    export let ghostMode = false;
 </script>
 
-<div class="alertList grid-y">
+<div class="alertList grid-y _{ghostMode ? 'ghostMode' : ''}">
     <div class="alertList-header cell shrink">
         <div class="alertList-header-title">
             Toutes les alertes
@@ -16,19 +18,19 @@
     <div class="alertList-content cell auto">
         <Svroller>
             <div class="alertList-content-scroller">
-                <M_alertItem warning="true"></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem warning="true"></M_alertItem>
-                <M_alertItem warning="true"></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem warning="true"></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem warning="true"></M_alertItem>
-                <M_alertItem></M_alertItem>
-                <M_alertItem></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}" warning="true"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}" warning="true"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}" warning="true"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}" warning="true"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}" warning="true"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
+                <M_alertItem ghostMode="{ghostMode}"></M_alertItem>
             </div>
         </Svroller>
     </div>
@@ -74,6 +76,43 @@
           left: rem-calc(18px);
           z-index: -1;
           margin-top: rem-calc(10px);
+        }
+      }
+    }
+
+    &._ghostMode {
+      background-color: rgb(var(--secondary-color-rgb) / .1);
+      animation: grow 2s ease-in-out infinite;
+
+      @keyframes grow {
+        0% {
+          transform: scale(0.98);
+          opacity: .5;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0.98);
+          opacity: .5;
+        }
+      }
+
+      .alertList {
+        &-header {
+          background-color: rgb(var(--secondary-color-rgb) / .1);
+
+          &-title, &-info {
+            color: transparent;
+            background-color: rgb(var(--secondary-color-rgb) / .1);
+          }
+        }
+
+        &-content-scroller {
+          &:before {
+            content: none;
+          }
         }
       }
     }
