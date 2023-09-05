@@ -6,7 +6,7 @@
     import M_buttonSwitch from "$lib/components/molecules/M_buttonSwitch.svelte";
 
     let executionsPromise = ExecutionService.searchMostRecent();
-    let ghostMode = true;
+    let ghostMode = false;
 
     function toggleGhostMode() {
         ghostMode = !ghostMode;
