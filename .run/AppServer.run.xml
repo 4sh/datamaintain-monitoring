@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AppServer" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="app.server.app.AppServerKt" />
+    <module name="datamaintain-monitoring.modules.app-server.app.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
