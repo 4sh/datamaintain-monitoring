@@ -312,7 +312,8 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val scriptExecution = buildScriptExecutionCreationRequest(
                 batchExecutionRef = batchExecutionRef,
                 scriptRef = scriptChecksum,
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                status = Status.PLANNED
             )
             val insertedId = scriptExecutionDao.insert(scriptExecution).id
 
