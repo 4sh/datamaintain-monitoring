@@ -12,6 +12,7 @@ import dao.project.buildProjectCreationRequest
 import dao.script.ScriptDao
 import dao.script.buildScriptCreationRequest
 import dao.utils.toDto
+import execution.INITIAL_STATUS
 import execution.Status
 import generated.domain.tables.pojos.DmScriptExecution
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
@@ -76,7 +77,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { executionOrderIndex }.isEqualTo(4)
-                get { status }.isEqualTo(Status.PLANNED)
+                get { status }.isEqualTo(Status.PENDING)
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
@@ -119,7 +120,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { durationInMs }.isNull()
                 get { output }.isNull()
                 get { executionOrderIndex }.isEqualTo(0)
-                get { status }.isEqualTo(dmScriptExecution.status.toDto())
+                get { status }.isEqualTo(INITIAL_STATUS.toDto())
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
@@ -159,7 +160,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { id }.isEqualTo(insertedId)
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
-                get { status }.isEqualTo(dmScriptExecution.status)
+                get { status }.isEqualTo(Status.PENDING)
                 get { fkScriptRef }.isEqualTo(scriptChecksum)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
             }
@@ -212,7 +213,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
                 get { executionOrderIndex }.isEqualTo(0)
-                get { status }.isEqualTo(scriptExecution.status)
+                get { status }.isEqualTo(Status.PENDING)
                 get { output }.isNull()
                 get { durationInMs }.isNull()
             }
@@ -300,7 +301,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { startDate?.isEqual(scriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
                 get { executionOrderIndex }.isEqualTo(0)
-                get { status }.isEqualTo(scriptExecution.status)
+                get { status }.isEqualTo(Status.PENDING)
                 get { output }.isNull()
                 get { durationInMs }.isNull()
             }
@@ -312,8 +313,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val scriptExecution = buildScriptExecutionCreationRequest(
                 batchExecutionRef = batchExecutionRef,
                 scriptRef = scriptChecksum,
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                status = Status.PLANNED
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
             )
             val insertedId = scriptExecutionDao.insert(scriptExecution).id
 

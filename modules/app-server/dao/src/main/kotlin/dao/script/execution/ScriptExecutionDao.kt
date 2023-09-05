@@ -1,6 +1,8 @@
 package dao.script.execution
 
 import dao.utils.toDto
+import execution.INITIAL_STATUS
+import execution.Status
 import generated.domain.enums.ExecutionStatus
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
@@ -23,7 +25,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
         ).values(
             `val`(data.startDate),
             `val`(data.executionOrderIndex),
-            `val`(data.status.toDto()),
+            `val`(INITIAL_STATUS.toDto()),
             `val`(data.fkScriptRef),
             `val`(data.fkBatchExecutionRef),
         ).returningResult(

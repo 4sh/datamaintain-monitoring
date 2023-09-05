@@ -21,7 +21,7 @@ fun BatchExecution.Type.toDto(): BatchExecutionType =
 
 fun Status.toDto(): ExecutionStatus =
     when (this) {
-        Status.PLANNED -> ExecutionStatus.PLANNED
+        Status.PENDING -> ExecutionStatus.PENDING
         Status.IN_PROGRESS -> ExecutionStatus.IN_PROGRESS
         Status.COMPLETED -> ExecutionStatus.COMPLETED
         Status.ERROR -> ExecutionStatus.ERROR

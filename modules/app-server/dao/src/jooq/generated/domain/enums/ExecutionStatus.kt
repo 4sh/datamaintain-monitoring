@@ -16,7 +16,7 @@ import org.jooq.Schema
  */
 @Suppress("UNCHECKED_CAST")
 enum class ExecutionStatus(@get:JvmName("literal") public val literal: String) : EnumType {
-    PLANNED("PLANNED"),
+    PENDING("PENDING"),
     IN_PROGRESS("IN_PROGRESS"),
     COMPLETED("COMPLETED"),
     ERROR("ERROR");

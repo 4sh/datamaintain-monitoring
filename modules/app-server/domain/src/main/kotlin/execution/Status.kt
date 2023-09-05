@@ -1,8 +1,9 @@
 package execution
-
 enum class Status {
-    PLANNED,
+    PENDING,
     IN_PROGRESS,
     COMPLETED,
     ERROR
 }
+
+val INITIAL_STATUS = Status.PENDING

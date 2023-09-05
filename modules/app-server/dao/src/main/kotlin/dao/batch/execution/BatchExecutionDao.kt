@@ -1,6 +1,7 @@
 package dao.batch.execution
 
 import dao.utils.toDto
+import execution.INITIAL_STATUS
 import execution.batch.BatchExecution
 import execution.batch.BatchExecutionCreationRequest
 import execution.batch.BatchExecutionEndUpdateRequest
@@ -26,7 +27,7 @@ class BatchExecutionDao(private val dslContext: DSLContext) {
                 `val`(data.startDate),
                 `val`(data.origin.toDto()),
                 `val`(data.type.toDto()),
-                `val`(data.status.toDto()),
+                `val`(INITIAL_STATUS.toDto()),
                 `val`(data.fkModuleRef),
                 `val`(data.fkEnvironmentRef)
             ).returningResult(

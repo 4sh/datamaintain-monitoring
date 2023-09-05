@@ -8,6 +8,7 @@ import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.utils.toDto
+import execution.INITIAL_STATUS
 import execution.Status
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
@@ -64,7 +65,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { endDate }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
-                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { status }.isEqualTo(INITIAL_STATUS)
                 get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
                 get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
             }
@@ -93,7 +94,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { endDate }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin.toDto())
                 get { type }.isEqualTo(batchExecutionCreationRequest.type.toDto())
-                get { status }.isEqualTo(batchExecutionCreationRequest.status.toDto())
+                get { status }.isEqualTo(INITIAL_STATUS.toDto())
                 get { fkEnvironmentRef }.isEqualTo(environmentId)
                 get { fkModuleRef }.isEqualTo(moduleId)
             }
@@ -184,7 +185,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
-                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { status }.isEqualTo(INITIAL_STATUS)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
                 get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
                 get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
@@ -219,7 +220,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
-                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { status }.isEqualTo(Status.IN_PROGRESS)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
                 get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
                 get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
@@ -277,7 +278,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
-                get { status }.isEqualTo(batchExecutionCreationRequest.status)
+                get { status }.isEqualTo(Status.PENDING)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
                 get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
                 get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
