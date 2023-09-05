@@ -7,5 +7,4 @@ interface ProjectDaoInterface {
     fun updateProjectName(id: UUID, updateRequest: ProjectNameUpdateRequest): Project?
     fun delete(id: UUID)
     fun findOneById(id: UUID): Project?
-    fun findProjectHierarchies(): List<ProjectHierarchy>
 }
