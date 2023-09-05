@@ -1,24 +1,18 @@
 <script context="module" lang="ts">
+	import { t } from '$lib/services/I18nService';
+
 	export const prerender = true;
 </script>
 
-<script lang="ts">
-	import {_} from "svelte-i18n";
-</script>
-
 <svelte:head>
-	<title>{$_('app.title')}</title>
-	<meta name="description" content="Datamaintain monitoring application" />
+	<title>{$t('app.title')}</title>
+	<meta name="description" content="{$t('app.title')}" />
 </svelte:head>
 
 <section>
 	<h1>
-		{$_('app.title')}
+		{$t('app.title')}
 	</h1>
 </section>
 
-<a href="projects">Créer un nouveau projet</a>
-
-<style>
-
-</style>
+<a href="projects">{$t('project.actions.create')}</a>

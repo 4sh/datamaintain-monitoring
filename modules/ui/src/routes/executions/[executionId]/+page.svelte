@@ -6,6 +6,12 @@
     import O_scriptDetail from "$lib/components/organisms/O_scriptDetail.svelte";
     import M_tabs from "$lib/components/molecules/M_tabs.svelte";
     import O_scriptList from "$lib/components/organisms/O_scriptList.svelte";
+    import {page} from "$app/stores";
+    import {ProjectService} from "$lib/services/ProjectService.ts";
+    import {ExecutionMock} from "$lib/mocks/ExecutionMock.ts";
+    import {ExecutionService} from "$lib/services/ExecutionService.ts";
+
+    let executionPromise
 
     let tabItems = ['Script', 'Logs']
     let activeTabItem = 'Script'
@@ -13,6 +19,11 @@
     const triggerTabChange = (event) => {
         activeTabItem = event.detail;
     }
+
+    $: if($page.params?.project) {
+        executionPromise = ExecutionService.byId($page.params.execution);
+    }
+
 
     let codeLog = 'MongoDB shell version v4.2.21\n' +
         '                    connecting to: mongodb://cluster-prod-k8s-shard-00-00.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-01.lk5ez.mongodb.net:27017,cluster-prod-k8s-shard-00-02.lk5ez.mongodb.net:27017/cartoborne?authSource=admin&compressors=disabled&gssapiServiceName=mongodb&replicaSet=atlas-qhubug-shard-0&ssl=true\n' +
@@ -440,81 +451,84 @@
         '                    41500 owners setted\n' +
         '                    41600 owners setted\n' +
         '                    41621 owners setted';
-
-
-    const codeLogArray = codeLog.split('\n');
 </script>
 
-<div class="executionView grid-x">
+{#await executionPromise}
+    <p>...waiting</p>
+{:then execution}
+    <div class="executionView grid-x">
 
-    <div class="executionView-container cell auto grid-y">
-        <div class="executionView-header cell shrink grid-x align-middle">
-            <div class="executionView-header-return cell shrink grid-x align-middle">
-                <Tooltip text="Retour">
-                    <A_icon type="keyboard_backspace" size="light"></A_icon>
-                </Tooltip>
+        <div class="executionView-container cell auto grid-y">
+            <div class="executionView-header cell shrink grid-x align-middle">
+                <div class="executionView-header-return cell shrink grid-x align-middle">
+                    <Tooltip text="Retour">
+                        <A_icon type="keyboard_backspace" size="light"></A_icon>
+                    </Tooltip>
+                </div>
+                <div class="executionView-header-breadcrumb cell auto grid-x">
+                    <M_breadcrumbItem nameItem="Portail Fret"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="Production"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="Module"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="Exécution PF12092022-1" isLast="true"></M_breadcrumbItem>
+                </div>
+                <div class="executionView-header-favorite  cell shrink">
+                    <Tooltip text="Ajouter aux favoris">
+                        <A_icon type="star_outline" size="extraThin"></A_icon>
+                    </Tooltip>
+                </div>
             </div>
-            <div class="executionView-header-breadcrumb cell auto grid-x">
-                <M_breadcrumbItem nameItem="Portail Fret"></M_breadcrumbItem>
-                <M_breadcrumbItem nameItem="Production"></M_breadcrumbItem>
-                <M_breadcrumbItem nameItem="Module"></M_breadcrumbItem>
-                <M_breadcrumbItem nameItem="Exécution PF12092022-1" isLast="true"></M_breadcrumbItem>
+
+            <div class="executionView-title cell shrink">
+                Exécution PF12092022-1
             </div>
-            <div class="executionView-header-favorite  cell shrink">
-                <Tooltip text="Ajouter aux favoris">
-                    <A_icon type="star_outline" size="extraThin"></A_icon>
-                </Tooltip>
+
+            <div class="executionView-content cell shrink">
+                <div class="executionView-content-container">
+                    <div class="executionView-content-title">
+                        Lancé le :
+                    </div>
+                    <div class="executionView-content-data">
+                        12/09/2022 à 13h57
+                    </div>
+                </div>
+                <div class="executionView-content-container">
+                    <div class="executionView-content-title">
+                        Module :
+                    </div>
+                    <div class="executionView-content-data">
+                        Module Machin
+                    </div>
+                </div>
+                <div class="executionView-content-container">
+                    <div class="executionView-content-title">
+                        Environnement :
+                    </div>
+                    <div class="executionView-content-data">
+                        Production
+                    </div>
+                </div>
+            </div>
+
+            <div class="executionView-scripts cell auto grid-y">
+                <O_scriptList></O_scriptList>
             </div>
         </div>
 
-        <div class="executionView-title cell shrink">
-            Exécution PF12092022-1
-        </div>
+        <div class="executionView-container cell shrink grid-y">
+            <M_tabs tabItems={tabItems} activeItem={activeTabItem} on:tabChange={triggerTabChange}/>
 
-        <div class="executionView-content cell shrink">
-            <div class="executionView-content-container">
-                <div class="executionView-content-title">
-                    Lancé le :
-                </div>
-                <div class="executionView-content-data">
-                    12/09/2022 à 13h57
-                </div>
+            <div class="executionView-details cell auto grid-y">
+                {#if activeTabItem === 'Script'}
+                    <O_scriptDetail></O_scriptDetail>
+                {:else if activeTabItem === 'Logs'}
+                    <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
+                {/if}
             </div>
-            <div class="executionView-content-container">
-                <div class="executionView-content-title">
-                    Module :
-                </div>
-                <div class="executionView-content-data">
-                    Module Machin
-                </div>
-            </div>
-            <div class="executionView-content-container">
-                <div class="executionView-content-title">
-                    Environnement :
-                </div>
-                <div class="executionView-content-data">
-                    Production
-                </div>
-            </div>
-        </div>
-
-        <div class="executionView-scripts cell auto grid-y">
-            <O_scriptList></O_scriptList>
         </div>
     </div>
-
-    <div class="executionView-container cell shrink grid-y">
-        <M_tabs tabItems={tabItems} activeItem={activeTabItem} on:tabChange={triggerTabChange}/>
-
-        <div class="executionView-details cell auto grid-y">
-            {#if activeTabItem === 'Script'}
-                <O_scriptDetail></O_scriptDetail>
-            {:else if activeTabItem === 'Logs'}
-                <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
-            {/if}
-        </div>
-    </div>
-</div>
+{:catch error}
+    <p style="color: red">Project not found !</p>
+{/await}
 
 <style lang="scss">
   @import "src/app";
