@@ -11,13 +11,11 @@ import java.util.*
 fun buildScriptExecutionCreationRequest(
     startDate: OffsetDateTime? = null,
     executionOrderIndex: Int = 0,
-    status: Status = Status.PLANNED,
     scriptRef: String,
     batchExecutionRef: UUID
 ) = ScriptExecutionCreationRequest(
     startDate = startDate,
     executionOrderIndex = executionOrderIndex,
-    status = status,
     fkScriptRef = scriptRef,
     fkBatchExecutionRef = batchExecutionRef,
 )

@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS dm_script (
 );
 
 CREATE TYPE execution_status AS ENUM (
-    'PLANNED',
+    'PENDING',
     'IN_PROGRESS',
     'COMPLETED',
     'ERROR'
