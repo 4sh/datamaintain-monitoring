@@ -3,6 +3,7 @@
    import {page} from "$app/stores";
    import {ExecutionMock} from "$lib/mocks/ExecutionMock";
    import O_matrixModuleEnv from "$lib/components/organisms/O_matrix/O_matrixModuleEnv.svelte";
+   import M_error from "$lib/components/molecules/M_error.svelte";
 
    let projectPromise
    let moduleEnvMatrix
@@ -31,5 +32,7 @@
         <O_matrixModuleEnv projectRef="{project.id}" matrix="{moduleEnvMatrix}"></O_matrixModuleEnv>
     {/if}
 {:catch error}
-    <p style="color: red">Project not found !</p>
+    <M_error>
+        Project not found !
+    </M_error>
 {/await}

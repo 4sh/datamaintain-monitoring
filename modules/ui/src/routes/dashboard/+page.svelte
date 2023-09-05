@@ -4,6 +4,7 @@
     import {Svroller} from "svrollbar";
     import O_alertList from "$lib/components/organisms/O_alertList.svelte";
     import M_buttonSwitch from "$lib/components/molecules/M_buttonSwitch.svelte";
+    import M_error from "$lib/components/molecules/M_error.svelte";
 
     let executionsPromise = ExecutionService.searchMostRecent();
     let ghostMode = false;
@@ -42,7 +43,9 @@
                             </div>
                         {/each}
                     {:catch error}
-                        <p style="color: red">Error to display dashboard</p>
+                        <M_error>
+                            Error to display dashboard
+                        </M_error>
                     {/await}
                 </div>
             </Svroller>

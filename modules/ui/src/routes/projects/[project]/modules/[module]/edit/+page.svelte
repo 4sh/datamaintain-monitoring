@@ -4,6 +4,7 @@
     import {ModuleService} from "$lib/services/ModuleService";
     import {EnvService} from "$lib/services/EnvService";
     import {ExecutionMock} from "$lib/mocks/ExecutionMock";
+    import M_error from "$lib/components/molecules/M_error.svelte";
 
     let project
     let env
@@ -36,5 +37,7 @@
 {:then module}
     Edition du module {module.name} du projet {project.name}
 {:catch error}
-    <p style="color: red">Module not found !</p>
+    <M_error>
+        Module not found !
+    </M_error>
 {/await}

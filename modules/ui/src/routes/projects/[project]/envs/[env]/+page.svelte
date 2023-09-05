@@ -2,6 +2,7 @@
     import {EnvService} from "$lib/services/EnvService";
     import {page} from "$app/stores";
     import {ProjectService} from "$lib/services/ProjectService";
+    import M_error from "$lib/components/molecules/M_error.svelte";
 
     let project
     let envPromise
@@ -25,5 +26,7 @@
     <br>
     <a href="{env.id}/edit">Editer</a>
 {:catch error}
-    <p style="color: red">Env not found !</p>
+    <M_error>
+        Env not found !
+    </M_error>
 {/await}

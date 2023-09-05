@@ -5,6 +5,7 @@
     import {EnvService} from "$lib/services/EnvService";
     import {ExecutionMock} from "$lib/mocks/ExecutionMock";
     import O_matrixScriptEnv from "$lib/components/organisms/O_matrix/O_matrixScriptEnv.svelte";
+    import M_error from "$lib/components/molecules/M_error.svelte";
 
     let project
     let env
@@ -44,5 +45,7 @@
         <O_matrixScriptEnv projectRef="{project.id}" matrix="{scriptEnvMatrix}"></O_matrixScriptEnv>
     {/if}
 {:catch error}
-    <p style="color: red">Module not found !</p>
+    <M_error>
+        Module not found !
+    </M_error>
 {/await}

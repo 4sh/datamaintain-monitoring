@@ -3,6 +3,7 @@
     import {HierarchySearch} from "$lib/domain/ProjectHierarchy";
     import O_hierarchyProject from "$lib/components/organisms/O_hierarchy/O_hierarchyProject.svelte";
     import M_inputSearch from "$lib/components/molecules/M_inputSearch.svelte";
+    import M_error from "$lib/components/molecules/M_error.svelte";
     import {Svroller} from "svrollbar";
 
     let projectHierarchiesPromise = ProjectService.projectHierarchies();
@@ -45,7 +46,9 @@
             </Svroller>
 
         {:catch error}
-            <p style="color: red">Env not found !</p>
+            <M_error>
+                Env not found !
+            </M_error>
         {/await}
     </div>
 </div>

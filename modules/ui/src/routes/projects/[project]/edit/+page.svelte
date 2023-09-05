@@ -2,6 +2,7 @@
     import {ProjectService} from "$lib/services/ProjectService";
     import {page} from "$app/stores";
     import O_projectEdition from "$lib/components/organisms/O_project/O_projectEdition.svelte";
+    import M_error from "$lib/components/molecules/M_error.svelte";
 
     let projectPromise
 
@@ -19,5 +20,7 @@
     <O_projectEdition {project} />
 
 {:catch error}
-    <p style="color: red">Project not found !</p>
+    <M_error>
+        Project not found !
+    </M_error>
 {/await}
