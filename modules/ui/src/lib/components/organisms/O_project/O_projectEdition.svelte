@@ -3,6 +3,7 @@
     import A_button from "$lib/components/atoms/A_button.svelte";
     import {ProjectService} from "$lib/services/ProjectService";
     import type {Project} from "$lib/domain/Project";
+    import {t} from "$lib/services/I18nService";
 
     export let project: Project = {} as Project;
 
@@ -16,10 +17,10 @@
 </script>
 
 <form on:submit|preventDefault={save}>
-    <M_inputText label="Name" bind:value={project.name} required="true" placeholder="Name..."/>
-    <M_inputText label="Small name" bind:value={project.smallName} required="true" placeholder="Small name..."/>
+    <M_inputText label="{$t('project.name')}" bind:value={project.name} required="true" placeholder="{$t('project.name')}"/>
+    <M_inputText label="{$t('project.smallName')}" bind:value={project.smallName} required="true" placeholder="{$t('project.smallName')}"/>
 
-    <A_button label='Sauvegarder' type="submit"/>
+    <A_button label="{$t('common.actions.save')}" type="submit"/>
 </form>
 
 <style>

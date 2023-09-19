@@ -1,5 +1,7 @@
 {
   "actions": {
     "create": "Créer un nouveau projet"
-  }
+  },
+  "name": "Nom",
+  "smallName": "Nom court"
 }
