@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "59bfc7fa-191f-48ae-8e02-fbc93fb78091",
+		"name": "Datamaintain-monitoring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "projects V1",
+			"item": [
+				{
+					"name": "Project by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/v1/projects/{{datamaintainProjectId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"{{datamaintainProjectId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update project name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"myName\",\n    \"smallName\": \"mySmallName\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/projects/{{datamaintainProjectId}}/name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"{{datamaintainProjectId}}",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create project",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"myNewName\",\n    \"smallName\": \"myNewSmallName\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/projects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project hierarchies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/v1/projects/hierarchies",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"hierarchies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "envs V1",
+			"item": [
+				{
+					"name": "Environment by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/v1/environments/{{datamaintainQaEnvId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"environments",
+								"{{datamaintainQaEnvId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update environment name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"myEnvName\",\n    \"smallName\": \"mySmallEnvName\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/environments/{{datamaintainQaEnvId}}/name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"environments",
+								"{{datamaintainQaEnvId}}",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create environment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"myNewEnvName\",\n    \"smallName\": \"mySmallNewEnvName\",\n    \"fkProjectRef\": {{datamaintainProjectId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/environments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"environments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "modules V1",
+			"item": [
+				{
+					"name": "Module by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/v1/modules/{{datamaintainModuleId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"modules",
+								"{{datamaintainModuleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update module name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"myModuleName\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/modules/{{datamaintainModuleId}}/name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"modules",
+								"{{datamaintainModuleId}}",
+								"name"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create module",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"myNewModuleName\",\n    \"fkProjectRef\": {{datamaintainProjectId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/v1/modules",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"v1",
+								"modules"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080/api",
+			"type": "default"
+		},
+		{
+			"key": "datamaintainProjectId",
+			"value": "ecee7679-7197-432d-85a0-2d2d4da6096e",
+			"type": "default"
+		},
+		{
+			"key": "datamaintainQaEnvId",
+			"value": "109a2c08-e836-451a-86ef-d67be8ffc648",
+			"type": "default"
+		},
+		{
+			"key": "datamaintainModuleId",
+			"value": "a78e96a7-6748-4f01-9691-ea3bf851ad43",
+			"type": "default"
+		}
+	]
+}
