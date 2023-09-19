@@ -24,7 +24,7 @@ internal fun Route.environmentV1Routes(environmentService: EnvironmentService) {
 
         put("{$environmentId}/name") {
             val environmentNameUpdateRequest = call.receive<EnvironmentNameUpdateRequestDtoV1>().toDomain()
-            call.respondNullable(environmentService.updateEnvironmentName(call.environmentId(), environmentNameUpdateRequest))
+            call.respondNullable(environmentService.updateEnvironmentName(call.environmentId(), environmentNameUpdateRequest)?.toDtoV1())
         }
     }
 }
