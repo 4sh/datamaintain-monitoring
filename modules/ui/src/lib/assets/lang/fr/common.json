@@ -1,4 +1,12 @@
 {
+  "actions": {
+    "logout": "Déconnexion",
+    "save": "Sauvegarder",
+    "create": "Créer",
+    "edit": "Éditer",
+    "discard": "Annuler",
+    "search": "Rechercher"
+  },
   "units": {
     "seconds-small": "s"
   },

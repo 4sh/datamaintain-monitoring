@@ -3,8 +3,5 @@
   "description": "Datamaintain monitoring application",
   "dashboard": "Dashboard",
   "history": "Historique",
-  "pendingExecutions": "Executions en cours",
-  "actions": {
-    "logout": "Déconnexion"
-  }
+  "pendingExecutions": "Executions en cours"
 }

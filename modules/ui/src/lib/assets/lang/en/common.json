@@ -1,4 +1,12 @@
 {
+  "actions": {
+    "logout": "Logout",
+    "save": "Save",
+    "create": "Create",
+    "edit": "Edit",
+    "discard": "Discard",
+    "search": "Search"
+  },
   "units": {
     "seconds-small": "s"
   },
