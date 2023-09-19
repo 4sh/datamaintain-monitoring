@@ -1,4 +1,8 @@
 {
+  "page": {
+    "creation": "Create project",
+    "edition": "Edit project {{name}}"
+  },
   "actions": {
     "create": "Create project"
   },

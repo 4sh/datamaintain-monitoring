@@ -1,4 +1,8 @@
 {
+  "page": {
+    "creation": "Création d'un projet",
+    "edition": "Édition du projet {{name}}"
+  },
   "actions": {
     "create": "Créer un nouveau projet"
   },
