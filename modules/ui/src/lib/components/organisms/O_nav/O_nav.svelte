@@ -1,6 +1,6 @@
 <script lang="ts">
-
-import A_icon from "$lib/components/atoms/A_icon.svelte";
+    import A_icon from "$lib/components/atoms/A_icon.svelte";
+    import { t } from '$lib/services/I18nService';
 </script>
 
     <div class="nav grid-y align-middle">
@@ -10,11 +10,11 @@ import A_icon from "$lib/components/atoms/A_icon.svelte";
         <div class="nav-content cell shrink">
             <a class="nav-item grid-x align-middle" href="/dashboard">
                 <A_icon type="grid_view" size="light" class="nav-item-icon cell shrink"></A_icon>
-                <div class="nav-item-label cell shrink">Dashboard</div>
+                <div class="nav-item-label cell shrink">{$t('app.dashboard')}</div>
             </a>
             <a class="nav-item grid-x align-middle" href="/history">
                 <A_icon type="schedule" size="light" class="nav-item-icon cell shrink"></A_icon>
-                <div class="nav-item-label cell shrink">Historique</div>
+                <div class="nav-item-label cell shrink">{$t('app.history')}</div>
             </a>
         </div>
     </div>

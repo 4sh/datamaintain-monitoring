@@ -1,6 +1,9 @@
 {
   "title": "Datamaintain",
   "description": "Datamaintain monitoring application",
+  "dashboard": "Dashboard",
+  "history": "History",
+  "pendingExecutions": "Executions en cours",
   "actions": {
     "logout": "Logout"
   }

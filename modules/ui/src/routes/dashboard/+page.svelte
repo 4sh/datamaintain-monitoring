@@ -5,6 +5,7 @@
     import O_alertList from "$lib/components/organisms/O_alertList.svelte";
     import M_buttonSwitch from "$lib/components/molecules/M_buttonSwitch.svelte";
     import M_error from "$lib/components/molecules/M_error.svelte";
+    import { t } from '$lib/services/I18nService';
 
     let executionsPromise = ExecutionService.searchMostRecent();
     let ghostMode = false;
@@ -18,10 +19,10 @@
 
     <div class="dashboardView-title cell shrink grid-x align-middle">
         <div class="dashboardView-title-name cell shrink">
-            Dashboard
+            {$t('app.dashboard')}
         </div>
         <div class="dashboardView-title-details cell shrink">
-            Exécutions en cours
+            {$t('app.pendingExecutions')}
         </div>
         <div class="cell auto grid-x align-right">
             <M_buttonSwitch alignment="right" flex="shrink" label="Ghostmode" checked="true"
