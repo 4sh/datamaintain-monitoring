@@ -4,7 +4,7 @@
     export let required;
 </script>
 
-<input type="text" {value} {required} placeholder="{placeholder}" class="aInputText">
+<input type="text" bind:value={value} {required} placeholder="{placeholder}" class="aInputText">
 
 <style lang="scss">
     @import "src/app";

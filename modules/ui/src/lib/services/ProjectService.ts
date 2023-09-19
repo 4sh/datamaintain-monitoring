@@ -12,4 +12,32 @@ export class ProjectService {
         const res = await fetch(`${ProjectService.baseUrl}/hierarchies`);
         return (await res.json()) as ProjectHierarchy[];
     }
+
+    public static create = async (project: Project) => {
+        const res = await fetch(`${ProjectService.baseUrl}`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: project.name,
+                smallName: project.smallName
+            })
+        });
+        return (await res.json()) as Project;
+    }
+
+    public static updateName = async (project: Project): Promise<Project> => {
+        const res = await fetch(`${ProjectService.baseUrl}/${project.id}/name`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                name: project.name,
+                smallName: project.smallName
+            })
+        });
+        return (await res.json()) as Project;
+    }
 }

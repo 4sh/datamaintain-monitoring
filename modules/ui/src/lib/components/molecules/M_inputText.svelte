@@ -9,5 +9,5 @@
 </script>
 
 <A_label {label}>
-    <A_inputText {value} {required} {placeholder}></A_inputText>
+    <A_inputText bind:value={value} {required} {placeholder}></A_inputText>
 </A_label>
