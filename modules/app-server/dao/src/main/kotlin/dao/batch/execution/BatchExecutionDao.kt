@@ -2,18 +2,15 @@ package dao.batch.execution
 
 import dao.utils.toDto
 import execution.INITIAL_STATUS
-import execution.batch.BatchExecution
-import execution.batch.BatchExecutionCreationRequest
-import execution.batch.BatchExecutionEndUpdateRequest
-import execution.batch.BatchExecutionStartUpdateRequest
+import execution.batch.*
 import generated.domain.enums.ExecutionStatus
 import generated.domain.tables.references.DM_BATCH_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import java.util.*
 
-class BatchExecutionDao(private val dslContext: DSLContext) {
-    fun insert(data: BatchExecutionCreationRequest): BatchExecution =
+class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoInterface {
+    override fun insert(data: BatchExecutionCreationRequest): BatchExecution =
         dslContext.insertInto(
             DM_BATCH_EXECUTION,
             DM_BATCH_EXECUTION.START_DATE,
@@ -43,7 +40,7 @@ class BatchExecutionDao(private val dslContext: DSLContext) {
             )
             .fetchSingleInto(BatchExecution::class.java)
 
-    fun updateBatchExecutionStartData(
+    override fun updateBatchExecutionStartData(
         batchExecutionId: UUID,
         batchExecutionStartUpdateRequest: BatchExecutionStartUpdateRequest
     ): BatchExecution? =
@@ -65,7 +62,7 @@ class BatchExecutionDao(private val dslContext: DSLContext) {
             .fetchOne()
             ?.into(BatchExecution::class.java)
 
-    fun updateBatchExecutionEndData(
+    override fun updateBatchExecutionEndData(
         batchExecutionId: UUID,
         batchExecutionEndUpdateRequest: BatchExecutionEndUpdateRequest
     ): BatchExecution? =
@@ -87,13 +84,13 @@ class BatchExecutionDao(private val dslContext: DSLContext) {
             .fetchOne()
             ?.into(BatchExecution::class.java)
 
-    fun delete(id: UUID) {
+    override fun delete(id: UUID) {
         dslContext.delete(DM_BATCH_EXECUTION)
             .where(DM_BATCH_EXECUTION.ID.eq(id))
             .execute()
     }
 
-    fun findOneById(id: UUID): BatchExecution? =
+    override fun findOneById(id: UUID): BatchExecution? =
         dslContext.fetchOne(DM_BATCH_EXECUTION, DM_BATCH_EXECUTION.ID.eq(id))
             ?.into(BatchExecution::class.java)
 }
