@@ -162,7 +162,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"myNewEnvName\",\n    \"smallName\": \"mySmallNewEnvName\",\n    \"fkProjectRef\": {{datamaintainProjectId}}\n}",
+							"raw": "{\n    \"name\": \"myNewEnvName\",\n    \"smallName\": \"mySmallNewEnvName\",\n    \"projectRef\": {{datamaintainProjectId}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -242,7 +242,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"myNewModuleName\",\n    \"fkProjectRef\": {{datamaintainProjectId}}\n}",
+							"raw": "{\n    \"name\": \"myNewModuleName\",\n    \"projectRef\": {{datamaintainProjectId}}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
