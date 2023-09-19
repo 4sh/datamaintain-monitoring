@@ -28,7 +28,7 @@ internal fun Route.projectV1Routes(projectService: ProjectService) {
     }
 
     put("/projects/{$projectId}/name") {
-        val projectNameUpdateRequest =  call.receive<ProjectNameUpdateRequest>()
-        call.respondNullable(projectService.updateProjectName(call.projectId(), projectNameUpdateRequest))
+        val projectNameUpdateRequest =  call.receive<ProjectNameUpdateRequestDtoV1>()
+        call.respondNullable(projectService.updateProjectName(call.projectId(), projectNameUpdateRequest.toDomain())?.toDtoV1())
     }
 }
