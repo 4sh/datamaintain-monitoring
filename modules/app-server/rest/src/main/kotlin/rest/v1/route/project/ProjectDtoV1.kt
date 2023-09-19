@@ -1,6 +1,7 @@
 package rest.v1.route.project
 
 import project.Project
+import project.ProjectCreationRequest
 import project.ProjectNameUpdateRequest
 import rest.UUIDSerializer
 import java.util.*
@@ -26,6 +27,18 @@ data class ProjectNameUpdateRequestDtoV1(
 ) {
     fun toDomain(): ProjectNameUpdateRequest =
         ProjectNameUpdateRequest(
+            name = name,
+            smallName = smallName
+        )
+}
+
+@kotlinx.serialization.Serializable
+data class ProjectCreationRequestDtoV1(
+    val name: String,
+    val smallName: String
+) {
+    fun toDomain(): ProjectCreationRequest =
+        ProjectCreationRequest(
             name = name,
             smallName = smallName
         )

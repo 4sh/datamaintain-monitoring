@@ -23,8 +23,8 @@ internal fun Route.projectV1Routes(projectService: ProjectService) {
     }
 
     post("/projects") {
-        val projectCreationRequest = call.receive<ProjectCreationRequest>()
-        call.respond(projectService.insert(projectCreationRequest))
+        val projectCreationRequest = call.receive<ProjectCreationRequestDtoV1>()
+        call.respond(projectService.insert(projectCreationRequest.toDomain()).toDtoV1())
     }
 
     put("/projects/{$projectId}/name") {
