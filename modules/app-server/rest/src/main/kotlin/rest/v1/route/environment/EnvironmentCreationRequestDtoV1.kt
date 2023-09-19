@@ -10,11 +10,11 @@ data class EnvironmentCreationRequestDtoV1(
     val name: String,
     val smallName: String,
     @Serializable(with = UUIDSerializer::class)
-    val fkProjectRef: UUID
+    val projectRef: UUID
 )
 
 fun EnvironmentCreationRequestDtoV1.toDomain() = EnvironmentCreationRequest(
     name = this.name,
     smallName = this.smallName,
-    fkProjectRef = this.fkProjectRef
+    fkProjectRef = this.projectRef
 )
