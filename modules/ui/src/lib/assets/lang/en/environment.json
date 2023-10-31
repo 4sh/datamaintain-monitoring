@@ -1,0 +1,8 @@
+{
+  "page": {
+    "creation": "Create environment",
+    "edition": "Edit environment {{environment.name}} of project {{projectName}}"
+  },
+  "name": "Name",
+  "smallName": "Small name"
+}

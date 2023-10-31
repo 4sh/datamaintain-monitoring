@@ -1,7 +1,7 @@
 import i18n from 'sveltekit-i18n';
 
 const languages = ['en', 'fr'];
-const i18nFiles = ['common', 'app', 'project'];
+const i18nFiles = ['common', 'app', 'project', 'module', 'environment'];
 
 const langFilePairs: any[] = languages
     .flatMap(lang => i18nFiles.map(i18nFile => ({lang, i18nFile})));

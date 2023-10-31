@@ -1,0 +1,7 @@
+{
+  "page": {
+    "creation": "Création d'un module",
+    "edition": "Édition du module {{module.name}} du projet {{projectName}}"
+  },
+  "name": "Nom"
+}

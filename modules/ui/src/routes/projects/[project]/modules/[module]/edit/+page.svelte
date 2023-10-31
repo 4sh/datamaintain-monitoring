@@ -5,6 +5,8 @@
     import {EnvService} from "$lib/services/EnvService";
     import {ExecutionMock} from "$lib/mocks/ExecutionMock";
     import M_error from "$lib/components/molecules/M_error.svelte";
+    import {t} from "$lib/services/I18nService";
+    import O_moduleEdition from "$lib/components/organisms/O_module/O_moduleEdition.svelte";
 
     let project
     let env
@@ -35,7 +37,9 @@
 {#await modulePromise}
     <p>...waiting</p>
 {:then module}
-    Edition du module {module.name} du projet {project.name}
+    {$t('module.page.edition', {name: module.name, projectName: project.name})}
+
+    <O_moduleEdition projectRef="{project.id}" {module}/>
 {:catch error}
     <M_error>
         Module not found !

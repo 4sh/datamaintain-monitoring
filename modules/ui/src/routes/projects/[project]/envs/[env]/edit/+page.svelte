@@ -3,6 +3,8 @@
     import {page} from "$app/stores";
     import {ProjectService} from "$lib/services/ProjectService";
     import M_error from "$lib/components/molecules/M_error.svelte";
+    import {t} from "$lib/services/I18nService";
+    import O_environmentEdition from "$lib/components/organisms/O_environment/O_environmentEdition.svelte";
 
     let project
     let envPromise
@@ -20,8 +22,10 @@
 
 {#await envPromise}
     <p>...waiting</p>
-{:then env}
-    Edition de l'environnement {env.name} du projet {project.name}
+{:then environment}
+    {$t('environment.page.edition', {name: environment.name, projectName: project.name})}
+
+    <O_environmentEdition projectRef="{project.id}" {environment}/>
 {:catch error}
     <M_error>
         Env not found !

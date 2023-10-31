@@ -1,0 +1,8 @@
+{
+  "page": {
+    "creation": "Création d'un environnement",
+    "edition": "Édition de l'environnement {{environment.name}} du projet {{projectName}}"
+  },
+  "name": "Nom",
+  "smallName": "Nom court"
+}
