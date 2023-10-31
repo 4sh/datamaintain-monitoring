@@ -15,5 +15,6 @@
       height: rem-calc(22px);
       padding: 0 rem-calc(6px);
       border-radius: rem-calc(4px);
+      width: fit-content;
     }
 </style>
