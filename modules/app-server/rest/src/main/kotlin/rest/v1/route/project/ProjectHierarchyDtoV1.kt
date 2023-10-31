@@ -41,7 +41,7 @@ fun ProjectHierarchy.toHierarchyDtoV1() = ProjectHierarchyDtoV1(
             },
             id = env.id,
             name = env.name,
-            smallName = smallName
+            smallName = env.smallName
         )
     },
     id = id,
