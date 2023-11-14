@@ -17,3 +17,22 @@ Currently, the server uses Java 17 so please ensure that this is your current Ja
 
 #### Using IntelliJ
 All run configurations are available in the folder [run](run).
+
+## Launch tests
+
+### Cypress
+Please make sure you ran a `npm install` before trying to launch the Cypress tests. You can either run cypress with or without the GUI.
+
+- With GUI:
+
+```bash
+cd modules/ui
+npx cypress open
+```
+
+- Without GUI:
+
+```bash
+cd modules/ui
+npx cypress run
+```
