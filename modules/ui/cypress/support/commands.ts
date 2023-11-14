@@ -35,3 +35,7 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('getBySelectorId', (selectorId) => {
+    cy.get('[data-cy="' + selectorId + '"]');
+});
