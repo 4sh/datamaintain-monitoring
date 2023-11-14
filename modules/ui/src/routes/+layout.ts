@@ -1,5 +1,10 @@
 import {loadTranslations} from '$lib/services/I18nService';
 
+/**
+ * SSR is deactivated for E2E tests because hydration empties inputs
+ */
+export const ssr = false;
+
 /** @type {import('@sveltejs/kit').Load} */
 export async function load({ url }) {
     const { pathname } = url;
