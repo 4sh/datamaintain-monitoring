@@ -26,7 +26,7 @@
     <a href="{project.id}/envs">Créer un nouvel environnement</a>
 
     <br>
-    <a href="{project.id}/edit">Editer</a>
+    <a href="{project.id}/edit" data-cy="editProject">Editer</a>
 
     {#if moduleEnvMatrix}
         <O_matrixModuleEnv projectRef="{project.id}" matrix="{moduleEnvMatrix}"></O_matrixModuleEnv>
