@@ -1,6 +1,4 @@
-function generateId(): string {
-    return Math.random().toString(16).slice(2);
-}
+import {generateId} from '../support/utils';
 
 function buildProjectName(id): string {
     return 'project ' + id;
