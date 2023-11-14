@@ -18,16 +18,22 @@ const newProjectId = generateId();
 const projectNewName = buildProjectName(newProjectId)
 const projectNewSmallName = buildProjectSmallName(newProjectId);
 
+Cypress.Commands.add('fillProjectForm', (name, smallName) => {
+    cy.getBySelectorId('name')
+        .clear()
+        .type(name)
+        .should('have.value', name)
+    cy.getBySelectorId('smallName')
+        .clear()
+        .type(smallName)
+        .should('have.value', smallName)
+    cy.get('button[type=submit]').click()
+})
+
 describe('project creation and edition afterwards', () => {
     it('create project', () => {
         cy.visit('/projects')
-        cy.getBySelectorId('name')
-            .type(projectName)
-            .should('have.value', projectName)
-        cy.getBySelectorId('smallName')
-            .type(projectSmallName)
-            .should('have.value', projectSmallName)
-        cy.get('button[type=submit]').click()
+        cy.fillProjectForm(projectName, projectSmallName);
     })
 
     it('new project should appear in project hierarchies', () => {
@@ -40,16 +46,7 @@ describe('project creation and edition afterwards', () => {
         cy.visit('/')
         cy.contains(projectName).click();
         cy.getBySelectorId('editProject').click();
-
-        cy.getBySelectorId('name')
-            .clear()
-            .type(projectNewName)
-            .should('have.value', projectNewName)
-        cy.getBySelectorId('smallName')
-            .clear()
-            .type(projectNewSmallName)
-            .should('have.value', projectNewSmallName)
-        cy.get('button[type=submit]').click()
+        cy.fillProjectForm(projectNewName, projectNewSmallName);
     })
 
     it('new name should appear in project hierarchies', () => {
