@@ -2,9 +2,10 @@
     export let value;
     export let placeholder;
     export let required;
+    export let testId;
 </script>
 
-<input type="text" bind:value={value} {required} placeholder="{placeholder}" class="aInputText">
+<input type="text" bind:value={value} {required} placeholder="{placeholder}" class="aInputText" data-cy="{testId}">
 
 <style lang="scss">
     @import "src/app";
