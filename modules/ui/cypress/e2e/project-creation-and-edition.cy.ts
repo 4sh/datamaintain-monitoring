@@ -1,7 +1,3 @@
-Cypress.Commands.add('getBySelectorId', (selectorId) => {
-    cy.get('[data-cy="' + selectorId + '"]');
-});
-
 function generateId(): string {
     return Math.random().toString(16).slice(2);
 }
