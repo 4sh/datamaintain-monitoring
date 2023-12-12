@@ -1,6 +1,7 @@
 package rest
 
 import environment.EnvironmentService
+import execution.batch.BatchExecutionService
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -16,14 +17,16 @@ fun Application.module(
     projectService: ProjectService,
     moduleService: ModuleService,
     environmentService: EnvironmentService,
-    scriptService: ScriptService
+    scriptService: ScriptService,
+    batchExecutionService: BatchExecutionService
 ) {
     configureSerialization()
     configureRouting(
         projectService = projectService,
         moduleService = moduleService,
         environmentService = environmentService,
-        scriptService = scriptService
+        scriptService = scriptService,
+        batchExecutionService = batchExecutionService
     )
 }
 
@@ -31,7 +34,8 @@ fun Application.configureRouting(
     projectService: ProjectService,
     moduleService: ModuleService,
     environmentService: EnvironmentService,
-    scriptService: ScriptService
+    scriptService: ScriptService,
+    batchExecutionService: BatchExecutionService
 ) {
     routing {
         route("/api") {
@@ -39,7 +43,8 @@ fun Application.configureRouting(
                 projectService = projectService,
                 moduleService = moduleService,
                 environmentService = environmentService,
-                scriptService = scriptService
+                scriptService = scriptService,
+                batchExecutionService = batchExecutionService
             )
         }
     }
