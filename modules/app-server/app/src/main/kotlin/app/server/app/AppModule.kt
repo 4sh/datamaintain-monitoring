@@ -12,7 +12,8 @@ fun Application.module() {
     configureRouting(
         projectService = projectService,
         moduleService = moduleService,
-        environmentService = environmentService
+        environmentService = environmentService,
+        scriptService = scriptService
     )
     configureSerialization()
 }
