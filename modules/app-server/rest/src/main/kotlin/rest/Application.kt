@@ -10,6 +10,7 @@ import module.ModuleService
 import project.ProjectService
 import rest.v1.route.routeV1
 import script.ScriptService
+import script.execution.ScriptExecutionService
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -18,7 +19,8 @@ fun Application.module(
     moduleService: ModuleService,
     environmentService: EnvironmentService,
     scriptService: ScriptService,
-    batchExecutionService: BatchExecutionService
+    batchExecutionService: BatchExecutionService,
+    scriptExecutionService: ScriptExecutionService
 ) {
     configureSerialization()
     configureRouting(
@@ -26,7 +28,8 @@ fun Application.module(
         moduleService = moduleService,
         environmentService = environmentService,
         scriptService = scriptService,
-        batchExecutionService = batchExecutionService
+        batchExecutionService = batchExecutionService,
+        scriptExecutionService = scriptExecutionService
     )
 }
 
@@ -35,7 +38,8 @@ fun Application.configureRouting(
     moduleService: ModuleService,
     environmentService: EnvironmentService,
     scriptService: ScriptService,
-    batchExecutionService: BatchExecutionService
+    batchExecutionService: BatchExecutionService,
+    scriptExecutionService: ScriptExecutionService
 ) {
     routing {
         route("/api") {
@@ -44,7 +48,8 @@ fun Application.configureRouting(
                 moduleService = moduleService,
                 environmentService = environmentService,
                 scriptService = scriptService,
-                batchExecutionService = batchExecutionService
+                batchExecutionService = batchExecutionService,
+                scriptExecutionService = scriptExecutionService
             )
         }
     }

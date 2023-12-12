@@ -14,7 +14,8 @@ fun Application.module() {
         moduleService = moduleService,
         environmentService = environmentService,
         scriptService = scriptService,
-        batchExecutionService = batchExecutionService
+        batchExecutionService = batchExecutionService,
+        scriptExecutionService = scriptExecutionService
     )
     configureSerialization()
 }
