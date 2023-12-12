@@ -80,7 +80,7 @@ class ScriptDaoTest : AbstractDaoTest() {
             val checksum = UUID.randomUUID().toString()
 
             // When
-            val loadedScript = scriptDao.findOneById(checksum)
+            val loadedScript = scriptDao.findOneByChecksum(checksum)
 
             // Then
             expectThat(loadedScript).isNull()
@@ -93,7 +93,7 @@ class ScriptDaoTest : AbstractDaoTest() {
             val insertedChecksum = scriptDao.insert(script).checksum
 
             // When
-            val loadedScript = scriptDao.findOneById(insertedChecksum)
+            val loadedScript = scriptDao.findOneByChecksum(insertedChecksum)
 
             // Then
             expectThat(loadedScript).isNotNull().and {
@@ -116,7 +116,7 @@ class ScriptDaoTest : AbstractDaoTest() {
             scriptDao.delete(randomChecksum)
 
             // Then
-            expectThat(scriptDao.findOneById(insertedChecksum)).isNotNull()
+            expectThat(scriptDao.findOneByChecksum(insertedChecksum)).isNotNull()
         }
 
         @Test
@@ -131,8 +131,8 @@ class ScriptDaoTest : AbstractDaoTest() {
             scriptDao.delete(insertedChecksum1)
 
             // Then
-            expectThat(scriptDao.findOneById(insertedChecksum1)).isNull()
-            expectThat(scriptDao.findOneById(insertedChecksum2)).isNotNull()
+            expectThat(scriptDao.findOneByChecksum(insertedChecksum1)).isNull()
+            expectThat(scriptDao.findOneByChecksum(insertedChecksum2)).isNotNull()
         }
     }
 }
