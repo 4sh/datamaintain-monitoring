@@ -7,14 +7,11 @@ import generated.domain.enums.ExecutionStatus
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
-import script.execution.ScriptExecution
-import script.execution.ScriptExecutionCreationRequest
-import script.execution.ScriptExecutionEndUpdateRequest
-import script.execution.ScriptExecutionStartUpdateRequest
+import script.execution.*
 import java.util.*
 
-class ScriptExecutionDao(val dslContext: DSLContext) {
-    fun insert(data: ScriptExecutionCreationRequest): ScriptExecution =
+class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterface {
+    override fun insert(data: ScriptExecutionCreationRequest): ScriptExecution =
         dslContext.insertInto(
             DM_SCRIPT_EXECUTION,
             DM_SCRIPT_EXECUTION.START_DATE,
@@ -40,7 +37,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             DM_SCRIPT_EXECUTION.OUTPUT
         ).fetchSingleInto(ScriptExecution::class.java)
 
-    fun updateScriptExecutionStartData(
+    override fun updateScriptExecutionStartData(
         scriptExecutionId: UUID,
         executionStartData: ScriptExecutionStartUpdateRequest
     ): ScriptExecution? =
@@ -62,7 +59,7 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             ?.into(ScriptExecution::class.java)
 
 
-    fun updateScriptExecutionEndData(
+    override fun updateScriptExecutionEndData(
         scriptExecutionId: UUID,
         executionEndData: ScriptExecutionEndUpdateRequest
     ): ScriptExecution? =
@@ -85,13 +82,13 @@ class ScriptExecutionDao(val dslContext: DSLContext) {
             .fetchOne()
             ?.into(ScriptExecution::class.java)
 
-    fun delete(id: UUID) {
+    override fun delete(id: UUID) {
         dslContext.delete(DM_SCRIPT_EXECUTION)
             .where(DM_SCRIPT_EXECUTION.ID.eq(id))
             .execute()
     }
 
-    fun findOneById(id: UUID): ScriptExecution? =
+    override fun findOneById(id: UUID): ScriptExecution? =
         dslContext.fetchOne(DM_SCRIPT_EXECUTION, DM_SCRIPT_EXECUTION.ID.eq(id))
             ?.into(ScriptExecution::class.java)
 }
