@@ -1,8 +1,8 @@
 package dao.script.execution
 
 import AbstractDaoTest
-import dao.batch.execution.BatchExecutionDao
-import dao.batch.execution.buildBatchExecutionCreationRequest
+import dao.execution.batch.BatchExecutionDao
+import dao.execution.batch.buildBatchExecutionCreationRequest
 import dao.environment.EnvironmentDao
 import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao

@@ -1,4 +1,4 @@
-package dao.batch.execution
+package dao.execution.batch
 
 import execution.Status
 import execution.batch.BatchExecution
