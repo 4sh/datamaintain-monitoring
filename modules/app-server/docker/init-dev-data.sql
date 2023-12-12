@@ -22,3 +22,7 @@ INSERT INTO public.dm_environment (id, name, small_name, fk_project_ref) VALUES 
 INSERT INTO public.dm_environment (id, name, small_name, fk_project_ref) VALUES ('ef718993-ba5a-4493-9b9d-e213e154fba4', 'Prod', 'P', '4b9cf32b-ff4f-436d-9796-438335653fa3');
 INSERT INTO public.dm_environment (id, name, small_name, fk_project_ref) VALUES ('d900abc9-032b-43f6-8666-0454d175ab10', 'Qualification', 'Qa', '5e586e50-80e5-4a22-a91e-e266c3e01138');
 INSERT INTO public.dm_environment (id, name, small_name, fk_project_ref) VALUES ('bfe80987-df78-4338-ae00-2d601e694b41', 'Prod', 'P', '5e586e50-80e5-4a22-a91e-e266c3e01138');
+
+INSERT INTO public.dm_script (name, checksum, content) VALUES ('v1_script1', 'ba8d3396-2787-41b2-a24b-6779ed31d341', 'println("Script1")');
+INSERT INTO public.dm_script (name, checksum, content) VALUES ('v1_script2', '07c39e3e-9d1a-4b08-85d7-230e195fcf11', 'println("Script2")');
+INSERT INTO public.dm_script (name, checksum, content) VALUES ('v1_script3', '927fd8d7-280f-490e-bf57-295df4250561', 'println("Script3")');
