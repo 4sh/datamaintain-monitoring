@@ -5,9 +5,10 @@ import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import script.Script
 import script.ScriptCreationRequest
+import script.ScriptDaoInterface
 
-class ScriptDao(val dslContext: DSLContext) {
-    fun insert(data: ScriptCreationRequest): Script =
+class ScriptDao(val dslContext: DSLContext): ScriptDaoInterface {
+    override fun insert(data: ScriptCreationRequest): Script =
         dslContext.insertInto(DM_SCRIPT, DM_SCRIPT.NAME, DM_SCRIPT.CHECKSUM, DM_SCRIPT.CONTENT)
             .values(
                 `val`(data.name),
@@ -16,13 +17,13 @@ class ScriptDao(val dslContext: DSLContext) {
             ).returningResult(DM_SCRIPT.CHECKSUM, DM_SCRIPT.NAME, DM_SCRIPT.CONTENT)
             .fetchSingleInto(Script::class.java)
 
-    fun delete(id: String) {
+    override fun delete(checksum: String) {
         dslContext.delete(DM_SCRIPT)
-            .where(DM_SCRIPT.CHECKSUM.eq(id))
+            .where(DM_SCRIPT.CHECKSUM.eq(checksum))
             .execute()
     }
 
-    fun findOneById(id: String): Script? =
-        dslContext.fetchOne(DM_SCRIPT, DM_SCRIPT.CHECKSUM.eq(id))
+    override fun findOneByChecksum(checksum: String): Script? =
+        dslContext.fetchOne(DM_SCRIPT, DM_SCRIPT.CHECKSUM.eq(checksum))
             ?.into(Script::class.java)
 }
