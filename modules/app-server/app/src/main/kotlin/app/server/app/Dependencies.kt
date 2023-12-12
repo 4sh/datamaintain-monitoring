@@ -1,11 +1,13 @@
 package app.server.app
 
 import dao.environment.EnvironmentDao
+import dao.execution.batch.BatchExecutionDao
 import dao.module.ModuleDao
 import dao.project.ProjectDao
 import dao.project.ProjectHierarchyDao
 import dao.script.ScriptDao
 import environment.EnvironmentService
+import execution.batch.BatchExecutionService
 import module.ModuleService
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
@@ -32,3 +34,6 @@ val environmentService = EnvironmentService(environmentDao)
 
 val scriptDao = ScriptDao(dslContext)
 val scriptService = ScriptService(scriptDao)
+
+val batchExecutionDao = BatchExecutionDao(dslContext)
+val batchExecutionService = BatchExecutionService(batchExecutionDao)
