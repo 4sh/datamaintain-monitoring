@@ -26,3 +26,5 @@ INSERT INTO public.dm_environment (id, name, small_name, fk_project_ref) VALUES 
 INSERT INTO public.dm_script (name, checksum, content) VALUES ('v1_script1', 'ba8d3396-2787-41b2-a24b-6779ed31d341', 'println("Script1")');
 INSERT INTO public.dm_script (name, checksum, content) VALUES ('v1_script2', '07c39e3e-9d1a-4b08-85d7-230e195fcf11', 'println("Script2")');
 INSERT INTO public.dm_script (name, checksum, content) VALUES ('v1_script3', '927fd8d7-280f-490e-bf57-295df4250561', 'println("Script3")');
+
+INSERT INTO public.dm_batch_execution (id, start_date, end_date, origin, type, status, fk_environment_ref, fk_module_ref) VALUES ('fc1a6237-2517-4efb-ad2d-bfa8614c07a9', '2023-10-12 11:00:00', '2023-10-12 11:01:00', 'SERVER', 'ON_DEMAND', 'COMPLETED', '109a2c08-e836-451a-86ef-d67be8ffc648', 'a78e96a7-6748-4f01-9691-ea3bf851ad43');
