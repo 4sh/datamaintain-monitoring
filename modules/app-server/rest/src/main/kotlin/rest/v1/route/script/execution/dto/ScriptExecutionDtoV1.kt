@@ -1,6 +1,5 @@
-package rest.v1.route.script.execution
+package rest.v1.route.script.execution.dto
 
-import execution.Status
 import kotlinx.serialization.Serializable
 import rest.OffsetDateTimeSerializer
 import rest.UUIDSerializer

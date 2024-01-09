@@ -1,4 +1,4 @@
-package rest.v1.route.script
+package rest.v1.route.script.dto
 
 import script.Script
 
