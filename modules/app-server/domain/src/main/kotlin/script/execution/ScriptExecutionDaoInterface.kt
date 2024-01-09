@@ -14,4 +14,5 @@ interface ScriptExecutionDaoInterface {
     ): ScriptExecution?
     fun delete(id: UUID)
     fun findOneById(id: UUID): ScriptExecution?
+    fun findOneDetailById(id: UUID): ScriptExecutionDetail?
 }

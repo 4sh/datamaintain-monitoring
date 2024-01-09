@@ -19,6 +19,7 @@ import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import script.Script
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
@@ -38,6 +39,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
     companion object {
         private const val scriptChecksum = "myScriptChecksum"
         private lateinit var batchExecutionRef: UUID
+        private var script: Script? = null
 
         @BeforeAll
         @JvmStatic
@@ -52,7 +54,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                     fkModuleRef = moduleId
                 )
             ).id
-            ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
+            script = ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
         }
     }
 
@@ -385,4 +387,45 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             expectThat(scriptExecutionDao.findOneById(insertedId2)).isNotNull()
         }
     }
+
+    @Nested
+    inner class TestFindOneDetailById {
+        @Test
+        fun `should return null when script execution id does not exist in db`() {
+            // Given
+            val id = UUID.randomUUID()
+
+            // When
+            val loadedScriptExecution = scriptExecutionDao.findOneDetailById(id)
+
+            // Then
+            expectThat(loadedScriptExecution).isNull()
+        }
+
+        @Test
+        fun `should load script execution with script from db when it exists`() {
+            // Given
+            val dmScriptExecution = buildScriptExecutionCreationRequest(
+                batchExecutionRef = batchExecutionRef,
+                scriptRef = scriptChecksum,
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+            )
+
+            val insertedId = scriptExecutionDao.insert(dmScriptExecution).id
+
+            // When
+            val loadedScriptExecutionDetail = scriptExecutionDao.findOneDetailById(insertedId)
+
+            // Then
+            expectThat(loadedScriptExecutionDetail).isNotNull().and {
+                get { id }.isEqualTo(insertedId)
+                get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
+                get { endDate }.isNull()
+                get { status }.isEqualTo(Status.PENDING)
+                get { script }.isEqualTo(script)
+                get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef)
+            }
+        }
+    }
+
 }

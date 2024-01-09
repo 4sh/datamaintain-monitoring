@@ -23,4 +23,6 @@ class ScriptExecutionService(
     fun delete(id: UUID) = scriptExecutionDao.delete(id)
 
     fun findOneById(id: UUID): ScriptExecution? = scriptExecutionDao.findOneById(id)
+
+    fun findOneDetailById(id: UUID): ScriptExecutionDetail? = scriptExecutionDao.findOneDetailById(id)
 }

@@ -2,11 +2,12 @@ package dao.script.execution
 
 import dao.utils.toDto
 import execution.INITIAL_STATUS
-import execution.Status
 import generated.domain.enums.ExecutionStatus
+import generated.domain.tables.references.DM_SCRIPT
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
+import script.Script
 import script.execution.*
 import java.util.*
 
@@ -91,4 +92,16 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
     override fun findOneById(id: UUID): ScriptExecution? =
         dslContext.fetchOne(DM_SCRIPT_EXECUTION, DM_SCRIPT_EXECUTION.ID.eq(id))
             ?.into(ScriptExecution::class.java)
+
+    override fun findOneDetailById(id: UUID): ScriptExecutionDetail? =
+        dslContext.fetchOne(DM_SCRIPT_EXECUTION, DM_SCRIPT_EXECUTION.ID.eq(id))
+            ?.into(ScriptExecution::class.java)
+            ?.let { scriptExecution ->
+                dslContext
+                    .fetchOne(DM_SCRIPT, DM_SCRIPT.CHECKSUM.eq(scriptExecution.fkScriptRef))
+                    ?.into(Script::class.java)
+                    ?.let { script ->
+                        ScriptExecutionDetail(scriptExecution, script)
+                    }
+            }
 }
