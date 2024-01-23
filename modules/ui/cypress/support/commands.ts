@@ -41,6 +41,10 @@ Cypress.Commands.add('getBySelectorId', (selectorId) => {
 });
 
 Cypress.Commands.add('navigateToProjectPage', (projectName) => {
-    cy.visit('/')
+    cy.goToHome();
     cy.contains(projectName).click();
+});
+
+Cypress.Commands.add('goToHome', () => {
+    cy.visit('/')
 });
