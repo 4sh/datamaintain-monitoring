@@ -14,16 +14,16 @@ class ModuleDao(val dslContext: DSLContext) : ModuleDaoInterface {
                 defaultValue(DM_MODULE.ID),
                 `val`(data.name),
                 `val`(data.fkProjectRef)
-            ).returningResult(DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
+            )
+            .returning()
             .fetchSingleInto(Module::class.java)
 
     override fun updateModuleName(id: UUID, updateRequest: ModuleNameUpdateRequest): Module? =
         dslContext.update(DM_MODULE)
             .set(DM_MODULE.NAME, updateRequest.name)
             .where(DM_MODULE.ID.eq(id))
-            .returningResult(DM_MODULE.ID, DM_MODULE.NAME, DM_MODULE.FK_PROJECT_REF)
-            .fetchOne()
-            ?.into(Module::class.java)
+            .returning()
+            .fetchOneInto(Module::class.java)
 
     override fun delete(id: UUID) {
         dslContext.delete(DM_MODULE)

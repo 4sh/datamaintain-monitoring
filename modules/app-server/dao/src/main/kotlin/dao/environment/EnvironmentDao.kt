@@ -15,12 +15,7 @@ class EnvironmentDao(val dslContext: DSLContext): EnvironmentDaoInterface {
                 `val`(data.name),
                 `val`(data.fkProjectRef),
                 `val`(data.smallName)
-            ).returningResult(
-                DM_ENVIRONMENT.ID,
-                DM_ENVIRONMENT.NAME,
-                DM_ENVIRONMENT.FK_PROJECT_REF,
-                DM_ENVIRONMENT.SMALL_NAME
-            )
+            ).returning()
             .fetchSingleInto(Environment::class.java)
 
     override fun updateEnvironmentName(environmentId: UUID, updateRequest: EnvironmentNameUpdateRequest): Environment? =
@@ -28,14 +23,8 @@ class EnvironmentDao(val dslContext: DSLContext): EnvironmentDaoInterface {
             .set(DM_ENVIRONMENT.NAME, updateRequest.name)
             .set(DM_ENVIRONMENT.SMALL_NAME, updateRequest.smallName)
             .where(DM_ENVIRONMENT.ID.eq(environmentId))
-            .returningResult(
-                DM_ENVIRONMENT.ID,
-                DM_ENVIRONMENT.NAME,
-                DM_ENVIRONMENT.FK_PROJECT_REF,
-                DM_ENVIRONMENT.SMALL_NAME
-            )
-            .fetchOne()
-            ?.into(Environment::class.java)
+            .returning()
+            .fetchOneInto(Environment::class.java)
 
     override fun delete(id: UUID) {
         dslContext.delete(DM_ENVIRONMENT)

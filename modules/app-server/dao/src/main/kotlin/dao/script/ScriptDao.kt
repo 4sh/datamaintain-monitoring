@@ -14,7 +14,7 @@ class ScriptDao(val dslContext: DSLContext): ScriptDaoInterface {
                 `val`(data.name),
                 `val`(data.checksum),
                 `val`(data.content)
-            ).returningResult(DM_SCRIPT.CHECKSUM, DM_SCRIPT.NAME, DM_SCRIPT.CONTENT)
+            ).returning()
             .fetchSingleInto(Script::class.java)
 
     override fun delete(checksum: String) {

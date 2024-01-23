@@ -18,7 +18,7 @@ class ScriptExecutionTagDao(val dslContext: DSLContext) {
                 `val`(data.fkScriptExecutionRef),
                 `val`(data.fkTagRef)
             )
-            .returningResult(DM_SCRIPT_EXECUTION_DM_TAG.FK_SCRIPT_EXECUTION_REF, DM_SCRIPT_EXECUTION_DM_TAG.FK_TAG_REF)
+            .returning()
             .fetchSingleInto(DmScriptExecutionDmTag::class.java)
 
     fun delete(scriptExecutionRef: UUID, tagRef: String) {

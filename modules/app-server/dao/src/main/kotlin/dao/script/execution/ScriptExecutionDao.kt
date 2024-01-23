@@ -28,17 +28,9 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
             `val`(INITIAL_STATUS.toDto()),
             `val`(data.fkScriptRef),
             `val`(data.fkBatchExecutionRef),
-        ).returningResult(
-            DM_SCRIPT_EXECUTION.ID,
-            DM_SCRIPT_EXECUTION.START_DATE,
-            DM_SCRIPT_EXECUTION.END_DATE,
-            DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
-            DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
-            DM_SCRIPT_EXECUTION.DURATION_IN_MS,
-            DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
-            DM_SCRIPT_EXECUTION.STATUS,
-            DM_SCRIPT_EXECUTION.OUTPUT
-        ).fetchSingleInto(ScriptExecution::class.java)
+        )
+            .returning()
+            .fetchSingleInto(ScriptExecution::class.java)
 
     override fun updateScriptExecutionStartData(
         scriptExecutionId: UUID,
@@ -48,18 +40,8 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
             .set(DM_SCRIPT_EXECUTION.START_DATE, executionStartData.startDate)
             .set(DM_SCRIPT_EXECUTION.STATUS, ExecutionStatus.IN_PROGRESS)
             .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
-            .returningResult(
-                DM_SCRIPT_EXECUTION.ID,
-                DM_SCRIPT_EXECUTION.START_DATE,
-                DM_SCRIPT_EXECUTION.END_DATE,
-                DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
-                DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
-                DM_SCRIPT_EXECUTION.DURATION_IN_MS,
-                DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
-                DM_SCRIPT_EXECUTION.STATUS,
-                DM_SCRIPT_EXECUTION.OUTPUT
-            ).fetchOne()
-            ?.into(ScriptExecution::class.java)
+            .returning()
+            .fetchOneInto(ScriptExecution::class.java)
 
 
     override fun updateScriptExecutionEndData(
@@ -71,19 +53,8 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
             .set(DM_SCRIPT_EXECUTION.OUTPUT, executionEndData.output)
             .set(DM_SCRIPT_EXECUTION.STATUS, executionEndData.status.toDto())
             .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
-            .returningResult(
-                DM_SCRIPT_EXECUTION.ID,
-                DM_SCRIPT_EXECUTION.START_DATE,
-                DM_SCRIPT_EXECUTION.END_DATE,
-                DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
-                DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
-                DM_SCRIPT_EXECUTION.DURATION_IN_MS,
-                DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
-                DM_SCRIPT_EXECUTION.STATUS,
-                DM_SCRIPT_EXECUTION.OUTPUT
-            )
-            .fetchOne()
-            ?.into(ScriptExecution::class.java)
+            .returning()
+            .fetchOneInto(ScriptExecution::class.java)
 
     override fun delete(id: UUID) {
         dslContext.delete(DM_SCRIPT_EXECUTION)

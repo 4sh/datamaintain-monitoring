@@ -18,7 +18,7 @@ class ProjectDao(val dslContext: DSLContext) : ProjectDaoInterface {
                 `val`(data.name),
                 `val`(data.smallName)
             )
-            .returningResult(DM_PROJECT.ID, DM_PROJECT.NAME, DM_PROJECT.SMALL_NAME)
+            .returning()
             .fetchSingleInto(Project::class.java)
 
     override fun updateProjectName(id: UUID, updateRequest: ProjectNameUpdateRequest): Project? =
@@ -26,13 +26,8 @@ class ProjectDao(val dslContext: DSLContext) : ProjectDaoInterface {
             .set(DM_PROJECT.NAME, updateRequest.name)
             .set(DM_PROJECT.SMALL_NAME, updateRequest.smallName)
             .where(DM_PROJECT.ID.eq(id))
-            .returningResult(
-                DM_PROJECT.ID,
-                DM_PROJECT.NAME,
-                DM_PROJECT.SMALL_NAME
-            )
-            .fetchOne()
-            ?.into(Project::class.java)
+            .returning()
+            .fetchOneInto(Project::class.java)
 
     override fun delete(id: UUID) {
         dslContext.delete(DM_PROJECT)
