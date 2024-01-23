@@ -50,7 +50,7 @@ describe('project creation and edition afterwards', () => {
     })
 
     it('edit newly created project', () => {
-        cy.navigateToProjectPage(projectName)
+        cy.goToProjectPage(projectName)
         cy.getBySelectorId('editProject').click();
         fillProjectFormAndSubmit(projectNewName, projectNewSmallName);
     })
