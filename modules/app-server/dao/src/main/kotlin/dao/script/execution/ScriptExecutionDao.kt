@@ -5,7 +5,9 @@ import execution.INITIAL_STATUS
 import generated.domain.enums.ExecutionStatus
 import generated.domain.tables.references.DM_SCRIPT
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
+import org.jooq.Condition
 import org.jooq.DSLContext
+import org.jooq.impl.DSL
 import org.jooq.impl.DSL.`val`
 import script.Script
 import script.execution.*
@@ -104,4 +106,22 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
                         ScriptExecutionDetail(scriptExecution, script)
                     }
             }
+
+    override fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecution> =
+        dslContext.selectFrom(DM_SCRIPT_EXECUTION)
+            .where(searchRequest.toCondition())
+            .fetchInto(ScriptExecution::class.java)
 }
+
+fun ScriptExecutionSearchRequest.toCondition(): Condition =
+    DSL.noCondition()
+        .let { condition ->
+            this.status
+                ?.let { condition.and(DM_SCRIPT_EXECUTION.STATUS.eq(it.toDto())) }
+                ?: condition
+        }
+        .let { condition ->
+            this.batchExecutionRef
+                ?.let { condition.and(DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF.eq(it)) }
+                ?: condition
+        }
