@@ -1,18 +1,15 @@
 package dao.execution.batch
 
 import execution.Status
-import execution.batch.BatchExecution
-import execution.batch.BatchExecutionCreationRequest
-import execution.batch.BatchExecutionEndUpdateRequest
-import execution.batch.BatchExecutionStartUpdateRequest
+import execution.batch.*
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*
 
 fun buildBatchExecutionCreationRequest(
     startDate: OffsetDateTime? = null,
-    origin: BatchExecution.Origin = BatchExecution.Origin.TIER,
-    type: BatchExecution.Type = BatchExecution.Type.ON_DEMAND,
+    origin: Origin = Origin.TIER,
+    type: Type = Type.ON_DEMAND,
     fkEnvironmentRef: UUID,
     fkModuleRef: UUID
 ) = BatchExecutionCreationRequest(

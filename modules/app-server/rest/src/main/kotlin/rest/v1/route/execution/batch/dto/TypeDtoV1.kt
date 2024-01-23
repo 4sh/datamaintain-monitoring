@@ -1,14 +1,14 @@
 package rest.v1.route.execution.batch.dto
 
-import execution.batch.BatchExecution
+import execution.batch.Type
 
 enum class TypeDtoV1 {
     ON_DEMAND,
     PLANNED
 }
 
-fun BatchExecution.Type.toDtoV1() =
+fun Type.toDtoV1() =
     when (this) {
-        BatchExecution.Type.ON_DEMAND -> TypeDtoV1.ON_DEMAND
-        BatchExecution.Type.PLANNED -> TypeDtoV1.PLANNED
+        Type.ON_DEMAND -> TypeDtoV1.ON_DEMAND
+        Type.PLANNED -> TypeDtoV1.PLANNED
     }
