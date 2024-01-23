@@ -25,7 +25,7 @@ const projectNewSmallName = buildProjectSmallName(newProjectSeed);
  * @param name Name to give to your project
  * @param smallName Small name to give to your project
  */
-function fillProjectForm(name: string, smallName: string) {
+function fillProjectFormAndSubmit(name: string, smallName: string) {
     cy.getBySelectorId('name')
         .clear()
         .type(name)
@@ -40,7 +40,7 @@ function fillProjectForm(name: string, smallName: string) {
 describe('project creation and edition afterwards', () => {
     it('create project', () => {
         cy.visit('/projects')
-        fillProjectForm(projectName, projectSmallName);
+        fillProjectFormAndSubmit(projectName, projectSmallName);
     })
 
     it('new project should appear in project hierarchies', () => {
@@ -52,7 +52,7 @@ describe('project creation and edition afterwards', () => {
     it('edit newly created project', () => {
         cy.navigateToProjectPage(projectName)
         cy.getBySelectorId('editProject').click();
-        fillProjectForm(projectNewName, projectNewSmallName);
+        fillProjectFormAndSubmit(projectNewName, projectNewSmallName);
     })
 
     it('new name should appear in project hierarchies', () => {
