@@ -50,8 +50,7 @@ describe('project creation and edition afterwards', () => {
     })
 
     it('edit newly created project', () => {
-        cy.visit('/')
-        cy.contains(projectName).click();
+        cy.navigateToProjectPage(projectName)
         cy.getBySelectorId('editProject').click();
         fillProjectForm(projectNewName, projectNewSmallName);
     })

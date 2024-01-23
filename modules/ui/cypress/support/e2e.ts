@@ -23,9 +23,17 @@ declare global {
             /**
              * Retrieves the element that has `selectorId` as its ID.
              *
-             * @param selectorId - The ID of the element to retrieve.
+             * @param selectorId The ID of the element to retrieve.
              */
             getBySelectorId(selectorId: string): Chainable<Element>
+
+            /**
+             * Navigates to root page and clicks on the project name that should appear
+             * in the sidebar to navigate to the project page
+             *
+             * @param projectName Name of the project
+             */
+            navigateToProjectPage(projectName: string): Chainable<Element>
         }
     }
 }
