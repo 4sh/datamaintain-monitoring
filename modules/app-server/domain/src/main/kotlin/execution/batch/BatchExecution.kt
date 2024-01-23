@@ -14,15 +14,4 @@ data class BatchExecution(
     val type: Type,
     val fkEnvironmentRef: UUID,
     val fkModuleRef: UUID
-) {
-    enum class Origin {
-        CLIENT,
-        SERVER,
-        TIER
-    }
-
-    enum class Type {
-        ON_DEMAND,
-        PLANNED
-    }
-}
+)

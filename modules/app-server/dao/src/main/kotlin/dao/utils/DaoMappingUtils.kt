@@ -1,22 +1,23 @@
 package dao.utils
 
 import execution.Status
-import execution.batch.BatchExecution
+import execution.batch.Origin
+import execution.batch.Type
 import generated.domain.enums.BatchExecutionOrigin
 import generated.domain.enums.BatchExecutionType
 import generated.domain.enums.ExecutionStatus
 
-fun BatchExecution.Origin.toDto(): BatchExecutionOrigin =
+fun Origin.toDto(): BatchExecutionOrigin =
     when (this) {
-        BatchExecution.Origin.CLIENT -> BatchExecutionOrigin.CLIENT
-        BatchExecution.Origin.SERVER -> BatchExecutionOrigin.SERVER
-        BatchExecution.Origin.TIER -> BatchExecutionOrigin.TIER
+        Origin.CLIENT -> BatchExecutionOrigin.CLIENT
+        Origin.SERVER -> BatchExecutionOrigin.SERVER
+        Origin.TIER -> BatchExecutionOrigin.TIER
     }
 
-fun BatchExecution.Type.toDto(): BatchExecutionType =
+fun Type.toDto(): BatchExecutionType =
     when (this) {
-        BatchExecution.Type.ON_DEMAND -> BatchExecutionType.ON_DEMAND
-        BatchExecution.Type.PLANNED -> BatchExecutionType.PLANNED
+        Type.ON_DEMAND -> BatchExecutionType.ON_DEMAND
+        Type.PLANNED -> BatchExecutionType.PLANNED
     }
 
 fun Status.toDto(): ExecutionStatus =
