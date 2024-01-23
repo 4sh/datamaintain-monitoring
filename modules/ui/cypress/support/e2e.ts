@@ -14,7 +14,21 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands.ts'
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+            /**
+             * Retrieves the element that has `selectorId` as its ID.
+             *
+             * @param selectorId - The ID of the element to retrieve.
+             */
+            getBySelectorId(selectorId: string): Chainable<Element>
+        }
+    }
+}
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
