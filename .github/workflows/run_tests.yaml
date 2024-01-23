@@ -35,6 +35,26 @@ jobs:
           name: backend-tests-results # Name artifact for storage in cache
           path: |
             modules/**/build/test-results/**/*.xml
+  build-and-run-frontend-unit-tests:
+    name: Build frontend and run frontend unit test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Define node modules cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+          cache-dependency-path: modules/ui/yarn.lock
+      - name: Install dependencies
+        working-directory: ./modules/ui
+        run: yarn install
+      - name: Run frontend tests
+        working-directory: ./modules/ui
+        run: yarn run test
+
   publish-all-test-results:
     name: Publish all tests results
     runs-on: ubuntu-latest
