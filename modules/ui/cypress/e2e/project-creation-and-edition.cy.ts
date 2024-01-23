@@ -1,4 +1,4 @@
-import {generateId} from '../support/utils';
+import {generateRandomNumber} from '../support/utils';
 
 function buildProjectName(id: string): string {
     return 'project ' + id;
@@ -8,13 +8,13 @@ function buildProjectSmallName(id: string): string {
     return id;
 }
 
-const projectId = generateId();
-const projectName = buildProjectName(projectId);
-const projectSmallName = buildProjectSmallName(projectId);
+const projectSeed = generateRandomNumber();
+const projectName = buildProjectName(projectSeed);
+const projectSmallName = buildProjectSmallName(projectSeed);
 
-const newProjectId = generateId();
-const projectNewName = buildProjectName(newProjectId)
-const projectNewSmallName = buildProjectSmallName(newProjectId);
+const newProjectSeed = generateRandomNumber();
+const projectNewName = buildProjectName(newProjectSeed)
+const projectNewSmallName = buildProjectSmallName(newProjectSeed);
 
 /**
  * Fills project form with given arguments and then clicks the submit button.
