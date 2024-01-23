@@ -1,10 +1,10 @@
 import {generateId} from '../support/utils';
 
-function buildProjectName(id): string {
+function buildProjectName(id: string): string {
     return 'project ' + id;
 }
 
-function buildProjectSmallName(id): string {
+function buildProjectSmallName(id: string): string {
     return id;
 }
 
@@ -16,7 +16,7 @@ const newProjectId = generateId();
 const projectNewName = buildProjectName(newProjectId)
 const projectNewSmallName = buildProjectSmallName(newProjectId);
 
-Cypress.Commands.add('fillProjectForm', (name, smallName) => {
+Cypress.Commands.add('fillProjectForm', (name: string, smallName: string) => {
     cy.getBySelectorId('name')
         .clear()
         .type(name)
