@@ -4,6 +4,7 @@ import execution.batch.BatchExecutionService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import rest.v1.route.execution.batch.dto.toDtoV1
 import java.util.UUID
 
 internal const val batchExecutionId = "batchExecutionId"

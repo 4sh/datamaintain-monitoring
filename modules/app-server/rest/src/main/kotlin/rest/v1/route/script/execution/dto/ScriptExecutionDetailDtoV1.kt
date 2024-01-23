@@ -3,8 +3,8 @@ package rest.v1.route.script.execution.dto
 import kotlinx.serialization.Serializable
 import rest.OffsetDateTimeSerializer
 import rest.UUIDSerializer
-import rest.v1.route.execution.StatusDtoV1
-import rest.v1.route.execution.toDtoV1
+import rest.v1.route.execution.dto.StatusDtoV1
+import rest.v1.route.execution.dto.toDtoV1
 import rest.v1.route.script.dto.ScriptDtoV1
 import rest.v1.route.script.dto.toDtoV1
 import script.execution.ScriptExecutionDetail
