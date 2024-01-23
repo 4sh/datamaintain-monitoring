@@ -40,7 +40,7 @@ Cypress.Commands.add('getBySelectorId', (selectorId) => {
     cy.get(`[id='${selectorId}']`);
 });
 
-Cypress.Commands.add('navigateToProjectPage', (projectName) => {
+Cypress.Commands.add('goToProjectPage', (projectName) => {
     cy.goToHome();
     cy.contains(projectName).click();
 });

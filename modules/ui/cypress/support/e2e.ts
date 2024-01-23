@@ -33,7 +33,7 @@ declare global {
              *
              * @param projectName Name of the project
              */
-            navigateToProjectPage(projectName: string): Chainable<Element>
+            goToProjectPage(projectName: string): Chainable<Element>
 
 
             /**
