@@ -1,4 +1,4 @@
-package rest.v1.route.execution.batch
+package rest.v1.route.execution.batch.dto
 
 import execution.batch.BatchExecution
 

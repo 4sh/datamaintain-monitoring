@@ -1,4 +1,4 @@
-package rest.v1.route.project
+package rest.v1.route.project.dto
 
 import project.Project
 import project.ProjectCreationRequest

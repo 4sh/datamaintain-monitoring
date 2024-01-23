@@ -1,4 +1,4 @@
-package rest.v1.route.module
+package rest.v1.route.module.dto
 
 import kotlinx.serialization.Serializable
 import module.ModuleNameUpdateRequest

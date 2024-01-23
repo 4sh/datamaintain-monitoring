@@ -4,9 +4,11 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import project.ProjectCreationRequest
-import project.ProjectNameUpdateRequest
 import project.ProjectService
+import rest.v1.route.project.dto.ProjectCreationRequestDtoV1
+import rest.v1.route.project.dto.ProjectNameUpdateRequestDtoV1
+import rest.v1.route.project.dto.toDtoV1
+import rest.v1.route.project.dto.toHierarchyDtoV1
 import java.util.*
 
 internal const val projectId = "projectId"

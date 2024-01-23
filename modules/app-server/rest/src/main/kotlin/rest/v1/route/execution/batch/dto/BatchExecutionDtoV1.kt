@@ -1,11 +1,11 @@
-package rest.v1.route.execution.batch
+package rest.v1.route.execution.batch.dto
 
 import execution.batch.BatchExecution
 import kotlinx.serialization.Serializable
 import rest.OffsetDateTimeSerializer
 import rest.UUIDSerializer
-import rest.v1.route.execution.StatusDtoV1
-import rest.v1.route.execution.toDtoV1
+import rest.v1.route.execution.dto.StatusDtoV1
+import rest.v1.route.execution.dto.toDtoV1
 import java.time.OffsetDateTime
 import java.util.*
 

@@ -1,4 +1,4 @@
-package rest.v1.route.project
+package rest.v1.route.project.dto
 
 import kotlinx.serialization.Serializable
 import project.ProjectHierarchy

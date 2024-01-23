@@ -5,6 +5,10 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import module.ModuleService
+import rest.v1.route.module.dto.ModuleCreationRequestDtoV1
+import rest.v1.route.module.dto.ModuleNameUpdateRequestDtoV1
+import rest.v1.route.module.dto.toDomain
+import rest.v1.route.module.dto.toDtoV1
 import java.util.*
 
 internal const val moduleId = "moduleId"
