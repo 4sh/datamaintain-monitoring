@@ -12,7 +12,7 @@ class TagDao(val dslContext: DSLContext) {
             .values(
                 `val`(data.name)
             )
-            .returningResult(DM_TAG.NAME)
+            .returning()
             .fetchSingleInto(Tag::class.java)
 
     fun delete(id: String) {

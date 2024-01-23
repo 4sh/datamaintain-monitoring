@@ -27,17 +27,7 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
                 `val`(INITIAL_STATUS.toDto()),
                 `val`(data.fkModuleRef),
                 `val`(data.fkEnvironmentRef)
-            ).returningResult(
-                DM_BATCH_EXECUTION.ID,
-                DM_BATCH_EXECUTION.START_DATE,
-                DM_BATCH_EXECUTION.END_DATE,
-                DM_BATCH_EXECUTION.DURATION_IN_MS,
-                DM_BATCH_EXECUTION.ORIGIN,
-                DM_BATCH_EXECUTION.STATUS,
-                DM_BATCH_EXECUTION.TYPE,
-                DM_BATCH_EXECUTION.FK_MODULE_REF,
-                DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF
-            )
+            ).returning()
             .fetchSingleInto(BatchExecution::class.java)
 
     override fun updateBatchExecutionStartData(
@@ -48,19 +38,8 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
             .set(DM_BATCH_EXECUTION.START_DATE, batchExecutionStartUpdateRequest.startDate)
             .set(DM_BATCH_EXECUTION.STATUS, ExecutionStatus.IN_PROGRESS)
             .where(DM_BATCH_EXECUTION.ID.eq(batchExecutionId))
-            .returningResult(
-                DM_BATCH_EXECUTION.ID,
-                DM_BATCH_EXECUTION.START_DATE,
-                DM_BATCH_EXECUTION.END_DATE,
-                DM_BATCH_EXECUTION.DURATION_IN_MS,
-                DM_BATCH_EXECUTION.ORIGIN,
-                DM_BATCH_EXECUTION.STATUS,
-                DM_BATCH_EXECUTION.TYPE,
-                DM_BATCH_EXECUTION.FK_MODULE_REF,
-                DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF
-            )
-            .fetchOne()
-            ?.into(BatchExecution::class.java)
+            .returning()
+            .fetchOneInto(BatchExecution::class.java)
 
     override fun updateBatchExecutionEndData(
         batchExecutionId: UUID,
@@ -70,19 +49,8 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
             .set(DM_BATCH_EXECUTION.END_DATE, batchExecutionEndUpdateRequest.endDate)
             .set(DM_BATCH_EXECUTION.STATUS, batchExecutionEndUpdateRequest.status.toDto())
             .where(DM_BATCH_EXECUTION.ID.eq(batchExecutionId))
-            .returningResult(
-                DM_BATCH_EXECUTION.ID,
-                DM_BATCH_EXECUTION.START_DATE,
-                DM_BATCH_EXECUTION.END_DATE,
-                DM_BATCH_EXECUTION.DURATION_IN_MS,
-                DM_BATCH_EXECUTION.ORIGIN,
-                DM_BATCH_EXECUTION.STATUS,
-                DM_BATCH_EXECUTION.TYPE,
-                DM_BATCH_EXECUTION.FK_MODULE_REF,
-                DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF
-            )
-            .fetchOne()
-            ?.into(BatchExecution::class.java)
+            .returning()
+            .fetchOneInto(BatchExecution::class.java)
 
     override fun delete(id: UUID) {
         dslContext.delete(DM_BATCH_EXECUTION)
