@@ -26,5 +26,5 @@ class ScriptExecutionService(
 
     fun findOneDetailById(id: UUID): ScriptExecutionDetail? = scriptExecutionDao.findOneDetailById(id)
 
-    fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecution> = scriptExecutionDao.find(searchRequest)
+    fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecutionListItem> = scriptExecutionDao.find(searchRequest)
 }

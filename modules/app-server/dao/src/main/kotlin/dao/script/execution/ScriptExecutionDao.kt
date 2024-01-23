@@ -78,10 +78,23 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
                     }
             }
 
-    override fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecution> =
-        dslContext.selectFrom(DM_SCRIPT_EXECUTION)
+    override fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecutionListItem> =
+        dslContext
+            .select(
+                DM_SCRIPT_EXECUTION.ID,
+                DM_SCRIPT_EXECUTION.START_DATE,
+                DM_SCRIPT_EXECUTION.END_DATE,
+                DM_SCRIPT_EXECUTION.DURATION_IN_MS,
+                DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
+                DM_SCRIPT_EXECUTION.STATUS
+            )
+            .select(
+                DSL.field(DM_SCRIPT.CHECKSUM.name).`as`("script.checksum"),
+                DSL.field(DM_SCRIPT.NAME.name).`as`("script.name")
+            )
+            .from(DM_SCRIPT_EXECUTION.join(DM_SCRIPT).on(DM_SCRIPT.CHECKSUM.eq(DM_SCRIPT_EXECUTION.FK_SCRIPT_REF)))
             .where(searchRequest.toCondition())
-            .fetchInto(ScriptExecution::class.java)
+            .fetchInto(ScriptExecutionListItem::class.java)
 }
 
 fun ScriptExecutionSearchRequest.toCondition(): Condition =

@@ -38,7 +38,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         private const val SCRIPT_CHECKSUM = "myScriptChecksum"
         private lateinit var batchExecutionRef1: UUID
         private lateinit var batchExecutionRef2: UUID
-        private var script: Script? = null
+        private var script1: Script? = null
 
         @BeforeAll
         @JvmStatic
@@ -59,7 +59,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                     fkModuleRef = moduleId
                 )
             ).id
-            script = ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = SCRIPT_CHECKSUM))
+            script1 = ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = SCRIPT_CHECKSUM))
         }
     }
 
@@ -427,7 +427,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 get { startDate?.isEqual(dmScriptExecution.startDate) }.isTrue()
                 get { endDate }.isNull()
                 get { status }.isEqualTo(Status.PENDING)
-                get { script }.isEqualTo(script)
+                get { script }.isEqualTo(script1)
                 get { fkBatchExecutionRef }.isEqualTo(batchExecutionRef1)
             }
         }
@@ -455,7 +455,30 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             // Then
             expectThat(loadedScriptExecutions).and {
                 size isEqualTo 2
-                containsExactly(insertedScriptExecution1, insertedScriptExecution2)
+                get { first() }.and {
+                    get { id }.isEqualTo(insertedScriptExecution1.id)
+                    get { startDate }.isEqualTo(insertedScriptExecution1.startDate)
+                    get { endDate }.isEqualTo(insertedScriptExecution1.endDate)
+                    get { durationInMs }.isEqualTo(insertedScriptExecution1.durationInMs)
+                    get { executionOrderIndex }.isEqualTo(insertedScriptExecution1.executionOrderIndex)
+                    get { status }.isEqualTo(insertedScriptExecution1.status)
+                    get { script }.and {
+                        get { checksum }.isEqualTo(script1?.checksum)
+                        get { name }.isEqualTo(script1?.name)
+                    }
+                }
+                get { last() }.and {
+                    get { id }.isEqualTo(insertedScriptExecution2.id)
+                    get { startDate }.isEqualTo(insertedScriptExecution2.startDate)
+                    get { endDate }.isEqualTo(insertedScriptExecution2.endDate)
+                    get { durationInMs }.isEqualTo(insertedScriptExecution2.durationInMs)
+                    get { executionOrderIndex }.isEqualTo(insertedScriptExecution2.executionOrderIndex)
+                    get { status }.isEqualTo(insertedScriptExecution2.status)
+                    get { script }.and {
+                        get { checksum }.isEqualTo(script1?.checksum)
+                        get { name }.isEqualTo(script1?.name)
+                    }
+                }
             }
         }
 
@@ -474,7 +497,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
 
             val scriptExecutionEndUpdateRequest = buildScriptExecutionEndUpdateRequest(
                 endDate = OffsetDateTime.of(2023, 5, 2, 14, 30, 0, 0, ZoneOffset.UTC)
-            );
+            )
             scriptExecutionDao.updateScriptExecutionEndData(
                 insertedScriptExecution1.id,
                 scriptExecutionEndUpdateRequest
@@ -498,10 +521,11 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                     get { endDate?.isEqual(scriptExecutionEndUpdateRequest.endDate) }.isTrue()
                     get { durationInMs }.isEqualTo(240_000)
                     get { executionOrderIndex }.isEqualTo(insertedScriptExecution1.executionOrderIndex)
-                    get { output }.isEqualTo(scriptExecutionEndUpdateRequest.output)
                     get { status }.isEqualTo(searchRequest.status)
-                    get { fkScriptRef }.isEqualTo(insertedScriptExecution1.fkScriptRef)
-                    get { fkBatchExecutionRef }.isEqualTo(insertedScriptExecution1.fkBatchExecutionRef)
+                    get { script }.and {
+                        get { checksum }.isEqualTo(script1?.checksum)
+                        get { name }.isEqualTo(script1?.name)
+                    }
                 }
                 get { last() }.and {
                     get { id }.isEqualTo(insertedScriptExecution2.id)
@@ -509,10 +533,11 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                     get { endDate?.isEqual(scriptExecutionEndUpdateRequest.endDate) }.isTrue()
                     get { durationInMs }.isEqualTo(240_000)
                     get { executionOrderIndex }.isEqualTo(insertedScriptExecution2.executionOrderIndex)
-                    get { output }.isEqualTo(scriptExecutionEndUpdateRequest.output)
                     get { status }.isEqualTo(searchRequest.status)
-                    get { fkScriptRef }.isEqualTo(insertedScriptExecution2.fkScriptRef)
-                    get { fkBatchExecutionRef }.isEqualTo(insertedScriptExecution2.fkBatchExecutionRef)
+                    get { script }.and {
+                        get { checksum }.isEqualTo(script1?.checksum)
+                        get { name }.isEqualTo(script1?.name)
+                    }
                 }
             }
         }
@@ -538,7 +563,24 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             // Then
             expectThat(loadedScriptExecutions).and {
                 size isEqualTo 2
-                containsExactly(insertedScriptExecution2, insertedScriptExecution3)
+                get { first() }.and {
+                    get { id }.isEqualTo(insertedScriptExecution2.id)
+                    get { startDate?.isEqual(insertedScriptExecution2.startDate) }.isTrue()
+                    get { executionOrderIndex }.isEqualTo(insertedScriptExecution2.executionOrderIndex)
+                    get { script }.and {
+                        get { checksum }.isEqualTo(script1?.checksum)
+                        get { name }.isEqualTo(script1?.name)
+                    }
+                }
+                get { last() }.and {
+                    get { id }.isEqualTo(insertedScriptExecution3.id)
+                    get { startDate?.isEqual(insertedScriptExecution3.startDate) }.isTrue()
+                    get { executionOrderIndex }.isEqualTo(insertedScriptExecution3.executionOrderIndex)
+                    get { script }.and {
+                        get { checksum }.isEqualTo(script1?.checksum)
+                        get { name }.isEqualTo(script1?.name)
+                    }
+                }
             }
         }
     }
