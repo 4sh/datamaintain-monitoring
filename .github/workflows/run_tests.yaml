@@ -32,7 +32,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: tests-results # Name artifact for storage in cache
+          name: backend-tests-results # Name artifact for storage in cache
           path: |
             modules/**/build/test-results/**/*.xml
   publish-all-test-results:
@@ -46,7 +46,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v2
         with:
-          name: tests-results # Name of artifact in cache
+          name: backend-tests-results # Name of artifact in cache
           path: tests-results/
 
       - name: Publish Unit Test Results
