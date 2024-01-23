@@ -37,7 +37,7 @@
 // }
 
 Cypress.Commands.add('getBySelectorId', (selectorId) => {
-    cy.get('[data-cy="' + selectorId + '"]');
+    cy.get(`[id='${selectorId}']`);
 });
 
 Cypress.Commands.add('navigateToProjectPage', (projectName) => {

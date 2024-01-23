@@ -6,9 +6,9 @@
     export let value;
     export let required;
     export let placeholder;
-    export let testId;
+    export let id: string;
 </script>
 
-<A_label {label}>
-    <A_inputText bind:value={value} {required} {placeholder} {testId}></A_inputText>
+<A_label {label} inputId>
+    <A_inputText bind:value={value} {required} {placeholder} {id}></A_inputText>
 </A_label>
