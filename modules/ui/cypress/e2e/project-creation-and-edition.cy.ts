@@ -16,6 +16,24 @@ const newProjectId = generateId();
 const projectNewName = buildProjectName(newProjectId)
 const projectNewSmallName = buildProjectSmallName(newProjectId);
 
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+            /**
+             * Custom command that fills project form with given arguments
+             * and then clicks the submit button.
+             * Can be used either to create a new project or edit an already existing one
+             * Pre-requisite: Be on the project creation/edition page
+             *
+             * @param name Name to give to your project
+             * @param smallName Small name to give to your project
+             */
+            fillProjectForm(name: string, smallName: string):  Chainable<Element>
+        }
+    }
+}
+
 Cypress.Commands.add('fillProjectForm', (name: string, smallName: string) => {
     cy.getBySelectorId('name')
         .clear()
