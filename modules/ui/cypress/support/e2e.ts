@@ -34,6 +34,12 @@ declare global {
              * @param projectName Name of the project
              */
             navigateToProjectPage(projectName: string): Chainable<Element>
+
+
+            /**
+             * Navigates to home page
+             */
+            goToHome(): Chainable<Element>
         }
     }
 }

@@ -44,7 +44,7 @@ describe('project creation and edition afterwards', () => {
     })
 
     it('new project should appear in project hierarchies', () => {
-        cy.visit('/')
+        cy.goToHome();
         cy.contains(projectName);
         cy.contains(projectSmallName);
     })
@@ -56,13 +56,13 @@ describe('project creation and edition afterwards', () => {
     })
 
     it('new name should appear in project hierarchies', () => {
-        cy.visit('/')
+        cy.goToHome();
         cy.contains(projectNewName);
         cy.contains(projectNewSmallName);
     })
 
     it('old name should not appear anywhere',() => {
-        cy.visit('/')
+        cy.goToHome();
         cy.contains(projectName).should('not.exist');
         cy.contains(projectSmallName).should('not.exist');
     })
