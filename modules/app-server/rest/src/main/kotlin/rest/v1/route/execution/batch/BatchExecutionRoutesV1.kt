@@ -1,18 +1,17 @@
 package rest.v1.route.execution.batch
 
-import execution.Status
 import execution.batch.BatchExecutionSearchRequest
 import execution.batch.BatchExecutionService
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import rest.v1.route.execution.batch.dto.toDtoV1
+import rest.v1.route.execution.status
 import java.util.UUID
 
 private const val batchExecutionId = "batchExecutionId"
 
 private fun ApplicationCall.batchExecutionId() = UUID.fromString(this.parameters[batchExecutionId])
-private fun ApplicationCall.status() = this.parameters["status"]?.let { Status.valueOf(it) }
 private fun ApplicationCall.projectRef() = this.parameters["projectRef"]?.let { UUID.fromString(it) }
 private fun ApplicationCall.moduleRef() = this.parameters["moduleRef"]?.let { UUID.fromString(it) }
 private fun ApplicationCall.environmentRef() = this.parameters["environmentRef"]?.let { UUID.fromString(it) }
