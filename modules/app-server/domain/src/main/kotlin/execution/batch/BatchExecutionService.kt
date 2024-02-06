@@ -23,4 +23,7 @@ class BatchExecutionService(
     fun delete(id: UUID) = batchExecutionDao.delete(id)
 
     fun findOneById(id: UUID): BatchExecution? = batchExecutionDao.findOneById(id)
+
+    fun find(searchRequest: BatchExecutionSearchRequest): List<BatchExecutionListItem> =
+        batchExecutionDao.find(searchRequest)
 }
