@@ -16,15 +16,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Define Gradle cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          cache: 'gradle'
       - name: Build
         run: ./gradlew build --build-cache --console plain
 
