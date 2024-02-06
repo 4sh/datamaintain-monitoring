@@ -8,15 +8,18 @@ import dao.module.buildModuleCreationRequest
 import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.utils.toDto
+import environment.Environment
 import execution.INITIAL_STATUS
 import execution.Status
 import execution.batch.BatchExecutionEndUpdateRequest
 import execution.batch.BatchExecutionSearchRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
+import module.Module
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import project.Project
 import strikt.api.expectThat
 import strikt.assertions.*
 import java.time.OffsetDateTime
@@ -31,24 +34,24 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
     }
 
     companion object {
-        private lateinit var projectId1: UUID
-        private lateinit var projectId2: UUID
-        private lateinit var environmentId1: UUID
-        private lateinit var environmentId2: UUID
-        private lateinit var moduleId1: UUID
-        private lateinit var moduleId2: UUID
+        private lateinit var project1: Project
+        private lateinit var project2: Project
+        private lateinit var environment1: Environment
+        private lateinit var environment2: Environment
+        private lateinit var module1: Module
+        private lateinit var module2: Module
 
         @BeforeAll
         @JvmStatic
         fun insertModuleAndEnvironmentInDB() {
-            projectId1 = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
-            projectId2 = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
-            environmentId1 =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId1)).id
-            environmentId2 =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId2)).id
-            moduleId1 = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId1)).id
-            moduleId2 = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId2)).id
+            project1 = ProjectDao(dslContext).insert(buildProjectCreationRequest())
+            project2 = ProjectDao(dslContext).insert(buildProjectCreationRequest())
+            environment1 =
+                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = project1.id))
+            environment2 =
+                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = project2.id))
+            module1 = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = project1.id))
+            module2 = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = project2.id))
         }
     }
 
@@ -59,8 +62,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             // When
@@ -83,8 +86,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+                fkEnvironmentRef = environment1.id,
+                fkModuleRef = module1.id
             )
 
             // When
@@ -102,8 +105,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin.toDto())
                 get { type }.isEqualTo(batchExecutionCreationRequest.type.toDto())
                 get { status }.isEqualTo(INITIAL_STATUS.toDto())
-                get { fkEnvironmentRef }.isEqualTo(environmentId1)
-                get { fkModuleRef }.isEqualTo(moduleId1)
+                get { fkEnvironmentRef }.isEqualTo(environment1.id)
+                get { fkModuleRef }.isEqualTo(module1.id)
             }
         }
     }
@@ -126,8 +129,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should load script execution from db when it exists`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+                fkEnvironmentRef = environment1.id,
+                fkModuleRef = module1.id
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
@@ -147,13 +150,18 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @Test
         fun `should return all batchExecution`() {
             // Given
-            val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+            val batchExecution1 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environment1.id,
+                    fkModuleRef = module1.id
+                )
             )
-
-            val batchExecution1 = batchExecutionDao.insert(batchExecutionCreationRequest)
-            val batchExecution2 = batchExecutionDao.insert(batchExecutionCreationRequest)
+            val batchExecution2 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environment2.id,
+                    fkModuleRef = module2.id
+                )
+            )
 
             val searchRequest = BatchExecutionSearchRequest()
 
@@ -163,8 +171,52 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Then
             expectThat(batchExecutions).and {
                 size.isEqualTo(2)
-                get { first().id }.isEqualTo(batchExecution1.id)
-                get { last().id }.isEqualTo(batchExecution2.id)
+                get { first() }.and {
+                    get { id }.isEqualTo(batchExecution1.id)
+                    get { startDate }.isEqualTo(batchExecution1.startDate)
+                    get { endDate }.isEqualTo(batchExecution1.endDate)
+                    get { durationInMs }.isEqualTo(batchExecution1.durationInMs)
+                    get { origin }.isEqualTo(batchExecution1.origin)
+                    get { status }.isEqualTo(batchExecution1.status)
+                    get { type }.isEqualTo(batchExecution1.type)
+                    get { project }.and {
+                        get { id }.isEqualTo(project1.id)
+                        get { name }.isEqualTo(project1.name)
+                        get { smallName }.isEqualTo(project1.smallName)
+                    }
+                    get { module }.and {
+                        get { id }.isEqualTo(module1.id)
+                        get { name }.isEqualTo(module1.name)
+                    }
+                    get { environment }.and {
+                        get { id }.isEqualTo(environment1.id)
+                        get { name }.isEqualTo(environment1.name)
+                        get { smallName }.isEqualTo(environment1.smallName)
+                    }
+                }
+                get { last() }.and {
+                    get { id }.isEqualTo(batchExecution2.id)
+                    get { startDate }.isEqualTo(batchExecution2.startDate)
+                    get { endDate }.isEqualTo(batchExecution2.endDate)
+                    get { durationInMs }.isEqualTo(batchExecution2.durationInMs)
+                    get { origin }.isEqualTo(batchExecution2.origin)
+                    get { status }.isEqualTo(batchExecution2.status)
+                    get { type }.isEqualTo(batchExecution2.type)
+                    get { project }.and {
+                        get { id }.isEqualTo(project2.id)
+                        get { name }.isEqualTo(project2.name)
+                        get { smallName }.isEqualTo(project2.smallName)
+                    }
+                    get { module }.and {
+                        get { id }.isEqualTo(module2.id)
+                        get { name }.isEqualTo(module2.name)
+                    }
+                    get { environment }.and {
+                        get { id }.isEqualTo(environment2.id)
+                        get { name }.isEqualTo(environment2.name)
+                        get { smallName }.isEqualTo(environment2.smallName)
+                    }
+                }
             }
         }
 
@@ -172,8 +224,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should find batchExecutions with status filter`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+                fkEnvironmentRef = environment1.id,
+                fkModuleRef = module1.id
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
@@ -205,16 +257,16 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should find batchExecutions with project filter`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+                fkEnvironmentRef = environment1.id,
+                fkModuleRef = module1.id
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
             val batchExecution2 = batchExecutionDao.insert(
-                batchExecutionCreationRequest.copy(fkModuleRef = moduleId2, fkEnvironmentRef = environmentId2)
+                batchExecutionCreationRequest.copy(fkModuleRef = module2.id, fkEnvironmentRef = environment2.id)
             )
 
-            val searchRequest = BatchExecutionSearchRequest(projectRef = projectId2)
+            val searchRequest = BatchExecutionSearchRequest(projectRef = project2.id)
 
             // When
             val batchExecutions = batchExecutionDao.find(searchRequest)
@@ -224,7 +276,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 size.isEqualTo(1)
                 get { first() }.and {
                     get { id }.isEqualTo(batchExecution2.id)
-                    get { project.id }.isEqualTo(projectId2)
+                    get { project.id }.isEqualTo(project2.id)
                 }
             }
         }
@@ -233,13 +285,13 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should find batchExecutions with module filter`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+                fkEnvironmentRef = environment1.id,
+                fkModuleRef = module1.id
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
             val batchExecution2 = batchExecutionDao.insert(
-                batchExecutionCreationRequest.copy(fkModuleRef = moduleId2, fkEnvironmentRef = environmentId2)
+                batchExecutionCreationRequest.copy(fkModuleRef = module2.id, fkEnvironmentRef = environment2.id)
             )
 
             val searchRequest = BatchExecutionSearchRequest(moduleRef = batchExecution2.fkModuleRef)
@@ -252,7 +304,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 size.isEqualTo(1)
                 get { first() }.and {
                     get { id }.isEqualTo(batchExecution2.id)
-                    get { module.id }.isEqualTo(moduleId2)
+                    get { module.id }.isEqualTo(module2.id)
                 }
             }
         }
@@ -261,13 +313,13 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should find batchExecutions with environment filter`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                fkEnvironmentRef = environmentId1,
-                fkModuleRef = moduleId1
+                fkEnvironmentRef = environment1.id,
+                fkModuleRef = module1.id
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
             val batchExecution2 = batchExecutionDao.insert(
-                batchExecutionCreationRequest.copy(fkModuleRef = moduleId2, fkEnvironmentRef = environmentId2)
+                batchExecutionCreationRequest.copy(fkModuleRef = module2.id, fkEnvironmentRef = environment2.id)
             )
 
             val searchRequest = BatchExecutionSearchRequest(environmentRef = batchExecution2.fkEnvironmentRef)
@@ -280,7 +332,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 size.isEqualTo(1)
                 get { first() }.and {
                     get { id }.isEqualTo(batchExecution2.id)
-                    get { environment.id }.isEqualTo(environmentId2)
+                    get { environment.id }.isEqualTo(environment2.id)
                 }
             }
         }
@@ -293,8 +345,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
@@ -315,8 +367,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
@@ -348,8 +400,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = null,
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
@@ -386,8 +438,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
@@ -408,8 +460,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
@@ -441,8 +493,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                fkModuleRef = moduleId1,
-                fkEnvironmentRef = environmentId1
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
@@ -481,8 +533,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val insertedId = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
                     startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                    fkModuleRef = moduleId1,
-                    fkEnvironmentRef = environmentId1
+                    fkModuleRef = module1.id,
+                    fkEnvironmentRef = environment1.id
                 )
             ).id
             val randomId = UUID.randomUUID()
@@ -500,14 +552,14 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val insertedId1 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
                     startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
-                    fkModuleRef = moduleId1,
-                    fkEnvironmentRef = environmentId1
+                    fkModuleRef = module1.id,
+                    fkEnvironmentRef = environment1.id
                 )
             ).id
             val insertedId2 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
-                    fkModuleRef = moduleId1,
-                    fkEnvironmentRef = environmentId1
+                    fkModuleRef = module1.id,
+                    fkEnvironmentRef = environment1.id
                 )
             ).id
 
