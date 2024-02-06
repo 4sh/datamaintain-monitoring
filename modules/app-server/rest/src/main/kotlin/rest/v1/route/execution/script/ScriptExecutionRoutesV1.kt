@@ -1,18 +1,17 @@
 package rest.v1.route.execution.script
 
-import execution.Status
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import rest.v1.route.execution.script.dto.toDtoV1
 import execution.script.ScriptExecutionSearchRequest
 import execution.script.ScriptExecutionService
+import rest.v1.route.execution.status
 import java.util.UUID
 
 private const val scriptExecutionId = "scriptExecutionId"
 
 private fun ApplicationCall.scriptExecutionId() = UUID.fromString(this.parameters[scriptExecutionId])
-private fun ApplicationCall.status() = this.parameters["status"]?.let { Status.valueOf(it) }
 private fun ApplicationCall.batchExecutionRef() = parameters["batchExecutionRef"]?.let { UUID.fromString(it) }
 
 internal fun Route.scriptExecutionV1Routes(scriptExecutionService: ScriptExecutionService) {
