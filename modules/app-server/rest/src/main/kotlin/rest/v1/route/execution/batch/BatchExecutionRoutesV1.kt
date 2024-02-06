@@ -9,19 +9,23 @@ import io.ktor.server.routing.*
 import rest.v1.route.execution.batch.dto.toDtoV1
 import java.util.UUID
 
-internal const val batchExecutionId = "batchExecutionId"
+private const val batchExecutionId = "batchExecutionId"
 
-internal fun ApplicationCall.batchExecutionId() = UUID.fromString(this.parameters[batchExecutionId])
+private fun ApplicationCall.batchExecutionId() = UUID.fromString(this.parameters[batchExecutionId])
+private fun ApplicationCall.status() = this.parameters["status"]?.let { Status.valueOf(it) }
+private fun ApplicationCall.projectRef() = this.parameters["projectRef"]?.let { UUID.fromString(it) }
+private fun ApplicationCall.moduleRef() = this.parameters["moduleRef"]?.let { UUID.fromString(it) }
+private fun ApplicationCall.environmentRef() = this.parameters["environmentRef"]?.let { UUID.fromString(it) }
 
 internal fun Route.batchExecutionV1Routes(batchExecutionService: BatchExecutionService) {
     route("/batchExecutions") {
         get {
             val batchExecutionSearchRequest =
                 BatchExecutionSearchRequest(
-                    status = call.parameters["status"]?.let { Status.valueOf(it) },
-                    projectRef = call.parameters["projectRef"]?.let { UUID.fromString(it) },
-                    moduleRef = call.parameters["moduleRef"]?.let { UUID.fromString(it) },
-                    environmentRef = call.parameters["environmentRef"]?.let { UUID.fromString(it) }
+                    status = call.status(),
+                    projectRef = call.projectRef(),
+                    moduleRef = call.moduleRef(),
+                    environmentRef = call.environmentRef()
                 )
             call.respond(batchExecutionService.find(batchExecutionSearchRequest).map { it.toDtoV1() })
         }

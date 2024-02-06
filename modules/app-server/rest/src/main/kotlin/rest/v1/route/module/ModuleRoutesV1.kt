@@ -11,9 +11,9 @@ import rest.v1.route.module.dto.toDomain
 import rest.v1.route.module.dto.toDtoV1
 import java.util.*
 
-internal const val moduleId = "moduleId"
+private const val moduleId = "moduleId"
 
-internal fun ApplicationCall.moduleId() = UUID.fromString(this.parameters[moduleId])
+private fun ApplicationCall.moduleId() = UUID.fromString(this.parameters[moduleId])
 
 internal fun Route.moduleV1Routes(moduleService: ModuleService) {
     route("/modules") {

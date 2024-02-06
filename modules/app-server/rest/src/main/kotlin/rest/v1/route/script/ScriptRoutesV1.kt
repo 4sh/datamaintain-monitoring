@@ -6,9 +6,9 @@ import io.ktor.server.routing.*
 import rest.v1.route.script.dto.toDtoV1
 import script.ScriptService
 
-internal const val scriptId = "scriptId"
+private const val scriptId = "scriptId"
 
-internal fun ApplicationCall.scriptId() = this.parameters[scriptId]
+private fun ApplicationCall.scriptId() = this.parameters[scriptId]
 
 internal fun Route.scriptV1Routes(scriptService: ScriptService) {
     get("/scripts/{$scriptId}") {

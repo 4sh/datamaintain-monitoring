@@ -11,9 +11,9 @@ import rest.v1.route.project.dto.toDtoV1
 import rest.v1.route.project.dto.toHierarchyDtoV1
 import java.util.*
 
-internal const val projectId = "projectId"
+private const val projectId = "projectId"
 
-internal fun ApplicationCall.projectId() = UUID.fromString(this.parameters[projectId])
+private fun ApplicationCall.projectId() = UUID.fromString(this.parameters[projectId])
 
 internal fun Route.projectV1Routes(projectService: ProjectService) {
     get("/projects/hierarchies") {
