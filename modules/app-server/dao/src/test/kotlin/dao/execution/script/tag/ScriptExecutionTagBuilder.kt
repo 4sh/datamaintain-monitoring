@@ -1,6 +1,6 @@
-package dao.script.execution.tag
+package dao.execution.script.tag
 
-import script.execution.tag.ScriptExecutionTagCreationRequest
+import execution.script.tag.ScriptExecutionTagCreationRequest
 import java.util.*
 
 fun buildScriptExecutionTagCreationRequest(

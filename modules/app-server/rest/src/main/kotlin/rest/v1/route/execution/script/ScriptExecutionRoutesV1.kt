@@ -1,12 +1,12 @@
-package rest.v1.route.script.execution
+package rest.v1.route.execution.script
 
 import execution.Status
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import rest.v1.route.script.execution.dto.toDtoV1
-import script.execution.ScriptExecutionSearchRequest
-import script.execution.ScriptExecutionService
+import rest.v1.route.execution.script.dto.toDtoV1
+import execution.script.ScriptExecutionSearchRequest
+import execution.script.ScriptExecutionService
 import java.util.UUID
 
 private const val scriptExecutionId = "scriptExecutionId"

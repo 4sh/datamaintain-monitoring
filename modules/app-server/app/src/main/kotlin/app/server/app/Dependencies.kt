@@ -6,7 +6,7 @@ import dao.module.ModuleDao
 import dao.project.ProjectDao
 import dao.project.ProjectHierarchyDao
 import dao.script.ScriptDao
-import dao.script.execution.ScriptExecutionDao
+import dao.execution.script.ScriptExecutionDao
 import environment.EnvironmentService
 import execution.batch.BatchExecutionService
 import module.ModuleService
@@ -14,7 +14,7 @@ import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import project.ProjectService
 import script.ScriptService
-import script.execution.ScriptExecutionService
+import execution.script.ScriptExecutionService
 import java.sql.DriverManager
 
 val dslContext = DSL.using(

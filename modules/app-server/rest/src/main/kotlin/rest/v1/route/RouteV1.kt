@@ -9,10 +9,10 @@ import rest.v1.route.environment.environmentV1Routes
 import rest.v1.route.execution.batch.batchExecutionV1Routes
 import rest.v1.route.module.moduleV1Routes
 import rest.v1.route.project.projectV1Routes
-import rest.v1.route.script.execution.scriptExecutionV1Routes
+import rest.v1.route.execution.script.scriptExecutionV1Routes
 import rest.v1.route.script.scriptV1Routes
 import script.ScriptService
-import script.execution.ScriptExecutionService
+import execution.script.ScriptExecutionService
 
 fun Route.routeV1(
     projectService: ProjectService,

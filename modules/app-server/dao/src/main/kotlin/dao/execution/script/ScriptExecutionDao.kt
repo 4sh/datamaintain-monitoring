@@ -1,7 +1,8 @@
-package dao.script.execution
+package dao.execution.script
 
 import dao.utils.toDto
 import execution.INITIAL_STATUS
+import execution.script.*
 import generated.domain.enums.ExecutionStatus
 import generated.domain.tables.references.DM_SCRIPT
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
@@ -10,7 +11,6 @@ import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.`val`
 import script.Script
-import script.execution.*
 import java.util.*
 
 class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterface {

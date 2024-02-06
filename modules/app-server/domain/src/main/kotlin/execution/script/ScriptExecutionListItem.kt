@@ -1,4 +1,4 @@
-package script.execution
+package execution.script
 
 import execution.Status
 import script.ScriptListItem

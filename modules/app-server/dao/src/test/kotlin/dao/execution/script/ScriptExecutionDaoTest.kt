@@ -1,4 +1,4 @@
-package dao.script.execution
+package dao.execution.script
 
 import AbstractDaoTest
 import dao.execution.batch.BatchExecutionDao
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import script.Script
-import script.execution.ScriptExecutionSearchRequest
+import execution.script.ScriptExecutionSearchRequest
 import strikt.api.expectThat
 import strikt.assertions.*
 import java.time.OffsetDateTime
@@ -244,7 +244,8 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                 endDate = newEndDate,
                 output = newOutput,
                 status = newStatus
-            ))
+            )
+            )
 
             // Then
             val updatedScriptExecutionFromDb = scriptExecutionDao.findOneById(insertedId)
