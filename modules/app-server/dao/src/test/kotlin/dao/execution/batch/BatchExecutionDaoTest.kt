@@ -229,14 +229,17 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             )
 
             batchExecutionDao.insert(batchExecutionCreationRequest)
-            var batchExecution2 = batchExecutionDao.insert(batchExecutionCreationRequest)
-            batchExecution2 = batchExecutionDao.updateBatchExecutionEndData(
-                batchExecution2.id,
-                BatchExecutionEndUpdateRequest(
-                    endDate = OffsetDateTime.now().plusDays(1L),
-                    status = Status.COMPLETED
-                )
-            )!!
+            val batchExecution2 =
+                batchExecutionDao.insert(batchExecutionCreationRequest)
+                    .let { batchExecution ->
+                        batchExecutionDao.updateBatchExecutionEndData(
+                            batchExecution.id,
+                            BatchExecutionEndUpdateRequest(
+                                endDate = OffsetDateTime.now().plusDays(1L),
+                                status = Status.COMPLETED
+                            )
+                        )!!
+                    }
 
             val searchRequest = BatchExecutionSearchRequest(status = Status.COMPLETED)
 
