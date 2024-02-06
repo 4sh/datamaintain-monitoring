@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("nu.studer.jooq") version "8.1"
+    id("org.jooq.jooq-codegen-gradle") version "3.19.3"
 }
 
 repositories {
@@ -8,11 +8,11 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jooq:jooq:3.18.2")
+    implementation("org.jooq:jooq:3.19.3")
     implementation(project(":modules:app-server:domain"))
     implementation("org.postgresql:postgresql:42.5.1")
 
-    jooqGenerator("org.postgresql:postgresql:42.5.1")
+    jooqCodegen("org.postgresql:postgresql:42.5.1")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
     testImplementation("io.strikt:strikt-core:0.34.0")
@@ -26,60 +26,43 @@ dependencies {
 }
 
 jooq {
-    version.set("3.18.2")  // default (can be omitted)
-    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)  // default (can be omitted)
+    configuration {
+        jdbc {
+            driver = "org.postgresql.Driver"
+            url = "jdbc:postgresql://localhost:5432/datamaintain"
+            user = "datamaintain"
+            password = "datamaintain"
+        }
 
-    configurations {
-        create("main") {  // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation.set(false)
+        generator {
+            generate {
+                isDeprecated = false
+                isRecords = true
+                isImmutablePojos = true
+                isFluentSetters = true
+                isImplicitJoinPathsAsKotlinProperties = true
+                isKotlinSetterJvmNameAnnotationsOnIsPrefix = true
+                isPojosAsKotlinDataClasses = true
+                isValidationAnnotations = true
+                isKotlinNotNullPojoAttributes = true
+            }
 
-            jooqConfiguration.apply {
-                logging = org.jooq.meta.jaxb.Logging.WARN
-                jdbc.apply {
-                    driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql://localhost:5432/datamaintain"
-                    user = "datamaintain"
-                    password = "datamaintain"
-                }
-                generator.apply {
-                    name = "org.jooq.codegen.KotlinGenerator"
-                    database.apply {
-                        name = "org.jooq.meta.postgres.PostgresDatabase"
-                        inputSchema = "public"
-                    }
-                    generate.apply {
-                        isDeprecated = false
-                        isRecords = true
-                        isImmutablePojos = true
-                        isFluentSetters = true
-                        isImplicitJoinPathsAsKotlinProperties = true
-                        isKotlinSetterJvmNameAnnotationsOnIsPrefix = true
-                        isPojosAsKotlinDataClasses = true
-                        isValidationAnnotations = true
-                    }
-                    target.apply {
-                        packageName = "generated.domain"
-                        directory = "${project.rootDir}/modules/app-server/dao/src/jooq"
-                    }
-                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
-                }
+            name =  "org.jooq.codegen.KotlinGenerator"
+            target {
+                packageName = "generated.domain"
+                directory = "${project.rootDir}/modules/app-server/dao/src/jooq"
+            }
+
+            database {
+                name = "org.jooq.meta.postgres.PostgresDatabase"
+                inputSchema = "public"
+            }
+
+            strategy {
+                name = "org.jooq.codegen.DefaultGeneratorStrategy"
             }
         }
     }
-}
-
-buildscript {
-    configurations["classpath"].resolutionStrategy.eachDependency {
-        if (requested.group == "org.jooq") {
-            useVersion("3.18.2")
-        }
-    }
-}
-
-tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
-    (launcher::set)(javaToolchains.launcherFor {
-        languageVersion.set(JavaLanguageVersion.of(Versions.java.toInt()))
-    })
 }
 
 tasks.named("clean") {

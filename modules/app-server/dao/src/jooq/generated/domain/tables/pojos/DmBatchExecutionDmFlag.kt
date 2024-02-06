@@ -17,13 +17,13 @@ import java.util.UUID
 @Suppress("UNCHECKED_CAST")
 data class DmBatchExecutionDmFlag(
     @get:NotNull
-    val fkBatchExecutionRef: UUID? = null,
+    val fkBatchExecutionRef: UUID,
     @get:NotNull
     @get:Size(max = 255)
-    val fkFlagRef: String? = null
+    val fkFlagRef: String
 ): Serializable {
 
-    public override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean {
         if (this === other)
             return true
         if (other == null)
@@ -31,30 +31,22 @@ data class DmBatchExecutionDmFlag(
         if (this::class != other::class)
             return false
         val o: DmBatchExecutionDmFlag = other as DmBatchExecutionDmFlag
-        if (this.fkBatchExecutionRef == null) {
-            if (o.fkBatchExecutionRef != null)
-                return false
-        }
-        else if (this.fkBatchExecutionRef != o.fkBatchExecutionRef)
+        if (this.fkBatchExecutionRef != o.fkBatchExecutionRef)
             return false
-        if (this.fkFlagRef == null) {
-            if (o.fkFlagRef != null)
-                return false
-        }
-        else if (this.fkFlagRef != o.fkFlagRef)
+        if (this.fkFlagRef != o.fkFlagRef)
             return false
         return true
     }
 
-    public override fun hashCode(): Int {
+    override fun hashCode(): Int {
         val prime = 31
         var result = 1
-        result = prime * result + (if (this.fkBatchExecutionRef == null) 0 else this.fkBatchExecutionRef.hashCode())
-        result = prime * result + (if (this.fkFlagRef == null) 0 else this.fkFlagRef.hashCode())
+        result = prime * result + this.fkBatchExecutionRef.hashCode()
+        result = prime * result + this.fkFlagRef.hashCode()
         return result
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         val sb = StringBuilder("DmBatchExecutionDmFlag (")
 
         sb.append(fkBatchExecutionRef)

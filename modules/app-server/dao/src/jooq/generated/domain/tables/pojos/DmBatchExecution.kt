@@ -29,7 +29,7 @@ data class DmBatchExecution(
     val fkModuleRef: UUID? = null
 ): Serializable {
 
-    public override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean {
         if (this === other)
             return true
         if (other == null)
@@ -94,7 +94,7 @@ data class DmBatchExecution(
         return true
     }
 
-    public override fun hashCode(): Int {
+    override fun hashCode(): Int {
         val prime = 31
         var result = 1
         result = prime * result + (if (this.id == null) 0 else this.id.hashCode())
@@ -109,7 +109,7 @@ data class DmBatchExecution(
         return result
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         val sb = StringBuilder("DmBatchExecution (")
 
         sb.append(id)

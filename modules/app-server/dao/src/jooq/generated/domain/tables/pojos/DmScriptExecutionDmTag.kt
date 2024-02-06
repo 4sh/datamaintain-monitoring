@@ -17,13 +17,13 @@ import java.util.UUID
 @Suppress("UNCHECKED_CAST")
 data class DmScriptExecutionDmTag(
     @get:NotNull
-    val fkScriptExecutionRef: UUID? = null,
+    val fkScriptExecutionRef: UUID,
     @get:NotNull
     @get:Size(max = 255)
-    val fkTagRef: String? = null
+    val fkTagRef: String
 ): Serializable {
 
-    public override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean {
         if (this === other)
             return true
         if (other == null)
@@ -31,30 +31,22 @@ data class DmScriptExecutionDmTag(
         if (this::class != other::class)
             return false
         val o: DmScriptExecutionDmTag = other as DmScriptExecutionDmTag
-        if (this.fkScriptExecutionRef == null) {
-            if (o.fkScriptExecutionRef != null)
-                return false
-        }
-        else if (this.fkScriptExecutionRef != o.fkScriptExecutionRef)
+        if (this.fkScriptExecutionRef != o.fkScriptExecutionRef)
             return false
-        if (this.fkTagRef == null) {
-            if (o.fkTagRef != null)
-                return false
-        }
-        else if (this.fkTagRef != o.fkTagRef)
+        if (this.fkTagRef != o.fkTagRef)
             return false
         return true
     }
 
-    public override fun hashCode(): Int {
+    override fun hashCode(): Int {
         val prime = 31
         var result = 1
-        result = prime * result + (if (this.fkScriptExecutionRef == null) 0 else this.fkScriptExecutionRef.hashCode())
-        result = prime * result + (if (this.fkTagRef == null) 0 else this.fkTagRef.hashCode())
+        result = prime * result + this.fkScriptExecutionRef.hashCode()
+        result = prime * result + this.fkTagRef.hashCode()
         return result
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         val sb = StringBuilder("DmScriptExecutionDmTag (")
 
         sb.append(fkScriptExecutionRef)

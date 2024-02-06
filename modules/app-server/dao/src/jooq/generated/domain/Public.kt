@@ -85,9 +85,9 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      */
     val DM_TAG: DmTag get() = DmTag.DM_TAG
 
-    public override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
+    override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
-    public override fun getTables(): List<Table<*>> = listOf(
+    override fun getTables(): List<Table<*>> = listOf(
         DmBatchExecution.DM_BATCH_EXECUTION,
         DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG,
         DmEnvironment.DM_ENVIRONMENT,

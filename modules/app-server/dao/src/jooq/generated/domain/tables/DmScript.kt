@@ -5,19 +5,26 @@ package generated.domain.tables
 
 
 import generated.domain.Public
+import generated.domain.keys.DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_SCRIPT_REF_FKEY
 import generated.domain.keys.DM_SCRIPT_PKEY
+import generated.domain.tables.DmScriptExecution.DmScriptExecutionPath
 import generated.domain.tables.records.DmScriptRecord
 
-import java.util.function.Function
+import kotlin.collections.Collection
 
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row3
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -34,19 +41,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmScript(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmScriptRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmScriptRecord>?,
+    parentPath: InverseForeignKey<out Record, DmScriptRecord>?,
     aliased: Table<DmScriptRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmScriptRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -59,7 +70,7 @@ open class DmScript(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmScriptRecord> = DmScriptRecord::class.java
+    override fun getRecordType(): Class<DmScriptRecord> = DmScriptRecord::class.java
 
     /**
      * The column <code>public.dm_script.name</code>.
@@ -76,8 +87,9 @@ open class DmScript(
      */
     val CONTENT: TableField<DmScriptRecord, String?> = createField(DSL.name("content"), SQLDataType.VARCHAR(255), this, "")
 
-    private constructor(alias: Name, aliased: Table<DmScriptRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmScriptRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmScriptRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmScriptRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmScriptRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_script</code> table reference
@@ -94,41 +106,102 @@ open class DmScript(
      */
     constructor(): this(DSL.name("dm_script"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmScriptRecord>): this(Internal.createPathAlias(child, key), child, key, DM_SCRIPT, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getPrimaryKey(): UniqueKey<DmScriptRecord> = DM_SCRIPT_PKEY
-    public override fun `as`(alias: String): DmScript = DmScript(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmScript = DmScript(alias, this)
-    public override fun `as`(alias: Table<*>): DmScript = DmScript(alias.getQualifiedName(), this)
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmScriptRecord>?, parentPath: InverseForeignKey<out Record, DmScriptRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_SCRIPT, null, null)
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    open class DmScriptPath : DmScript, Path<DmScriptRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmScriptRecord>?, parentPath: InverseForeignKey<out Record, DmScriptRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmScriptRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmScriptPath = DmScriptPath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmScriptPath = DmScriptPath(alias, this)
+        override fun `as`(alias: Table<*>): DmScriptPath = DmScriptPath(alias.qualifiedName, this)
+    }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getPrimaryKey(): UniqueKey<DmScriptRecord> = DM_SCRIPT_PKEY
+
+    private lateinit var _dmScriptExecution: DmScriptExecutionPath
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.dm_script_execution</code> table
+     */
+    fun dmScriptExecution(): DmScriptExecutionPath {
+        if (!this::_dmScriptExecution.isInitialized)
+            _dmScriptExecution = DmScriptExecutionPath(this, null, DM_SCRIPT_EXECUTION__DM_SCRIPT_EXECUTION_FK_SCRIPT_REF_FKEY.inverseKey)
+
+        return _dmScriptExecution;
+    }
+
+    val dmScriptExecution: DmScriptExecutionPath
+        get(): DmScriptExecutionPath = dmScriptExecution()
+    override fun `as`(alias: String): DmScript = DmScript(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmScript = DmScript(alias, this)
+    override fun `as`(alias: Table<*>): DmScript = DmScript(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmScript = DmScript(DSL.name(name), null)
+    override fun rename(name: String): DmScript = DmScript(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmScript = DmScript(name, null)
+    override fun rename(name: Name): DmScript = DmScript(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmScript = DmScript(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row3 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row3<String?, String?, String?> = super.fieldsRow() as Row3<String?, String?, String?>
+    override fun rename(name: Table<*>): DmScript = DmScript(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (String?, String?, String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmScript = DmScript(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (String?, String?, String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmScript = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmScript = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmScript = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmScript = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmScript = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmScript = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmScript = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmScript = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmScript = where(DSL.notExists(select))
 }

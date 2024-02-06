@@ -5,19 +5,27 @@ package generated.domain.tables
 
 
 import generated.domain.Public
+import generated.domain.keys.DM_SCRIPT_EXECUTION_DM_TAG__DM_SCRIPT_EXECUTION_DM_TAG_FK_TAG_REF_FKEY
 import generated.domain.keys.DM_TAG_PKEY
+import generated.domain.tables.DmScriptExecution.DmScriptExecutionPath
+import generated.domain.tables.DmScriptExecutionDmTag.DmScriptExecutionDmTagPath
 import generated.domain.tables.records.DmTagRecord
 
-import java.util.function.Function
+import kotlin.collections.Collection
 
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row1
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -34,19 +42,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmTag(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmTagRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmTagRecord>?,
+    parentPath: InverseForeignKey<out Record, DmTagRecord>?,
     aliased: Table<DmTagRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmTagRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -59,15 +71,16 @@ open class DmTag(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmTagRecord> = DmTagRecord::class.java
+    override fun getRecordType(): Class<DmTagRecord> = DmTagRecord::class.java
 
     /**
      * The column <code>public.dm_tag.name</code>.
      */
     val NAME: TableField<DmTagRecord, String?> = createField(DSL.name("name"), SQLDataType.VARCHAR(255).nullable(false), this, "")
 
-    private constructor(alias: Name, aliased: Table<DmTagRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmTagRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmTagRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmTagRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmTagRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_tag</code> table reference
@@ -84,41 +97,109 @@ open class DmTag(
      */
     constructor(): this(DSL.name("dm_tag"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmTagRecord>): this(Internal.createPathAlias(child, key), child, key, DM_TAG, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getPrimaryKey(): UniqueKey<DmTagRecord> = DM_TAG_PKEY
-    public override fun `as`(alias: String): DmTag = DmTag(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmTag = DmTag(alias, this)
-    public override fun `as`(alias: Table<*>): DmTag = DmTag(alias.getQualifiedName(), this)
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmTagRecord>?, parentPath: InverseForeignKey<out Record, DmTagRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_TAG, null, null)
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    open class DmTagPath : DmTag, Path<DmTagRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmTagRecord>?, parentPath: InverseForeignKey<out Record, DmTagRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmTagRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmTagPath = DmTagPath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmTagPath = DmTagPath(alias, this)
+        override fun `as`(alias: Table<*>): DmTagPath = DmTagPath(alias.qualifiedName, this)
+    }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getPrimaryKey(): UniqueKey<DmTagRecord> = DM_TAG_PKEY
+
+    private lateinit var _dmScriptExecutionDmTag: DmScriptExecutionDmTagPath
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.dm_script_execution_dm_tag</code> table
+     */
+    fun dmScriptExecutionDmTag(): DmScriptExecutionDmTagPath {
+        if (!this::_dmScriptExecutionDmTag.isInitialized)
+            _dmScriptExecutionDmTag = DmScriptExecutionDmTagPath(this, null, DM_SCRIPT_EXECUTION_DM_TAG__DM_SCRIPT_EXECUTION_DM_TAG_FK_TAG_REF_FKEY.inverseKey)
+
+        return _dmScriptExecutionDmTag;
+    }
+
+    val dmScriptExecutionDmTag: DmScriptExecutionDmTagPath
+        get(): DmScriptExecutionDmTagPath = dmScriptExecutionDmTag()
+
+    /**
+     * Get the implicit many-to-many join path to the
+     * <code>public.dm_script_execution</code> table
+     */
+    val dmScriptExecution: DmScriptExecutionPath
+        get(): DmScriptExecutionPath = dmScriptExecutionDmTag().dmScriptExecution()
+    override fun `as`(alias: String): DmTag = DmTag(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmTag = DmTag(alias, this)
+    override fun `as`(alias: Table<*>): DmTag = DmTag(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmTag = DmTag(DSL.name(name), null)
+    override fun rename(name: String): DmTag = DmTag(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmTag = DmTag(name, null)
+    override fun rename(name: Name): DmTag = DmTag(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmTag = DmTag(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row1 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row1<String?> = super.fieldsRow() as Row1<String?>
+    override fun rename(name: Table<*>): DmTag = DmTag(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmTag = DmTag(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmTag = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmTag = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmTag = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmTag = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmTag = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmTag = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmTag = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmTag = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmTag = where(DSL.notExists(select))
 }

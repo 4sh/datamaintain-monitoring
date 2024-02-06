@@ -5,23 +5,31 @@ package generated.domain.tables
 
 
 import generated.domain.Public
+import generated.domain.keys.DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_MODULE_REF_FKEY
 import generated.domain.keys.DM_MODULE_PKEY
 import generated.domain.keys.DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY
+import generated.domain.tables.DmBatchExecution.DmBatchExecutionPath
+import generated.domain.tables.DmProject.DmProjectPath
 import generated.domain.tables.records.DmModuleRecord
 
 import java.util.UUID
-import java.util.function.Function
 
+import kotlin.collections.Collection
 import kotlin.collections.List
 
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row3
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -38,19 +46,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmModule(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmModuleRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmModuleRecord>?,
+    parentPath: InverseForeignKey<out Record, DmModuleRecord>?,
     aliased: Table<DmModuleRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmModuleRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -63,7 +75,7 @@ open class DmModule(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmModuleRecord> = DmModuleRecord::class.java
+    override fun getRecordType(): Class<DmModuleRecord> = DmModuleRecord::class.java
 
     /**
      * The column <code>public.dm_module.id</code>.
@@ -80,8 +92,9 @@ open class DmModule(
      */
     val FK_PROJECT_REF: TableField<DmModuleRecord, UUID?> = createField(DSL.name("fk_project_ref"), SQLDataType.UUID, this, "")
 
-    private constructor(alias: Name, aliased: Table<DmModuleRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmModuleRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmModuleRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmModuleRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmModuleRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_module</code> table reference
@@ -98,57 +111,118 @@ open class DmModule(
      */
     constructor(): this(DSL.name("dm_module"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmModuleRecord>): this(Internal.createPathAlias(child, key), child, key, DM_MODULE, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getPrimaryKey(): UniqueKey<DmModuleRecord> = DM_MODULE_PKEY
-    public override fun getReferences(): List<ForeignKey<DmModuleRecord, *>> = listOf(DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY)
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmModuleRecord>?, parentPath: InverseForeignKey<out Record, DmModuleRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_MODULE, null, null)
 
-    private lateinit var _dmProject: DmProject
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    open class DmModulePath : DmModule, Path<DmModuleRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmModuleRecord>?, parentPath: InverseForeignKey<out Record, DmModuleRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmModuleRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmModulePath = DmModulePath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmModulePath = DmModulePath(alias, this)
+        override fun `as`(alias: Table<*>): DmModulePath = DmModulePath(alias.qualifiedName, this)
+    }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getPrimaryKey(): UniqueKey<DmModuleRecord> = DM_MODULE_PKEY
+    override fun getReferences(): List<ForeignKey<DmModuleRecord, *>> = listOf(DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY)
+
+    private lateinit var _dmProject: DmProjectPath
 
     /**
      * Get the implicit join path to the <code>public.dm_project</code> table.
      */
-    fun dmProject(): DmProject {
+    fun dmProject(): DmProjectPath {
         if (!this::_dmProject.isInitialized)
-            _dmProject = DmProject(this, DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY)
+            _dmProject = DmProjectPath(this, DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY, null)
 
         return _dmProject;
     }
 
-    val dmProject: DmProject
-        get(): DmProject = dmProject()
-    public override fun `as`(alias: String): DmModule = DmModule(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmModule = DmModule(alias, this)
-    public override fun `as`(alias: Table<*>): DmModule = DmModule(alias.getQualifiedName(), this)
+    val dmProject: DmProjectPath
+        get(): DmProjectPath = dmProject()
+
+    private lateinit var _dmBatchExecution: DmBatchExecutionPath
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.dm_batch_execution</code> table
+     */
+    fun dmBatchExecution(): DmBatchExecutionPath {
+        if (!this::_dmBatchExecution.isInitialized)
+            _dmBatchExecution = DmBatchExecutionPath(this, null, DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_MODULE_REF_FKEY.inverseKey)
+
+        return _dmBatchExecution;
+    }
+
+    val dmBatchExecution: DmBatchExecutionPath
+        get(): DmBatchExecutionPath = dmBatchExecution()
+    override fun `as`(alias: String): DmModule = DmModule(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmModule = DmModule(alias, this)
+    override fun `as`(alias: Table<*>): DmModule = DmModule(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmModule = DmModule(DSL.name(name), null)
+    override fun rename(name: String): DmModule = DmModule(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmModule = DmModule(name, null)
+    override fun rename(name: Name): DmModule = DmModule(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmModule = DmModule(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row3 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row3<UUID?, String?, UUID?> = super.fieldsRow() as Row3<UUID?, String?, UUID?>
+    override fun rename(name: Table<*>): DmModule = DmModule(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (UUID?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmModule = DmModule(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmModule = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmModule = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmModule = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmModule = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmModule = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmModule = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmModule = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmModule = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmModule = where(DSL.notExists(select))
 }

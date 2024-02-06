@@ -8,21 +8,28 @@ import generated.domain.Public
 import generated.domain.keys.DM_BATCH_EXECUTION_DM_FLAG_PKEY
 import generated.domain.keys.DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_BATCH_EXECUTION_REF_FKEY
 import generated.domain.keys.DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_FLAG_REF_FKEY
+import generated.domain.tables.DmBatchExecution.DmBatchExecutionPath
+import generated.domain.tables.DmFlag.DmFlagPath
 import generated.domain.tables.records.DmBatchExecutionDmFlagRecord
 
 import java.util.UUID
-import java.util.function.Function
 
+import kotlin.collections.Collection
 import kotlin.collections.List
 
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row2
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -39,19 +46,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmBatchExecutionDmFlag(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmBatchExecutionDmFlagRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmBatchExecutionDmFlagRecord>?,
+    parentPath: InverseForeignKey<out Record, DmBatchExecutionDmFlagRecord>?,
     aliased: Table<DmBatchExecutionDmFlagRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmBatchExecutionDmFlagRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -65,7 +76,7 @@ open class DmBatchExecutionDmFlag(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmBatchExecutionDmFlagRecord> = DmBatchExecutionDmFlagRecord::class.java
+    override fun getRecordType(): Class<DmBatchExecutionDmFlagRecord> = DmBatchExecutionDmFlagRecord::class.java
 
     /**
      * The column
@@ -78,8 +89,9 @@ open class DmBatchExecutionDmFlag(
      */
     val FK_FLAG_REF: TableField<DmBatchExecutionDmFlagRecord, String?> = createField(DSL.name("fk_flag_ref"), SQLDataType.VARCHAR(255).nullable(false), this, "")
 
-    private constructor(alias: Name, aliased: Table<DmBatchExecutionDmFlagRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmBatchExecutionDmFlagRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmBatchExecutionDmFlagRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmBatchExecutionDmFlagRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmBatchExecutionDmFlagRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_batch_execution_dm_flag</code> table
@@ -98,72 +110,118 @@ open class DmBatchExecutionDmFlag(
      */
     constructor(): this(DSL.name("dm_batch_execution_dm_flag"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmBatchExecutionDmFlagRecord>): this(Internal.createPathAlias(child, key), child, key, DM_BATCH_EXECUTION_DM_FLAG, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getPrimaryKey(): UniqueKey<DmBatchExecutionDmFlagRecord> = DM_BATCH_EXECUTION_DM_FLAG_PKEY
-    public override fun getReferences(): List<ForeignKey<DmBatchExecutionDmFlagRecord, *>> = listOf(DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_BATCH_EXECUTION_REF_FKEY, DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_FLAG_REF_FKEY)
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmBatchExecutionDmFlagRecord>?, parentPath: InverseForeignKey<out Record, DmBatchExecutionDmFlagRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_BATCH_EXECUTION_DM_FLAG, null, null)
 
-    private lateinit var _dmBatchExecution: DmBatchExecution
-    private lateinit var _dmFlag: DmFlag
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    open class DmBatchExecutionDmFlagPath : DmBatchExecutionDmFlag, Path<DmBatchExecutionDmFlagRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmBatchExecutionDmFlagRecord>?, parentPath: InverseForeignKey<out Record, DmBatchExecutionDmFlagRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmBatchExecutionDmFlagRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmBatchExecutionDmFlagPath = DmBatchExecutionDmFlagPath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmBatchExecutionDmFlagPath = DmBatchExecutionDmFlagPath(alias, this)
+        override fun `as`(alias: Table<*>): DmBatchExecutionDmFlagPath = DmBatchExecutionDmFlagPath(alias.qualifiedName, this)
+    }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getPrimaryKey(): UniqueKey<DmBatchExecutionDmFlagRecord> = DM_BATCH_EXECUTION_DM_FLAG_PKEY
+    override fun getReferences(): List<ForeignKey<DmBatchExecutionDmFlagRecord, *>> = listOf(DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_BATCH_EXECUTION_REF_FKEY, DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_FLAG_REF_FKEY)
+
+    private lateinit var _dmBatchExecution: DmBatchExecutionPath
 
     /**
      * Get the implicit join path to the <code>public.dm_batch_execution</code>
      * table.
      */
-    fun dmBatchExecution(): DmBatchExecution {
+    fun dmBatchExecution(): DmBatchExecutionPath {
         if (!this::_dmBatchExecution.isInitialized)
-            _dmBatchExecution = DmBatchExecution(this, DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_BATCH_EXECUTION_REF_FKEY)
+            _dmBatchExecution = DmBatchExecutionPath(this, DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_BATCH_EXECUTION_REF_FKEY, null)
 
         return _dmBatchExecution;
     }
 
-    val dmBatchExecution: DmBatchExecution
-        get(): DmBatchExecution = dmBatchExecution()
+    val dmBatchExecution: DmBatchExecutionPath
+        get(): DmBatchExecutionPath = dmBatchExecution()
+
+    private lateinit var _dmFlag: DmFlagPath
 
     /**
      * Get the implicit join path to the <code>public.dm_flag</code> table.
      */
-    fun dmFlag(): DmFlag {
+    fun dmFlag(): DmFlagPath {
         if (!this::_dmFlag.isInitialized)
-            _dmFlag = DmFlag(this, DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_FLAG_REF_FKEY)
+            _dmFlag = DmFlagPath(this, DM_BATCH_EXECUTION_DM_FLAG__DM_BATCH_EXECUTION_DM_FLAG_FK_FLAG_REF_FKEY, null)
 
         return _dmFlag;
     }
 
-    val dmFlag: DmFlag
-        get(): DmFlag = dmFlag()
-    public override fun `as`(alias: String): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(alias, this)
-    public override fun `as`(alias: Table<*>): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(alias.getQualifiedName(), this)
+    val dmFlag: DmFlagPath
+        get(): DmFlagPath = dmFlag()
+    override fun `as`(alias: String): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(alias, this)
+    override fun `as`(alias: Table<*>): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(DSL.name(name), null)
+    override fun rename(name: String): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(name, null)
+    override fun rename(name: Name): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row2 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row2<UUID?, String?> = super.fieldsRow() as Row2<UUID?, String?>
+    override fun rename(name: Table<*>): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (UUID?, String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmBatchExecutionDmFlag = DmBatchExecutionDmFlag(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmBatchExecutionDmFlag = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmBatchExecutionDmFlag = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmBatchExecutionDmFlag = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmBatchExecutionDmFlag = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmBatchExecutionDmFlag = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmBatchExecutionDmFlag = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmBatchExecutionDmFlag = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmBatchExecutionDmFlag = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmBatchExecutionDmFlag = where(DSL.notExists(select))
 }

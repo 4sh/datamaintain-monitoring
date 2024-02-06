@@ -5,20 +5,30 @@ package generated.domain.tables
 
 
 import generated.domain.Public
+import generated.domain.keys.DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY
+import generated.domain.keys.DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY
 import generated.domain.keys.DM_PROJECT_PKEY
+import generated.domain.tables.DmEnvironment.DmEnvironmentPath
+import generated.domain.tables.DmModule.DmModulePath
 import generated.domain.tables.records.DmProjectRecord
 
 import java.util.UUID
-import java.util.function.Function
 
+import kotlin.collections.Collection
+
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row3
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -35,19 +45,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmProject(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmProjectRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmProjectRecord>?,
+    parentPath: InverseForeignKey<out Record, DmProjectRecord>?,
     aliased: Table<DmProjectRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmProjectRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -60,7 +74,7 @@ open class DmProject(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmProjectRecord> = DmProjectRecord::class.java
+    override fun getRecordType(): Class<DmProjectRecord> = DmProjectRecord::class.java
 
     /**
      * The column <code>public.dm_project.id</code>.
@@ -77,8 +91,9 @@ open class DmProject(
      */
     val SMALL_NAME: TableField<DmProjectRecord, String?> = createField(DSL.name("small_name"), SQLDataType.VARCHAR(255), this, "")
 
-    private constructor(alias: Name, aliased: Table<DmProjectRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmProjectRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmProjectRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmProjectRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmProjectRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_project</code> table reference
@@ -95,41 +110,118 @@ open class DmProject(
      */
     constructor(): this(DSL.name("dm_project"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmProjectRecord>): this(Internal.createPathAlias(child, key), child, key, DM_PROJECT, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getPrimaryKey(): UniqueKey<DmProjectRecord> = DM_PROJECT_PKEY
-    public override fun `as`(alias: String): DmProject = DmProject(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmProject = DmProject(alias, this)
-    public override fun `as`(alias: Table<*>): DmProject = DmProject(alias.getQualifiedName(), this)
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmProjectRecord>?, parentPath: InverseForeignKey<out Record, DmProjectRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_PROJECT, null, null)
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    open class DmProjectPath : DmProject, Path<DmProjectRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmProjectRecord>?, parentPath: InverseForeignKey<out Record, DmProjectRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmProjectRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmProjectPath = DmProjectPath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmProjectPath = DmProjectPath(alias, this)
+        override fun `as`(alias: Table<*>): DmProjectPath = DmProjectPath(alias.qualifiedName, this)
+    }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getPrimaryKey(): UniqueKey<DmProjectRecord> = DM_PROJECT_PKEY
+
+    private lateinit var _dmEnvironment: DmEnvironmentPath
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.dm_environment</code> table
+     */
+    fun dmEnvironment(): DmEnvironmentPath {
+        if (!this::_dmEnvironment.isInitialized)
+            _dmEnvironment = DmEnvironmentPath(this, null, DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY.inverseKey)
+
+        return _dmEnvironment;
+    }
+
+    val dmEnvironment: DmEnvironmentPath
+        get(): DmEnvironmentPath = dmEnvironment()
+
+    private lateinit var _dmModule: DmModulePath
+
+    /**
+     * Get the implicit to-many join path to the <code>public.dm_module</code>
+     * table
+     */
+    fun dmModule(): DmModulePath {
+        if (!this::_dmModule.isInitialized)
+            _dmModule = DmModulePath(this, null, DM_MODULE__DM_MODULE_FK_PROJECT_REF_FKEY.inverseKey)
+
+        return _dmModule;
+    }
+
+    val dmModule: DmModulePath
+        get(): DmModulePath = dmModule()
+    override fun `as`(alias: String): DmProject = DmProject(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmProject = DmProject(alias, this)
+    override fun `as`(alias: Table<*>): DmProject = DmProject(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmProject = DmProject(DSL.name(name), null)
+    override fun rename(name: String): DmProject = DmProject(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmProject = DmProject(name, null)
+    override fun rename(name: Name): DmProject = DmProject(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmProject = DmProject(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row3 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row3<UUID?, String?, String?> = super.fieldsRow() as Row3<UUID?, String?, String?>
+    override fun rename(name: Table<*>): DmProject = DmProject(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (UUID?, String?, String?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmProject = DmProject(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, String?, String?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmProject = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmProject = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmProject = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmProject = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmProject = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmProject = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmProject = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmProject = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmProject = where(DSL.notExists(select))
 }
