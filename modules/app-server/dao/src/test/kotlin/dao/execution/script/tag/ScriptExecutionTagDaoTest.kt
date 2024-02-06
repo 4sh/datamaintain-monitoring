@@ -1,4 +1,4 @@
-package dao.script.execution.tag
+package dao.execution.script.tag
 
 import AbstractDaoTest
 import dao.execution.batch.BatchExecutionDao
@@ -11,8 +11,8 @@ import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.script.ScriptDao
 import dao.script.buildScriptCreationRequest
-import dao.script.execution.ScriptExecutionDao
-import dao.script.execution.buildScriptExecutionCreationRequest
+import dao.execution.script.ScriptExecutionDao
+import dao.execution.script.buildScriptExecutionCreationRequest
 import dao.tag.TagDao
 import dao.tag.buildTagCreationRequest
 import generated.domain.tables.pojos.DmScriptExecutionDmTag

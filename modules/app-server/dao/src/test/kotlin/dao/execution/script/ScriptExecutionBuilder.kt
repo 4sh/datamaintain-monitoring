@@ -1,9 +1,9 @@
-package dao.script.execution
+package dao.execution.script
 
 import execution.Status
-import script.execution.ScriptExecutionCreationRequest
-import script.execution.ScriptExecutionEndUpdateRequest
-import script.execution.ScriptExecutionStartUpdateRequest
+import execution.script.ScriptExecutionCreationRequest
+import execution.script.ScriptExecutionEndUpdateRequest
+import execution.script.ScriptExecutionStartUpdateRequest
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*

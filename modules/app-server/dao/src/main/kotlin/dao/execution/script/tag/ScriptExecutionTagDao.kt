@@ -1,10 +1,10 @@
-package dao.script.execution.tag
+package dao.execution.script.tag
 
 import generated.domain.tables.pojos.DmScriptExecutionDmTag
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
-import script.execution.tag.ScriptExecutionTagCreationRequest
+import execution.script.tag.ScriptExecutionTagCreationRequest
 import java.util.*
 
 class ScriptExecutionTagDao(val dslContext: DSLContext) {

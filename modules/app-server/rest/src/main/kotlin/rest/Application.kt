@@ -10,7 +10,7 @@ import module.ModuleService
 import project.ProjectService
 import rest.v1.route.routeV1
 import script.ScriptService
-import script.execution.ScriptExecutionService
+import execution.script.ScriptExecutionService
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
