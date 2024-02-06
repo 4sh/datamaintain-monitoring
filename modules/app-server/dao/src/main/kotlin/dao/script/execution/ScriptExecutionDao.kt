@@ -97,15 +97,16 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
             .fetchInto(ScriptExecutionListItem::class.java)
 }
 
-fun ScriptExecutionSearchRequest.toCondition(): Condition =
-    DSL.noCondition()
-        .let { condition ->
-            this.status
-                ?.let { condition.and(DM_SCRIPT_EXECUTION.STATUS.eq(it.toDto())) }
-                ?: condition
-        }
-        .let { condition ->
-            this.batchExecutionRef
-                ?.let { condition.and(DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF.eq(it)) }
-                ?: condition
-        }
+fun ScriptExecutionSearchRequest.toCondition(): Condition {
+    var condition = DSL.noCondition()
+
+    if (this.status != null) {
+        condition = condition.and(DM_SCRIPT_EXECUTION.STATUS.eq(this.status!!.toDto()))
+    }
+
+    if (this.batchExecutionRef != null) {
+        condition = condition.and(DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF.eq(this.batchExecutionRef))
+    }
+
+    return condition
+}

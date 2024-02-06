@@ -99,25 +99,24 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
     }
 }
 
-fun BatchExecutionSearchRequest.toCondition(): Condition =
-    DSL.noCondition()
-        .let { condition ->
-            this.status
-                ?.let { condition.and(DM_BATCH_EXECUTION.STATUS.eq(it.toDto())) }
-                ?: condition
-        }
-        .let { condition ->
-            this.projectRef
-                ?.let { condition.and(DM_PROJECT.ID.eq(it)) }
-                ?: condition
-        }
-        .let { condition ->
-            this.moduleRef
-                ?.let { condition.and(DM_MODULE.ID.eq(it)) }
-                ?: condition
-        }
-        .let { condition ->
-            this.environmentRef
-                ?.let { condition.and(DM_ENVIRONMENT.ID.eq(it)) }
-                ?: condition
-        }
+fun BatchExecutionSearchRequest.toCondition(): Condition {
+    var condition = DSL.noCondition()
+
+    if (this.status != null) {
+        condition = condition.and(DM_BATCH_EXECUTION.STATUS.eq(this.status!!.toDto()))
+    }
+
+    if (this.projectRef != null) {
+        condition = condition.and(DM_PROJECT.ID.eq(this.projectRef))
+    }
+
+    if (this.moduleRef != null) {
+        condition = condition.and(DM_MODULE.ID.eq(this.moduleRef))
+    }
+
+    if (this.environmentRef != null) {
+        condition = condition.and(DM_ENVIRONMENT.ID.eq(this.environmentRef))
+    }
+
+    return condition;
+}
