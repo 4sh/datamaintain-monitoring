@@ -7,9 +7,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.util.*
 
-internal  const val environmentId = "environmentId"
+private const val environmentId = "environmentId"
 
-internal fun ApplicationCall.environmentId() = UUID.fromString(this.parameters[environmentId])
+private fun ApplicationCall.environmentId() = UUID.fromString(this.parameters[environmentId])
 
 internal fun Route.environmentV1Routes(environmentService: EnvironmentService) {
     route("/environments") {
