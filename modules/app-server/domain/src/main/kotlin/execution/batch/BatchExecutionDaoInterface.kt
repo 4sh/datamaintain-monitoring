@@ -1,9 +1,5 @@
 package execution.batch
 
-import execution.batch.BatchExecution
-import execution.batch.BatchExecutionCreationRequest
-import execution.batch.BatchExecutionEndUpdateRequest
-import execution.batch.BatchExecutionStartUpdateRequest
 import java.util.*
 
 interface BatchExecutionDaoInterface {
@@ -18,4 +14,5 @@ interface BatchExecutionDaoInterface {
     ): BatchExecution?
     fun delete(id: UUID)
     fun findOneById(id: UUID): BatchExecution?
+    fun find(searchRequest: BatchExecutionSearchRequest): List<BatchExecutionListItem>
 }
