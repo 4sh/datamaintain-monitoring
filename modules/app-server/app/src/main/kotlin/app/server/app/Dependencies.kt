@@ -2,19 +2,21 @@ package app.server.app
 
 import dao.environment.EnvironmentDao
 import dao.execution.batch.BatchExecutionDao
+import dao.execution.script.ScriptExecutionDao
 import dao.module.ModuleDao
+import dao.moduleEnvironmentToken.ModuleEnvironmentTokenDao
 import dao.project.ProjectDao
 import dao.project.ProjectHierarchyDao
 import dao.script.ScriptDao
-import dao.execution.script.ScriptExecutionDao
 import environment.EnvironmentService
 import execution.batch.BatchExecutionService
+import execution.script.ScriptExecutionService
 import module.ModuleService
+import moduleEnvironmentToken.ModuleEnvironmentTokenService
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
 import project.ProjectService
 import script.ScriptService
-import execution.script.ScriptExecutionService
 import java.sql.DriverManager
 
 val dslContext = DSL.using(
@@ -42,3 +44,6 @@ val batchExecutionService = BatchExecutionService(batchExecutionDao)
 
 val scriptExecutionDao = ScriptExecutionDao(dslContext)
 val scriptExecutionService = ScriptExecutionService(scriptExecutionDao)
+
+val moduleEnvironmentTokenDao = ModuleEnvironmentTokenDao(dslContext)
+val moduleEnvironmentTokenService = ModuleEnvironmentTokenService(moduleEnvironmentTokenDao)
