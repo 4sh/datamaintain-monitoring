@@ -9,6 +9,7 @@ import generated.domain.tables.DmBatchExecutionDmFlag
 import generated.domain.tables.DmEnvironment
 import generated.domain.tables.DmFlag
 import generated.domain.tables.DmModule
+import generated.domain.tables.DmModuleDmEnvironmentToken
 import generated.domain.tables.DmProject
 import generated.domain.tables.DmScript
 import generated.domain.tables.DmScriptExecution
@@ -41,6 +42,11 @@ val DM_FLAG: DmFlag = DmFlag.DM_FLAG
  * The table <code>public.dm_module</code>.
  */
 val DM_MODULE: DmModule = DmModule.DM_MODULE
+
+/**
+ * The table <code>public.dm_module_dm_environment_token</code>.
+ */
+val DM_MODULE_DM_ENVIRONMENT_TOKEN: DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken.DM_MODULE_DM_ENVIRONMENT_TOKEN
 
 /**
  * The table <code>public.dm_project</code>.

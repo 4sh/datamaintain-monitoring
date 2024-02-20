@@ -9,6 +9,7 @@ import generated.domain.tables.DmBatchExecutionDmFlag
 import generated.domain.tables.DmEnvironment
 import generated.domain.tables.DmFlag
 import generated.domain.tables.DmModule
+import generated.domain.tables.DmModuleDmEnvironmentToken
 import generated.domain.tables.DmProject
 import generated.domain.tables.DmScript
 import generated.domain.tables.DmScriptExecution
@@ -61,6 +62,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val DM_MODULE: DmModule get() = DmModule.DM_MODULE
 
     /**
+     * The table <code>public.dm_module_dm_environment_token</code>.
+     */
+    val DM_MODULE_DM_ENVIRONMENT_TOKEN: DmModuleDmEnvironmentToken get() = DmModuleDmEnvironmentToken.DM_MODULE_DM_ENVIRONMENT_TOKEN
+
+    /**
      * The table <code>public.dm_project</code>.
      */
     val DM_PROJECT: DmProject get() = DmProject.DM_PROJECT
@@ -93,6 +99,7 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
         DmEnvironment.DM_ENVIRONMENT,
         DmFlag.DM_FLAG,
         DmModule.DM_MODULE,
+        DmModuleDmEnvironmentToken.DM_MODULE_DM_ENVIRONMENT_TOKEN,
         DmProject.DM_PROJECT,
         DmScript.DM_SCRIPT,
         DmScriptExecution.DM_SCRIPT_EXECUTION,

@@ -84,3 +84,11 @@ CREATE TABLE IF NOT EXISTS dm_batch_execution_dm_flag (
     fk_flag_ref VARCHAR(255) REFERENCES dm_flag(name) ON DELETE CASCADE,
     PRIMARY KEY (fk_batch_execution_ref, fk_flag_ref)
 );
+
+CREATE TABLE IF NOT EXISTS dm_module_dm_environment_token (
+    fk_module_ref uuid REFERENCES dm_module(id) ON DELETE CASCADE,
+    fk_environment_ref uuid REFERENCES dm_environment(id) ON DELETE CASCADE,
+    token_value uuid DEFAULT gen_random_uuid() PRIMARY KEY
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS module_environment_index ON dm_module_dm_environment_token (fk_module_ref, fk_environment_ref)
