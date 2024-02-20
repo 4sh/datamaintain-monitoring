@@ -1,6 +1,7 @@
 package dao.execution.batch
 
 import dao.utils.toDto
+import dao.utils.toOffsetDateTime
 import execution.INITIAL_STATUS
 import execution.batch.*
 import generated.domain.enums.ExecutionStatus
@@ -12,6 +13,9 @@ import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import org.jooq.impl.DSL.`val`
+import java.time.Instant
+import java.time.OffsetDateTime
+import java.time.ZoneId
 import java.util.*
 
 class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoInterface {
@@ -26,7 +30,7 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
             DM_BATCH_EXECUTION.FK_ENVIRONMENT_REF
         )
             .values(
-                `val`(data.startDate),
+                `val`(data.startDate?.toOffsetDateTime()),
                 `val`(data.origin.toDto()),
                 `val`(data.type.toDto()),
                 `val`(INITIAL_STATUS.toDto()),
@@ -40,7 +44,7 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
         batchExecutionStartUpdateRequest: BatchExecutionStartUpdateRequest
     ): BatchExecution? =
         dslContext.update(DM_BATCH_EXECUTION)
-            .set(DM_BATCH_EXECUTION.START_DATE, batchExecutionStartUpdateRequest.startDate)
+            .set(DM_BATCH_EXECUTION.START_DATE, batchExecutionStartUpdateRequest.startDate.toOffsetDateTime())
             .set(DM_BATCH_EXECUTION.STATUS, ExecutionStatus.IN_PROGRESS)
             .where(DM_BATCH_EXECUTION.ID.eq(batchExecutionId))
             .returning()
@@ -51,7 +55,7 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
         batchExecutionEndUpdateRequest: BatchExecutionEndUpdateRequest
     ): BatchExecution? =
         dslContext.update(DM_BATCH_EXECUTION)
-            .set(DM_BATCH_EXECUTION.END_DATE, batchExecutionEndUpdateRequest.endDate)
+            .set(DM_BATCH_EXECUTION.END_DATE, batchExecutionEndUpdateRequest.endDate.toOffsetDateTime())
             .set(DM_BATCH_EXECUTION.STATUS, batchExecutionEndUpdateRequest.status.toDto())
             .where(DM_BATCH_EXECUTION.ID.eq(batchExecutionId))
             .returning()

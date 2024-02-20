@@ -1,6 +1,7 @@
 package dao.execution.script
 
 import dao.utils.toDto
+import dao.utils.toOffsetDateTime
 import execution.INITIAL_STATUS
 import execution.script.*
 import generated.domain.enums.ExecutionStatus
@@ -23,7 +24,7 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
             DM_SCRIPT_EXECUTION.FK_SCRIPT_REF,
             DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
         ).values(
-            `val`(data.startDate),
+            `val`(data.startDate?.toOffsetDateTime()),
             `val`(data.executionOrderIndex),
             `val`(INITIAL_STATUS.toDto()),
             `val`(data.fkScriptRef),
@@ -37,7 +38,7 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
         executionStartData: ScriptExecutionStartUpdateRequest
     ): ScriptExecution? =
         dslContext.update(DM_SCRIPT_EXECUTION)
-            .set(DM_SCRIPT_EXECUTION.START_DATE, executionStartData.startDate)
+            .set(DM_SCRIPT_EXECUTION.START_DATE, executionStartData.startDate.toOffsetDateTime())
             .set(DM_SCRIPT_EXECUTION.STATUS, ExecutionStatus.IN_PROGRESS)
             .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))
             .returning()
@@ -49,7 +50,7 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
         executionEndData: ScriptExecutionEndUpdateRequest
     ): ScriptExecution? =
         dslContext.update(DM_SCRIPT_EXECUTION)
-            .set(DM_SCRIPT_EXECUTION.END_DATE, executionEndData.endDate)
+            .set(DM_SCRIPT_EXECUTION.END_DATE, executionEndData.endDate.toOffsetDateTime())
             .set(DM_SCRIPT_EXECUTION.OUTPUT, executionEndData.output)
             .set(DM_SCRIPT_EXECUTION.STATUS, executionEndData.status.toDto())
             .where(DM_SCRIPT_EXECUTION.ID.eq(scriptExecutionId))

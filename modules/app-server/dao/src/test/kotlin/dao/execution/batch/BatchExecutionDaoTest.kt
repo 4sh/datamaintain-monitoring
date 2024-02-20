@@ -61,7 +61,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `insert should return inserted document`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkModuleRef = module1.id,
                 fkEnvironmentRef = environment1.id
             )
@@ -71,7 +71,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
 
             // Then
             expectThat(insertedBatchExecution).isNotNull().and {
-                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { startDate?.toInstant() }.isEqualTo(batchExecutionCreationRequest.startDate)
                 get { endDate }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
@@ -85,7 +85,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `insert should write document in database`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkEnvironmentRef = environment1.id,
                 fkModuleRef = module1.id
             )
@@ -100,7 +100,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 insertedDmBatchExecution
             ).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { startDate?.toInstant() }.isEqualTo(batchExecutionCreationRequest.startDate)
                 get { endDate }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin.toDto())
                 get { type }.isEqualTo(batchExecutionCreationRequest.type.toDto())
@@ -235,7 +235,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                         batchExecutionDao.updateBatchExecutionEndData(
                             batchExecution.id,
                             BatchExecutionEndUpdateRequest(
-                                endDate = OffsetDateTime.now().plusDays(1L),
+                                endDate = OffsetDateTime.now().plusDays(1L).toInstant(),
                                 status = Status.COMPLETED
                             )
                         )!!
@@ -347,7 +347,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should return null when id does not exist in db`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkModuleRef = module1.id,
                 fkEnvironmentRef = environment1.id
             )
@@ -369,7 +369,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should not update anything when id does not exist`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkModuleRef = module1.id,
                 fkEnvironmentRef = environment1.id
             )
@@ -387,7 +387,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
             expectThat(batchExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { startDate?.toInstant() }.isEqualTo(batchExecutionCreationRequest.startDate)
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
@@ -408,7 +408,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
-            val newStartDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
+            val newStartDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant()
 
             // When
             batchExecutionDao.updateBatchExecutionStartData(
@@ -422,7 +422,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
             expectThat(batchExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate?.isEqual(newStartDate) }.isTrue()
+                get { startDate?.toInstant() }.isEqualTo(newStartDate)
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
@@ -440,7 +440,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should return null when id does not exist in db`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkModuleRef = module1.id,
                 fkEnvironmentRef = environment1.id
             )
@@ -462,7 +462,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should not update anything when id does not exist`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkModuleRef = module1.id,
                 fkEnvironmentRef = environment1.id
             )
@@ -480,7 +480,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
             expectThat(batchExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
+                get { startDate?.toInstant() }.isEqualTo(batchExecutionCreationRequest.startDate)
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
@@ -495,13 +495,13 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         fun `should return updated script execution`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
-                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                 fkModuleRef = module1.id,
                 fkEnvironmentRef = environment1.id
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
-            val newEndDate = OffsetDateTime.of(2023, 5, 2, 14, 30, 0, 0, ZoneOffset.UTC)
+            val newEndDate = OffsetDateTime.of(2023, 5, 2, 14, 30, 0, 0, ZoneOffset.UTC).toInstant()
 
             // When
             batchExecutionDao.updateBatchExecutionEndData(
@@ -516,8 +516,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val batchExecutionFromDb = batchExecutionDao.findOneById(insertedId)
             expectThat(batchExecutionFromDb).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
-                get { startDate?.isEqual(batchExecutionCreationRequest.startDate) }.isTrue()
-                get { endDate?.isEqual(newEndDate) }.isTrue()
+                get { startDate?.toInstant() }.isEqualTo(batchExecutionCreationRequest.startDate)
+                get { endDate?.toInstant() }.isEqualTo(newEndDate)
                 get { durationInMs }.isEqualTo(240_000)
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { status }.isEqualTo(Status.COMPLETED)
@@ -535,7 +535,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val insertedId = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
-                    startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                    startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                     fkModuleRef = module1.id,
                     fkEnvironmentRef = environment1.id
                 )
@@ -554,7 +554,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Given
             val insertedId1 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
-                    startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC),
+                    startDate = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
                     fkModuleRef = module1.id,
                     fkEnvironmentRef = environment1.id
                 )
