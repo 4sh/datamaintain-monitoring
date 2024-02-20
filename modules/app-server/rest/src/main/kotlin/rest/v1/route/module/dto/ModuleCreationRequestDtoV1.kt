@@ -10,9 +10,9 @@ data class ModuleCreationRequestDtoV1(
     val name: String,
     @Serializable(with = UUIDSerializer::class)
     val projectRef: UUID
-)
-
-fun ModuleCreationRequestDtoV1.toDomain(): ModuleCreationRequest = ModuleCreationRequest(
-    name = this.name,
-    fkProjectRef = this.projectRef
-)
+) {
+    fun toDomain(): ModuleCreationRequest = ModuleCreationRequest(
+        name = this.name,
+        fkProjectRef = this.projectRef
+    )
+}
