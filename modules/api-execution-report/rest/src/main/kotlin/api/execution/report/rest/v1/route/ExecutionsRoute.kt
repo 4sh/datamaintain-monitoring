@@ -10,31 +10,29 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-class ExecutionsRoute {
-    fun route(route: Route) {
-        route.route("/executions") {
-            post("/start") {
-                call.respond(ExecutionStartResponse((0..10).random()))
-            }
-            put("/stop/{executionId}") {
-                call.respond(HttpStatusCode.OK).also {
-                    val executionId = call.parameters["executionId"]!!.toInt()
-                    println("Execution with id $executionId has ended, it created report ${MonitoringReport(executionId)}}")
-                }
-            }
-            post("/{executionId}/scripts/start") {
-                val scriptExecutionStart = call.receive<ScriptExecutionStart>()
+internal fun Route.executionsV1Routes() {
+    route("/executions") {
+        post("/start") {
+            call.respond(ExecutionStartResponse((0..10).random()))
+        }
+        put("/stop/{executionId}") {
+            call.respond(HttpStatusCode.OK).also {
                 val executionId = call.parameters["executionId"]!!.toInt()
-                call.respond(HttpStatusCode.OK).also {
-                    println("Start script execution $scriptExecutionStart for batch $executionId")
-                }
+                println("Execution with id $executionId has ended, it created report ${MonitoringReport(executionId)}}")
             }
-            post("/{executionId}/scripts/stop") {
-                val scriptExecutionStop = call.receive<ScriptExecutionStop>()
-                val executionId = call.parameters["executionId"]!!.toInt()
-                call.respond(HttpStatusCode.OK).also {
-                    println("Start script execution $scriptExecutionStop for batch $executionId")
-                }
+        }
+        post("/{executionId}/scripts/start") {
+            val scriptExecutionStart = call.receive<ScriptExecutionStart>()
+            val executionId = call.parameters["executionId"]!!.toInt()
+            call.respond(HttpStatusCode.OK).also {
+                println("Start script execution $scriptExecutionStart for batch $executionId")
+            }
+        }
+        post("/{executionId}/scripts/stop") {
+            val scriptExecutionStop = call.receive<ScriptExecutionStop>()
+            val executionId = call.parameters["executionId"]!!.toInt()
+            call.respond(HttpStatusCode.OK).also {
+                println("Start script execution $scriptExecutionStop for batch $executionId")
             }
         }
     }
