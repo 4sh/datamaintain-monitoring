@@ -2,7 +2,7 @@ package rest.v1.route.execution.batch.dto
 
 import execution.batch.BatchExecutionListItem
 import kotlinx.serialization.Serializable
-import rest.OffsetDateTimeSerializer
+import rest.InstantSerializer
 import rest.UUIDSerializer
 import rest.v1.route.environment.EnvironmentDtoV1
 import rest.v1.route.environment.toDtoV1
@@ -12,17 +12,17 @@ import rest.v1.route.module.dto.ModuleDtoV1
 import rest.v1.route.module.dto.toDtoV1
 import rest.v1.route.project.dto.ProjectDtoV1
 import rest.v1.route.project.dto.toDtoV1
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.*
 
 @Serializable
 data class BatchExecutionListItemDtoV1(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
-    @Serializable(with = OffsetDateTimeSerializer::class)
-    val startDate: OffsetDateTime?,
-    @Serializable(with = OffsetDateTimeSerializer::class)
-    val endDate: OffsetDateTime?,
+    @Serializable(with = InstantSerializer::class)
+    val startDate: Instant?,
+    @Serializable(with = InstantSerializer::class)
+    val endDate: Instant?,
     val durationInMs: Int?,
     val origin: OriginDtoV1,
     val status: StatusDtoV1,
@@ -34,8 +34,8 @@ data class BatchExecutionListItemDtoV1(
 
 fun BatchExecutionListItem.toDtoV1() = BatchExecutionListItemDtoV1(
     id = this.id,
-    startDate = this.startDate,
-    endDate = this.endDate,
+    startDate = this.startDate?.toInstant(),
+    endDate = this.endDate?.toInstant(),
     durationInMs = this.durationInMs,
     origin = this.origin.toDtoV1(),
     status = this.status.toDtoV1(),
