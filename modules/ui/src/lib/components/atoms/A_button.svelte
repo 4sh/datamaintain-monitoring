@@ -1,6 +1,8 @@
 <script lang="ts">
-    export let label;
-    export let type = 'button';
+    export let label: string;
+    export let type: "button" | "submit" | "reset" = 'button';
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    export let onClickAction: () => void = () => {  }
 </script>
 
-<button {type}>{label}</button>
+<button {type} on:click={onClickAction}>{label}</button>
