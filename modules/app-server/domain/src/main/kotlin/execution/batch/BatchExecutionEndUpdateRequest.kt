@@ -1,9 +1,9 @@
 package execution.batch
 
 import execution.Status
-import java.time.OffsetDateTime
+import java.time.Instant
 
 data class BatchExecutionEndUpdateRequest(
-    val endDate: OffsetDateTime,
+    val endDate: Instant,
     val status: Status
 )

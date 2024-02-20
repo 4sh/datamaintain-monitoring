@@ -1,7 +1,7 @@
 package execution.batch
 
-import java.time.OffsetDateTime
+import java.time.Instant
 
 data class BatchExecutionStartUpdateRequest(
-    val startDate: OffsetDateTime,
+    val startDate: Instant,
 )

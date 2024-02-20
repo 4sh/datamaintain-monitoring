@@ -1,11 +1,10 @@
 package execution.script
 
-import execution.Status
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.*
 
 data class ScriptExecutionCreationRequest(
-    val startDate: OffsetDateTime?,
+    val startDate: Instant?,
     val executionOrderIndex: Int,
     val fkScriptRef: String,
     val fkBatchExecutionRef: UUID

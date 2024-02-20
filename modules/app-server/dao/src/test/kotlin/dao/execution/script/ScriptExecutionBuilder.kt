@@ -4,12 +4,13 @@ import execution.Status
 import execution.script.ScriptExecutionCreationRequest
 import execution.script.ScriptExecutionEndUpdateRequest
 import execution.script.ScriptExecutionStartUpdateRequest
+import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*
 
 fun buildScriptExecutionCreationRequest(
-    startDate: OffsetDateTime? = null,
+    startDate: Instant? = null,
     executionOrderIndex: Int = 0,
     scriptRef: String,
     batchExecutionRef: UUID
@@ -21,13 +22,13 @@ fun buildScriptExecutionCreationRequest(
 )
 
 fun buildScriptExecutionStartUpdateRequest(
-    startDate: OffsetDateTime = OffsetDateTime.of(2023, 5, 30, 14, 26, 0, 0, ZoneOffset.UTC)
+    startDate: Instant = OffsetDateTime.of(2023, 5, 30, 14, 26, 0, 0, ZoneOffset.UTC).toInstant()
 ) = ScriptExecutionStartUpdateRequest(
     startDate = startDate
 )
 
 fun buildScriptExecutionEndUpdateRequest(
-    endDate: OffsetDateTime = OffsetDateTime.of(2023, 5, 30, 14, 26, 0, 0, ZoneOffset.UTC),
+    endDate: Instant = OffsetDateTime.of(2023, 5, 30, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
     output: String = "output",
     status: Status = Status.COMPLETED,
 ) = ScriptExecutionEndUpdateRequest(

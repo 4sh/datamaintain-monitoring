@@ -1,10 +1,10 @@
 package execution.script
 
 import execution.Status
-import java.time.OffsetDateTime
+import java.time.Instant
 
 data class ScriptExecutionEndUpdateRequest(
-    val endDate: OffsetDateTime,
+    val endDate: Instant,
     val output: String,
     val status: Status,
 )
