@@ -21,11 +21,18 @@ class ModuleEnvironmentTokenService(val dao: ModuleEnvironmentTokenDaoInterface)
         return dao.getTokenByModuleAndEnvironmentRef(moduleRef, environmentRef)
     }
 
-    fun getTokenByValue(tokenValue: UUID): ModuleEnvironmentToken? {
+    internal fun getTokenByValue(tokenValue: UUID): ModuleEnvironmentToken? {
         return dao.getTokenByValue(tokenValue)
+    }
+
+    fun getTokenByValueSafe(tokenValue: UUID): ModuleEnvironmentToken {
+        return getTokenByValue(tokenValue)?: throw ModuleEnvironmentTokenNotFoundByValueException(tokenValue)
     }
 
     private fun deleteToken(tokenValue: UUID) {
         dao.deleteToken(tokenValue)
     }
 }
+
+class ModuleEnvironmentTokenNotFoundByValueException(tokenValue: UUID):
+    IllegalArgumentException("No token was found with the value $tokenValue")
