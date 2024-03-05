@@ -1,9 +1,9 @@
 package app.server.app
 
 fun main(args: Array<String>) {
-    helloWorld.start()
+    grpcServer.start()
 
     io.ktor.server.netty.EngineMain.main(args)
 
-    helloWorld.blockUntilShutdown()
+    grpcServer.blockUntilShutdown()
 }
