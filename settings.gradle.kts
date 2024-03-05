@@ -2,6 +2,7 @@ rootProject.name = "datamaintain-monitoring"
 
 include(
     "modules:api-execution-report:api",
+    "modules:api-execution-report:domain",
     "modules:api-execution-report:rest",
     "modules:api-execution-report:app",
     "modules:api-execution-report:client",
