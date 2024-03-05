@@ -17,7 +17,7 @@ private fun ApplicationCall.environmentRef() = UUID.fromString(this.parameters[e
 private fun ApplicationCall.moduleRef() = UUID.fromString(this.parameters[moduleRef])
 internal fun Route.moduleEnvironmentTokenV1Routes(moduleEnvironmentTokenService: ModuleEnvironmentTokenService) {
     route("/moduleEnvironmentTokens") {
-        get("byModuleAndEnvironmentRef/{$moduleRef}/{$environmentRef}") {
+        get("modules/{$moduleRef}/environments/{$environmentRef}") {
             call.respondNullable(
                 moduleEnvironmentTokenService.getTokenByModuleAndEnvironmentRef(
                     moduleRef = call.moduleRef(),
