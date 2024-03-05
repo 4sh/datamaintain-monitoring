@@ -5,7 +5,7 @@ package generated.domain.tables
 
 
 import generated.domain.Public
-import generated.domain.indexes.MODULE_ENVIRONMENT_INDEX
+import generated.domain.indexes.MODULE_ENVIRONMENT
 import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN_PKEY
 import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY
 import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY
@@ -110,7 +110,7 @@ open class DmModuleDmEnvironmentToken(
 
     constructor(child: Table<out Record>, key: ForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>): this(Internal.createPathAlias(child, key), child, key, DM_MODULE_DM_ENVIRONMENT_TOKEN, null)
     public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getIndexes(): List<Index> = listOf(MODULE_ENVIRONMENT_INDEX)
+    public override fun getIndexes(): List<Index> = listOf(MODULE_ENVIRONMENT)
     public override fun getPrimaryKey(): UniqueKey<DmModuleDmEnvironmentTokenRecord> = DM_MODULE_DM_ENVIRONMENT_TOKEN_PKEY
     public override fun getReferences(): List<ForeignKey<DmModuleDmEnvironmentTokenRecord, *>> = listOf(DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY)
 
