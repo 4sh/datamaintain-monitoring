@@ -3,11 +3,13 @@ import io.grpc.ServerBuilder
 
 class GrpcServer(
     private val port: Int = 8081,
-    moduleEnvironmentTokenGrpcServiceImpl: ModuleEnvironmentTokenGrpcServiceImpl
+    moduleEnvironmentTokenGrpcServiceImpl: ModuleEnvironmentTokenGrpcServiceImpl,
+    batchExecutionGrpcServiceImpl: BatchExecutionGrpcServiceImpl
 ) {
     private val server: Server = ServerBuilder
         .forPort(port)
         .addService(moduleEnvironmentTokenGrpcServiceImpl)
+        .addService(batchExecutionGrpcServiceImpl)
         .build()
 
     fun start() {

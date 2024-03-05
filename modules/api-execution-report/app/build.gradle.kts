@@ -7,6 +7,7 @@ appProject()
 dependencies {
     implementation(project(":modules:api-execution-report:rest"))
     implementation(project(":modules:api-execution-report:client"))
+    implementation(project(":modules:api-execution-report:domain"))
     implementation(project(":modules:proto"))
 
     implementation("io.grpc:grpc-protobuf:1.55.1")
