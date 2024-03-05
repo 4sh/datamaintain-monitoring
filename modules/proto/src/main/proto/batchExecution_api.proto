@@ -6,6 +6,7 @@ package proto;
 
 service BatchExecutionService {
   rpc createBatchExecution(BatchExecutionCreationRequest) returns (BatchExecutionCreationResponse) {}
+  rpc stopBatchExecution(BatchExecutionStopRequest) returns (BatchExecutionStopResponse) {}
 }
 
 message BatchExecutionCreationRequest {
@@ -29,4 +30,19 @@ message BatchExecutionCreationRequest {
 
 message BatchExecutionCreationResponse {
   string id = 1;
+}
+
+message BatchExecutionStopRequest {
+  string batchExecutionId = 1;
+  BatchExecutionEndStatus endStatus = 2;
+  google.protobuf.Timestamp endDate = 3;
+
+  enum BatchExecutionEndStatus {
+      COMPLETED = 0;
+      ERROR = 1;
+  }
+}
+
+message BatchExecutionStopResponse {
+
 }

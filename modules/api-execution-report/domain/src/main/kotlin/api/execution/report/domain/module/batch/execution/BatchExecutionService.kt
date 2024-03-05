@@ -20,4 +20,8 @@ class BatchExecutionService(
             batchExecutionEnvironmentRef = moduleEnvironmentToken.environmentRef
         )
     }
+
+    suspend fun stopBatchExecution(executionId: UUID, batchExecutionEndDate: Instant, endStatusValue: BatchEndStatus) {
+        batchExecutionRepository.stopBatchExecution(executionId, batchExecutionEndDate, endStatusValue)
+    }
 }
