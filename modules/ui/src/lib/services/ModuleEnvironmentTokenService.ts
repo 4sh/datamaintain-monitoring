@@ -5,7 +5,7 @@ export class ModuleEnvironmentTokenService {
     private static baseUrl = '/api/v1/moduleEnvironmentTokens';
 
     public static byModuleAndEnvironment = async (moduleRef: string, environmentRef: string): Promise<ModuleEnvironmentToken> => {
-        return Http.get<ModuleEnvironmentToken>(`${ModuleEnvironmentTokenService.baseUrl}/byModuleAndEnvironmentRef/${moduleRef}/${environmentRef}`);
+        return Http.get<ModuleEnvironmentToken>(`${ModuleEnvironmentTokenService.baseUrl}/modules/${moduleRef}/environments/${environmentRef}`);
     }
 
     public static regenerateToken = async (moduleRef: string, environmentRef: string): Promise<ModuleEnvironmentToken> => {
