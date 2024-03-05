@@ -11,7 +11,7 @@ application {
 dependencies {
     implementation(project(":modules:api-execution-report:api"))
     implementation(project(":modules:proto"))
-    implementation(project(":modules:api-execution-report:client"))
+    implementation(project(":modules:api-execution-report:domain"))
 
     implementation("io.ktor:ktor-server-core:2.2.4")
     implementation("io.ktor:ktor-server-netty:2.2.4")

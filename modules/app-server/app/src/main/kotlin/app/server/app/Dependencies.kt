@@ -1,5 +1,6 @@
 package app.server.app
 
+import BatchExecutionGrpcServiceImpl
 import ModuleEnvironmentTokenGrpcServiceImpl
 import dao.environment.EnvironmentDao
 import dao.execution.batch.BatchExecutionDao
@@ -42,6 +43,7 @@ val scriptService = ScriptService(scriptDao)
 
 val batchExecutionDao = BatchExecutionDao(dslContext)
 val batchExecutionService = BatchExecutionService(batchExecutionDao)
+val batchExecutionGrpcServiceImpl = BatchExecutionGrpcServiceImpl(batchExecutionService = batchExecutionService)
 
 val scriptExecutionDao = ScriptExecutionDao(dslContext)
 val scriptExecutionService = ScriptExecutionService(scriptExecutionDao)

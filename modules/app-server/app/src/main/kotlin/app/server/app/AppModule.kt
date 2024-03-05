@@ -6,7 +6,7 @@ import rest.configureRouting
 import rest.configureSerialization
 
 const val grpcServerPort = 50051
-val grpcServer = GrpcServer(grpcServerPort, moduleEnvironmentTokenGrpcServiceImpl)
+val grpcServer = GrpcServer(grpcServerPort, moduleEnvironmentTokenGrpcServiceImpl, batchExecutionGrpcServiceImpl)
 
 fun Application.module() {
     configureRouting(

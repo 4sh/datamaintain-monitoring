@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package proto;
+
+service BatchExecutionService {
+  rpc createBatchExecution(BatchExecutionCreationRequest) returns (BatchExecutionCreationResponse) {}
+}
+
+message BatchExecutionCreationRequest {
+  google.protobuf.Timestamp startDate = 1;
+  Type type = 2;
+  Origin origin = 3;
+  string environmentRef = 4;
+  string moduleRef = 5;
+
+  enum Type {
+      ON_DEMAND = 0;
+      PLANNED = 1;
+  }
+
+  enum Origin {
+    CLIENT = 0;
+    SERVER = 1;
+    TIER = 2;
+  }
+}
+
+message BatchExecutionCreationResponse {
+  string id = 1;
+}
