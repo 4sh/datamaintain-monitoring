@@ -91,4 +91,4 @@ CREATE TABLE IF NOT EXISTS dm_module_dm_environment_token (
     token_value uuid DEFAULT gen_random_uuid() PRIMARY KEY
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS module_environment_index ON dm_module_dm_environment_token (fk_module_ref, fk_environment_ref)
+CREATE UNIQUE INDEX IF NOT EXISTS module_environment ON dm_module_dm_environment_token (fk_module_ref, fk_environment_ref)
