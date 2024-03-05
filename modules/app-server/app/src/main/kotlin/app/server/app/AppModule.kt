@@ -1,12 +1,12 @@
 package app.server.app
 
-import HelloWorldServer
+import GrpcServer
 import io.ktor.server.application.*
 import rest.configureRouting
 import rest.configureSerialization
 
 const val grpcServerPort = 50051
-val helloWorld = HelloWorldServer(grpcServerPort)
+val grpcServer = GrpcServer(grpcServerPort)
 
 fun Application.module() {
     configureRouting(
