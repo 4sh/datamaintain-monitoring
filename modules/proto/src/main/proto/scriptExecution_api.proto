@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package proto;
+
+service ScriptExecutionService {
+  rpc createScriptExecution(ScriptExecutionCreationRequest) returns (ScriptExecutionCreationResponse);
+}
+
+message ScriptExecutionCreationRequest {
+  string scriptChecksum = 1;
+  google.protobuf.Timestamp startDate = 2;
+  repeated string tags = 3;
+  int32 executionOrderIndex = 4;
+  string batchExecutionId = 5;
+}
+
+message ScriptExecutionCreationResponse {
+  string scriptExecutionId = 1;
+}
