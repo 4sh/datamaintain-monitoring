@@ -2,10 +2,12 @@ import io.grpc.Server
 import io.grpc.ServerBuilder
 
 class GrpcServer(
-    private val port: Int = 8081
+    private val port: Int = 8081,
+    moduleEnvironmentTokenGrpcServiceImpl: ModuleEnvironmentTokenGrpcServiceImpl
 ) {
     private val server: Server = ServerBuilder
         .forPort(port)
+        .addService(moduleEnvironmentTokenGrpcServiceImpl)
         .build()
 
     fun start() {
