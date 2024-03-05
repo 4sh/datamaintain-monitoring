@@ -1,8 +1,6 @@
 package dao.moduleEnvironmentToken
 
-import generated.domain.tables.references.DM_MODULE
 import generated.domain.tables.references.DM_MODULE_DM_ENVIRONMENT_TOKEN
-import module.Module
 import moduleEnvironmentToken.ModuleEnvironmentToken
 import moduleEnvironmentToken.ModuleEnvironmentTokenCreationRequest
 import moduleEnvironmentToken.ModuleEnvironmentTokenDaoInterface
@@ -27,12 +25,7 @@ class ModuleEnvironmentTokenDao(val dslContext: DSLContext) : ModuleEnvironmentT
             ?.into(ModuleEnvironmentToken::class.java)
 
     override fun getTokenByModuleAndEnvironmentRef(moduleRef: UUID, environmentRef: UUID): ModuleEnvironmentToken? =
-        dslContext.select(
-            DM_MODULE_DM_ENVIRONMENT_TOKEN.TOKEN_VALUE,
-            DM_MODULE_DM_ENVIRONMENT_TOKEN.FK_MODULE_REF,
-            DM_MODULE_DM_ENVIRONMENT_TOKEN.FK_ENVIRONMENT_REF,
-        )
-            .from(DM_MODULE_DM_ENVIRONMENT_TOKEN)
+        dslContext.selectFrom(DM_MODULE_DM_ENVIRONMENT_TOKEN)
             .where(
                 DM_MODULE_DM_ENVIRONMENT_TOKEN.FK_MODULE_REF.eq(moduleRef)
                     .and(DM_MODULE_DM_ENVIRONMENT_TOKEN.FK_ENVIRONMENT_REF.eq(environmentRef))
