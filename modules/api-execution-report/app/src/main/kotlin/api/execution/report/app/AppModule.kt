@@ -6,5 +6,5 @@ import io.ktor.server.application.*
 
 fun Application.module() {
     configureSerialization()
-    configureRouting(batchExecutionService)
+    configureRouting(batchExecutionService, scriptExecutionService)
 }
