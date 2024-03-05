@@ -1,10 +1,9 @@
-import execution.batch.BatchExecutionCreationRequest
-import execution.batch.BatchExecutionService
-import execution.batch.Origin
-import execution.batch.Type
+import execution.Status
+import execution.batch.*
 import proto.BatchExecutionApi
 import proto.BatchExecutionServiceGrpcKt
 import proto.batchExecutionCreationResponse
+import proto.batchExecutionStopResponse
 import java.util.*
 
 class BatchExecutionGrpcServiceImpl(private val batchExecutionService: BatchExecutionService) :
@@ -15,7 +14,27 @@ class BatchExecutionGrpcServiceImpl(private val batchExecutionService: BatchExec
         batchExecutionCreationResponse {
             id = batchExecutionService.insert(request.toDomain()).id.toString()
         }
+
+    override suspend fun stopBatchExecution(request: BatchExecutionApi.BatchExecutionStopRequest): BatchExecutionApi.BatchExecutionStopResponse {
+        batchExecutionService.updateBatchExecutionEndData(
+            UUID.fromString(request.batchExecutionId),
+            BatchExecutionEndUpdateRequest(
+                request.endDate.toInstant(),
+                request.endStatus.toDomain()
+            )
+        )
+        return batchExecutionStopResponse { }
+    }
 }
+
+private fun BatchExecutionApi.BatchExecutionStopRequest.BatchExecutionEndStatus.toDomain(): Status =
+    when(this) {
+        BatchExecutionApi.BatchExecutionStopRequest.BatchExecutionEndStatus.ERROR -> Status.ERROR
+        BatchExecutionApi.BatchExecutionStopRequest.BatchExecutionEndStatus.COMPLETED -> Status.COMPLETED
+        BatchExecutionApi.BatchExecutionStopRequest.BatchExecutionEndStatus.UNRECOGNIZED -> throw UnrecognizedBatchExecutionEndStatus()
+    }
+
+class UnrecognizedBatchExecutionEndStatus: IllegalArgumentException("Given batch execution end status was not recognized")
 
 private fun BatchExecutionApi.BatchExecutionCreationRequest.toDomain(): BatchExecutionCreationRequest =
     BatchExecutionCreationRequest(

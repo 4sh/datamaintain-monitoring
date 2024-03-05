@@ -9,4 +9,6 @@ interface BatchExecutionRepository {
         batchExecutionModuleRef: UUID,
         batchExecutionEnvironmentRef: UUID,
     ): UUID
+
+    suspend fun stopBatchExecution(executionId: UUID, batchExecutionEndDate: Instant, endStatusValue: BatchEndStatus)
 }
