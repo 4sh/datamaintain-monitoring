@@ -38,11 +38,13 @@ internal fun Route.executionsV1Routes(batchExecutionService: BatchExecutionServi
         post("/{executionId}/scripts/start") {
             val scriptExecutionStart = call.receive<ScriptExecutionStart>()
             val executionId = UUID.fromString(call.parameters.getOrFail("executionId"))
-            scriptExecutionService.createScriptExecution(
+            val scriptExecutionId = scriptExecutionService.createScriptExecution(
                 scriptExecutionStart = scriptExecutionStart.toDomain(),
                 batchExecutionId = executionId
             )
-            call.respond(HttpStatusCode.OK)
+            call.respond(ScriptExecutionStartResponse(
+                scriptExecutionId
+            ))
         }
         post("/{executionId}/scripts/stop") {
             val scriptExecutionStop = call.receive<ScriptExecutionStop>()
