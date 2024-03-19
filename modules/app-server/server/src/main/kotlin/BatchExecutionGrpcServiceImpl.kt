@@ -51,7 +51,7 @@ private fun BatchExecutionApi.BatchExecutionCreationRequest.Type.toDomain(): Typ
     BatchExecutionApi.BatchExecutionCreationRequest.Type.UNRECOGNIZED -> throw UnrecognizedTypeException
 }
 
-object UnrecognizedTypeException : IllegalArgumentException("")
+object UnrecognizedTypeException : IllegalArgumentException("Given type was not recognized")
 
 private fun BatchExecutionApi.BatchExecutionCreationRequest.Origin.toDomain(): Origin = when (this) {
     BatchExecutionApi.BatchExecutionCreationRequest.Origin.CLIENT -> Origin.CLIENT
@@ -60,4 +60,4 @@ private fun BatchExecutionApi.BatchExecutionCreationRequest.Origin.toDomain(): O
     BatchExecutionApi.BatchExecutionCreationRequest.Origin.UNRECOGNIZED -> throw UnrecognizedOriginException
 }
 
-object UnrecognizedOriginException: IllegalArgumentException("")
+object UnrecognizedOriginException: IllegalArgumentException("Given origin was not recognized")
