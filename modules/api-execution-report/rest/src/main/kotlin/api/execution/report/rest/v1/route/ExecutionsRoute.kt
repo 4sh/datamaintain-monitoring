@@ -9,7 +9,6 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.util.*
-import java.time.Instant
 import java.util.*
 
 internal fun Route.executionsV1Routes(batchExecutionService: BatchExecutionService, scriptExecutionService: ScriptExecutionService) {
