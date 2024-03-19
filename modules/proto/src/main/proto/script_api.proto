@@ -13,4 +13,6 @@ message ScriptCreationRequest {
 
 message ScriptCreationResponse {
   string checksum = 1;
+  bool successful = 2;
+  string failReason = 3;
 }

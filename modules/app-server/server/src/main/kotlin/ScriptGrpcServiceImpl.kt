@@ -1,15 +1,14 @@
 import proto.ScriptApi
 import proto.ScriptServiceGrpcKt
 import proto.scriptCreationResponse
-import script.ScriptCreationRequest
-import script.ScriptService
+import script.*
 import java.math.BigInteger
 import java.security.MessageDigest
 
 class ScriptGrpcServiceImpl(private val scriptService: ScriptService) :
     ScriptServiceGrpcKt.ScriptServiceCoroutineImplBase() {
     override suspend fun createScript(request: ScriptApi.ScriptCreationRequest): ScriptApi.ScriptCreationResponse =
-        scriptCreationResponse { checksum = scriptService.insert(request.toScriptCreationRequest()).checksum }
+        scriptService.insert(request.toScriptCreationRequest()).toScriptCreationResponse()
 }
 
 private fun ScriptApi.ScriptCreationRequest.toScriptCreationRequest(): ScriptCreationRequest {
@@ -19,6 +18,19 @@ private fun ScriptApi.ScriptCreationRequest.toScriptCreationRequest(): ScriptCre
         content = content
     )
 }
+
+private fun ScriptCreationResponse.toScriptCreationResponse() =
+    when(val scriptCreationResponse = this) {
+        is ScriptCreationSucceededResponse -> scriptCreationResponse {
+            checksum = scriptCreationResponse.createdScript.checksum
+            successful = true
+        }
+        is ScriptCreationFailedResponse -> scriptCreationResponse {
+            checksum = scriptCreationResponse.checksum
+            successful = false
+            failReason = scriptCreationResponse.failedReason
+        }
+    }
 
 private fun String.hash(): String {
     val md = MessageDigest.getInstance("MD5")
