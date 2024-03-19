@@ -42,9 +42,7 @@ internal fun Route.executionsV1Routes(batchExecutionService: BatchExecutionServi
                 scriptExecutionStart = scriptExecutionStart.toDomain(),
                 batchExecutionId = executionId
             )
-            call.respond(HttpStatusCode.OK).also {
-                println("Start script execution $scriptExecutionStart for batch $executionId")
-            }
+            call.respond(HttpStatusCode.OK)
         }
         post("/{executionId}/scripts/stop") {
             val scriptExecutionStop = call.receive<ScriptExecutionStop>()
