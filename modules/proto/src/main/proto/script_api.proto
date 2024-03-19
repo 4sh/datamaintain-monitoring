@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+service ScriptService {
+  rpc createScript(ScriptCreationRequest) returns (ScriptCreationResponse);
+}
+
+message ScriptCreationRequest {
+  string name = 1;
+  string content = 2;
+}
+
+message ScriptCreationResponse {
+  string checksum = 1;
+  bool successful = 2;
+  string failReason = 3;
+}

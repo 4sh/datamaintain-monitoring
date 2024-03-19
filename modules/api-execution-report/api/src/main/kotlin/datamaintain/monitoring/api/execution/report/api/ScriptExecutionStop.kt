@@ -1,13 +1,14 @@
 package datamaintain.monitoring.api.execution.report.api
 
 import kotlinx.serialization.Serializable
+import java.time.Instant
 
 @Serializable
 data class ScriptExecutionStop(
-    val checksum: String,
-    val executionDurationInMillis: Long?,
     val executionStatus: ExecutionStatus,
-    val executionOutput: String?
+    val executionOutput: String?,
+    @Serializable(with = InstantSerializer::class)
+    val executionEndDate: Instant
 )
 
 @Serializable

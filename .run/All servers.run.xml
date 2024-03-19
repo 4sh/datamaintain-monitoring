@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All servers" type="CompoundRunConfigurationType">
+    <toRun name="ApiServer" type="JetRunConfigurationType" />
+    <toRun name="AppServer" type="JetRunConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

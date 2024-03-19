@@ -4,8 +4,8 @@ import kotlinx.serialization.Serializable
 import module.ModuleNameUpdateRequest
 
 @Serializable
-data class ModuleNameUpdateRequestDtoV1(val name: String)
-
-fun ModuleNameUpdateRequestDtoV1.toDomain(): ModuleNameUpdateRequest = ModuleNameUpdateRequest(
-    name = this.name
-)
+data class ModuleNameUpdateRequestDtoV1(val name: String) {
+    fun toDomain(): ModuleNameUpdateRequest = ModuleNameUpdateRequest(
+        name = this.name
+    )
+}

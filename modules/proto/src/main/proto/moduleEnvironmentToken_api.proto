@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto;
+
+service ModuleEnvironmentTokenService {
+  rpc findModuleEnvironmentTokenByTokenValue(ModuleEnvironmentTokenSearchByTokenRequest) returns (ModuleEnvironmentTokenSearchByTokenResponse) {}
+}
+
+message ModuleEnvironmentTokenSearchByTokenRequest {
+  string token = 1;
+}
+
+message ModuleEnvironmentTokenSearchByTokenResponse {
+  string environmentRef = 1;
+  string moduleRef = 2;
+}

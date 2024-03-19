@@ -1,7 +1,7 @@
 package execution.batch
 
 enum class Origin {
-    CLIENT,
-    SERVER,
-    TIER
+    CLIENT, // From UI
+    SERVER, // From Datamaintain
+    TIER // From something else than anything Datamaintain related
 }

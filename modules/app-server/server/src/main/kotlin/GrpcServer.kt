@@ -1,10 +1,19 @@
 import io.grpc.Server
 import io.grpc.ServerBuilder
 
-class HelloWorldServer(private val port: Int = 8081) {
+class GrpcServer(
+    private val port: Int = 8081,
+    moduleEnvironmentTokenGrpcServiceImpl: ModuleEnvironmentTokenGrpcServiceImpl,
+    batchExecutionGrpcServiceImpl: BatchExecutionGrpcServiceImpl,
+    scriptGrpcServiceImpl: ScriptGrpcServiceImpl,
+    scriptExecutionGrpcServiceImpl: ScriptExecutionGrpcServiceImpl
+) {
     private val server: Server = ServerBuilder
         .forPort(port)
-        .addService(HelloWorldGrpcServiceImpl())
+        .addService(moduleEnvironmentTokenGrpcServiceImpl)
+        .addService(batchExecutionGrpcServiceImpl)
+        .addService(scriptGrpcServiceImpl)
+        .addService(scriptExecutionGrpcServiceImpl)
         .build()
 
     fun start() {
@@ -13,7 +22,7 @@ class HelloWorldServer(private val port: Int = 8081) {
         Runtime.getRuntime().addShutdownHook(
             Thread {
                 println("*** shutting down gRPC server since JVM is shutting down")
-                this@HelloWorldServer.stop()
+                this@GrpcServer.stop()
                 println("*** server shut down")
             }
         )

@@ -1,8 +1,12 @@
 package datamaintain.monitoring.api.execution.report.api
 
 import kotlinx.serialization.Serializable
+import java.util.*
 
-typealias ExecutionId = Int
+typealias ExecutionId = UUID
 
 @Serializable
-data class ExecutionStartResponse(val executionId: ExecutionId)
+data class ExecutionStartResponse(
+    @Serializable(with = UUIDSerializer::class)
+    val executionId: ExecutionId
+)

@@ -27,13 +27,13 @@ internal fun Route.moduleEnvironmentTokenV1Routes(moduleEnvironmentTokenService:
         }
 
         get("{$tokenValue}") {
-            call.respondNullable(
-                moduleEnvironmentTokenService.getTokenByValue(tokenValue = call.tokenValue())?.toDtoV1()
+            call.respond(
+                moduleEnvironmentTokenService.getTokenByValueSafe(tokenValue = call.tokenValue()).toDtoV1()
             )
         }
 
         post("regenerateToken") {
-            call.respondNullable(
+            call.respond(
                 moduleEnvironmentTokenService.regenerateToken(
                     creationRequest = call.receive<ModuleEnvironmentTokenCreationRequestDtoV1>().toDomain()
                 ).toDtoV1()
