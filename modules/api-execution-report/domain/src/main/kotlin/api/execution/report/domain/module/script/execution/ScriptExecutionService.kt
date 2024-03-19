@@ -20,4 +20,11 @@ class ScriptExecutionService(
             executedScriptChecksum = scriptChecksum
         )
     }
+
+    suspend fun endScriptExecution(scriptExecutionId: UUID, scriptExecutionStopRequest: ScriptExecutionStopRequest) {
+        return scriptExecutionRepository.endScriptExecution(
+            scriptExecutionId,
+            scriptExecutionStopRequest
+        )
+    }
 }

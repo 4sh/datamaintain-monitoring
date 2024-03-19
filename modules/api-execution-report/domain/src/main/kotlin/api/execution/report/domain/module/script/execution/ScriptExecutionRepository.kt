@@ -11,4 +11,6 @@ interface ScriptExecutionRepository {
         scriptBatchExecutionId: UUID,
         executedScriptChecksum: String
     ): UUID
+
+    suspend fun endScriptExecution(scriptExecutionId: UUID, scriptExecutionStopRequest: ScriptExecutionStopRequest)
 }

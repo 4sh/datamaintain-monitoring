@@ -6,6 +6,7 @@ package proto;
 
 service ScriptExecutionService {
   rpc createScriptExecution(ScriptExecutionCreationRequest) returns (ScriptExecutionCreationResponse);
+  rpc stopScriptExecution(ScriptExecutionStopRequest) returns (ScriptExecutionStopResponse);
 }
 
 message ScriptExecutionCreationRequest {
@@ -18,4 +19,20 @@ message ScriptExecutionCreationRequest {
 
 message ScriptExecutionCreationResponse {
   string scriptExecutionId = 1;
+}
+
+message ScriptExecutionStopRequest {
+  google.protobuf.Timestamp endDate = 1;
+  string output = 2;
+  ExecutionStatus status = 3;
+  string executionId = 4;
+
+  enum ExecutionStatus {
+    OK = 0;
+    KO = 1;
+  }
+}
+
+message ScriptExecutionStopResponse {
+
 }
