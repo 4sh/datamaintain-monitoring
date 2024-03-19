@@ -1,6 +1,7 @@
 package api.execution.report.rest.v1.route
 
 import api.execution.report.domain.module.batch.execution.BatchExecutionService
+import api.execution.report.domain.module.script.execution.ExecutionStatus
 import api.execution.report.domain.module.script.execution.ScriptExecutionService
 import datamaintain.monitoring.api.execution.report.api.*
 import io.ktor.http.*
@@ -46,15 +47,30 @@ internal fun Route.executionsV1Routes(batchExecutionService: BatchExecutionServi
                 scriptExecutionId
             ))
         }
-        post("/{executionId}/scripts/stop") {
+        put("/scripts/{scriptExecutionId}/stop") {
             val scriptExecutionStop = call.receive<ScriptExecutionStop>()
-            val executionId = call.parameters.getOrFail("executionId").toInt()
-            call.respond(HttpStatusCode.OK).also {
-                println("Start script execution $scriptExecutionStop for batch $executionId")
-            }
+            val scriptExecutionId = UUID.fromString(call.parameters.getOrFail("scriptExecutionId"))
+            scriptExecutionService.endScriptExecution(
+                scriptExecutionId = scriptExecutionId,
+                scriptExecutionStopRequest = scriptExecutionStop.toDomain()
+            )
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
+
+private fun ScriptExecutionStop.toDomain(): api.execution.report.domain.module.script.execution.ScriptExecutionStopRequest =
+    api.execution.report.domain.module.script.execution.ScriptExecutionStopRequest(
+        executionStatus = executionStatus.toDomain(),
+        executionOutput = executionOutput,
+        executionEndDate = executionEndDate
+    )
+
+private fun datamaintain.monitoring.api.execution.report.api.ExecutionStatus.toDomain(): ExecutionStatus =
+    when (this) {
+        datamaintain.monitoring.api.execution.report.api.ExecutionStatus.OK -> ExecutionStatus.OK
+        datamaintain.monitoring.api.execution.report.api.ExecutionStatus.KO -> ExecutionStatus.KO
+    }
 
 private fun ScriptExecutionStart.toDomain(): api.execution.report.domain.module.script.execution.ScriptExecutionStart =
     api.execution.report.domain.module.script.execution.ScriptExecutionStart(
