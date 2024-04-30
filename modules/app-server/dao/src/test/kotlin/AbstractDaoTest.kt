@@ -1,7 +1,10 @@
 import dao.environment.EnvironmentDao
+import dao.execution.batch.BatchExecutionDao
+import dao.execution.script.ScriptExecutionDao
 import dao.module.ModuleDao
 import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
+import dao.script.ScriptDao
 import environment.EnvironmentCreationRequest
 import module.ModuleCreationRequest
 import org.jooq.DSLContext
@@ -14,9 +17,9 @@ import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import project.ProjectCreationRequest
+import script.ScriptCreationRequest
 import java.sql.Connection
 import java.sql.DriverManager
-import java.util.*
 
 @Testcontainers
 abstract class AbstractDaoTest {
@@ -58,12 +61,20 @@ abstract class AbstractDaoTest {
         environments.forEach { environmentDao.insert(it) }
     }
 
+    fun withScriptsInDb(vararg scripts: ScriptCreationRequest) {
+        val scriptDao = ScriptDao(dslContext)
+        scripts.forEach { scriptDao.insert(it) }
+    }
+
     companion object {
         lateinit var dslContext: DSLContext
         private const val databaseName = "datamaintain"
-        private lateinit var moduleDao: ModuleDao
-        private lateinit var projectDao: ProjectDao
-        private lateinit var environmentDao: EnvironmentDao
+        lateinit var moduleDao: ModuleDao
+        lateinit var projectDao: ProjectDao
+        lateinit var environmentDao: EnvironmentDao
+        lateinit var batchExecutionDao: BatchExecutionDao
+        lateinit var scriptExecutionDao: ScriptExecutionDao
+        lateinit var scriptDao: ScriptDao
 
         @Container
         val postgresContainer: PostgreSQLContainer<*> = PostgreSQLContainer("postgres:15")
@@ -83,6 +94,9 @@ abstract class AbstractDaoTest {
             moduleDao = ModuleDao(dslContext)
             projectDao = ProjectDao(dslContext)
             environmentDao = EnvironmentDao(dslContext)
+            batchExecutionDao = BatchExecutionDao(dslContext)
+            scriptExecutionDao = ScriptExecutionDao(dslContext)
+            scriptDao = ScriptDao(dslContext)
         }
 
         @AfterAll

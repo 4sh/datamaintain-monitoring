@@ -1,7 +1,6 @@
 package dao.environment
 
 import AbstractDaoTest
-import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import environment.Environment
 import generated.domain.tables.references.DM_ENVIRONMENT
@@ -27,7 +26,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertOneProjectInDb() {
-            projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
+            projectId = projectDao.insert(buildProjectCreationRequest()).id
         }
     }
 

@@ -5,7 +5,6 @@ import dao.environment.EnvironmentDao
 import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
 import dao.module.buildModuleCreationRequest
-import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import generated.domain.tables.references.DM_MODULE_DM_ENVIRONMENT_TOKEN
 import moduleEnvironmentToken.ModuleEnvironmentToken
@@ -15,7 +14,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectCatching
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.isEqualTo
+import strikt.assertions.isFailure
+import strikt.assertions.isNotNull
+import strikt.assertions.isNull
 import java.util.*
 
 class ModuleEnvironmentTokenDaoTest : AbstractDaoTest() {
@@ -33,10 +35,9 @@ class ModuleEnvironmentTokenDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertModuleAndEnvironmentInDB() {
-            projectRef = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
-            environmentRef =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectRef)).id
-            moduleRef = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectRef)).id
+            projectRef = projectDao.insert(buildProjectCreationRequest()).id
+            environmentRef = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectRef)).id
+            moduleRef = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectRef)).id
         }
     }
 

@@ -1,11 +1,8 @@
 package dao.execution.batch
 
 import AbstractDaoTest
-import dao.environment.EnvironmentDao
 import dao.environment.buildEnvironmentCreationRequest
-import dao.module.ModuleDao
 import dao.module.buildModuleCreationRequest
-import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import dao.utils.toDto
 import environment.Environment
@@ -21,7 +18,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import project.Project
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
+import strikt.assertions.isNull
+import strikt.assertions.size
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*
@@ -44,14 +44,14 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertModuleAndEnvironmentInDB() {
-            project1 = ProjectDao(dslContext).insert(buildProjectCreationRequest())
-            project2 = ProjectDao(dslContext).insert(buildProjectCreationRequest())
+            project1 = projectDao.insert(buildProjectCreationRequest())
+            project2 = projectDao.insert(buildProjectCreationRequest())
             environment1 =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = project1.id))
+                environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = project1.id))
             environment2 =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = project2.id))
-            module1 = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = project1.id))
-            module2 = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = project2.id))
+                environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = project2.id))
+            module1 = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = project1.id))
+            module2 = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = project2.id))
         }
     }
 

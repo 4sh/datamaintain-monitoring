@@ -38,28 +38,29 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         private const val SCRIPT_CHECKSUM = "myScriptChecksum"
         private lateinit var batchExecutionRef1: UUID
         private lateinit var batchExecutionRef2: UUID
-        private var script1: Script? = null
+        private lateinit var projectId: UUID
+        private lateinit var moduleId: UUID
+        private lateinit var script1: Script
 
         @BeforeAll
         @JvmStatic
         fun insertNeededObjectsInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
-            val environmentId =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
-            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
-            batchExecutionRef1 = BatchExecutionDao(dslContext).insert(
+            projectId = projectDao.insert(buildProjectCreationRequest()).id
+            val environmentId = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
+            moduleId = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
+            batchExecutionRef1 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
                     fkEnvironmentRef = environmentId,
                     fkModuleRef = moduleId
                 )
             ).id
-            batchExecutionRef2 = BatchExecutionDao(dslContext).insert(
+            batchExecutionRef2 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
                     fkEnvironmentRef = environmentId,
                     fkModuleRef = moduleId
                 )
             ).id
-            script1 = ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = SCRIPT_CHECKSUM))
+            script1 = scriptDao.insert(buildScriptCreationRequest(checksum = SCRIPT_CHECKSUM))
         }
     }
 

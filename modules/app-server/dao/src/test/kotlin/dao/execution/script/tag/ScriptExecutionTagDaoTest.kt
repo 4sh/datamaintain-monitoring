@@ -1,18 +1,12 @@
 package dao.execution.script.tag
 
 import AbstractDaoTest
-import dao.execution.batch.BatchExecutionDao
-import dao.execution.batch.buildBatchExecutionCreationRequest
-import dao.environment.EnvironmentDao
 import dao.environment.buildEnvironmentCreationRequest
-import dao.module.ModuleDao
-import dao.module.buildModuleCreationRequest
-import dao.project.ProjectDao
-import dao.project.buildProjectCreationRequest
-import dao.script.ScriptDao
-import dao.script.buildScriptCreationRequest
-import dao.execution.script.ScriptExecutionDao
+import dao.execution.batch.buildBatchExecutionCreationRequest
 import dao.execution.script.buildScriptExecutionCreationRequest
+import dao.module.buildModuleCreationRequest
+import dao.project.buildProjectCreationRequest
+import dao.script.buildScriptCreationRequest
 import dao.tag.TagDao
 import dao.tag.buildTagCreationRequest
 import generated.domain.tables.pojos.DmScriptExecutionDmTag
@@ -41,29 +35,29 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertNeededObjectsInDB() {
-            val projectId = ProjectDao(dslContext).insert(buildProjectCreationRequest()).id
-            val environmentId =
-                EnvironmentDao(dslContext).insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
-            val moduleId = ModuleDao(dslContext).insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
+            val projectId = projectDao.insert(buildProjectCreationRequest()).id
+            val environmentId = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
+            val moduleId = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
             val scriptChecksum = "myChecksum"
-            ScriptDao(dslContext).insert(buildScriptCreationRequest(checksum = scriptChecksum))
+            scriptDao.insert(buildScriptCreationRequest(checksum = scriptChecksum))
 
-            val batchExecutionRef = BatchExecutionDao(dslContext).insert(
+            val batchExecutionRef = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
                     fkEnvironmentRef = environmentId,
                     fkModuleRef = moduleId
                 )
             ).id
 
-            scriptExecutionRef = ScriptExecutionDao(dslContext).insert(
+            scriptExecutionRef = scriptExecutionDao.insert(
                 buildScriptExecutionCreationRequest(
                     scriptRef = scriptChecksum,
                     batchExecutionRef = batchExecutionRef
                 )
             ).id
 
-            tagRef = TagDao(dslContext).insert(buildTagCreationRequest()).name
-            tagRef2 = TagDao(dslContext).insert(buildTagCreationRequest(name = "myName2")).name
+            val tagDao = TagDao(dslContext)
+            tagRef = tagDao.insert(buildTagCreationRequest()).name
+            tagRef2 = tagDao.insert(buildTagCreationRequest(name = "myName2")).name
         }
     }
 

@@ -1,7 +1,6 @@
 package dao.module
 
 import AbstractDaoTest
-import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
 import generated.domain.tables.references.DM_MODULE
 import org.junit.jupiter.api.BeforeAll
@@ -27,8 +26,8 @@ class ModuleDaoTest : AbstractDaoTest() {
         @BeforeAll
         @JvmStatic
         fun insertOneProject() {
-            projectId1 = ProjectDao(dslContext).insert(buildProjectCreationRequest(name = "project1")).id
-            projectId2 = ProjectDao(dslContext).insert(buildProjectCreationRequest(name = "project2")).id
+            projectId1 = projectDao.insert(buildProjectCreationRequest(name = "project1")).id
+            projectId2 = projectDao.insert(buildProjectCreationRequest(name = "project2")).id
         }
     }
 

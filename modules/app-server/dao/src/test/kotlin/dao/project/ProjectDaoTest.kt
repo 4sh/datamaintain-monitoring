@@ -1,24 +1,17 @@
 package dao.project
 
 import AbstractDaoTest
-import EnvironmentCreationRequestWithoutForeignKey
-import dao.environment.buildEnvironmentCreationRequest
-import dao.module.ModuleDao
-import dao.module.buildModuleCreationRequest
 import generated.domain.tables.references.DM_PROJECT
-import module.ModuleCreationRequest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import project.Project
-import project.ProjectCreationRequest
-import project.ProjectHierarchy
 import strikt.api.expectThat
-import strikt.assertions.*
+import strikt.assertions.isEqualTo
+import strikt.assertions.isNotNull
+import strikt.assertions.isNull
 import java.util.*
 
 internal class ProjectDaoTest : AbstractDaoTest() {
-    private val projectDao = ProjectDao(dslContext)
-
     override fun dropTables() {
         dslContext.delete(DM_PROJECT).execute()
     }
