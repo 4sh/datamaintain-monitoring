@@ -7,7 +7,9 @@ import generated.domain.tables.references.DM_ENVIRONMENT
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import strikt.api.expect
 import strikt.api.expectThat
+import strikt.assertions.containsExactlyInAnyOrder
 import strikt.assertions.isEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
@@ -222,4 +224,50 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
         }
     }
 
+    @Nested
+    inner class TestFindAllForProject {
+        @Test
+        fun `should return all environments linked to project`() {
+            // Given
+            val environment1 = environmentDao.insert(buildEnvironmentCreationRequest(
+                name = "findAllEnvironment1",
+                smallName = "findAllSmallNameEnvironment1",
+                fkProjectRef = projectId
+            ))
+            val environment2 = environmentDao.insert(buildEnvironmentCreationRequest(
+                name = "findAllEnvironment2",
+                smallName = "findAllSmallNameEnvironment2",
+                fkProjectRef = projectId
+            ))
+
+            // When
+            val environments = environmentDao.findAllForProject(projectId)
+
+            // Then
+            expectThat(environments).containsExactlyInAnyOrder(environment1, environment2)
+        }
+
+        @Test
+        fun `should only return environments linked to project`() {
+            // Given
+            val anotherProject = projectDao.insert(buildProjectCreationRequest())
+
+            environmentDao.insert(buildEnvironmentCreationRequest(
+                name = "findAllEnvironment1",
+                smallName = "findAllSmallNameEnvironment1",
+                fkProjectRef = anotherProject.id
+            ))
+            val environment2 = environmentDao.insert(buildEnvironmentCreationRequest(
+                name = "findAllEnvironment2",
+                smallName = "findAllSmallNameEnvironment2",
+                fkProjectRef = projectId
+            ))
+
+            // When
+            val environments = environmentDao.findAllForProject(projectId)
+
+            // Then
+            expectThat(environments).containsExactlyInAnyOrder(environment2)
+        }
+    }
 }

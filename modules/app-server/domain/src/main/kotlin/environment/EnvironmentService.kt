@@ -11,4 +11,5 @@ class EnvironmentService(private val environmentDaoInterface: EnvironmentDaoInte
     fun delete(id: UUID) = environmentDaoInterface.delete(id)
 
     fun findOneById(id: UUID): Environment? = environmentDaoInterface.findOneById(id)
+    fun findAllForProject(projectRef: UUID): List<Environment> = environmentDaoInterface.findAllForProject(projectRef)
 }

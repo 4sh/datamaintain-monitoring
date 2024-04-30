@@ -1,6 +1,9 @@
 package dao.environment
 
-import environment.*
+import environment.Environment
+import environment.EnvironmentCreationRequest
+import environment.EnvironmentDaoInterface
+import environment.EnvironmentNameUpdateRequest
 import generated.domain.tables.references.DM_ENVIRONMENT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
@@ -35,4 +38,9 @@ class EnvironmentDao(val dslContext: DSLContext): EnvironmentDaoInterface {
     override fun findOneById(id: UUID): Environment? =
         dslContext.fetchOne(DM_ENVIRONMENT, DM_ENVIRONMENT.ID.eq(id))
             ?.into(Environment::class.java)
+
+    override fun findAllForProject(projectRef: UUID): List<Environment> = dslContext.select()
+        .from(DM_ENVIRONMENT)
+        .where(DM_ENVIRONMENT.FK_PROJECT_REF.eq(projectRef))
+        .fetchInto(Environment::class.java)
 }
