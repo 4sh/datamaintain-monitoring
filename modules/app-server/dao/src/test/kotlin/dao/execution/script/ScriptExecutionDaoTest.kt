@@ -1,26 +1,22 @@
 package dao.execution.script
 
 import AbstractDaoTest
-import dao.execution.batch.BatchExecutionDao
-import dao.execution.batch.buildBatchExecutionCreationRequest
-import dao.environment.EnvironmentDao
 import dao.environment.buildEnvironmentCreationRequest
-import dao.module.ModuleDao
+import dao.execution.batch.buildBatchExecutionCreationRequest
 import dao.module.buildModuleCreationRequest
-import dao.project.ProjectDao
 import dao.project.buildProjectCreationRequest
-import dao.script.ScriptDao
 import dao.script.buildScriptCreationRequest
 import dao.utils.toDto
 import execution.INITIAL_STATUS
 import execution.Status
+import execution.script.ScriptExecutionSearchRequest
+import execution.script.ScriptExecutionWithEnvironment
 import generated.domain.tables.pojos.DmScriptExecution
 import generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import script.Script
-import execution.script.ScriptExecutionSearchRequest
 import strikt.api.expectThat
 import strikt.assertions.*
 import java.time.OffsetDateTime
@@ -39,6 +35,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         private lateinit var batchExecutionRef1: UUID
         private lateinit var batchExecutionRef2: UUID
         private lateinit var projectId: UUID
+        private lateinit var environmentId: UUID
         private lateinit var moduleId: UUID
         private lateinit var script1: Script
 
@@ -46,7 +43,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         @JvmStatic
         fun insertNeededObjectsInDB() {
             projectId = projectDao.insert(buildProjectCreationRequest()).id
-            val environmentId = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
+            environmentId = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId)).id
             moduleId = moduleDao.insert(buildModuleCreationRequest(fkProjectRef = projectId)).id
             batchExecutionRef1 = batchExecutionDao.insert(
                 buildBatchExecutionCreationRequest(
@@ -587,4 +584,114 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
         }
     }
 
+    @Nested
+    inner class TestFindModuleScriptsExecutionsInformation {
+        @Test
+        fun `load all scripts executed at least once on any environment`() {
+            // Given
+            val environment1 = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))
+            val environment2 = environmentDao.insert(buildEnvironmentCreationRequest(fkProjectRef = projectId))
+
+            val script1 = scriptDao.insert(buildScriptCreationRequest())
+            val script2 = scriptDao.insert(buildScriptCreationRequest())
+
+            val batchExecution1 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environment1.id,
+                    fkModuleRef = moduleId
+                )
+            )
+
+            val batchExecution2 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environment2.id,
+                    fkModuleRef = moduleId
+                )
+            )
+            scriptExecutionDao.insert(
+                buildScriptExecutionCreationRequest(
+                    batchExecutionRef = batchExecution1.id,
+                    scriptRef = script1.checksum
+                )
+            )
+            scriptExecutionDao.insert(
+                buildScriptExecutionCreationRequest(
+                    batchExecutionRef = batchExecution2.id,
+                    scriptRef = script2.checksum
+                )
+            )
+
+            // When
+            val moduleScriptsExecutionsInformation = scriptExecutionDao.findModuleScriptsExecutionsInformation(
+                moduleRef = moduleId
+            )
+
+            // Then
+            expectThat(moduleScriptsExecutionsInformation).map { it.script }
+                .containsExactlyInAnyOrder(
+                    script1,
+                    script2
+                )
+        }
+
+        @Test
+        fun `load all executions of one script`() {
+            // Given
+            val script1 = scriptDao.insert(buildScriptCreationRequest())
+
+            val batchExecution1 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environmentId,
+                    fkModuleRef = moduleId
+                )
+            )
+
+            val batchExecution2 = batchExecutionDao.insert(
+                buildBatchExecutionCreationRequest(
+                    fkEnvironmentRef = environmentId,
+                    fkModuleRef = moduleId
+                )
+            )
+
+            val scriptExecution1 = scriptExecutionDao.insert(
+                buildScriptExecutionCreationRequest(
+                    batchExecutionRef = batchExecution1.id,
+                    scriptRef = script1.checksum
+                )
+            )
+            val scriptExecution2 = scriptExecutionDao.insert(
+                buildScriptExecutionCreationRequest(
+                    batchExecutionRef = batchExecution2.id,
+                    scriptRef = script1.checksum
+                )
+            )
+
+            // When
+            val moduleScriptsExecutionsInformation = scriptExecutionDao.findModuleScriptsExecutionsInformation(
+                moduleRef = moduleId
+            )
+
+            // Then
+            expectThat(moduleScriptsExecutionsInformation)[0].get { executions }.containsExactlyInAnyOrder(
+                ScriptExecutionWithEnvironment(
+                    id = scriptExecution1.id,
+                    startDate = scriptExecution1.startDate,
+                    durationInMs = scriptExecution1.durationInMs,
+                    executionOrderIndex = scriptExecution1.executionOrderIndex,
+                    output = scriptExecution1.output,
+                    status = scriptExecution1.status,
+                    fkEnvironmentRef = environmentId
+                ),
+                ScriptExecutionWithEnvironment(
+                    id = scriptExecution2.id,
+                    startDate = scriptExecution2.startDate,
+                    durationInMs = scriptExecution2.durationInMs,
+                    executionOrderIndex = scriptExecution2.executionOrderIndex,
+                    output = scriptExecution2.output,
+                    status = scriptExecution2.status,
+                    fkEnvironmentRef = environmentId
+                )
+            )
+        }
+    }
 }

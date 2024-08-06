@@ -9,11 +9,16 @@
     import {ModuleEnvironmentTokenService} from '$lib/services/ModuleEnvironmentTokenService';
     import type {ModuleEnvironmentToken} from '$lib/domain/ModuleEnvironmentToken';
     import A_button from '$lib/components/atoms/A_button.svelte';
+    import {ExecutionService} from '$lib/services/ExecutionService';
+    import type {ScriptEnvMatrix} from '$lib/domain/script/ScriptEnvMatrix';
+    import type {Project} from '$lib/domain/Project';
+    import type {Env} from '$lib/domain/Env';
+    import type {Module} from '$lib/domain/Module';
 
-    let project
-    let env
-    let modulePromise
-    let scriptEnvMatrix
+    let project: Project
+    let env: Env
+    let modulePromise: Promise<Module>
+    let scriptEnvMatrix: ScriptEnvMatrix
     let moduleEnvironmentTokenPromise: Promise<ModuleEnvironmentToken>
 
     $: if($page.params?.project) {
@@ -41,8 +46,9 @@
         )
     }
 
-    $: if (project) {
-        scriptEnvMatrix = ExecutionMock.scriptEnvMatrixByProject(project.id)
+    $: if (project && moduleRef) {
+        ExecutionService.scriptEnvMatrixByProjectAndModule(project.id, moduleRef)
+            .then(res => scriptEnvMatrix = res);
     }
 
     export function regenerateToken() {

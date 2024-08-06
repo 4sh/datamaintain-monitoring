@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {ScriptExecutionMetadata} from "$lib/domain/ScriptExecutionMetadata";
+    import type {ScriptExecutionMetadata} from "$lib/domain/ScriptExecutionMetadata";
 
     export let metadata: ScriptExecutionMetadata
 </script>

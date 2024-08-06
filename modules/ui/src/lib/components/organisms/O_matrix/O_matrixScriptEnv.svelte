@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {ScriptEnvMatrix} from "$lib/domain/script/ScriptEnvMatrix";
+	import type {ScriptEnvMatrix} from "$lib/domain/script/ScriptEnvMatrix";
     import O_matrixScriptExecutionMetadata
         from "$lib/components/organisms/O_matrix/O_matrixScriptExecutionMetadata.svelte";
 

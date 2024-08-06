@@ -7,6 +7,7 @@
     import M_error from "$lib/components/molecules/M_error.svelte";
     import {t} from "$lib/services/I18nService";
     import O_moduleEdition from "$lib/components/organisms/O_module/O_moduleEdition.svelte";
+    import {ExecutionService} from '$lib/services/ExecutionService';
 
     let project
     let env
@@ -27,11 +28,14 @@
 
     $: if($page.params?.module) {
         modulePromise = ModuleService.byId($page.params.module);
+
     }
 
-    $: if (project) {
-        scriptEnvMatrix = ExecutionMock.scriptEnvMatrixByProject(project.id)
+    $: if ($page.params?.module && project) {
+        ExecutionService.scriptEnvMatrixByProjectAndModule(project.id, $page.params?.module)
+            .then(res => scriptEnvMatrix = res);
     }
+
 </script>
 
 {#await modulePromise}

@@ -16,4 +16,5 @@ interface ScriptExecutionDaoInterface {
     fun findOneById(id: UUID): ScriptExecution?
     fun findOneDetailById(id: UUID): ScriptExecutionDetail?
     fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecutionListItem>
+    fun findModuleScriptsExecutionsInformation(moduleRef: UUID): List<ScriptWithAllExecutions>
 }

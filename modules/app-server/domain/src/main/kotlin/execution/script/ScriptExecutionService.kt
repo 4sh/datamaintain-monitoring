@@ -1,9 +1,11 @@
 package execution.script
 
+import environment.EnvironmentService
 import java.util.*
 
 class ScriptExecutionService(
-    private val scriptExecutionDao: ScriptExecutionDaoInterface
+    private val scriptExecutionDao: ScriptExecutionDaoInterface,
+    private val environmentService: EnvironmentService
 ) {
     fun insert(data: ScriptExecutionCreationRequest): ScriptExecution =
         scriptExecutionDao.insert(data)
@@ -27,4 +29,11 @@ class ScriptExecutionService(
     fun findOneDetailById(id: UUID): ScriptExecutionDetail? = scriptExecutionDao.findOneDetailById(id)
 
     fun find(searchRequest: ScriptExecutionSearchRequest): List<ScriptExecutionListItem> = scriptExecutionDao.find(searchRequest)
+
+    fun findModuleScriptsExecutionsInformation(projectRef: UUID, moduleRef: UUID): ModuleScriptsExecutionsInformation {
+        return ModuleScriptsExecutionsInformation(
+            scriptExecutionDao.findModuleScriptsExecutionsInformation(moduleRef),
+            environmentService.findAllForProject(projectRef)
+        )
+    }
 }

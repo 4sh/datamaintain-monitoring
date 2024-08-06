@@ -41,7 +41,9 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource/fira-mono": "4.5.0",
+		"class-transformer": "^0.5.1",
 		"cookie": "0.4.1",
+		"reflect-metadata": "^0.2.2",
 		"svelte-tooltip-simple": "^1.0.3",
 		"sveltekit-i18n": "2.4.2",
 		"svrollbar": "^0.12.0"

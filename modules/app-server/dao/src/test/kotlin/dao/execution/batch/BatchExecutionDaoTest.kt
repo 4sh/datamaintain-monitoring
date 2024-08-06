@@ -12,6 +12,8 @@ import execution.batch.BatchExecutionEndUpdateRequest
 import execution.batch.BatchExecutionSearchRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
+import generated.domain.tables.references.DM_ENVIRONMENT
+import generated.domain.tables.references.DM_PROJECT
 import module.Module
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested

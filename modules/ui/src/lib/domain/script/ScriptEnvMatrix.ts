@@ -1,8 +1,10 @@
 import type {Env} from "../Env";
-import type {ScriptExecutionMetadata} from "../ScriptExecutionMetadata";
-
+import {ScriptExecutionMetadata} from "../ScriptExecutionMetadata";
+import {Type} from 'class-transformer';
+import 'reflect-metadata';
 
 export class ScriptEnvMatrix {
+    @Type(() => ScriptEnvEntry)
     entries: ScriptEnvEntry[]
     envs: Env[]
 
@@ -20,6 +22,7 @@ export class ScriptEnvMatrix {
 export class ScriptEnvEntry {
     scriptId: string
     scriptName: string
+    @Type(() => EnvExecutedScriptEntry)
     envs: EnvExecutedScriptEntry[]
 
     constructor(scriptId: string, scriptName: string) {
@@ -40,6 +43,7 @@ export class ScriptEnvEntry {
 
 export class EnvExecutedScriptEntry {
     envId: string
+    @Type(() => ScriptExecutionMetadata)
     execution : ScriptExecutionMetadata
 
     constructor(envId: string, envName: string, execution: ScriptExecutionMetadata) {

@@ -49,7 +49,7 @@ val batchExecutionService = BatchExecutionService(batchExecutionDao)
 val batchExecutionGrpcServiceImpl = BatchExecutionGrpcServiceImpl(batchExecutionService = batchExecutionService)
 
 val scriptExecutionDao = ScriptExecutionDao(dslContext)
-val scriptExecutionService = ScriptExecutionService(scriptExecutionDao)
+val scriptExecutionService = ScriptExecutionService(scriptExecutionDao, environmentService)
 val scriptExecutionGrpcServiceImpl = ScriptExecutionGrpcServiceImpl(scriptExecutionService)
 
 val moduleEnvironmentTokenDao = ModuleEnvironmentTokenDao(dslContext)

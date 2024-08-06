@@ -1,5 +1,9 @@
+import {Type} from 'class-transformer';
+import 'reflect-metadata';
+
 export class ScriptExecutionMetadata {
     executionId: string
+    @Type(() => Date)
     executionDate: Date
     duration: number
     scriptId: string | null = null

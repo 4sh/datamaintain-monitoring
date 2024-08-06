@@ -6,9 +6,11 @@ import execution.batch.Type
 import generated.domain.enums.BatchExecutionOrigin
 import generated.domain.enums.BatchExecutionType
 import generated.domain.enums.ExecutionStatus
+import java.sql.ResultSet
 import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneId
+import java.util.*
 
 fun Origin.toDto(): BatchExecutionOrigin =
     when (this) {
@@ -40,4 +42,17 @@ fun Status.toDto(): ExecutionStatus =
  */
 fun Instant.toOffsetDateTime(): OffsetDateTime {
     return OffsetDateTime.ofInstant(this, ZoneId.of("UTC").normalized())
+}
+
+
+fun ResultSet.getOffsetDateTime(key: String): OffsetDateTime? {
+    val date = this.getTimestamp(key) ?: return null
+
+    return date.toInstant().toOffsetDateTime()
+}
+
+fun ResultSet.getUUID(key: String): UUID = UUID.fromString(this.getString(key))
+
+fun ResultSet.getIntOrNull(name: String): Int? {
+    return this.getString(name)?.toInt()
 }

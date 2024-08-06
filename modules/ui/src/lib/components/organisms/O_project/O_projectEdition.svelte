@@ -18,7 +18,7 @@
 </script>
 
 <form on:submit|preventDefault={save}>
-    <M_inputText label="{$t('project.name')}" bind:value={project.name} required="true" placeholder="{$t('project.name')}" id="name"/>
+    <M_inputText label="{$t('project.name')}" [data-cy]="" bind:value={project.name} required="true" placeholder="{$t('project.name')}" id="name"/>
     <M_inputText label="{$t('project.smallName')}" bind:value={project.smallName} required="true" placeholder="{$t('project.smallName')}" id="smallName"/>
 
     <A_button label="{$t('common.actions.save')}" type="submit"/>
