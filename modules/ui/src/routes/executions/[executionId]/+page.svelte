@@ -12,8 +12,9 @@
 
     let executionPromise: Promise<ExecutionDetail>
 
-    let tabItems = ['Script', 'Logs']
-    let activeTabItem = 'Script'
+    type Tab = 'SCRIPT' | 'LOGS';
+    let tabItems: Tab[] = ['SCRIPT', 'LOGS']
+    let activeTabItem: Tab = 'SCRIPT';
 
     const triggerTabChange = (event) => {
         activeTabItem = event.detail;
@@ -22,6 +23,7 @@
     $: if($page.params?.executionId) {
         executionPromise = ExecutionService.detailById($page.params.executionId);
     }
+
 
 
     let codeLog = 'MongoDB shell version v4.2.21\n' +
@@ -517,9 +519,9 @@
             <M_tabs tabItems={tabItems} activeItem={activeTabItem} on:tabChange={triggerTabChange}/>
 
             <div class="executionView-details cell auto grid-y">
-                {#if activeTabItem === 'Script'}
+                {#if activeTabItem === 'SCRIPT'}
                     <O_scriptDetail></O_scriptDetail>
-                {:else if activeTabItem === 'Logs'}
+                {:else if activeTabItem === 'LOGS'}
                     <M_codeBlock codeLog="{codeLog}"></M_codeBlock>
                 {/if}
             </div>
