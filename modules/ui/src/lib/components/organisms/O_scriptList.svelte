@@ -11,7 +11,7 @@
                 <M_scriptItem status="error"></M_scriptItem>
                 <M_scriptItem status="valid"></M_scriptItem>
                 <M_scriptItem status="valid"></M_scriptItem>
-                <M_scriptItem status="progress" active="true"></M_scriptItem>
+                <M_scriptItem status="progress" active="{true}"></M_scriptItem>
                 <M_scriptItem status="waiting"></M_scriptItem>
                 <M_scriptItem status="waiting"></M_scriptItem>
                 <M_scriptItem status="waiting"></M_scriptItem>

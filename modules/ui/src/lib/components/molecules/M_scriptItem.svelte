@@ -3,7 +3,7 @@
     import A_icon from "$lib/components/atoms/A_icon.svelte";
 
     export let status: string;
-    export let active;
+    export let active = false;
 </script>
 
 <div class="scriptItem {active ? '_isActive' : ''} grid-x">
