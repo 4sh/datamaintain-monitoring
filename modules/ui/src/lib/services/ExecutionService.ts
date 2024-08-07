@@ -1,5 +1,5 @@
-import type {Execution, ExecutionForDashboard} from "$lib/domain/execution/Execution";
-import {ExecutionDetail} from "$lib/domain/execution/Execution";
+import type {Execution} from "$lib/domain/execution/Execution";
+import {ExecutionDetail, ExecutionForDashboard} from "$lib/domain/execution/Execution";
 import {ExecutionMock} from "$lib/mocks/ExecutionMock";
 import {ScriptEnvMatrix} from '$lib/domain/script/ScriptEnvMatrix';
 import {Http} from '$lib/services/utils/HttpService';
@@ -14,9 +14,7 @@ export class ExecutionService {
     }
 
     public static async searchMostRecent(): Promise<ExecutionForDashboard[]>  {
-        return new Promise((resolve) => {
-            resolve(ExecutionMock.executionsForDashboard);
-        });
+        return Http.getAsArray<ExecutionForDashboard>(`api/v1/batchExecutions/mostRecent`, ExecutionForDashboard);
     }
 
     public static async detailById(id: string): Promise<ExecutionDetail> {

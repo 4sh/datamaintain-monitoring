@@ -15,4 +15,5 @@ interface BatchExecutionDaoInterface {
     fun delete(id: UUID)
     fun findOneById(id: UUID): BatchExecutionListItem?
     fun find(searchRequest: BatchExecutionSearchRequest): List<BatchExecutionListItem>
+    fun findMostRecentExecutions(): List<BatchExecutionListItem>
 }

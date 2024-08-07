@@ -75,6 +75,13 @@ class BatchExecutionDao(private val dslContext: DSLContext): BatchExecutionDaoIn
             .fetchInto(BatchExecutionListItem::class.java)
     }
 
+    override fun findMostRecentExecutions(): List<BatchExecutionListItem> {
+        return selectBatchExecutionListItemData()
+            .orderBy(DM_BATCH_EXECUTION.START_DATE.desc())
+            .limit(4)
+            .fetchInto(BatchExecutionListItem::class.java)
+    }
+
     private fun selectBatchExecutionListItemData() = dslContext
         .select(
             DM_BATCH_EXECUTION.ID,

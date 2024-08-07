@@ -53,24 +53,23 @@ export class ScriptExecutionDetail {
 export class ExecutionForDashboard extends Execution {
     project: {id: string, name: string, smallName: string}
     module: {id: string, name: string}
-    env: {id: string, name: string, smallName: string}
+    environment: {id: string, name: string, smallName: string}
     nbScriptsKO: number
     nbScriptsOK: number
 
-
-    constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
+    constructor(id: string, startDate: Date, endDate: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
         id: string;
         name: string;
         smallName: string
-    }, module: { id: string; name: string }, env: {
+    }, module: { id: string; name: string }, environment: {
         id: string;
         name: string;
         smallName: string
     }, nbScriptsKO: number, nbScriptsOK: number) {
-        super(id, date, origin, type, status, duration);
+        super(id, startDate, endDate, origin, type, status, duration);
         this.project = project;
         this.module = module;
-        this.env = env;
+        this.environment = environment;
         this.nbScriptsKO = nbScriptsKO;
         this.nbScriptsOK = nbScriptsOK;
     }

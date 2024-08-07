@@ -45,4 +45,6 @@ class BatchExecutionService(
 
     fun find(searchRequest: BatchExecutionSearchRequest): List<BatchExecutionListItem> =
         batchExecutionDao.find(searchRequest)
+
+    fun findMostRecentExecutions(): List<BatchExecutionListItem> = batchExecutionDao.findMostRecentExecutions()
 }

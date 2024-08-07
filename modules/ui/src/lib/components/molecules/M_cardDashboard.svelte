@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="mCard-indicators-item cell shrink">
-                    <div><A_indicator label="{execution.env.smallName}"></A_indicator></div>
+                    <div><A_indicator label="{execution.environment.smallName}"></A_indicator></div>
                 </div>
             </div>
             <div class="mCard-favorite cell shrink grid-x align-middle">
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div class="mCard-content cell auto">
-        <div><span>Début d’execution :</span> {execution.date}</div>
+        <div><span>Début d’execution :</span> {execution.startDate}</div>
         <div><span>Temps d’execution :</span> {execution.duration}</div>
         <div><span>Nombre de scripts :</span> {execution.nbScriptsKO + execution.nbScriptsOK}</div>
         <div><span>KO :</span> {execution.nbScriptsKO}</div>
@@ -73,9 +73,9 @@
     <div class="mCard-progressBar cell shrink">
         <M_progressBar status="{execution.status}" ghostMode="{ghostMode}"></M_progressBar>
     </div>
-    <div class="mCard-link  cell shrink">
-        Accéder au détails
-    </div>
+    <a href="/executions/{execution.id}" class="mCard-link  cell shrink">
+        Accéder au détail
+    </a>
 </div>
 
 <style lang="scss">

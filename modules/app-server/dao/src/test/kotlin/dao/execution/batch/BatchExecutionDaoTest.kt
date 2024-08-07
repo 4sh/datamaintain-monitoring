@@ -10,6 +10,7 @@ import environment.Environment
 import execution.INITIAL_STATUS
 import execution.Status
 import execution.batch.BatchExecutionEndUpdateRequest
+import execution.batch.BatchExecutionListItem
 import execution.batch.BatchExecutionSearchRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
@@ -19,10 +20,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import project.Project
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotNull
-import strikt.assertions.isNull
-import strikt.assertions.size
+import strikt.assertions.*
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*
@@ -589,6 +587,67 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Then
             expectThat(findOneDmBatchExecutionById(insertedId1)).isNull()
             expectThat(findOneDmBatchExecutionById(insertedId2)).isNotNull()
+        }
+    }
+
+    @Nested
+    inner class TestFindMostRecentExecutions {
+        @Test
+        fun `should return the 4 executions with the greatest start dates, ordered by start date`() {
+            // Given
+            val date = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC)
+            batchExecutionDao.insert(buildBatchExecutionCreationRequest(
+                startDate = date.toInstant(),
+                fkModuleRef = module1.id,
+                fkEnvironmentRef = environment1.id
+            ))
+            val mostRecentExecutions = listOf(
+                batchExecutionDao.insert(
+                    buildBatchExecutionCreationRequest(
+                        startDate = date.plusDays(4).toInstant(),
+                        fkModuleRef = module1.id,
+                        fkEnvironmentRef = environment1.id
+                    )
+                ),
+                batchExecutionDao.insert(
+                    buildBatchExecutionCreationRequest(
+                        startDate = date.plusDays(3).toInstant(),
+                        fkModuleRef = module1.id,
+                        fkEnvironmentRef = environment1.id
+                    )
+                ),
+                batchExecutionDao.insert(
+                    buildBatchExecutionCreationRequest(
+                        startDate = date.plusDays(2).toInstant(),
+                        fkModuleRef = module1.id,
+                        fkEnvironmentRef = environment1.id
+                    )
+                ),
+                batchExecutionDao.insert(
+                    buildBatchExecutionCreationRequest(
+                        startDate = date.plusDays(1).toInstant(),
+                        fkModuleRef = module1.id,
+                        fkEnvironmentRef = environment1.id
+                    )
+                )
+            )
+
+            // When
+            val loadedMostRecent = batchExecutionDao.findMostRecentExecutions()
+
+            // Then
+            expectThat(loadedMostRecent).isEqualTo(mostRecentExecutions.map { BatchExecutionListItem(
+                id = it.id,
+                startDate = it.startDate,
+                endDate = it.endDate,
+                durationInMs = it.durationInMs,
+                origin = it.origin,
+                status = it.status,
+                type = it.type,
+                project = project1,
+                module = module1,
+                environment = environment1
+            ) })
         }
     }
 

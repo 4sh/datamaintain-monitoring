@@ -32,5 +32,9 @@ internal fun Route.batchExecutionV1Routes(batchExecutionService: BatchExecutionS
         get("/{$batchExecutionId}/detail") {
             call.respondNullable(call.batchExecutionId()?.let { batchExecutionService.findOneDetailById(it)?.toDtoV1() })
         }
+
+        get ("/mostRecent") {
+            call.respond(batchExecutionService.findMostRecentExecutions().map { it.toDtoV1() })
+        }
     }
 }
