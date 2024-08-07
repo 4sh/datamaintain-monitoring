@@ -5,6 +5,7 @@ import dao.environment.buildEnvironmentCreationRequest
 import dao.module.buildModuleCreationRequest
 import dao.project.buildProjectCreationRequest
 import dao.utils.toDto
+import dao.utils.toOffsetDateTime
 import environment.Environment
 import execution.INITIAL_STATUS
 import execution.Status
@@ -12,8 +13,6 @@ import execution.batch.BatchExecutionEndUpdateRequest
 import execution.batch.BatchExecutionSearchRequest
 import generated.domain.tables.pojos.DmBatchExecution
 import generated.domain.tables.references.DM_BATCH_EXECUTION
-import generated.domain.tables.references.DM_ENVIRONMENT
-import generated.domain.tables.references.DM_PROJECT
 import module.Module
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
@@ -128,14 +127,21 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
         }
 
         @Test
-        fun `should load script execution from db when it exists`() {
+        fun `should load batch execution from db when it exists`() {
             // Given
             val batchExecutionCreationRequest = buildBatchExecutionCreationRequest(
                 fkEnvironmentRef = environment1.id,
-                fkModuleRef = module1.id
+                fkModuleRef = module1.id,
+                startDate = OffsetDateTime.of(2024, 5, 23, 2, 3, 4, 0, ZoneOffset.UTC).toInstant()
             )
 
             val insertedId = batchExecutionDao.insert(batchExecutionCreationRequest).id
+
+            // Update execution end data to store all possible data in batch execution
+            val batchExecutionEndData = buildBatchExecutionEndUpdateRequest(
+                endDate = OffsetDateTime.of(2024, 5, 23, 2, 3, 5, 0, ZoneOffset.UTC).toInstant()
+            )
+            batchExecutionDao.updateBatchExecutionEndData(insertedId, batchExecutionEndData)
 
             // When
             val batchExecution = batchExecutionDao.findOneById(insertedId)
@@ -143,6 +149,15 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             // Then
             expectThat(batchExecution).isNotNull().and {
                 get { id }.isEqualTo(insertedId)
+                get { startDate }.isEqualTo(batchExecutionCreationRequest.startDate?.toOffsetDateTime())
+                get { endDate }.isEqualTo(batchExecutionEndData.endDate.toOffsetDateTime())
+                get { durationInMs }.isEqualTo(1000)
+                get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
+                get { status }.isEqualTo(batchExecutionEndData.status)
+                get { type }.isEqualTo(batchExecutionCreationRequest.type)
+                get { project }.isEqualTo(project1)
+                get { environment }.isEqualTo(environment1)
+                get { module }.isEqualTo(module1)
             }
         }
     }
@@ -395,8 +410,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { status }.isEqualTo(INITIAL_STATUS)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
-                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
-                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+                get { module }.get { id }.isEqualTo(module1.id)
+                get { environment }.isEqualTo(environment1)
             }
         }
 
@@ -430,8 +445,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { status }.isEqualTo(Status.IN_PROGRESS)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
-                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
-                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+                get { module }.get { id }.isEqualTo(module1.id)
+                get { environment }.get { id }.isEqualTo(environment1.id)
             }
         }
     }
@@ -488,8 +503,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { status }.isEqualTo(Status.PENDING)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
-                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
-                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+                get { module }.get { id }.isEqualTo(module1.id)
+                get { environment }.get { id }.isEqualTo(environment1.id)
             }
         }
 
@@ -524,8 +539,8 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)
                 get { status }.isEqualTo(Status.COMPLETED)
                 get { type }.isEqualTo(batchExecutionCreationRequest.type)
-                get { fkModuleRef }.isEqualTo(batchExecutionCreationRequest.fkModuleRef)
-                get { fkEnvironmentRef }.isEqualTo(batchExecutionCreationRequest.fkEnvironmentRef)
+                get { module }.get { id }.isEqualTo(module1.id)
+                get { environment }.get { id }.isEqualTo(environment1.id)
             }
         }
     }

@@ -6,6 +6,7 @@ import java.time.Instant
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 import java.util.*
+import kotlin.random.Random
 
 fun buildBatchExecutionCreationRequest(
     startDate: Instant? = null,
@@ -28,8 +29,15 @@ fun buildBatchExecutionStartUpdateRequest(
 
 fun buildBatchExecutionEndUpdateRequest(
     endDate: Instant = OffsetDateTime.of(2023, 5, 2, 14, 26, 0, 0, ZoneOffset.UTC).toInstant(),
-    status: Status = Status.COMPLETED
+    status: Status = randomCompletionStatus()
 ) = BatchExecutionEndUpdateRequest(
     endDate = endDate,
     status = status
 )
+
+private fun randomCompletionStatus(): Status {
+    return when (Random.nextInt(0, 2)) {
+        0 -> Status.COMPLETED
+        else -> Status.ERROR
+    }
+}

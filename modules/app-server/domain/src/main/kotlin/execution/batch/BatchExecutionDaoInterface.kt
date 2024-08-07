@@ -13,6 +13,6 @@ interface BatchExecutionDaoInterface {
         batchExecutionEndUpdateRequest: BatchExecutionEndUpdateRequest
     ): BatchExecution?
     fun delete(id: UUID)
-    fun findOneById(id: UUID): BatchExecution?
+    fun findOneById(id: UUID): BatchExecutionListItem?
     fun find(searchRequest: BatchExecutionSearchRequest): List<BatchExecutionListItem>
 }
