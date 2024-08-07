@@ -1,24 +1,65 @@
-import type {ExecutionReport} from "./ExecutionReport";
+import {Type} from 'class-transformer';
 
-export interface Execution {
-    id: string,
-    date: Date,
-    origin: ExecutionOrigin,
-    type: ExecutionType,
-    status: ExecutionStatus,
+export class Execution {
+    id: string
+    @Type(() => Date)
+    date: Date
+    origin: ExecutionOrigin
+    type: ExecutionType
+    status: ExecutionStatus
     duration: number
+
+
+    constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number) {
+        this.id = id;
+        this.date = date;
+        this.origin = origin;
+        this.type = type;
+        this.status = status;
+        this.duration = duration;
+    }
 }
 
-export interface ExecutionWithReport extends Execution {
-    report: ExecutionReport
-}
-
-export interface ExecutionForDashboard extends Execution {
-    project: {id: string, name: string, smallName: string},
-    module: {id: string, name: string},
-    env: {id: string, name: string, smallName: string},
-    nbScriptsKO: number,
+export class ExecutionForDashboard extends Execution {
+    project: {id: string, name: string, smallName: string}
+    module: {id: string, name: string}
+    env: {id: string, name: string, smallName: string}
+    nbScriptsKO: number
     nbScriptsOK: number
+
+
+    constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
+        id: string;
+        name: string;
+        smallName: string
+    }, module: { id: string; name: string }, env: {
+        id: string;
+        name: string;
+        smallName: string
+    }, nbScriptsKO: number, nbScriptsOK: number) {
+        super(id, date, origin, type, status, duration);
+        this.project = project;
+        this.module = module;
+        this.env = env;
+        this.nbScriptsKO = nbScriptsKO;
+        this.nbScriptsOK = nbScriptsOK;
+    }
+}
+
+export class ExecutionDetail extends Execution {
+    project: {name: string}
+    module: {name: string}
+    env: {name: string}
+
+
+    constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
+        name: string
+    }, module: { name: string }, env: { name: string }) {
+        super(id, date, origin, type, status, duration);
+        this.project = project;
+        this.module = module;
+        this.env = env;
+    }
 }
 
 export enum ExecutionOrigin {

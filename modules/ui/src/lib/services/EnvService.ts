@@ -1,4 +1,4 @@
-import type {Env} from "$lib/domain/Env";
+import {Env} from "$lib/domain/Env";
 import {Http} from "$lib/services/utils/HttpService";
 
 
@@ -6,8 +6,7 @@ export class EnvService {
     private static baseUrl = '/api/v1/environments';
 
     public static byId = async (id: string): Promise<Env> => {
-        const res = await fetch(`${EnvService.baseUrl}/${id}`);
-        return (await res.json()) as Env;
+        return Http.get<Env>(`${EnvService.baseUrl}/${id}`, Env);
     }
 
 

@@ -1,13 +1,27 @@
-import type {Env} from "./Env";
-import type {Module} from "./Module";
-import type {Project} from "./Project";
+import {Env} from "./Env";
+import {Module} from "./Module";
+import {Project} from "./Project";
+import {Type} from 'class-transformer';
 
-export interface ProjectHierarchy extends Project {
+export class ProjectHierarchy extends Project {
+    @Type(() => EnvHierarchy)
     envs: EnvHierarchy[]
+
+
+    constructor(id: string | null, name: string, smallName: string, envs: EnvHierarchy[]) {
+        super(id, name, smallName);
+        this.envs = envs;
+    }
 }
 
-export interface EnvHierarchy extends Env {
+export class EnvHierarchy extends Env {
+    @Type(() => Module)
     modules: Module[]
+
+    constructor(id: string, name: string, smallName: string, modules: Module[]) {
+        super(id, name, smallName);
+        this.modules = modules;
+    }
 }
 
 type SearchItemType =

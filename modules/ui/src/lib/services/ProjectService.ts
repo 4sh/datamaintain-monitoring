@@ -1,15 +1,15 @@
-import type {ProjectHierarchy} from "$lib/domain/ProjectHierarchy";
-import type {Project} from "$lib/domain/Project";
+import {ProjectHierarchy} from "$lib/domain/ProjectHierarchy";
+import {Project} from "$lib/domain/Project";
 import {Http} from "$lib/services/utils/HttpService";
 
 export class ProjectService {
     private static baseUrl = '/api/v1/projects';
     public static byId = async (id: string): Promise<Project> => {
-        return Http.get<Project>(`${ProjectService.baseUrl}/${id}`)
+        return Http.get<Project>(`${ProjectService.baseUrl}/${id}`, Project)
     }
 
     public static projectHierarchies = async (): Promise<ProjectHierarchy[]> => {
-        return Http.get<ProjectHierarchy[]>(`${ProjectService.baseUrl}/hierarchies`)
+        return Http.getAsArray<ProjectHierarchy>(`${ProjectService.baseUrl}/hierarchies`, ProjectHierarchy)
     }
 
     public static create = async (project: Project) => {
