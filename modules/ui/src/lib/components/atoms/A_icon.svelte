@@ -1,7 +1,7 @@
 <script lang="ts">
     export let type: string;
     export let size: string;
-    export let weight: string;
+    export let weight = '';
 </script>
 
 <span class="material-icons {size} {weight}">{type}</span>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import A_icon from "$lib/components/atoms/A_icon.svelte";
-    export let nameItem;
-    export let isLast;
+    export let nameItem: string;
+    export let isLast = false;
 </script>
 
 <div class="breadcrumbItem grid-x cell shrink align-middle">
