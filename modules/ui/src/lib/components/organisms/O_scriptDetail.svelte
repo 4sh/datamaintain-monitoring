@@ -21,12 +21,12 @@
         <div class="oScript-icon cell shrink grid-x align-middle align-center">
             <A_icon type="autorenew" size="light"></A_icon>
         </div>
-        <div class="oScript-linkScript cell auto grid-x align-right align-middle">
+        <a href="/scripts/{scriptExecution.script.checksum}" class="oScript-linkScript cell auto grid-x align-right align-middle">
             <div class="cell shrink">Accéder au script</div>
             <div class="cell shrink">
                 <A_icon type="chevron_right" size="extraThin"></A_icon>
             </div>
-        </div>
+        </a>
     </div>
     <div class=" oScript-container grid-x align-middle">
         <div class="oScript-title cell shrink">
