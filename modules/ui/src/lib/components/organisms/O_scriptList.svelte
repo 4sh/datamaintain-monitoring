@@ -2,8 +2,15 @@
     import {Svroller} from "svrollbar";
     import M_scriptItem from "$lib/components/molecules/M_scriptItem.svelte";
     import type {ScriptExecutionDetail} from '$lib/domain/execution/Execution';
+    import {createEventDispatcher} from 'svelte';
 
+    const dispatch = createEventDispatcher();
     export let scriptsExecutions: ScriptExecutionDetail[]
+    export let activeScriptExecutionId: string;
+
+    function onScriptItemClick(scriptExecution: ScriptExecutionDetail) {
+        dispatch('scriptExecutionSelection', scriptExecution);
+    }
 </script>
 
 <div class="scriptList cell auto grid-y">
@@ -11,7 +18,10 @@
         <Svroller>
             <div class="scriptList-content-scroller">
                 {#each scriptsExecutions as scriptExecution}
-                    <M_scriptItem scriptExecution="{scriptExecution}"></M_scriptItem>
+                    <M_scriptItem scriptExecution="{scriptExecution}"
+                                  active="{activeScriptExecutionId === scriptExecution.id}"
+                                  on:click={() => onScriptItemClick(scriptExecution)}>
+                    </M_scriptItem>
                 {/each}
             </div>
         </Svroller>

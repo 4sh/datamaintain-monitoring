@@ -8,7 +8,7 @@
     let status = scriptExecution.status
 </script>
 
-<div class="scriptItem {active ? '_isActive' : ''} grid-x">
+<div class="scriptItem {active ? '_isActive' : ''} grid-x" on:click>
     <div class="scriptItem-icon _{status} cell shrink grid-x align-middle align-center">
         <A_icon type="{status === ExecutionStatus.COMPLETED ? 'task_alt' :
                        status === ExecutionStatus.IN_PROGRESS ? 'autorenew' :

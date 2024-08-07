@@ -1,18 +1,22 @@
-<script>
+<script lang="ts">
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import A_tag from "$lib/components/atoms/form/A_tag.svelte";
+    import type {ScriptExecutionDetail} from "$lib/domain/execution/Execution";
+    import {ExecutionStatus} from '$lib/domain/execution/Execution';
+
+    export let scriptExecution: ScriptExecutionDetail
 </script>
 
 <div class="oScript cell auto">
     <div class="oScript-mainTitle">
-        Script Name
+        {scriptExecution.script.name}
     </div>
     <div class=" oScript-container grid-x align-middle">
         <div class="oScript-title cell shrink">
             Statut :
         </div>
         <div class="oScript-data cell shrink">
-            En cours
+            {scriptExecution.status}
         </div>
         <div class="oScript-icon cell shrink grid-x align-middle align-center">
             <A_icon type="autorenew" size="light"></A_icon>
@@ -29,7 +33,7 @@
             Date de début d’exécution :
         </div>
         <div class="oScript-data cell shrink">
-            12/09/2022 à 17h30
+            {scriptExecution.startDate.toLocaleDateString()}
         </div>
     </div>
     <div class=" oScript-container grid-x align-middle">
@@ -37,7 +41,7 @@
             Temps d’exécution :
         </div>
         <div class="oScript-data cell shrink">
-            2 : 27 : 34
+            {scriptExecution.durationInMs} ms
         </div>
     </div>
     <div class=" oScript-container grid-x align-middle">
@@ -45,7 +49,11 @@
             Date de fin d’exécution :
         </div>
         <div class="oScript-data cell shrink">
-            En cours
+            {#if scriptExecution.status === ExecutionStatus.COMPLETED || scriptExecution.status === ExecutionStatus.ERROR}
+                {scriptExecution.endDate.toLocaleDateString()}
+            {:else}
+                En cours
+            {/if}
         </div>
     </div>
     <div class=" oScript-container grid-x align-middle _column">
