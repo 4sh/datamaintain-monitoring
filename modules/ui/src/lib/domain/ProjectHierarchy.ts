@@ -2,6 +2,7 @@ import {Env} from "./Env";
 import {Module} from "./Module";
 import {Project} from "./Project";
 import {Type} from 'class-transformer';
+import 'reflect-metadata';
 
 export class ProjectHierarchy extends Project {
     @Type(() => EnvHierarchy)
