@@ -1,4 +1,5 @@
 import {Type} from 'class-transformer';
+import {Script} from '../script/Script';
 
 export class Execution {
     id: string
@@ -20,6 +21,32 @@ export class Execution {
         this.type = type;
         this.status = status;
         this.duration = duration;
+    }
+}
+
+export class ScriptExecutionDetail {
+    id: string
+    @Type(() => Date)
+    startDate: Date
+    @Type(() => Date)
+    endDate: Date
+    durationInMs: number
+    executionOrderIndex: number
+    output: string
+    status: ExecutionStatus
+
+    @Type(() => Script)
+    script: Script
+
+    constructor(id: string, startDate: Date, endDate: Date, durationInMs: number, executionOrderIndex: number, output: string, status: ExecutionStatus, script: Script) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.durationInMs = durationInMs;
+        this.executionOrderIndex = executionOrderIndex;
+        this.output = output;
+        this.status = status;
+        this.script = script;
     }
 }
 
@@ -54,14 +81,17 @@ export class ExecutionDetail extends Execution {
     module: {name: string}
     environment: {name: string}
 
+    @Type(() => ScriptExecutionDetail)
+    scriptsExecutions: ScriptExecutionDetail[]
 
-    constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
+    constructor(id: string, startDate: Date, endDate: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
         name: string
-    }, module: { name: string }, environment: { name: string }) {
-        super(id, date, origin, type, status, duration);
+    }, module: { name: string }, environment: { name: string }, scriptsExecutions: ScriptExecutionDetail[]) {
+        super(id, startDate, endDate, origin, type, status, duration);
         this.project = project;
         this.module = module;
         this.environment = environment;
+        this.scriptsExecutions = scriptsExecutions;
     }
 }
 

@@ -1,20 +1,18 @@
 <script lang="ts">
     import {Svroller} from "svrollbar";
     import M_scriptItem from "$lib/components/molecules/M_scriptItem.svelte";
+    import type {ScriptExecutionDetail} from '$lib/domain/execution/Execution';
+
+    export let scriptsExecutions: ScriptExecutionDetail[]
 </script>
 
 <div class="scriptList cell auto grid-y">
     <div class="scriptList-content cell auto">
         <Svroller>
             <div class="scriptList-content-scroller">
-                <M_scriptItem status="valid"></M_scriptItem>
-                <M_scriptItem status="error"></M_scriptItem>
-                <M_scriptItem status="valid"></M_scriptItem>
-                <M_scriptItem status="valid"></M_scriptItem>
-                <M_scriptItem status="progress" active="{true}"></M_scriptItem>
-                <M_scriptItem status="waiting"></M_scriptItem>
-                <M_scriptItem status="waiting"></M_scriptItem>
-                <M_scriptItem status="waiting"></M_scriptItem>
+                {#each scriptsExecutions as scriptExecution}
+                    <M_scriptItem scriptExecution="{scriptExecution}"></M_scriptItem>
+                {/each}
             </div>
         </Svroller>
     </div>

@@ -29,8 +29,8 @@ internal fun Route.batchExecutionV1Routes(batchExecutionService: BatchExecutionS
             call.respond(batchExecutionService.find(batchExecutionSearchRequest).map { it.toDtoV1() })
         }
 
-        get("/{$batchExecutionId}") {
-            call.respondNullable(call.batchExecutionId()?.let { batchExecutionService.findOneById(it)?.toDtoV1() })
+        get("/{$batchExecutionId}/detail") {
+            call.respondNullable(call.batchExecutionId()?.let { batchExecutionService.findOneDetailById(it)?.toDtoV1() })
         }
     }
 }

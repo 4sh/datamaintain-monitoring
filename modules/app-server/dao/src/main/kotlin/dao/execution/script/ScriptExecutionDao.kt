@@ -159,6 +159,24 @@ class ScriptExecutionDao(val dslContext: DSLContext): ScriptExecutionDaoInterfac
 
         return scriptsWithAllExecutions
     }
+
+    override fun findDetailByBatchExecutionId(batchExecutionId: UUID): List<ScriptExecutionDetail> {
+        return dslContext.select(
+            DM_SCRIPT_EXECUTION.ID,
+            DM_SCRIPT_EXECUTION.START_DATE,
+            DM_SCRIPT_EXECUTION.END_DATE,
+            DM_SCRIPT_EXECUTION.DURATION_IN_MS,
+            DM_SCRIPT_EXECUTION.EXECUTION_ORDER_INDEX,
+            DM_SCRIPT_EXECUTION.OUTPUT,
+            DM_SCRIPT_EXECUTION.STATUS,
+            DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF,
+            DM_SCRIPT.NAME.`as`("script.name"),
+            DM_SCRIPT.CHECKSUM.`as`("script.checksum"),
+            DM_SCRIPT.CONTENT.`as`("script.content"),
+        ).from(DM_SCRIPT_EXECUTION.join(DM_SCRIPT).on(DM_SCRIPT.CHECKSUM.eq(DM_SCRIPT_EXECUTION.FK_SCRIPT_REF)))
+            .where(DM_SCRIPT_EXECUTION.FK_BATCH_EXECUTION_REF.eq(batchExecutionId))
+            .fetchInto(ScriptExecutionDetail::class.java)
+    }
 }
 
 fun ScriptExecutionSearchRequest.toCondition(): Condition {

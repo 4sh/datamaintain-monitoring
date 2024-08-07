@@ -9,6 +9,7 @@ import dao.script.buildScriptCreationRequest
 import dao.utils.toDto
 import execution.INITIAL_STATUS
 import execution.Status
+import execution.script.ScriptExecutionDetail
 import execution.script.ScriptExecutionSearchRequest
 import execution.script.ScriptExecutionWithEnvironment
 import generated.domain.tables.pojos.DmScriptExecution
@@ -691,6 +692,43 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
                     status = scriptExecution2.status,
                     fkEnvironmentRef = environmentId
                 )
+            )
+        }
+    }
+
+    @Nested
+    inner class TestFindDetailByBatchExecutionId {
+        @Test
+        fun `should return empty list when there are no script executions for given batch execution id`() {
+            // Given inserted script execution not linked to batchExecutionRef1
+            scriptExecutionDao.insert(buildScriptExecutionCreationRequest(scriptRef = SCRIPT_CHECKSUM, batchExecutionRef = batchExecutionRef2))
+
+            // When retrieving scripts execution linked to batchExecutionRef1
+            val scriptsExecutions = scriptExecutionDao.findDetailByBatchExecutionId(
+                batchExecutionId = batchExecutionRef1
+            )
+
+            // Then scripts executions should be empty
+            expectThat(scriptsExecutions).isEmpty()
+        }
+        @Test
+
+        fun `should return batch execution's scripts executions`() {
+            // Given inserted script execution linked to batchExecutionRef1
+            val insertedScriptExecutions = listOf(
+                scriptExecutionDao.insert(buildScriptExecutionCreationRequest(scriptRef = SCRIPT_CHECKSUM, batchExecutionRef = batchExecutionRef1)),
+                scriptExecutionDao.insert(buildScriptExecutionCreationRequest(scriptRef = SCRIPT_CHECKSUM, batchExecutionRef = batchExecutionRef1))
+            )
+
+            // When retrieving scripts execution linked to batchExecutionRef1
+            val scriptsExecutions = scriptExecutionDao.findDetailByBatchExecutionId(
+                batchExecutionId = batchExecutionRef1
+            )
+
+            // Then scripts executions should contain previously inserted script executions with script1
+            expectThat(scriptsExecutions).containsExactlyInAnyOrder(
+                insertedScriptExecutions
+                    .map { ScriptExecutionDetail(it, script1) }
             )
         }
     }

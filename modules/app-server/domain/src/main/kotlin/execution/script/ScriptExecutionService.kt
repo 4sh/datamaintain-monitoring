@@ -36,4 +36,8 @@ class ScriptExecutionService(
             environmentService.findAllForProject(projectRef)
         )
     }
+
+    fun findDetailByBatchExecutionId(batchExecutionId: UUID): List<ScriptExecutionDetail> {
+        return scriptExecutionDao.findDetailByBatchExecutionId(batchExecutionId)
+    }
 }

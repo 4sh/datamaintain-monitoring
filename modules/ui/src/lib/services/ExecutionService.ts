@@ -19,8 +19,8 @@ export class ExecutionService {
         });
     }
 
-    public static async byId(id: string): Promise<ExecutionDetail> {
-        return Http.get<ExecutionDetail>(`/api/v1/batchExecutions/${id}`, ExecutionDetail)
+    public static async detailById(id: string): Promise<ExecutionDetail> {
+        return Http.get<ExecutionDetail>(`/api/v1/batchExecutions/${id}/detail`, ExecutionDetail)
     }
 
     public static async scriptEnvMatrixByProjectAndModule(projectId: string, moduleId: string): Promise<ScriptEnvMatrix> {

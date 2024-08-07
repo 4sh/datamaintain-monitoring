@@ -1,23 +1,25 @@
 <script lang="ts">
 
     import A_icon from "$lib/components/atoms/A_icon.svelte";
+    import {ExecutionStatus, type ScriptExecutionDetail} from '$lib/domain/execution/Execution';
 
-    export let status: string;
+    export let scriptExecution: ScriptExecutionDetail;
     export let active = false;
+    let status = scriptExecution.status
 </script>
 
 <div class="scriptItem {active ? '_isActive' : ''} grid-x">
     <div class="scriptItem-icon _{status} cell shrink grid-x align-middle align-center">
-        <A_icon type="{status === 'valid' ? 'task_alt' :
-                       status === 'progress' ? 'autorenew' :
-                       status === 'waiting' ? 'hourglass_empty' :
-                       status === 'error' ? 'error_outline' : ''}" size="light"></A_icon>
+        <A_icon type="{status === ExecutionStatus.COMPLETED ? 'task_alt' :
+                       status === ExecutionStatus.IN_PROGRESS ? 'autorenew' :
+                       status === ExecutionStatus.PLANNED ? 'hourglass_empty' :
+                       status === ExecutionStatus.ERROR ? 'error_outline' : ''}" size="light"></A_icon>
     </div>
     <div class="scriptItem-content cell auto">
-        <div class="scriptItem-title">Script Name</div>
+        <div class="scriptItem-title">{scriptExecution.script.name}</div>
         <div>
-            <div class="scriptItem-info">Début : 12/09/2022 à 14h23</div>
-            <div class="scriptItem-info">Temps d’exécution : 00:02:23</div>
+            <div class="scriptItem-info">Début : {scriptExecution.startDate.toLocaleDateString()}</div>
+            <div class="scriptItem-info">Temps d’exécution : {scriptExecution.durationInMs} ms</div>
         </div>
     </div>
 </div>
@@ -50,16 +52,16 @@
       border-radius: rem-calc(18px);
       background-color: $app-primary_900;
 
-      &._valid {
+      &._COMPLETED {
         color: $app-success_900;
       }
-      &._progress {
+      &._IN_PROGRESS {
         color: $app-primary_700;
       }
-      &._error {
+      &._ERROR {
         color: $app-error_900;
       }
-      &._waiting {
+      &._PLANNED {
         color: $app-info_900;
       }
     }

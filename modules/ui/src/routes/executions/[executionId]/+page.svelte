@@ -20,7 +20,7 @@
     }
 
     $: if($page.params?.executionId) {
-        executionPromise = ExecutionService.byId($page.params.executionId);
+        executionPromise = ExecutionService.detailById($page.params.executionId);
     }
 
 
@@ -509,7 +509,7 @@
             </div>
 
             <div class="executionView-scripts cell auto grid-y">
-                <O_scriptList></O_scriptList>
+                <O_scriptList scriptsExecutions="{execution.scriptsExecutions}"></O_scriptList>
             </div>
         </div>
 
