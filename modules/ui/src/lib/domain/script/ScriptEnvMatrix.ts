@@ -1,7 +1,6 @@
 import type {Env} from "../Env";
 import {ScriptExecutionMetadata} from "../ScriptExecutionMetadata";
 import {Type} from 'class-transformer';
-import 'reflect-metadata';
 
 export class ScriptEnvMatrix {
     @Type(() => ScriptEnvEntry)
