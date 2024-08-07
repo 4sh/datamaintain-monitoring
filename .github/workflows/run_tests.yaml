@@ -62,8 +62,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run docker with db
-        working-directory: modules/app-server/docker
-        run: docker-compose up -d
+        uses: adrielcodeco/docker-compose-run-action@v1
+        with:
+          compose-file: './modules/app-server/docker/docker-compose'
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
