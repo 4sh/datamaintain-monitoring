@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import A_icon from "$lib/components/atoms/A_icon.svelte";
     import M_breadcrumbItem from "$lib/components/molecules/M_breadcrumbItem.svelte";
     import {Tooltip} from "svelte-tooltip-simple";
@@ -7,11 +7,10 @@
     import M_tabs from "$lib/components/molecules/M_tabs.svelte";
     import O_scriptList from "$lib/components/organisms/O_scriptList.svelte";
     import {page} from "$app/stores";
-    import {ProjectService} from "$lib/services/ProjectService.ts";
-    import {ExecutionMock} from "$lib/mocks/ExecutionMock.ts";
-    import {ExecutionService} from "$lib/services/ExecutionService.ts";
+    import {ExecutionService} from "$lib/services/ExecutionService";
+    import type {ExecutionDetail} from "$lib/domain/execution/Execution";
 
-    let executionPromise
+    let executionPromise: Promise<ExecutionDetail>
 
     let tabItems = ['Script', 'Logs']
     let activeTabItem = 'Script'
@@ -20,8 +19,8 @@
         activeTabItem = event.detail;
     }
 
-    $: if($page.params?.project) {
-        executionPromise = ExecutionService.byId($page.params.execution);
+    $: if($page.params?.executionId) {
+        executionPromise = ExecutionService.byId($page.params.executionId);
     }
 
 
@@ -466,10 +465,10 @@
                     </Tooltip>
                 </div>
                 <div class="executionView-header-breadcrumb cell auto grid-x">
-                    <M_breadcrumbItem nameItem="Portail Fret"></M_breadcrumbItem>
-                    <M_breadcrumbItem nameItem="Production"></M_breadcrumbItem>
-                    <M_breadcrumbItem nameItem="Module"></M_breadcrumbItem>
-                    <M_breadcrumbItem nameItem="Exécution PF12092022-1" isLast="true"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="{execution.project.name}"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="{execution.environment.name}"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="{execution.module.name}"></M_breadcrumbItem>
+                    <M_breadcrumbItem nameItem="{execution.id}" isLast="{true}"></M_breadcrumbItem>
                 </div>
                 <div class="executionView-header-favorite  cell shrink">
                     <Tooltip text="Ajouter aux favoris">
@@ -479,7 +478,7 @@
             </div>
 
             <div class="executionView-title cell shrink">
-                Exécution PF12092022-1
+                Exécution {execution.id}
             </div>
 
             <div class="executionView-content cell shrink">
@@ -488,7 +487,7 @@
                         Lancé le :
                     </div>
                     <div class="executionView-content-data">
-                        12/09/2022 à 13h57
+                        {execution.startDate.toLocaleDateString()}
                     </div>
                 </div>
                 <div class="executionView-content-container">
@@ -496,7 +495,7 @@
                         Module :
                     </div>
                     <div class="executionView-content-data">
-                        Module Machin
+                        {execution.module.name}
                     </div>
                 </div>
                 <div class="executionView-content-container">
@@ -504,7 +503,7 @@
                         Environnement :
                     </div>
                     <div class="executionView-content-data">
-                        Production
+                        {execution.environment.name}
                     </div>
                 </div>
             </div>

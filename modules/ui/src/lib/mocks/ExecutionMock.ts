@@ -19,7 +19,8 @@ export class ExecutionMock {
     public static readonly executions: Execution[] = [
         {
             id: '1',
-            date: new Date(),
+            startDate: new Date(),
+            endDate: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
             status: ExecutionStatus.COMPLETED,
@@ -27,7 +28,8 @@ export class ExecutionMock {
         },
         {
             id: '2',
-            date: new Date(),
+            startDate: new Date(),
+            endDate: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
             status: ExecutionStatus.ERROR,
@@ -35,7 +37,8 @@ export class ExecutionMock {
         },
         {
             id: '3',
-            date: new Date(),
+            startDate: new Date(),
+            endDate: new Date(),
             origin: ExecutionOrigin.SERVER,
             type: ExecutionType.PLANNED,
             status: ExecutionStatus.IN_PROGRESS,

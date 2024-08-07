@@ -3,16 +3,19 @@ import {Type} from 'class-transformer';
 export class Execution {
     id: string
     @Type(() => Date)
-    date: Date
+    startDate: Date
+    @Type(() => Date)
+    endDate: Date
     origin: ExecutionOrigin
     type: ExecutionType
     status: ExecutionStatus
     duration: number
 
 
-    constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number) {
+    constructor(id: string, startDate: Date, endDate: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number) {
         this.id = id;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.origin = origin;
         this.type = type;
         this.status = status;
@@ -49,16 +52,16 @@ export class ExecutionForDashboard extends Execution {
 export class ExecutionDetail extends Execution {
     project: {name: string}
     module: {name: string}
-    env: {name: string}
+    environment: {name: string}
 
 
     constructor(id: string, date: Date, origin: ExecutionOrigin, type: ExecutionType, status: ExecutionStatus, duration: number, project: {
         name: string
-    }, module: { name: string }, env: { name: string }) {
+    }, module: { name: string }, environment: { name: string }) {
         super(id, date, origin, type, status, duration);
         this.project = project;
         this.module = module;
-        this.env = env;
+        this.environment = environment;
     }
 }
 
