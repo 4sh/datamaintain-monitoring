@@ -36,8 +36,9 @@ kotlin {
     }
 }
 
-tasks.withType<Jar>().configureEach {
-    archiveBaseName.set("proto-stub")
+tasks.withType<Jar> {
+    archiveBaseName = "proto-stub"
+    dependsOn(tasks.named("generateTestProto"))
 }
 
 tasks.withType<ProcessResources>().configureEach {
