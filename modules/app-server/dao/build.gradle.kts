@@ -9,26 +9,26 @@ repositories {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
     }
 }
 
 dependencies {
-    implementation("org.jooq:jooq:3.19.11")
+    implementation(libs.jooq)
     implementation(project(":modules:app-server:domain"))
-    implementation("org.postgresql:postgresql:42.5.1")
+    implementation(libs.postgresql)
 
-    jooqCodegen("org.postgresql:postgresql:42.5.1")
-    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+    jooqCodegen(libs.postgresql)
+    implementation(libs.jakarta.validation.api)
 
-    testImplementation("io.strikt:strikt-core:0.34.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.7.0")
+    testImplementation(libs.strikt.core)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
 
-    testImplementation("org.testcontainers:testcontainers:1.18.0")
-    testImplementation("org.testcontainers:junit-jupiter:1.18.0")
-    testImplementation("org.testcontainers:postgresql:1.18.0")
+    testImplementation(libs.testcontainers.testcontainers)
+    testImplementation(libs.testcontainers.junit)
+    testImplementation(libs.testcontainers.postgresql)
 }
 
 jooq {

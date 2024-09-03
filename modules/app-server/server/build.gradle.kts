@@ -4,15 +4,15 @@ plugins {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
     }
 }
 
 dependencies {
     implementation(project(":modules:proto"))
     implementation(project(":modules:app-server:domain"))
-    implementation("io.grpc:grpc-kotlin-stub:1.3.0")
-    implementation("com.google.protobuf:protobuf-kotlin:3.23.0")
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.protobuf.kotlin)
 
-    runtimeOnly("io.grpc:grpc-netty:1.46.0")
+    runtimeOnly(libs.grpc.netty)
 }

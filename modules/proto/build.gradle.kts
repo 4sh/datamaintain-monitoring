@@ -2,7 +2,7 @@ import com.google.protobuf.gradle.id
 
 plugins {
     kotlin("jvm")
-    id("com.google.protobuf") version "0.9.3"
+    alias(libs.plugins.protobuf)
     `java-library`
 }
 
@@ -13,15 +13,15 @@ repositories {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
     }
 }
 
 dependencies {
-    implementation("io.grpc:grpc-protobuf:1.55.1")
-    implementation("com.google.protobuf:protobuf-kotlin:3.23.0")
-    implementation("io.grpc:grpc-kotlin-stub:1.3.0")
-    implementation("io.grpc:grpc-stub:1.55.1") {
+    implementation(libs.grpc.protobuf)
+    implementation(libs.protobuf.kotlin)
+    implementation(libs.grpc.kotlin.stub)
+    implementation(libs.grpc.stub) {
         because("https://github.com/grpc/grpc-java/issues/8523")
     }
 }
@@ -36,31 +36,23 @@ kotlin {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
-    }
-}
-
 tasks.withType<Jar>().configureEach {
     archiveBaseName.set("proto-stub")
+}
+
+tasks.withType<ProcessResources>().configureEach {
     // Needed because proto generates duplicates
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 protobuf {
     protoc {
-        artifact =
-            "com.google.protobuf:protoc:3.23.0"
+        artifact = libs.protobuf.protoc.get().toString()
     }
     plugins {
-        id("grpc") {
-            artifact =
-                "io.grpc:protoc-gen-grpc-java:1.55.1"
-        }
+        id("grpc") { artifact = libs.grpc.protoc.java.get().toString() }
         id("grpckt") {
-            artifact =
-                "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar"
+            artifact = "${libs.grpc.protoc.kotlin.get().toString()}:jdk8@jar"
         }
     }
     generateProtoTasks {
@@ -80,5 +72,3 @@ protobuf {
         }
     }
 }
-
-

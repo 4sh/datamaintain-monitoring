@@ -13,11 +13,11 @@ dependencies {
     implementation(project(":modules:proto"))
     implementation(project(":modules:api-execution-report:domain"))
 
-    implementation("io.ktor:ktor-server-core:2.2.4")
-    implementation("io.ktor:ktor-server-netty:2.2.4")
-    implementation("io.ktor:ktor-server-content-negotiation:2.2.4")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
-    implementation("ch.qos.logback:logback-classic:1.4.7")
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.logback.classic)
 
-    implementation("io.grpc:grpc-protobuf:1.55.1")
+    implementation(libs.grpc.protobuf)
 }

@@ -14,17 +14,17 @@ repositories {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
     }
 }
 
 dependencies {
     implementation(project(":modules:app-server:domain" ))
-    implementation("io.ktor:ktor-server-core:2.2.4")
-    implementation("io.ktor:ktor-server-netty:2.2.4")
-    implementation("io.ktor:ktor-server-content-negotiation:2.2.4")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
-    implementation("ch.qos.logback:logback-classic:1.4.7")
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.logback.classic)
 
-    testImplementation("io.ktor:ktor-server-test-host:2.2.4")
+    testImplementation(libs.ktor.server.test.host)
 }

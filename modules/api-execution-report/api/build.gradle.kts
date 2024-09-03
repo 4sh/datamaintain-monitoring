@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
+    implementation(libs.ktor.serialization.kotlinx.json)
 }
 
 publishing {

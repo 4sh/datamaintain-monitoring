@@ -1,8 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    kotlin("jvm") version "2.0.0"
-    id("com.palantir.git-version") version "0.12.3"
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.palantir.git)
     application
 }
 
@@ -15,10 +13,6 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = Versions.java
 }
 
 allprojects {

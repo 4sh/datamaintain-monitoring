@@ -1,5 +1,9 @@
 rootProject.name = "datamaintain-monitoring"
 
+pluginManagement {
+    includeBuild("gradle/conventions")
+}
+
 include(
     "modules:api-execution-report:api",
     "modules:api-execution-report:domain",
