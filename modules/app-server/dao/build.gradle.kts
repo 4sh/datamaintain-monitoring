@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("nu.studer.jooq") version "8.1"
+    id("org.jooq.jooq-codegen-gradle") version "3.19.11"
 }
 
 repositories {
@@ -18,7 +18,7 @@ dependencies {
     implementation(project(":modules:app-server:domain"))
     implementation("org.postgresql:postgresql:42.5.1")
 
-    jooqGenerator("org.postgresql:postgresql:42.5.1")
+    jooqCodegen("org.postgresql:postgresql:42.5.1")
     implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 
     testImplementation("io.strikt:strikt-core:0.34.1")
@@ -32,51 +32,43 @@ dependencies {
 }
 
 jooq {
-    configurations {
-        create("main") {  // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation.set(false)
+    configuration {
+        jdbc {
+            driver = "org.postgresql.Driver"
+            url = "jdbc:postgresql://localhost:5432/datamaintain"
+            user = "datamaintain"
+            password = "datamaintain"
+        }
+        generator {
+            name = "org.jooq.codegen.KotlinGenerator"
+            database {
+                name = "org.jooq.meta.postgres.PostgresDatabase"
+                inputSchema = "public"
+            }
+            generate {
+                isDeprecated = false
+                isRecords = true
+                isImmutablePojos = true
+                isFluentSetters = true
+                isImplicitJoinPathsAsKotlinProperties = true
+                isKotlinSetterJvmNameAnnotationsOnIsPrefix = true
+                isPojosAsKotlinDataClasses = true
+                isValidationAnnotations = true
+            }
+            target {
+                packageName = "generated.domain"
+                directory = "${project.rootDir}/modules/app-server/dao/src/jooq"
 
-            jooqConfiguration.apply {
-                logging = org.jooq.meta.jaxb.Logging.WARN
-                jdbc.apply {
-                    driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql://localhost:5432/datamaintain"
-                    user = "datamaintain"
-                    password = "datamaintain"
-                }
-                generator.apply {
-                    name = "org.jooq.codegen.KotlinGenerator"
-                    database.apply {
-                        name = "org.jooq.meta.postgres.PostgresDatabase"
-                        inputSchema = "public"
-                    }
-                    generate.apply {
-                        isDeprecated = false
-                        isRecords = true
-                        isImmutablePojos = true
-                        isFluentSetters = true
-                        isImplicitJoinPathsAsKotlinProperties = true
-                        isKotlinSetterJvmNameAnnotationsOnIsPrefix = true
-                        isPojosAsKotlinDataClasses = true
-                        isValidationAnnotations = true
-                    }
-                    target.apply {
-                        packageName = "generated.domain"
-                        directory = "${project.rootDir}/modules/app-server/dao/src/jooq"
-                    }
-                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
-                }
+            }
+            strategy {
+                name = "org.jooq.codegen.DefaultGeneratorStrategy"
             }
         }
     }
 }
 
-buildscript {
-    configurations["classpath"].resolutionStrategy.eachDependency {
-        if (requested.group == "org.jooq") {
-            useVersion("3.19.11")
-        }
-    }
+tasks.named("compileKotlin") {
+    dependsOn(tasks.named("jooqCodegen"))
 }
 
 tasks.named("clean") {
