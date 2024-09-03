@@ -1,6 +1,6 @@
 package dao.script
 
-import generated.domain.tables.references.DM_SCRIPT
+import dao.jooq.generated.domain.tables.references.DM_SCRIPT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import script.Script

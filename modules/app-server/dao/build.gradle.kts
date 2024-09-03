@@ -56,8 +56,8 @@ jooq {
                 isValidationAnnotations = true
             }
             target {
-                packageName = "generated.domain"
-                directory = "${project.rootDir}/modules/app-server/dao/src/jooq"
+                packageName = "dao.jooq.generated.domain"
+                directory = "${project.rootDir}/modules/app-server/dao/src/main/kotlin"
 
             }
             strategy {

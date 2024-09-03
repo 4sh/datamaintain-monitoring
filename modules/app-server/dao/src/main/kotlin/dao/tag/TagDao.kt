@@ -1,6 +1,6 @@
 package dao.tag
 
-import generated.domain.tables.references.DM_TAG
+import dao.jooq.generated.domain.tables.references.DM_TAG
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.`val`
 import tag.Tag

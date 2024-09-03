@@ -3,9 +3,9 @@ package dao.utils
 import execution.Status
 import execution.batch.Origin
 import execution.batch.Type
-import generated.domain.enums.BatchExecutionOrigin
-import generated.domain.enums.BatchExecutionType
-import generated.domain.enums.ExecutionStatus
+import dao.jooq.generated.domain.enums.BatchExecutionOrigin
+import dao.jooq.generated.domain.enums.BatchExecutionType
+import dao.jooq.generated.domain.enums.ExecutionStatus
 import java.sql.ResultSet
 import java.time.Instant
 import java.time.OffsetDateTime

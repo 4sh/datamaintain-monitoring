@@ -3,7 +3,7 @@ package dao.environment
 import AbstractDaoTest
 import dao.project.buildProjectCreationRequest
 import environment.Environment
-import generated.domain.tables.references.DM_ENVIRONMENT
+import dao.jooq.generated.domain.tables.references.DM_ENVIRONMENT
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

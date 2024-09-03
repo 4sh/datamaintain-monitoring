@@ -1,6 +1,6 @@
 package dao.moduleEnvironmentToken
 
-import generated.domain.tables.references.DM_MODULE_DM_ENVIRONMENT_TOKEN
+import dao.jooq.generated.domain.tables.references.DM_MODULE_DM_ENVIRONMENT_TOKEN
 import moduleEnvironmentToken.ModuleEnvironmentToken
 import moduleEnvironmentToken.ModuleEnvironmentTokenCreationRequest
 import moduleEnvironmentToken.ModuleEnvironmentTokenDaoInterface

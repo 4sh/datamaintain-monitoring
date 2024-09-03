@@ -12,8 +12,8 @@ import execution.Status
 import execution.script.ScriptExecutionDetail
 import execution.script.ScriptExecutionSearchRequest
 import execution.script.ScriptExecutionWithEnvironment
-import generated.domain.tables.pojos.DmScriptExecution
-import generated.domain.tables.references.DM_SCRIPT_EXECUTION
+import dao.jooq.generated.domain.tables.pojos.DmScriptExecution
+import dao.jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

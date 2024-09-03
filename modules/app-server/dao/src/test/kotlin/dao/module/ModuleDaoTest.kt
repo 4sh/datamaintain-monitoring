@@ -2,7 +2,7 @@ package dao.module
 
 import AbstractDaoTest
 import dao.project.buildProjectCreationRequest
-import generated.domain.tables.references.DM_MODULE
+import dao.jooq.generated.domain.tables.references.DM_MODULE
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

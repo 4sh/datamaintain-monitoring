@@ -2,9 +2,9 @@ package dao.project
 
 import environment.Environment
 import environment.EnvironmentHierarchy
-import generated.domain.tables.references.DM_ENVIRONMENT
-import generated.domain.tables.references.DM_MODULE
-import generated.domain.tables.references.DM_PROJECT
+import dao.jooq.generated.domain.tables.references.DM_ENVIRONMENT
+import dao.jooq.generated.domain.tables.references.DM_MODULE
+import dao.jooq.generated.domain.tables.references.DM_PROJECT
 import org.jooq.DSLContext
 import project.ProjectHierarchy
 import project.ProjectHierarchyDaoInterface

@@ -12,8 +12,8 @@ import execution.Status
 import execution.batch.BatchExecutionEndUpdateRequest
 import execution.batch.BatchExecutionListItem
 import execution.batch.BatchExecutionSearchRequest
-import generated.domain.tables.pojos.DmBatchExecution
-import generated.domain.tables.references.DM_BATCH_EXECUTION
+import dao.jooq.generated.domain.tables.pojos.DmBatchExecution
+import dao.jooq.generated.domain.tables.references.DM_BATCH_EXECUTION
 import module.Module
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested

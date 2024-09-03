@@ -4,7 +4,7 @@ import environment.Environment
 import environment.EnvironmentCreationRequest
 import environment.EnvironmentDaoInterface
 import environment.EnvironmentNameUpdateRequest
-import generated.domain.tables.references.DM_ENVIRONMENT
+import dao.jooq.generated.domain.tables.references.DM_ENVIRONMENT
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue
 import org.jooq.impl.DSL.`val`

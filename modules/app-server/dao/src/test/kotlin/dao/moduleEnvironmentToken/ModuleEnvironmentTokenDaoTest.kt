@@ -6,7 +6,7 @@ import dao.environment.buildEnvironmentCreationRequest
 import dao.module.ModuleDao
 import dao.module.buildModuleCreationRequest
 import dao.project.buildProjectCreationRequest
-import generated.domain.tables.references.DM_MODULE_DM_ENVIRONMENT_TOKEN
+import dao.jooq.generated.domain.tables.references.DM_MODULE_DM_ENVIRONMENT_TOKEN
 import moduleEnvironmentToken.ModuleEnvironmentToken
 import moduleEnvironmentToken.ModuleEnvironmentTokenCreationRequest
 import org.junit.jupiter.api.BeforeAll

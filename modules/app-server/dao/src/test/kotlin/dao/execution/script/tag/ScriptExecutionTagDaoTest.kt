@@ -9,8 +9,8 @@ import dao.project.buildProjectCreationRequest
 import dao.script.buildScriptCreationRequest
 import dao.tag.TagDao
 import dao.tag.buildTagCreationRequest
-import generated.domain.tables.pojos.DmScriptExecutionDmTag
-import generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
+import dao.jooq.generated.domain.tables.pojos.DmScriptExecutionDmTag
+import dao.jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION_DM_TAG
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test

@@ -4,10 +4,10 @@ import dao.utils.*
 import execution.INITIAL_STATUS
 import execution.Status
 import execution.script.*
-import generated.domain.enums.ExecutionStatus
-import generated.domain.tables.references.DM_BATCH_EXECUTION
-import generated.domain.tables.references.DM_SCRIPT
-import generated.domain.tables.references.DM_SCRIPT_EXECUTION
+import dao.jooq.generated.domain.enums.ExecutionStatus
+import dao.jooq.generated.domain.tables.references.DM_BATCH_EXECUTION
+import dao.jooq.generated.domain.tables.references.DM_SCRIPT
+import dao.jooq.generated.domain.tables.references.DM_SCRIPT_EXECUTION
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.impl.DSL

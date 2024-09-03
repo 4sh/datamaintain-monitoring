@@ -1,7 +1,7 @@
 package dao.project
 
 import AbstractDaoTest
-import generated.domain.tables.references.DM_PROJECT
+import dao.jooq.generated.domain.tables.references.DM_PROJECT
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import project.Project

@@ -1,6 +1,6 @@
 package dao.module
 
-import generated.domain.tables.references.DM_MODULE
+import dao.jooq.generated.domain.tables.references.DM_MODULE
 import module.*
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.defaultValue

@@ -4,11 +4,11 @@ import dao.utils.toDto
 import dao.utils.toOffsetDateTime
 import execution.INITIAL_STATUS
 import execution.batch.*
-import generated.domain.enums.ExecutionStatus
-import generated.domain.tables.references.DM_BATCH_EXECUTION
-import generated.domain.tables.references.DM_ENVIRONMENT
-import generated.domain.tables.references.DM_MODULE
-import generated.domain.tables.references.DM_PROJECT
+import dao.jooq.generated.domain.enums.ExecutionStatus
+import dao.jooq.generated.domain.tables.references.DM_BATCH_EXECUTION
+import dao.jooq.generated.domain.tables.references.DM_ENVIRONMENT
+import dao.jooq.generated.domain.tables.references.DM_MODULE
+import dao.jooq.generated.domain.tables.references.DM_PROJECT
 import org.jooq.Condition
 import org.jooq.DSLContext
 import org.jooq.impl.DSL

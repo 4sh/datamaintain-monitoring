@@ -1,7 +1,7 @@
 package dao.tag
 
 import AbstractDaoTest
-import generated.domain.tables.references.DM_TAG
+import dao.jooq.generated.domain.tables.references.DM_TAG
 import isDuplicatedKeyException
 import org.jooq.exception.IntegrityConstraintViolationException
 import org.junit.jupiter.api.Nested

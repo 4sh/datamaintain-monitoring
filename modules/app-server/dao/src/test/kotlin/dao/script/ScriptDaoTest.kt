@@ -1,8 +1,8 @@
 package dao.script
 
 import AbstractDaoTest
-import generated.domain.tables.pojos.DmScript
-import generated.domain.tables.references.DM_SCRIPT
+import dao.jooq.generated.domain.tables.pojos.DmScript
+import dao.jooq.generated.domain.tables.references.DM_SCRIPT
 import isDuplicatedKeyException
 import org.jooq.exception.IntegrityConstraintViolationException
 import org.junit.jupiter.api.Nested
