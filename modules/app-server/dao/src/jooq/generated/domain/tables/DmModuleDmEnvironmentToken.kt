@@ -9,22 +9,29 @@ import generated.domain.indexes.MODULE_ENVIRONMENT
 import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN_PKEY
 import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY
 import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY
+import generated.domain.tables.DmEnvironment.DmEnvironmentPath
+import generated.domain.tables.DmModule.DmModulePath
 import generated.domain.tables.records.DmModuleDmEnvironmentTokenRecord
 
 import java.util.UUID
-import java.util.function.Function
 
+import kotlin.collections.Collection
 import kotlin.collections.List
 
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Index
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row3
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -41,19 +48,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmModuleDmEnvironmentToken(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?,
+    parentPath: InverseForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?,
     aliased: Table<DmModuleDmEnvironmentTokenRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmModuleDmEnvironmentTokenRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -67,7 +78,7 @@ open class DmModuleDmEnvironmentToken(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmModuleDmEnvironmentTokenRecord> = DmModuleDmEnvironmentTokenRecord::class.java
+    override fun getRecordType(): Class<DmModuleDmEnvironmentTokenRecord> = DmModuleDmEnvironmentTokenRecord::class.java
 
     /**
      * The column
@@ -87,8 +98,9 @@ open class DmModuleDmEnvironmentToken(
      */
     val TOKEN_VALUE: TableField<DmModuleDmEnvironmentTokenRecord, UUID?> = createField(DSL.name("token_value"), SQLDataType.UUID.nullable(false).defaultValue(DSL.field(DSL.raw("gen_random_uuid()"), SQLDataType.UUID)), this, "")
 
-    private constructor(alias: Name, aliased: Table<DmModuleDmEnvironmentTokenRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmModuleDmEnvironmentTokenRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmModuleDmEnvironmentTokenRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmModuleDmEnvironmentTokenRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmModuleDmEnvironmentTokenRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_module_dm_environment_token</code>
@@ -108,73 +120,119 @@ open class DmModuleDmEnvironmentToken(
      */
     constructor(): this(DSL.name("dm_module_dm_environment_token"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>): this(Internal.createPathAlias(child, key), child, key, DM_MODULE_DM_ENVIRONMENT_TOKEN, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getIndexes(): List<Index> = listOf(MODULE_ENVIRONMENT)
-    public override fun getPrimaryKey(): UniqueKey<DmModuleDmEnvironmentTokenRecord> = DM_MODULE_DM_ENVIRONMENT_TOKEN_PKEY
-    public override fun getReferences(): List<ForeignKey<DmModuleDmEnvironmentTokenRecord, *>> = listOf(DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY)
-
-    private lateinit var _dmModule: DmModule
-    private lateinit var _dmEnvironment: DmEnvironment
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?, parentPath: InverseForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_MODULE_DM_ENVIRONMENT_TOKEN, null, null)
 
     /**
-     * Get the implicit join path to the <code>public.dm_module</code> table.
+     * A subtype implementing {@link Path} for simplified path-based joins.
      */
-    fun dmModule(): DmModule {
-        if (!this::_dmModule.isInitialized)
-            _dmModule = DmModule(this, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY)
-
-        return _dmModule;
+    open class DmModuleDmEnvironmentTokenPath : DmModuleDmEnvironmentToken, Path<DmModuleDmEnvironmentTokenRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?, parentPath: InverseForeignKey<out Record, DmModuleDmEnvironmentTokenRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmModuleDmEnvironmentTokenRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmModuleDmEnvironmentTokenPath = DmModuleDmEnvironmentTokenPath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmModuleDmEnvironmentTokenPath = DmModuleDmEnvironmentTokenPath(alias, this)
+        override fun `as`(alias: Table<*>): DmModuleDmEnvironmentTokenPath = DmModuleDmEnvironmentTokenPath(alias.qualifiedName, this)
     }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getIndexes(): List<Index> = listOf(MODULE_ENVIRONMENT)
+    override fun getPrimaryKey(): UniqueKey<DmModuleDmEnvironmentTokenRecord> = DM_MODULE_DM_ENVIRONMENT_TOKEN_PKEY
+    override fun getReferences(): List<ForeignKey<DmModuleDmEnvironmentTokenRecord, *>> = listOf(DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY)
 
-    val dmModule: DmModule
-        get(): DmModule = dmModule()
+    private lateinit var _dmEnvironment: DmEnvironmentPath
 
     /**
      * Get the implicit join path to the <code>public.dm_environment</code>
      * table.
      */
-    fun dmEnvironment(): DmEnvironment {
+    fun dmEnvironment(): DmEnvironmentPath {
         if (!this::_dmEnvironment.isInitialized)
-            _dmEnvironment = DmEnvironment(this, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY)
+            _dmEnvironment = DmEnvironmentPath(this, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY, null)
 
         return _dmEnvironment;
     }
 
-    val dmEnvironment: DmEnvironment
-        get(): DmEnvironment = dmEnvironment()
-    public override fun `as`(alias: String): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(alias, this)
-    public override fun `as`(alias: Table<*>): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(alias.getQualifiedName(), this)
+    val dmEnvironment: DmEnvironmentPath
+        get(): DmEnvironmentPath = dmEnvironment()
+
+    private lateinit var _dmModule: DmModulePath
+
+    /**
+     * Get the implicit join path to the <code>public.dm_module</code> table.
+     */
+    fun dmModule(): DmModulePath {
+        if (!this::_dmModule.isInitialized)
+            _dmModule = DmModulePath(this, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_MODULE_REF_FKEY, null)
+
+        return _dmModule;
+    }
+
+    val dmModule: DmModulePath
+        get(): DmModulePath = dmModule()
+    override fun `as`(alias: String): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(alias, this)
+    override fun `as`(alias: Table<*>): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(DSL.name(name), null)
+    override fun rename(name: String): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(name, null)
+    override fun rename(name: Name): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row3 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row3<UUID?, UUID?, UUID?> = super.fieldsRow() as Row3<UUID?, UUID?, UUID?>
+    override fun rename(name: Table<*>): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (UUID?, UUID?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmModuleDmEnvironmentToken = DmModuleDmEnvironmentToken(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, UUID?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmModuleDmEnvironmentToken = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmModuleDmEnvironmentToken = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmModuleDmEnvironmentToken = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmModuleDmEnvironmentToken = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmModuleDmEnvironmentToken = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmModuleDmEnvironmentToken = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmModuleDmEnvironmentToken = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmModuleDmEnvironmentToken = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmModuleDmEnvironmentToken = where(DSL.notExists(select))
 }

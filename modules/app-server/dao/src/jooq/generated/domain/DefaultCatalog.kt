@@ -29,15 +29,15 @@ open class DefaultCatalog : CatalogImpl("") {
      */
     val PUBLIC: Public get(): Public = Public.PUBLIC
 
-    public override fun getSchemas(): List<Schema> = listOf(
+    override fun getSchemas(): List<Schema> = listOf(
         Public.PUBLIC
     )
 
     /**
-     * A reference to the 3.18 minor release of the code generator. If this
+     * A reference to the 3.19 minor release of the code generator. If this
      * doesn't compile, it's because the runtime library uses an older minor
-     * release, namely: 3.18. You can turn off the generation of this reference
+     * release, namely: 3.19. You can turn off the generation of this reference
      * by specifying /configuration/generator/generate/jooqVersionReference
      */
-    private val REQUIRE_RUNTIME_JOOQ_VERSION = Constants.VERSION_3_18
+    private val REQUIRE_RUNTIME_JOOQ_VERSION = Constants.VERSION_3_19
 }

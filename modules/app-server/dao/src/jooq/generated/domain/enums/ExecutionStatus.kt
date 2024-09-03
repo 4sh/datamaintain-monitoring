@@ -20,8 +20,8 @@ enum class ExecutionStatus(@get:JvmName("literal") public val literal: String) :
     IN_PROGRESS("IN_PROGRESS"),
     COMPLETED("COMPLETED"),
     ERROR("ERROR");
-    public override fun getCatalog(): Catalog? = schema.catalog
-    public override fun getSchema(): Schema = Public.PUBLIC
-    public override fun getName(): String = "execution_status"
-    public override fun getLiteral(): String = literal
+    override fun getCatalog(): Catalog? = schema.catalog
+    override fun getSchema(): Schema = Public.PUBLIC
+    override fun getName(): String = "execution_status"
+    override fun getLiteral(): String = literal
 }

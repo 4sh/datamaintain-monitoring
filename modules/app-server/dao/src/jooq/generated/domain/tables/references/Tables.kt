@@ -5,6 +5,7 @@ package generated.domain.tables.references
 
 
 import generated.domain.tables.DmBatchExecution
+import generated.domain.tables.DmBatchExecutionCounter
 import generated.domain.tables.DmBatchExecutionDmFlag
 import generated.domain.tables.DmEnvironment
 import generated.domain.tables.DmFlag
@@ -22,6 +23,11 @@ import generated.domain.tables.DmTag
  * The table <code>public.dm_batch_execution</code>.
  */
 val DM_BATCH_EXECUTION: DmBatchExecution = DmBatchExecution.DM_BATCH_EXECUTION
+
+/**
+ * The table <code>public.dm_batch_execution_counter</code>.
+ */
+val DM_BATCH_EXECUTION_COUNTER: DmBatchExecutionCounter = DmBatchExecutionCounter.DM_BATCH_EXECUTION_COUNTER
 
 /**
  * The table <code>public.dm_batch_execution_dm_flag</code>.

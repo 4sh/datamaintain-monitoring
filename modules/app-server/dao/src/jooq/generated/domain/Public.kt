@@ -5,6 +5,7 @@ package generated.domain
 
 
 import generated.domain.tables.DmBatchExecution
+import generated.domain.tables.DmBatchExecutionCounter
 import generated.domain.tables.DmBatchExecutionDmFlag
 import generated.domain.tables.DmEnvironment
 import generated.domain.tables.DmFlag
@@ -40,6 +41,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      * The table <code>public.dm_batch_execution</code>.
      */
     val DM_BATCH_EXECUTION: DmBatchExecution get() = DmBatchExecution.DM_BATCH_EXECUTION
+
+    /**
+     * The table <code>public.dm_batch_execution_counter</code>.
+     */
+    val DM_BATCH_EXECUTION_COUNTER: DmBatchExecutionCounter get() = DmBatchExecutionCounter.DM_BATCH_EXECUTION_COUNTER
 
     /**
      * The table <code>public.dm_batch_execution_dm_flag</code>.
@@ -91,10 +97,11 @@ open class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      */
     val DM_TAG: DmTag get() = DmTag.DM_TAG
 
-    public override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
+    override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
-    public override fun getTables(): List<Table<*>> = listOf(
+    override fun getTables(): List<Table<*>> = listOf(
         DmBatchExecution.DM_BATCH_EXECUTION,
+        DmBatchExecutionCounter.DM_BATCH_EXECUTION_COUNTER,
         DmBatchExecutionDmFlag.DM_BATCH_EXECUTION_DM_FLAG,
         DmEnvironment.DM_ENVIRONMENT,
         DmFlag.DM_FLAG,

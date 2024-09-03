@@ -4,6 +4,7 @@
 package generated.domain.indexes
 
 
+import generated.domain.tables.DmBatchExecutionCounter
 import generated.domain.tables.DmModuleDmEnvironmentToken
 
 import org.jooq.Index
@@ -16,4 +17,5 @@ import org.jooq.impl.Internal
 // INDEX definitions
 // -------------------------------------------------------------------------
 
+val DATE_PROJECT_REF: Index = Internal.createIndex(DSL.name("date_project_ref"), DmBatchExecutionCounter.DM_BATCH_EXECUTION_COUNTER, arrayOf(DmBatchExecutionCounter.DM_BATCH_EXECUTION_COUNTER.DATE, DmBatchExecutionCounter.DM_BATCH_EXECUTION_COUNTER.FK_PROJECT_REF), true)
 val MODULE_ENVIRONMENT: Index = Internal.createIndex(DSL.name("module_environment"), DmModuleDmEnvironmentToken.DM_MODULE_DM_ENVIRONMENT_TOKEN, arrayOf(DmModuleDmEnvironmentToken.DM_MODULE_DM_ENVIRONMENT_TOKEN.FK_MODULE_REF, DmModuleDmEnvironmentToken.DM_MODULE_DM_ENVIRONMENT_TOKEN.FK_ENVIRONMENT_REF), true)

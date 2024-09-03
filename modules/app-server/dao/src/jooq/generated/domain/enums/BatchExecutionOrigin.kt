@@ -19,8 +19,8 @@ enum class BatchExecutionOrigin(@get:JvmName("literal") public val literal: Stri
     CLIENT("CLIENT"),
     SERVER("SERVER"),
     TIER("TIER");
-    public override fun getCatalog(): Catalog? = schema.catalog
-    public override fun getSchema(): Schema = Public.PUBLIC
-    public override fun getName(): String = "batch_execution_origin"
-    public override fun getLiteral(): String = literal
+    override fun getCatalog(): Catalog? = schema.catalog
+    override fun getSchema(): Schema = Public.PUBLIC
+    override fun getName(): String = "batch_execution_origin"
+    override fun getLiteral(): String = literal
 }

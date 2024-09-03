@@ -5,23 +5,33 @@ package generated.domain.tables
 
 
 import generated.domain.Public
+import generated.domain.keys.DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_ENVIRONMENT_REF_FKEY
 import generated.domain.keys.DM_ENVIRONMENT_PKEY
 import generated.domain.keys.DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY
+import generated.domain.keys.DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY
+import generated.domain.tables.DmBatchExecution.DmBatchExecutionPath
+import generated.domain.tables.DmModuleDmEnvironmentToken.DmModuleDmEnvironmentTokenPath
+import generated.domain.tables.DmProject.DmProjectPath
 import generated.domain.tables.records.DmEnvironmentRecord
 
 import java.util.UUID
-import java.util.function.Function
 
+import kotlin.collections.Collection
 import kotlin.collections.List
 
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row4
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -38,19 +48,23 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DmEnvironment(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DmEnvironmentRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DmEnvironmentRecord>?,
+    parentPath: InverseForeignKey<out Record, DmEnvironmentRecord>?,
     aliased: Table<DmEnvironmentRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ): TableImpl<DmEnvironmentRecord>(
     alias,
     Public.PUBLIC,
-    child,
     path,
+    childPath,
+    parentPath,
     aliased,
     parameters,
     DSL.comment(""),
-    TableOptions.table()
+    TableOptions.table(),
+    where,
 ) {
     companion object {
 
@@ -63,7 +77,7 @@ open class DmEnvironment(
     /**
      * The class holding records for this type
      */
-    public override fun getRecordType(): Class<DmEnvironmentRecord> = DmEnvironmentRecord::class.java
+    override fun getRecordType(): Class<DmEnvironmentRecord> = DmEnvironmentRecord::class.java
 
     /**
      * The column <code>public.dm_environment.id</code>.
@@ -85,8 +99,9 @@ open class DmEnvironment(
      */
     val FK_PROJECT_REF: TableField<DmEnvironmentRecord, UUID?> = createField(DSL.name("fk_project_ref"), SQLDataType.UUID, this, "")
 
-    private constructor(alias: Name, aliased: Table<DmEnvironmentRecord>?): this(alias, null, null, aliased, null)
-    private constructor(alias: Name, aliased: Table<DmEnvironmentRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
+    private constructor(alias: Name, aliased: Table<DmEnvironmentRecord>?): this(alias, null, null, null, aliased, null, null)
+    private constructor(alias: Name, aliased: Table<DmEnvironmentRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
+    private constructor(alias: Name, aliased: Table<DmEnvironmentRecord>?, where: Condition?): this(alias, null, null, null, aliased, null, where)
 
     /**
      * Create an aliased <code>public.dm_environment</code> table reference
@@ -103,57 +118,134 @@ open class DmEnvironment(
      */
     constructor(): this(DSL.name("dm_environment"), null)
 
-    constructor(child: Table<out Record>, key: ForeignKey<out Record, DmEnvironmentRecord>): this(Internal.createPathAlias(child, key), child, key, DM_ENVIRONMENT, null)
-    public override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
-    public override fun getPrimaryKey(): UniqueKey<DmEnvironmentRecord> = DM_ENVIRONMENT_PKEY
-    public override fun getReferences(): List<ForeignKey<DmEnvironmentRecord, *>> = listOf(DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY)
+    constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmEnvironmentRecord>?, parentPath: InverseForeignKey<out Record, DmEnvironmentRecord>?): this(Internal.createPathAlias(path, childPath, parentPath), path, childPath, parentPath, DM_ENVIRONMENT, null, null)
 
-    private lateinit var _dmProject: DmProject
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    open class DmEnvironmentPath : DmEnvironment, Path<DmEnvironmentRecord> {
+        constructor(path: Table<out Record>, childPath: ForeignKey<out Record, DmEnvironmentRecord>?, parentPath: InverseForeignKey<out Record, DmEnvironmentRecord>?): super(path, childPath, parentPath)
+        private constructor(alias: Name, aliased: Table<DmEnvironmentRecord>): super(alias, aliased)
+        override fun `as`(alias: String): DmEnvironmentPath = DmEnvironmentPath(DSL.name(alias), this)
+        override fun `as`(alias: Name): DmEnvironmentPath = DmEnvironmentPath(alias, this)
+        override fun `as`(alias: Table<*>): DmEnvironmentPath = DmEnvironmentPath(alias.qualifiedName, this)
+    }
+    override fun getSchema(): Schema? = if (aliased()) null else Public.PUBLIC
+    override fun getPrimaryKey(): UniqueKey<DmEnvironmentRecord> = DM_ENVIRONMENT_PKEY
+    override fun getReferences(): List<ForeignKey<DmEnvironmentRecord, *>> = listOf(DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY)
+
+    private lateinit var _dmProject: DmProjectPath
 
     /**
      * Get the implicit join path to the <code>public.dm_project</code> table.
      */
-    fun dmProject(): DmProject {
+    fun dmProject(): DmProjectPath {
         if (!this::_dmProject.isInitialized)
-            _dmProject = DmProject(this, DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY)
+            _dmProject = DmProjectPath(this, DM_ENVIRONMENT__DM_ENVIRONMENT_FK_PROJECT_REF_FKEY, null)
 
         return _dmProject;
     }
 
-    val dmProject: DmProject
-        get(): DmProject = dmProject()
-    public override fun `as`(alias: String): DmEnvironment = DmEnvironment(DSL.name(alias), this)
-    public override fun `as`(alias: Name): DmEnvironment = DmEnvironment(alias, this)
-    public override fun `as`(alias: Table<*>): DmEnvironment = DmEnvironment(alias.getQualifiedName(), this)
+    val dmProject: DmProjectPath
+        get(): DmProjectPath = dmProject()
+
+    private lateinit var _dmBatchExecution: DmBatchExecutionPath
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.dm_batch_execution</code> table
+     */
+    fun dmBatchExecution(): DmBatchExecutionPath {
+        if (!this::_dmBatchExecution.isInitialized)
+            _dmBatchExecution = DmBatchExecutionPath(this, null, DM_BATCH_EXECUTION__DM_BATCH_EXECUTION_FK_ENVIRONMENT_REF_FKEY.inverseKey)
+
+        return _dmBatchExecution;
+    }
+
+    val dmBatchExecution: DmBatchExecutionPath
+        get(): DmBatchExecutionPath = dmBatchExecution()
+
+    private lateinit var _dmModuleDmEnvironmentToken: DmModuleDmEnvironmentTokenPath
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>public.dm_module_dm_environment_token</code> table
+     */
+    fun dmModuleDmEnvironmentToken(): DmModuleDmEnvironmentTokenPath {
+        if (!this::_dmModuleDmEnvironmentToken.isInitialized)
+            _dmModuleDmEnvironmentToken = DmModuleDmEnvironmentTokenPath(this, null, DM_MODULE_DM_ENVIRONMENT_TOKEN__DM_MODULE_DM_ENVIRONMENT_TOKEN_FK_ENVIRONMENT_REF_FKEY.inverseKey)
+
+        return _dmModuleDmEnvironmentToken;
+    }
+
+    val dmModuleDmEnvironmentToken: DmModuleDmEnvironmentTokenPath
+        get(): DmModuleDmEnvironmentTokenPath = dmModuleDmEnvironmentToken()
+    override fun `as`(alias: String): DmEnvironment = DmEnvironment(DSL.name(alias), this)
+    override fun `as`(alias: Name): DmEnvironment = DmEnvironment(alias, this)
+    override fun `as`(alias: Table<*>): DmEnvironment = DmEnvironment(alias.qualifiedName, this)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: String): DmEnvironment = DmEnvironment(DSL.name(name), null)
+    override fun rename(name: String): DmEnvironment = DmEnvironment(DSL.name(name), null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Name): DmEnvironment = DmEnvironment(name, null)
+    override fun rename(name: Name): DmEnvironment = DmEnvironment(name, null)
 
     /**
      * Rename this table
      */
-    public override fun rename(name: Table<*>): DmEnvironment = DmEnvironment(name.getQualifiedName(), null)
-
-    // -------------------------------------------------------------------------
-    // Row4 type methods
-    // -------------------------------------------------------------------------
-    public override fun fieldsRow(): Row4<UUID?, String?, String?, UUID?> = super.fieldsRow() as Row4<UUID?, String?, String?, UUID?>
+    override fun rename(name: Table<*>): DmEnvironment = DmEnvironment(name.qualifiedName, null)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(from: (UUID?, String?, String?, UUID?) -> U): SelectField<U> = convertFrom(Records.mapping(from))
+    override fun where(condition: Condition?): DmEnvironment = DmEnvironment(qualifiedName, if (aliased()) this else null, condition)
 
     /**
-     * Convenience mapping calling {@link SelectField#convertFrom(Class,
-     * Function)}.
+     * Create an inline derived table from this table
      */
-    fun <U> mapping(toType: Class<U>, from: (UUID?, String?, String?, UUID?) -> U): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    override fun where(conditions: Collection<Condition>): DmEnvironment = where(DSL.and(conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(vararg conditions: Condition?): DmEnvironment = where(DSL.and(*conditions))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun where(condition: Field<Boolean?>?): DmEnvironment = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(condition: SQL): DmEnvironment = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String): DmEnvironment = where(DSL.condition(condition))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DmEnvironment = where(DSL.condition(condition, *binds))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    @PlainSQL override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): DmEnvironment = where(DSL.condition(condition, *parts))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereExists(select: Select<*>): DmEnvironment = where(DSL.exists(select))
+
+    /**
+     * Create an inline derived table from this table
+     */
+    override fun whereNotExists(select: Select<*>): DmEnvironment = where(DSL.notExists(select))
 }

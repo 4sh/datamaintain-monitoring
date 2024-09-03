@@ -20,7 +20,7 @@ data class DmFlag(
     val name: String? = null
 ): Serializable {
 
-    public override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean {
         if (this === other)
             return true
         if (other == null)
@@ -37,14 +37,14 @@ data class DmFlag(
         return true
     }
 
-    public override fun hashCode(): Int {
+    override fun hashCode(): Int {
         val prime = 31
         var result = 1
         result = prime * result + (if (this.name == null) 0 else this.name.hashCode())
         return result
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         val sb = StringBuilder("DmFlag (")
 
         sb.append(name)

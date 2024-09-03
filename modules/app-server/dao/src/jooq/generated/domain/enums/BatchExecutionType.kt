@@ -18,8 +18,8 @@ import org.jooq.Schema
 enum class BatchExecutionType(@get:JvmName("literal") public val literal: String) : EnumType {
     ON_DEMAND("ON_DEMAND"),
     PLANNED("PLANNED");
-    public override fun getCatalog(): Catalog? = schema.catalog
-    public override fun getSchema(): Schema = Public.PUBLIC
-    public override fun getName(): String = "batch_execution_type"
-    public override fun getLiteral(): String = literal
+    override fun getCatalog(): Catalog? = schema.catalog
+    override fun getSchema(): Schema = Public.PUBLIC
+    override fun getName(): String = "batch_execution_type"
+    override fun getLiteral(): String = literal
 }

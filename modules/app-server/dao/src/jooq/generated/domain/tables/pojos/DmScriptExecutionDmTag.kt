@@ -23,7 +23,7 @@ data class DmScriptExecutionDmTag(
     val fkTagRef: String? = null
 ): Serializable {
 
-    public override fun equals(other: Any?): Boolean {
+    override fun equals(other: Any?): Boolean {
         if (this === other)
             return true
         if (other == null)
@@ -46,7 +46,7 @@ data class DmScriptExecutionDmTag(
         return true
     }
 
-    public override fun hashCode(): Int {
+    override fun hashCode(): Int {
         val prime = 31
         var result = 1
         result = prime * result + (if (this.fkScriptExecutionRef == null) 0 else this.fkScriptExecutionRef.hashCode())
@@ -54,7 +54,7 @@ data class DmScriptExecutionDmTag(
         return result
     }
 
-    public override fun toString(): String {
+    override fun toString(): String {
         val sb = StringBuilder("DmScriptExecutionDmTag (")
 
         sb.append(fkScriptExecutionRef)
