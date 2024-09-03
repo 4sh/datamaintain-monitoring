@@ -67,10 +67,6 @@ jooq {
     }
 }
 
-tasks.named("compileKotlin") {
-    dependsOn(tasks.named("jooqCodegen"))
-}
-
 tasks.named("clean") {
     doLast {
         file("src/jooq").deleteRecursively()
