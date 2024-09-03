@@ -18,7 +18,7 @@ logging = "1.8.0.1"
 
 # Plugins
 gradle-protobuf = "0.9.3"
-gradle-palantir-git = "0.12.3"
+gradle-palantir-git = "3.1.0"
 
 [plugins]
 protobuf = { id = "com.google.protobuf", version.ref = "gradle-protobuf"}
