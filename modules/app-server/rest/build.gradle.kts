@@ -12,6 +12,12 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 dependencies {
     implementation(project(":modules:app-server:domain" ))
     implementation("io.ktor:ktor-server-core:2.2.4")

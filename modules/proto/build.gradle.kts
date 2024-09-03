@@ -11,6 +11,12 @@ repositories {
     google()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 dependencies {
     implementation("io.grpc:grpc-protobuf:1.55.1")
     implementation("com.google.protobuf:protobuf-kotlin:3.23.0")

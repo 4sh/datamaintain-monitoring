@@ -7,6 +7,12 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 dependencies {
     implementation("org.jooq:jooq:3.18.2")
     implementation(project(":modules:app-server:domain"))
@@ -26,9 +32,6 @@ dependencies {
 }
 
 jooq {
-    version.set("3.18.2")  // default (can be omitted)
-    edition.set(nu.studer.gradle.jooq.JooqEdition.OSS)  // default (can be omitted)
-
     configurations {
         create("main") {  // name of the jOOQ configuration
             generateSchemaSourceOnCompilation.set(false)
@@ -71,15 +74,9 @@ jooq {
 buildscript {
     configurations["classpath"].resolutionStrategy.eachDependency {
         if (requested.group == "org.jooq") {
-            useVersion("3.18.2")
+            useVersion("3.19.11")
         }
     }
-}
-
-tasks.named<nu.studer.gradle.jooq.JooqGenerate>("generateJooq") {
-    (launcher::set)(javaToolchains.launcherFor {
-        languageVersion.set(JavaLanguageVersion.of(Versions.java.toInt()))
-    })
 }
 
 tasks.named("clean") {
