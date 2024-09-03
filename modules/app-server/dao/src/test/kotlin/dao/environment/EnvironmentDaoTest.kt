@@ -9,11 +9,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expect
 import strikt.api.expectThat
-import strikt.assertions.containsExactlyInAnyOrder
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotNull
-import strikt.assertions.isNull
+import strikt.assertions.*
 import java.util.*
+import kotlin.text.get
 
 internal class EnvironmentDaoTest: AbstractDaoTest() {
     val environmentDao = EnvironmentDao(dslContext)
@@ -45,7 +43,7 @@ internal class EnvironmentDaoTest: AbstractDaoTest() {
             // Then
             expectThat(
                 insertedEnvironment
-            ).isNotNull().and {
+            ).and {
                 get { name }.isEqualTo(environmentCreationRequest.name)
                 get { smallName }.isEqualTo(environmentCreationRequest.smallName)
                 get { fkProjectRef }.isEqualTo(environmentCreationRequest.fkProjectRef)

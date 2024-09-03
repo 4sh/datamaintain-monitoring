@@ -69,7 +69,7 @@ internal class BatchExecutionDaoTest : AbstractDaoTest() {
             val insertedBatchExecution = batchExecutionDao.insert(batchExecutionCreationRequest)
 
             // Then
-            expectThat(insertedBatchExecution).isNotNull().and {
+            expectThat(insertedBatchExecution).and {
                 get { startDate?.toInstant() }.isEqualTo(batchExecutionCreationRequest.startDate)
                 get { endDate }.isNull()
                 get { origin }.isEqualTo(batchExecutionCreationRequest.origin)

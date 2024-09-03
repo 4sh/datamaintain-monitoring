@@ -8,12 +8,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.api.expectThrows
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotNull
-import strikt.assertions.isNull
-import strikt.assertions.isTrue
+import strikt.assertions.*
 import tag.Tag
 import java.util.*
+import kotlin.text.get
 
 internal class TagDaoTest : AbstractDaoTest() {
     private val tagDao = TagDao(dslContext)
@@ -33,7 +31,7 @@ internal class TagDaoTest : AbstractDaoTest() {
             val insertedTag = tagDao.insert(tagCreationRequest)
 
             // Then
-            expectThat(insertedTag).isNotNull().and {
+            expectThat(insertedTag).and {
                 get { name }.isEqualTo(tagCreationRequest.name)
             }
         }

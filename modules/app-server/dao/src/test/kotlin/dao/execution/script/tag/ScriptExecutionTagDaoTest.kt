@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.*
@@ -76,7 +77,7 @@ class ScriptExecutionTagDaoTest : AbstractDaoTest() {
             val insertedScriptExecutionTag = scriptExecutionTagDao.insert(scriptExecutionTagCreationRequest)
 
             // Then
-            expectThat(insertedScriptExecutionTag).isNotNull().and {
+            expectThat(insertedScriptExecutionTag).and {
                 get { fkScriptExecutionRef }.isEqualTo(scriptExecutionRef)
                 get { fkTagRef }.isEqualTo(tagRef)
             }

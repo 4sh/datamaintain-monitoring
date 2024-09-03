@@ -9,11 +9,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.api.expectThrows
-import strikt.assertions.isEqualTo
-import strikt.assertions.isNotNull
-import strikt.assertions.isNull
-import strikt.assertions.isTrue
+import strikt.assertions.*
 import java.util.*
+import kotlin.text.get
 
 class ScriptDaoTest : AbstractDaoTest() {
     private val scriptDao = ScriptDao(dslContext)
@@ -33,7 +31,7 @@ class ScriptDaoTest : AbstractDaoTest() {
             val insertedScript = scriptDao.insert(scriptCreationRequest)
 
             // Then
-            expectThat(insertedScript).isNotNull().and {
+            expectThat(insertedScript).and {
                 get { name }.isEqualTo(scriptCreationRequest.name)
                 get { checksum }.isEqualTo(scriptCreationRequest.checksum)
                 get { content }.isEqualTo(scriptCreationRequest.content)

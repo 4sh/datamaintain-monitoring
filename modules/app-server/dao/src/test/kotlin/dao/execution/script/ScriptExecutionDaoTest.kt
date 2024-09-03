@@ -78,7 +78,7 @@ internal class ScriptExecutionDaoTest : AbstractDaoTest() {
             val insertedScriptExecution = scriptExecutionDao.insert(dmScriptExecution)
 
             // Then
-            expectThat(insertedScriptExecution).isNotNull().and {
+            expectThat(insertedScriptExecution).and {
                 get { startDate?.toInstant() }.isEqualTo(dmScriptExecution.startDate)
                 get { endDate }.isNull()
                 get { durationInMs }.isNull()

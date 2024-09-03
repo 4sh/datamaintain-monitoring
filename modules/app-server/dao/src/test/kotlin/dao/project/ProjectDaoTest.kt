@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 import project.Project
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.*
@@ -27,7 +28,7 @@ internal class ProjectDaoTest : AbstractDaoTest() {
             val insertedProject = projectDao.insert(projectCreationRequest)
 
             // Then
-            expectThat(insertedProject).isNotNull().and {
+            expectThat(insertedProject).and {
                 get { name }.isEqualTo(projectCreationRequest.name)
                 get { smallName }.isEqualTo(projectCreationRequest.smallName)
             }

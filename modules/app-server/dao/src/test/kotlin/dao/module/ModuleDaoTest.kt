@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import strikt.assertions.isNotEqualTo
 import strikt.assertions.isNotNull
 import strikt.assertions.isNull
 import java.util.*
@@ -42,7 +43,7 @@ class ModuleDaoTest : AbstractDaoTest() {
             val insertedModule = moduleDao.insert(moduleCreationRequest)
 
             // Then
-            expectThat(insertedModule).isNotNull().and {
+            expectThat(insertedModule).and {
                 get { name }.isEqualTo(moduleCreationRequest.name)
                 get { fkProjectRef }.isEqualTo(moduleCreationRequest.fkProjectRef)
             }

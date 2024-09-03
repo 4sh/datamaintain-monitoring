@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("io.strikt:strikt-core:0.34.0")
+    testImplementation("io.strikt:strikt-core:0.34.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testImplementation("io.mockk:mockk:1.12.4")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")

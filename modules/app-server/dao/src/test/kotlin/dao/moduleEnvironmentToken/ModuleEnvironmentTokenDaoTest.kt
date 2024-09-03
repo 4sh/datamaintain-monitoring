@@ -14,11 +14,9 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import strikt.api.expectCatching
 import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isFailure
-import strikt.assertions.isNotNull
-import strikt.assertions.isNull
+import strikt.assertions.*
 import java.util.*
+import kotlin.text.get
 
 class ModuleEnvironmentTokenDaoTest : AbstractDaoTest() {
     private val moduleEnvironmentTokenDao = ModuleEnvironmentTokenDao(dslContext = dslContext)
@@ -55,7 +53,7 @@ class ModuleEnvironmentTokenDaoTest : AbstractDaoTest() {
             val insertedModuleEnvironmentToken = moduleEnvironmentTokenDao.insert(moduleEnvironmentTokenCreationRequest)
 
             // Then
-            expectThat(insertedModuleEnvironmentToken).isNotNull().and {
+            expectThat(insertedModuleEnvironmentToken).and {
                 get { fkModuleRef }.isEqualTo(moduleRef)
                 get { fkEnvironmentRef }.isEqualTo(environmentRef)
             }
