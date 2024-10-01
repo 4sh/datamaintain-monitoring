@@ -22,7 +22,7 @@ jobs:
 
       - name: Upload Unit Test Results
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: backend-tests-results # Name artifact for storage in cache
           path: |
@@ -48,7 +48,7 @@ jobs:
         run: yarn run test
       - name: Upload Unit Test Results
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-unit-tests-results # Name artifact for storage in cache
           path: |
