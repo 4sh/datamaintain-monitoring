@@ -2,7 +2,7 @@
 java = "17"
 kotlin = "2.0.0"
 ktor = "2.3.12"
-grpc-kotlin = "1.3.0"
+grpc-kotlin = "1.4.1"
 grpc = "1.55.1"
 protobuf = "4.28.0"
 logback = "1.4.7"
