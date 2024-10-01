@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Define node modules cache
         uses: actions/setup-node@v4
         with:
@@ -60,7 +60,7 @@ jobs:
     needs: [build-and-test-backend, build-and-run-frontend-unit-tests]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Run docker with db
         uses: adrielcodeco/docker-compose-run-action@v1
         with:
