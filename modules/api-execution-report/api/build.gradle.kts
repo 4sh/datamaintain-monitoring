@@ -1,7 +1,7 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
     id("maven-publish")
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.21"
 }
 
 dependencies {

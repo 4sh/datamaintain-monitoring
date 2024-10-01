@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm")
-    id("org.jooq.jooq-codegen-gradle") version "3.19.11"
+    alias(libs.plugins.jooq)
 }
 
 repositories {

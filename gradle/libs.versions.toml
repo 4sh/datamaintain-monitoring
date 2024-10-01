@@ -23,6 +23,8 @@ gradle-palantir-git = "3.1.0"
 [plugins]
 protobuf = { id = "com.google.protobuf", version.ref = "gradle-protobuf"}
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jooq = { id = "org.jooq.jooq-codegen-gradle", version.ref = "jooq" }
 palantir-git = { id = "com.palantir.git-version", version.ref = "gradle-palantir-git" }
 
 [libraries]
