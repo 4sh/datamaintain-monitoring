@@ -23,7 +23,6 @@
     </svelte:fragment>
     <svelte:fragment slot="bodyContent">
         {#each matrix.entries as entry}
-
             <tr>
                 <M_tableBodyItem>
                     <A_link href="/projects/{projectRef}/modules/{entry.moduleId}">

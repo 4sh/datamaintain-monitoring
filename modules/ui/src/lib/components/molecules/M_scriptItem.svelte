@@ -1,7 +1,7 @@
 <script lang="ts">
 
-    import A_icon from "$lib/components/atoms/A_icon.svelte";
-    import {ExecutionStatus, type ScriptExecutionDetail} from '$lib/domain/execution/Execution';
+    import type {ScriptExecutionDetail} from '$lib/domain/execution/Execution';
+    import M_executionStatusIcon from '$lib/components/molecules/M_executionStatusIcon.svelte';
 
     export let scriptExecution: ScriptExecutionDetail;
     export let active = false;
@@ -9,11 +9,8 @@
 </script>
 
 <div class="scriptItem {active ? '_isActive' : ''} grid-x" on:click>
-    <div class="scriptItem-icon _{status} cell shrink grid-x align-middle align-center">
-        <A_icon type="{status === ExecutionStatus.COMPLETED ? 'task_alt' :
-                       status === ExecutionStatus.IN_PROGRESS ? 'autorenew' :
-                       status === ExecutionStatus.PLANNED ? 'hourglass_empty' :
-                       status === ExecutionStatus.ERROR ? 'error_outline' : ''}" size="light"></A_icon>
+    <div class="scriptItem-icon cell shrink grid-x align-middle align-center">
+        <M_executionStatusIcon executionStatus="{status}" size="light"></M_executionStatusIcon>
     </div>
     <div class="scriptItem-content cell auto">
         <div class="scriptItem-title">{scriptExecution.script.name}</div>
@@ -51,19 +48,6 @@
       height: rem-calc(36px);
       border-radius: rem-calc(18px);
       background-color: $app-primary_900;
-
-      &._COMPLETED {
-        color: $app-success_900;
-      }
-      &._IN_PROGRESS {
-        color: $app-primary_700;
-      }
-      &._ERROR {
-        color: $app-error_900;
-      }
-      &._PLANNED {
-        color: $app-info_900;
-      }
     }
 
     &-content {

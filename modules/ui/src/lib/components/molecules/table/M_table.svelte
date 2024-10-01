@@ -1,3 +1,7 @@
+<script lang="ts">
+    export let tableClass = '';
+</script>
+
 <table>
     <thead>
     <tr>
