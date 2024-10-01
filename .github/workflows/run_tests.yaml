@@ -103,13 +103,13 @@ jobs:
 
     steps:
       - name: Download backend tests artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: backend-tests-results # Name of artifact in cache
           path: tests-results/
 
       - name: Download frontend unit tests
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: frontend-unit-tests-results # Name of artifact in cache
           path: tests-results/
