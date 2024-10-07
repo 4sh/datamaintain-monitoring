@@ -17,7 +17,7 @@ mockk = "1.13.14"
 logging = "1.8.0.1"
 
 # Plugins
-gradle-protobuf = "0.9.3"
+gradle-protobuf = "0.9.4"
 gradle-palantir-git = "3.1.0"
 
 [plugins]
