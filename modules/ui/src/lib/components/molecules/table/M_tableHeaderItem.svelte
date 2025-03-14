@@ -1,6 +1,6 @@
 <script>
-    export let width;
-    export let textAlign;
+    export let width = 1;
+    export let textAlign = 'left';
 </script>
 
 <th width="{width}" style="text-align: {textAlign}">
