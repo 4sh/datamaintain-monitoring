@@ -14,7 +14,8 @@ junit-platform-launcher = "1.7.0"
 strikt = "0.35.1"
 jakarta = "3.0.2"
 mockk = "1.13.14"
-logging = "1.8.0.1"
+mockk = "1.12.4"
+logging = "3.0.5"
 
 # Plugins
 gradle-protobuf = "0.9.4"
